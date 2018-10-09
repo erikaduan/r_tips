@@ -3,7 +3,7 @@ A repository of **R usage tips** for immunology/RNA-seq related data analysis an
 
 **Authors:** 
 
-* Erika Duan (learning and now writing most of the code)
+* [Erika Duan](https://scholar.google.com.au/citations?user=fBMQu8wAAAAJ&hl=en) (learning and now writing most of the code)
 * Chuanxin Liu (the genius at coding and R)
  
 **Packages used:**
