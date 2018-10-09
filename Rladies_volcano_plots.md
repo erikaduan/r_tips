@@ -89,7 +89,7 @@ I can now define these quandrants using:
 
 ``` r
 simple_vp + 
-  geom_hline(yintercept = -log10(0.05), linetype = "dashed") + # horiztonal dashed line
+  geom_hline(yintercept = -log10(0.05), linetype = "dashed") + # horizontal dashed line
   geom_vline(xintercept = c(-1,1), linetype = "dashed") # vertical dashed line
 ```
 
