@@ -83,7 +83,7 @@ simple_vp
 
 This plot is too plain as objects of interest do not easily jump out at us.
 A good volcano plot will highlight all the signals (represented by individual data points) which are significantly different between A vs B.
-In this case, we would be interested in highlighting genes which have a **padj &gt;= 0.05 (or a -log10(padj) &gt;= 1.30103)** (my statitical cut-off). I would also be interested in highlighting genes which additionally have a log2 fold change &lt;= 1 or &gt;= 1 (signals which are at least 2-fold bigger or smaller).
+In this case, we would be interested in highlighting genes which have a **padj &gt;= 0.05 (or a -log10(padj) &gt;= 1.30103)** (my statistical cut-off). I would also be interested in highlighting genes which additionally have a log2 fold change &lt;= 1 or &gt;= 1 (signals which are at least 2-fold bigger or smaller).
 
 I can now define these quandrants using:
 
