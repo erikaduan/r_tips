@@ -13,7 +13,7 @@ We often analyse datasets with changes across &gt;10,000 signals between &gt;=2 
 
 1.  A large matrix is obtained, containing the number of signals 'counted' per signal type per object. Each row contains a unique signal ID (i.e. in my case, a unique gene ID) and each column contains all the signal counts for one single object. *The researcher also has additional information about each object (i.e. object classification categories like object type, timepoint, batch etc.). This is very important for downstream RNAseq analysis, but not required for this analysis.*
 2.  A minimal information threshold is set (i.e. minimal signal count per signal &gt; 1 for at least 1 object). **An awesome statistical package**, in my case `DESeq2` (<https://bioconductor.org/packages/release/bioc/html/DESeq2.html>), is then used to test whether any signals are differentially expressed between different objects.
-3.  **Data visualisation** of all statistically **significant** versus \*non-significant\*\* signals between at least two objects, with the aim of highlighting any new or particularly interesting biological patterns.
+3.  **Data visualisation** of all statistically **significant** versus **non-significant** signals between at least two objects, with the aim of highlighting any new or particularly interesting biological patterns.
 
 Here, a **volcano plot** is used to depict:
 
