@@ -176,7 +176,7 @@ ggplot(AvsB_results, aes(x = log2FoldChange,
 
 ![](https://github.com/erikaduan/R-tips/blob/master/Vplot4.png)
 
-Viola! Enjoy your volcano plot (and remember, there are lots of creative ways to visualise data using them, as long as your methods are logical and reasonable)!
+Voila! Enjoy your volcano plot (and remember, there are lots of creative ways to visualise data using them, as long as your methods are logical and reasonable)!
 
 ##### **Development notes**
 
