@@ -182,6 +182,8 @@ Viola! Enjoy your volcano plot (and remember, there are lots of creative ways to
 
 **Chuanxin Liu** devised the elegant strategy for labelling all signal types as 'up', 'ns' or 'down' and the code for the labelling of specific signal data points.
 
+Please note that for RNAseq, the signals from each object are derived from data from three replicates (i.e. three biological replicates per sample type).  
+
 ##### **Other resources**
 
 <http://www.bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html>
