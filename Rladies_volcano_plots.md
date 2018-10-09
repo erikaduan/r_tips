@@ -79,7 +79,7 @@ simple_vp <- ggplot(AvsB_results, aes(x = log2FoldChange,
 simple_vp
 ```
 
-![](Rladies_volcano_plots_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](https://github.com/erikaduan/R-tips/blob/master/Vplot1.png)
 
 This plot is too plain as objects of interest do not easily jump out at us.
 A good volcano plot will highlight all the signals (represented by individual data points) which are significantly different between A vs B.
@@ -93,7 +93,7 @@ simple_vp +
   geom_vline(xintercept = c(-1,1), linetype = "dashed") # vertical dashed line
 ```
 
-![](Rladies_volcano_plots_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](https://github.com/erikaduan/R-tips/blob/master/Vplot2.png)
 
 The top-left quadrant contains all signals that are significantly decreased in A vs B, and the top right quandrant contains genes that are significantly increased in A vs B. The remaining genes are not significantly different and hence much less interesting to me.
 
@@ -136,7 +136,7 @@ ggplot(AvsB_results, aes(x = log2FoldChange,
   geom_vline(xintercept = c(-1,1), linetype = "dashed") 
 ```
 
-![](Rladies_volcano_plots_files/figure-markdown_github/unnamed-chunk-6-1.png)
+![](https://github.com/erikaduan/R-tips/blob/master/Vplot3.png)
 
 This is great! But there is still one final nifty trick!
 
@@ -174,7 +174,7 @@ ggplot(AvsB_results, aes(x = log2FoldChange,
   theme(panel.border = element_rect(colour = "black", fill=NA, size= 0.5)) # creates a plot border
 ```
 
-![](Rladies_volcano_plots_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](https://github.com/erikaduan/R-tips/blob/master/Vplot4.png)
 
 Viola! Enjoy your volcano plot (and remember, there are lots of creative ways to visualise data using them, as long as your methods are logical and reasonable)!
 
