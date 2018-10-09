@@ -1,6 +1,6 @@
 Data visualisation via volcano plots
 ================
-**Authors:** Erika Duan and Chuanxin Liu
+**Authors:** Erika Duan and Chuanxin Liu  
 **Date:** October 8, 2018
 
 As a wet-lab immunologist, most of my job involves trying to **find** and then **illustrate** meaningful patterns from large biological datasets.
@@ -11,14 +11,14 @@ We often analyse datasets with changes across &gt;10,000 signals between &gt;=2 
 
 ##### **A typical data analysis pipeline**
 
-1.  A large matrix is obtained, containing the number of signals 'counted' per signal type per object. Each row contains a unique signal (i.e. gene ID) and each column contains all the signal counts for a single object. *The researcher also has additional information about each object (i.e. object classification categories like object type, timepoint, batch etc.). This is very important for downstream RNAseq analysis, but not required for this analysis.*
-2.  A minimal information threshold is set (i.e. minimal signal count per signal type &gt; 1 for at least 1 object). **An awesome statistical package**, in my case `DESeq2` (<https://bioconductor.org/packages/release/bioc/html/DESeq2.html>), is then used to test whether any signals are differentially expressed between different objects.
+1.  A large matrix is obtained, containing the number of signals 'counted' per signal type per object. Each row contains a unique signal ID (i.e. in my case, a unique gene ID) and each column contains all the signal counts for one single object. *The researcher also has additional information about each object (i.e. object classification categories like object type, timepoint, batch etc.). This is very important for downstream RNAseq analysis, but not required for this analysis.*
+2.  A minimal information threshold is set (i.e. minimal signal count per signal &gt; 1 for at least 1 object). **An awesome statistical package**, in my case `DESeq2` (<https://bioconductor.org/packages/release/bioc/html/DESeq2.html>), is then used to test whether any signals are differentially expressed between different objects.
 3.  **Data visualisation** of all statistically **significant** versus \*non-significant\*\* signals between at least two objects, with the aim of highlighting any new or particularly interesting biological patterns.
 
 Here, a **volcano plot** is used to depict:
 
--   how many signals are differentially expressed (using a statistical cut-off),
--   **and** by how much (i.e. fold change),
+-   How many signals are differentially expressed (using a statistical cut-off),
+-   **and** by how much (i.e. signal fold change),
 -   between two objects tested.
 
 ##### **Drawing volcano plots with `ggplot2`**
@@ -51,7 +51,7 @@ We start with our dataset of interest.
 Note that for the volcano plot, you only need **three** columns of information:
 
 1.  Gene symbol (aka unique signal ID)
-2.  Log2(fold change) (aka how much the level of each signal in A differs from B)
+2.  Log2(fold change) (aka how much the level of each signal in A differs from B by)
 3.  Padj (the adjusted P-value or statistical likelihood for whether the signal level in A is not different to that of B)
 
 ``` r
@@ -117,7 +117,7 @@ group_by(AvsB_results, AvsB_type) %>%
     ## 2 ns           591
     ## 3 up             6
 
-Now that AvsB\_type can segregate each signal based on whether it is 'up', 'down' or 'ns' (non-significant), I can colour these three signal types differently (and/or change their size/transparency to make different points stand out more versus less).
+Now that AvsB_type can segregate each signal based on whether it is 'up', 'down' or 'ns' (non-significant), I can colour these three signal types differently (and/or change their size/transparency to make different points stand out more versus less).
 
 ``` r
 cols <- c("up" = "#ffad73", "down" = "#26b3ff", "ns" = "grey") 
@@ -143,7 +143,7 @@ This is great! But there is still one final nifty trick!
 As a biologist, I often get &gt;100s of genes which are significantly increased or decreased between two objects. To examine whether **interesting patterns (interconnected signals)** exist within these 100 genes, I run them through gene over-representation databases like [this one](http://software.broadinstitute.org/gsea/msigdb/index.jsp).
 
 ``` r
-Interesting_pathway <- c("Nemf", "Rft1", "Atp5h") # An external database identifies an interesting potential signal network from the list of all our significantly increased signals.
+Interesting_pathway <- c("Nemf", "Rft1", "Atp5h") # An external database identifies an interesting signal network! 
 ```
 
 We would like to highlight these particular signals, by representing them in a different (darker) colour and also by labelling each individual point of interest.
@@ -176,7 +176,7 @@ ggplot(AvsB_results, aes(x = log2FoldChange,
 
 ![](https://github.com/erikaduan/R-tips/blob/master/Vplot4.png)
 
-Voila! Enjoy your volcano plot (and remember, there are lots of creative ways to visualise data using them, as long as your methods are logical and reasonable)!
+Voila! Enjoy your volcano plot (and remember, there are lots of graphical modifiers you can use to visualise data using them, as long as your methods are logical and reasonable)!
 
 ##### **Development notes**
 
