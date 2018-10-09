@@ -1,11 +1,11 @@
 Data visualisation via volcano plots
 ================
-Erika Duan and Chuanxin Liu
-October 8, 2018
+**Authors:** Erika Duan and Chuanxin Liu
+**Date:** October 8, 2018
 
 As a wet-lab immunologist, most of my job involves trying to **find** and then **illustrate** meaningful patterns from large biological datasets.
 
-We obtain **a lot** of data from RNA sequencing experiments. These are experiments which look at how many mRNA molecules (i.e. messenger signals) are found in an object and how these signals differ in quantity across multiple objects.
+We obtain **a lot** of data from RNA sequencing experiments. These are experiments which look at how many mRNA molecules (i.e. message signals) are found in an object and how these signals differ in quantity across multiple objects.
 
 We often analyse datasets with changes across &gt;10,000 signals between &gt;=2 different objects. A [volcano plot](https://en.wikipedia.org/wiki/Volcano_plot_(statistics)) is one way we visualise all statistically significant versus non-significant differences in one graph.
 
@@ -50,9 +50,9 @@ We start with our dataset of interest.
 
 Note that for the volcano plot, you only need **three** columns of information:
 
-1.  Gene symbol (aka signal ID)
+1.  Gene symbol (aka unique signal ID)
 2.  Log2(fold change) (aka how much the level of each signal in A differs from B)
-3.  Padj (the adjusted P-value or statistical likelihood for whether a signal in A is not different from a signal in B)
+3.  Padj (the adjusted P-value or statistical likelihood for whether the signal level in A is not different to that of B)
 
 ``` r
 AvsB_results <- read.csv("AvsB_results.csv", header = T, stringsAsFactors = F)
@@ -83,7 +83,7 @@ simple_vp
 
 This plot is too plain as objects of interest do not easily jump out at us.
 A good volcano plot will highlight all the signals (represented by individual data points) which are significantly different between A vs B.
-In this case, we would be interested in highlighting genes which have a **padj &gt;= 0.05 (or a -log10(padj) &gt;= 1.30103)** (my statistical cut-off). I would also be interested in highlighting genes which additionally have a log2 fold change &lt;= 1 or &gt;= 1 (signals which are at least 2-fold bigger or smaller).
+In this case, we would be interested in highlighting genes which have a **padj <= 0.05 (or a -log10(padj) >= 1.30103)** (my chosen statistical cut-off). I would also be interested in highlighting genes which additionally have a log2 fold change &lt;= -1 or &gt;= 1 (signals which are at least 2-fold bigger or smaller).
 
 I can now define these quandrants using:
 
