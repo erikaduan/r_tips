@@ -5,6 +5,10 @@ A repository of **R usage tips** for immunology/RNA-seq related data analysis an
 
 * [Erika Duan](https://scholar.google.com.au/citations?user=fBMQu8wAAAAJ&hl=en) (learning and now writing most of the code)
 * Chuanxin Liu (the genius at coding and R)
+
+**R-tips guide:**  
+* How to draw a volcano plot (for visualisaing fold change vs p-values in a large dataset) [https://github.com/erikaduan/R-tips/blob/master/Rladies_volcano_plots.md]  
+
  
 **Packages used:**
 
