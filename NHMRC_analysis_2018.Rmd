@@ -62,10 +62,10 @@ dim(nhmrc_2017) # 1045 rows and 19 columns of data
 
 This allows us to identify several points:  
 
-* Each application has a **unique ID** (which is great - each entry has a unique ID).
+* Each application has a **unique ID** (which is important for tracking each application).
 * The column **Total** lists the funding in $AUS per application (an important continuous variable). 
 * Columns **Res KW1 to Res KW5** can be combined into a single longer string (for identifying common research topics later on).
-* Columns **Plain Description** and **X__1** are not important for our analysis.  
+* Columns **X_1 and Plain Description** are not important for our analysis.  
 
 ```{r}
 clean_2017 <- nhmrc_2017 %>%
@@ -203,7 +203,7 @@ plot_grid(project, ECR, CD, Research,
 
 **Insight:** We can immediately see that the state with the highest number of project grants was VIC, with almost twice the number of grants compared to NSW. As VIC and NSW both have large populations, this suggests that Victorian researchers may have had a greater funding success rate.
 
-Another important insight is that Career Development Fellowships are more disproportionately awarded to only Victoria and NSW compared to other funding schemes. This potentially may be related to the decreased number of total CD fellowships funded (i.e. increased competition) and indicates that a mid-career pipeline leak may be more likely to exist, especially for non-VIC/NSW researchers.
+**Another important insight** is that Career Development Fellowships are more disproportionately awarded to only Victoria and NSW compared to other funding schemes. This potentially may be related to the decreased number of total CD fellowships funded (i.e. increased competition) and indicates that a mid-career pipeline leak may be more likely to exist, especially for non-VIC/NSW researchers.
 
 An alternate way of visualising this data is through **static geospatial data**. 
 
