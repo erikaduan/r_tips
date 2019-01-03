@@ -1,5 +1,5 @@
 # R-tips
-A repository of **R usage tips** for immunology/RNA-seq related data analysis and visualisation.
+A repository of personal **R usage tips** for data analysis and visualisation.
 
 **Authors:** 
 
