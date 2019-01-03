@@ -128,7 +128,7 @@ This allows us to identify several points:
 -   Each application has a **unique ID** (which is important for tracking each application).
 -   The column **Total** lists the funding in $AUS per application (an important continuous variable).
 -   Columns **Res KW1 to Res KW5** can be combined into a single longer string (for identifying common research topics later on).
--   Columns \*\*X\_\_1 and Plain Description\*\* are not important for our analysis.
+-   Columns **X\_1 and Plain Description** are not important for our analysis.
 
 ``` r
 clean_2017 <- nhmrc_2017 %>%
