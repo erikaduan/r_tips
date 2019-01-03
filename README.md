@@ -8,12 +8,14 @@ A repository of personal **R usage tips** for data analysis and visualisation.
 
 **R-tips guide:**  
 * How to draw a volcano plot to visualise fold change vs p-values differences in a large dataset (https://github.com/erikaduan/R-tips/blob/master/Rladies_volcano_plots.md)
-
+* Data analysis of NHMRC 2018 funding outcomes with R (https://github.com/erikaduan/R-tips/blob/master/NHMRC_analysis_2018.md)
  
 **Packages used:**
 
 * [Tidyverse](https://www.tidyverse.org/packages/)
 * [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
+* [Cowplot](https://cran.r-project.org/web/packages/cowplot/index.html)
+* [gghighlight](https://github.com/yutannihilation/gghighlight)
 
 **Online resources used:** 
 
