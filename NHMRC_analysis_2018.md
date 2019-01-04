@@ -1,7 +1,7 @@
 Using R to analyse NHMRC funding trends
 ================
 Erika Duan
-2019-01-03
+2019-01-04
 
 -   [Introduction](#introduction)
 -   [Data tidying](#data-tidying)
@@ -21,10 +21,10 @@ The NHMRC releases funding outcomes every year and these can be accessed [here](
 -   Differences in funding per state/ institution
 -   Research topic diversity per state/institution
 -   Most vs least well-funded research topics in terms of:
-    -   Most vs least $ per project for a topic or
-    -   Number of total projects per topic
+    -   Most vs least $ awarded per project for a topic or
+    -   Number of projects funded per topic
 
-Collating data from 2014-2017 can provide **addition data** on:
+Collating data from 2014-2018 can provide **addition data** on:
 
 -   Changes in research topic popularity with time
 -   Changes in research funding allocation (per state, per institution, per topic) over time
@@ -39,51 +39,23 @@ Datasets often require some **tidying** before data analysis and visualisation c
 Data download
 -------------
 
-To get started, we can download the 2018 funding outcomes data directly from the [NHMRC website](https://nhmrc.gov.au/funding/data-research/outcomes-funding-rounds) using `download.file`.
+To get started, we can **download the 2018 funding outcomes** directly from the [NHMRC website](https://nhmrc.gov.au/funding/data-research/outcomes-funding-rounds) using `download.file`.
 
 On the NHMRC website, we can see that the original file is an excel spreadsheet, which we can read using the tidyverse package `readxl`.
 
 ``` r
-library("tidyverse") #loads R package for data analysis
-```
-
-    ## -- Attaching packages ----------------------------------------------------------------------------- tidyverse 1.2.1 --
-
-    ## v ggplot2 3.1.0     v purrr   0.2.5
-    ## v tibble  1.4.2     v dplyr   0.7.8
-    ## v tidyr   0.8.2     v stringr 1.3.1
-    ## v readr   1.2.1     v forcats 0.3.0
-
-    ## -- Conflicts -------------------------------------------------------------------------------- tidyverse_conflicts() --
-    ## x dplyr::filter() masks stats::filter()
-    ## x dplyr::lag()    masks stats::lag()
-
-``` r
-library("readxl") #loads R package for importing excel spreadsheets
-library("gghighlight") #handy package for highlighting data of interest
-```
-
-    ## Warning: package 'gghighlight' was built under R version 3.5.2
-
-``` r
+library("tidyverse") # loads R package for data analysis
+library("readxl") # loads R package for importing excel spreadsheets
+library("gghighlight") # handy package for highlighting data of interest
 library("cowplot") # for plotting graphs side by side
-```
 
-    ## 
-    ## Attaching package: 'cowplot'
-
-    ## The following object is masked from 'package:ggplot2':
-    ## 
-    ##     ggsave
-
-``` r
-temp <- tempfile() #downloads and stores the dataset as a temporary file
+temp <- tempfile() #downloads and stores the 2018 NHMRC dataset as a temporary file
 
 download.file("https://nhmrc.gov.au/file/12086/download?token=1q3_D-vV", 
               destfile = temp,
               method = "curl")
 
-nhmrc_2017 <- read_excel(temp) #reads the excel file as a tidy table (tibble)
+nhmrc_2018 <- read_excel(temp) # reads the excel file as a tidy table (tibble)
 ```
 
 Data exploration
@@ -92,7 +64,7 @@ Data exploration
 **Simple data exploration** includes using `glimpse` or `str` to examine the data structure, and `dim` to examine the data dimensions.
 
 ``` r
-glimpse(nhmrc_2017) # a tidy overview of data structure
+glimpse(nhmrc_2018) # a tidy overview of data structure
 ```
 
     ## Observations: 1,045
@@ -118,26 +90,26 @@ glimpse(nhmrc_2017) # a tidy overview of data structure
     ## $ X__1                  <chr> ".", ".", ".", ".", ".", ".", ".", ".", ...
 
 ``` r
-dim(nhmrc_2017) # 1045 rows and 19 columns of data
+dim(nhmrc_2018) # 1045 rows and 19 columns of data
 ```
 
     ## [1] 1045   19
 
 This allows us to identify several points:
 
--   Each application has a **unique ID** (which is important for tracking each application).
--   The column **Total** lists the funding in $AUS per application (an important continuous variable).
+-   Each application has a **unique ID** (important for tracking each application).
+-   The column **Total** lists the funding in $AUS per application (very important continuous variable).
 -   Columns **Res KW1 to Res KW5** can be combined into a single longer string (for identifying common research topics later on).
 -   Columns **X\_1 and Plain Description** are not important for our analysis.
 
 ``` r
-clean_2017 <- nhmrc_2017 %>%
+clean_2018 <- nhmrc_2018 %>%
   select(-`Plain Description`, -X__1) %>% # removes unwanted columns
   unite("Keywords", c(`Res KW1`, `Res KW2`, `Res KW3`, `Res KW4`, `Res KW5`), 
         sep = " ",
         remove = T) # creates a single column for all keywords
 
-glimpse(clean_2017) # to check that our changes are correct
+glimpse(clean_2018) # to check that our changes are correct
 ```
 
     ## Observations: 1,045
@@ -156,24 +128,25 @@ glimpse(clean_2017) # to check that our changes are correct
     ## $ `Field of Research`   <chr> "Geriatrics and Gerontology", "Aborigina...
     ## $ Keywords              <chr> "indigenous Australians dementia cogniti...
 
-Note that we don't want to remove too many rows of data during initial data tidying (i.e. only the redundant ones), as some may be unexpectedly useful for downstream analyses.
+**Note:** We don't want to make changes directly on the original data or remove too many columns during initial data tidying (i.e. remove only the redundant ones). Some original parameters may be unexpectedly useful for downstream analyses.
 
 And with that, it's time to start some **data exploration**!
 
 Identifying data trends
 =======================
 
-There are no hard and fast rules for identifying data trends. The type of data analysis you want to do depends on your research question. In general, quick visualisation of data distributions via `ggplot2::geom_bar` barplots can be very helpful.
+**There are no hard and fast rules for identifying data trends.** The type of data analysis depends on your research question. In general, visualisation of data distributions via `ggplot2::geom_bar` barplots can be a helpful 'quick and dirty' starting point.
 
 Differences in grant types funded
 ---------------------------------
 
-Working via a top-down approach (i.e. starting with the biggest picture and then narrowing down to specific details of interest), we first might want to know what types of grants were funded by the NHMRC in 2018 and their numbers.
+Working via **a top-down approach** (starting with the biggest picture, then narrowing down to specific details of interest), we might first examine what grants types were funded by the NHMRC in 2018 and their proportion.
 
-After that, we might want to know how NHMRC funding for key grant types is distributed across different states, or perhaps across different institutions per state of interest.
+Next, we might want to know how NHMRC funding for key grant types is distributed across different states, or perhaps across different institutions per state of interest.
 
 ``` r
-ggplot(clean_2017, aes(x = `Grant Type`)) + 
+# Plots the distribution of grant types funded in 2018
+ggplot(clean_2018, aes(x = `Grant Type`)) + 
   geom_bar() + # code below this line specifies graph formating changes only
   scale_x_discrete(position = "top") + 
   scale_y_continuous(position = "right", name = "No. of grants funded") +
@@ -183,11 +156,11 @@ ggplot(clean_2017, aes(x = `Grant Type`)) +
 
 <img src="NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
 
-For easier visualisation, we might want to automatically rank grant types from least to most abundant.
-To do this, we can make use of the `forcats` package from `tidyverse`, which is designed for easy wrangling of categorical datasets.
+To improve visualisation, we would rank grant types from most to least abundantly funded.
+To do this, we use the `forcats` package from `tidyverse`, which is designed for easy wrangling of **categorical datasets**.
 
 ``` r
-clean_2017 %>%
+clean_2018 %>%
   mutate(`Grant Type` = `Grant Type` %>% fct_infreq() %>% fct_rev()) %>% #reorders factors
   ggplot(aes(x = `Grant Type`)) + 
   geom_bar() + 
@@ -199,14 +172,14 @@ clean_2017 %>%
 
 <img src="NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
-**Insight:** The majority of grants funded are project grants, followed by fellowships and scholarships. Interestingly, the number of career development fellowships (supporting mid-career researchers) funded is lower than the number of other fellowships or post-graduate scholarships (excepting practitioner fellowships for clinicians), and is only ~50% of the number of early career research fellowships.
+**Insight:** The majority of grants funded are **project grants**, followed by **fellowships and scholarships**. The number of Career Development fellowships (supporting mid-career researchers) funded is lower than the number of other fellowships or post-graduate scholarships (excepting the relatively rare practitioner fellowships for clinicians), and is only ~50% of the number of Early Career fellowships.
 
-This data would support the notion that mid-career fellowships are more competitive, and that there may be a higher chance of not receiving independent fellowship funding during this career stage.
+This data would support the notion that **mid-career fellowships are more competitive**, and that **there may be a lower chance of receiving independent fellowship funding during this career stage**.
 
-We can also view the actual numbers here.
+We can also view the actual numbers below.
 
 ``` r
-clean_2017 %>%
+clean_2018 %>%
   mutate(`Grant Type` = `Grant Type` %>% fct_infreq()) %>% 
            count(`Grant Type`)
 ```
@@ -236,17 +209,17 @@ clean_2017 %>%
 Differences in funding per state/ institution
 ---------------------------------------------
 
-We can view **differences in funding across states** through two different lens:
+We can view **differences in funding across states** through two different means:
 
 -   Total number of grants/fellowships across each state
--   Total number of grants/fellowships awarded relative to a normalisation factor (population size or institute number etc.)
+-   Total number of grants/fellowships awarded relative to **a normalisation factor** (population size or institute number etc.)
 
-The latter is more useful for comparing the research productivity of smaller states with larger states (i.e. after normalisation to the population per state), with the assumption that there is a proportional increase in grant/fellowship applications in states with a larger population size. The real relationship is likely to be much more complicated, with perhaps an additional funding success penalty per small state (due to the lack of larger research hubs in smaller states, less competitive researcher recruitment packages and etc).
+The latter approach is more useful for comparing the research productivity of smaller states with larger states (i.e. after normalisation to the population size per state), if we can assume that there is a proportional increase in grant/fellowship applications and success with increasing population. (The real relationship is likely complicated and may feature an additional funding success penalty per small state, due to the lack of larger research hubs in smaller states, less competitive researcher recruitment packages and etc.)
 
-To visualise the total number of grants/ fellowships per state, we can once again use `ggplot2::geom_bar` barplots.
+To visualise the **total number of grants/ fellowships per state**, we can once again use `ggplot2::geom_bar` barplots.
 
 ``` r
-grant_types <- factor(clean_2017$`Grant Type`)
+grant_types <- factor(clean_2018$`Grant Type`)
 levels(grant_types) # lists the types of grants available
 ```
 
@@ -271,7 +244,7 @@ levels(grant_types) # lists the types of grants available
 
 ``` r
 # Comparing project grants funded across states
-project <- clean_2017 %>% 
+project <- clean_2018 %>% 
   filter(`Grant Type` == "Project Grants") %>%
   mutate(State = State %>% fct_infreq() %>% fct_rev()) %>%
   ggplot(aes(x = State)) +
@@ -283,7 +256,7 @@ project <- clean_2017 %>%
   coord_flip()
 
 # Comparing ECR fellowships funded across states
-ECR <- clean_2017 %>% 
+ECR <- clean_2018 %>% 
   filter(`Grant Type` == "Early Career Fellowships") %>%
   mutate(State = State %>% fct_infreq() %>% fct_rev()) %>%
   ggplot(aes(x = State)) +
@@ -295,7 +268,7 @@ ECR <- clean_2017 %>%
   coord_flip()
 
 # Comparing CD fellowships funded across states
-CD <- clean_2017 %>% 
+CD <- clean_2018 %>% 
   filter(`Grant Type` == "Career Development Fellowships") %>%
   mutate(State = State %>% fct_infreq() %>% fct_rev()) %>%
   ggplot(aes(x = State)) +
@@ -312,7 +285,7 @@ CD <- clean_2017 %>%
 
 ``` r
 # Comparing Research fellowships funded across states
-Research <- clean_2017 %>% 
+Research <- clean_2018 %>% 
   filter(`Grant Type` == "Research Fellowships") %>%
   mutate(State = State %>% fct_infreq() %>% fct_rev()) %>%
   ggplot(aes(x = State)) +
@@ -323,38 +296,155 @@ Research <- clean_2017 %>%
         axis.title.x = element_text(size = 12)) +
   coord_flip()
 
-plot_grid(project, ECR, CD, Research,
-          labels = "AUTO",
-          label_y = 1)
+raw_plots <- plot_grid(project, ECR, CD, Research,
+          labels = "AUTO")
+
+raw_title <- ggdraw() + 
+  draw_label("2018 NHMRC funding outcomes (total counts)")
+
+plot_grid(raw_title, raw_plots,
+          ncol = 1, rel_heights = c(0.1, 1)) # rel_heights values control title margins
 ```
 
 ![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
-**Insight:** We can immediately see that the state with the highest number of project grants was VIC, with almost twice the number of grants compared to NSW. As VIC and NSW both have large populations, this suggests that Victorian researchers may have had a greater funding success rate.
+**Insight:** The state with the highest number of project grants was VIC, with almost twice the number of grants compared to NSW. As VIC and NSW both have large populations, this suggests that Victorian researchers likely have an increased funding success rate.
 
 **Another important insight** is that Career Development Fellowships are more disproportionately awarded to only Victoria and NSW compared to other funding schemes. This potentially may be related to the decreased number of total CD fellowships funded (i.e. increased competition) and indicates that a mid-career pipeline leak may be more likely to exist, especially for non-VIC/NSW researchers.
 
-An alternate way of visualising this data is through **static geospatial data**.
+An alternate way of visualising the same data is through **static geospatial data**.
 
 ``` r
-library(tmap)
+library(tmap) # mapping onto static geographical maps
 ```
 
-    ## Warning: package 'tmap' was built under R version 3.5.2
+**Total counts can often obscure information, as certain biases are inherited.** For instance, it may seem as if low grant success rates occur in WA, ACT, NT and Tasmania. This, however, is not necessarily an accurate interpretation, as the total number of funding applications and applicants is likely much higher in VIC and NSW.
 
-``` r
-# mapping onto static geographical maps
-```
-
-**Total counts can often obscure information, as certain biases are inherited.** For instance, it may seem as if relatively minimal grant success rates occur in WA, ACT, NT and Tasmania and all researchers should pack up and go home. This, however, is not necessarily an accurate interpretation, as the total number of funding applications and applicants is most likely much higher in VIC and NSW.
-
-One way we can account for this potential bias is to normalise the total number of grants received by a factor like the:
+One way we can account for this bias is to **normalise** the total number of grants received by a factor like:
 
 -   Total population size or
 -   Total number of institutions per state (which acts as a surrogate for researcher population size)
+-   Total number of unique applicants per state (if the information exists)
+
+**To normalise by total population size**, we can use 2018 census data and obtain state population numbers [here](www.abs.gov.au/Population).
 
 ``` r
-# Normalising by total institutions per state
+# Create a new dataset with population size
+pop_2018 <- data_frame(State = c("VIC", "NSW", "QLD", "ACT", "WA", "NT", "SA", "TAS"),
+                      pop.size = c(6459800, 7987300, 5012200, 420900, 2595900, 247300, 1736400, 528100))
+
+# Normalisation factor = state population/ largest state population
+pop_2018 <- mutate(pop_2018,
+                   norm.factor = pop.size/7987300)
+
+# Subset only relevant datasets
+norm_analysis <- clean_2018 %>%
+  select(`APP ID`, `Grant Type`, State) %>%
+  filter(`Grant Type` %in% c("Project Grants",
+           "Early Career Fellowships",
+           "Career Development Fellowships",
+           "Research Fellowships")) %>%
+  group_by(`Grant Type`, State) %>%
+  summarise(Count = n())
+
+# Join the corresponding normalisation factor to each state
+norm_data <- left_join(norm_analysis, pop_2018,
+                           by = "State") %>%
+  mutate(norm.count = Count / norm.factor)
+```
+
+We can now plot graphs using the normalised (by state population size) grant numbers. These normalised counts represent the total number of grants that a state would actually have received:
+
+-   If all populations were matched in size
+-   Assuming a linear positive correlation between population size and funding success
+
+``` r
+# Normalised project grants
+project.norm <- norm_data %>% 
+  filter(`Grant Type` == "Project Grants") %>%
+  ggplot(aes(x = fct_reorder(State, norm.count), y = norm.count)) +
+  geom_col() +
+    scale_x_discrete(position = "top") + 
+  scale_y_continuous(position = "right", name = "No. Project grants funded (assuming equal pop size)") +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_text(size = 12)) +
+  coord_flip() +
+  gghighlight(!State %in% c("SA","NT","ACT"))
+
+plot_grid(project, project.norm, ncol=1) 
+```
+
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-10-1.png)
+
+**Insight:** If we factor population size (to obtain a less biased way to compare state research competitiveness), **NT, ACT and SA perform relatively well for their relatively decreased population size**. Overall project grant success rates are comparatively higher in QLD compared to NSW.
+
+``` r
+# Normalised EC Fellowships
+ECR.norm <- norm_data %>% 
+  filter(`Grant Type` == "Early Career Fellowships") %>%
+  ggplot(aes(x = fct_reorder(State, norm.count), y = norm.count)) +
+  geom_col() +
+    scale_x_discrete(position = "top",
+                     drop = F) + 
+  scale_y_continuous(position = "right", name = "No. funded if equal pop") +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_text(size = 12)) +
+  coord_flip() +
+  gghighlight(!State %in% c("SA","TAS","ACT"))
+
+# Redrawing CD Fellowships without gghighlight
+CD <- clean_2018 %>% 
+  filter(`Grant Type` == "Career Development Fellowships") %>%
+  mutate(State = State %>% fct_infreq() %>% fct_rev()) %>%
+  ggplot(aes(x = State)) +
+  geom_bar() +
+    scale_x_discrete(position = "top") + 
+  scale_y_continuous(position = "right", name = "No. CD fellowships funded") +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_text(size = 12)) +
+  coord_flip()
+
+# Normalised CD Fellowships
+CD.norm <- norm_data %>% 
+  filter(`Grant Type` == "Career Development Fellowships") %>%
+  ggplot(aes(x = fct_reorder(State, norm.count), y = norm.count)) +
+  geom_col() +
+    scale_x_discrete(position = "top") + 
+  scale_y_continuous(position = "right", name = "No. funded if equal pop") +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_text(size = 12)) +
+  coord_flip() +
+  gghighlight(!State %in% c("VIC","ACT"))
+
+# Normalised Research Fellowships
+Research.norm <- norm_data %>% 
+  filter(`Grant Type` == "Research Fellowships") %>%
+  ggplot(aes(x = fct_reorder(State, norm.count), y = norm.count)) +
+  geom_col() +
+    scale_x_discrete(position = "top") + 
+  scale_y_continuous(position = "right", name = "No. funded if equal pop") +
+  theme(axis.title.y = element_blank(),
+        axis.title.x = element_text(size = 12)) +
+  coord_flip() +
+  gghighlight(!State %in% c("SA","QLD", "NSW"))
+
+total_ECR <- plot_grid(ECR, ECR.norm, ncol=1) 
+total_CD <- plot_grid(CD, CD.norm, ncol=1) 
+total_Research <- plot_grid(Research, Research.norm, ncol=1) 
+
+plot_grid(total_ECR, total_CD, total_Research, ncol = 3)
+```
+
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-11-1.png)
+
+**Insight:** By normalising for state population size, it appears that funding success rates are more equivalent between some smaller states and VIC. Interestingly, despite normalising by population size, it seems that Victoria still gets the lion's share of Research Fellowships.
+
+**Further considerations:** Which normalisation factor you choose is crucial as it may overmodel your dataset. For instance, since the population size differs so much between the bigger and smaller states (by more than an order of magnitude), we may be over correcting true funding potential for the smaller states (by assuming that their success rates would have continued to linearly increase with population).
+
+**The gives rise to the question: What is the best normalisation factor to use?**
+
+``` r
+# Comparing normalisation factors
 ```
 
 Funding and research topic coverage per state institution
