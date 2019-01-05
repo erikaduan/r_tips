@@ -3,7 +3,7 @@ title: "Using R to analyse NHMRC funding trends"
 author: "Erika Duan"
 date: "`r Sys.Date()`"
 output: 
-  html_document:
+  github_document:
     toc: true
     toc_depth: 2
     
