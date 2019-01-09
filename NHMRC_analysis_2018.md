@@ -88,7 +88,7 @@ glimpse(nhmrc_2018) # a tidy overview of data structure
     ## $ `Res KW4`             <chr> "geriatrics", "randomised controlled tri...
     ## $ `Res KW5`             <chr> "health care delivery", "community inter...
     ## $ `Plain Description`   <chr> "The Let's CHAT (Community Health Approa...
-    ## $ X__1                  <chr> ".", ".", ".", ".", ".", ".", ".", ".", ...
+    ## $ `..19`                <chr> ".", ".", ".", ".", ".", ".", ".", ".", ...
 
 ``` r
 dim(nhmrc_2018) # 1045 rows and 19 columns of data
@@ -105,7 +105,7 @@ This allows us to identify several points:
 
 ``` r
 clean_2018 <- nhmrc_2018 %>%
-  select(-`Plain Description`, -X__1) %>% # removes unwanted columns
+  select(-`Plain Description`) %>% # removes unwanted columns
   unite("Keywords", c(`Res KW1`, `Res KW2`, `Res KW3`, `Res KW4`, `Res KW5`), 
         sep = " ",
         remove = T) # creates a single column for all keywords
@@ -114,7 +114,7 @@ glimpse(clean_2018) # to check that our changes are correct
 ```
 
     ## Observations: 1,045
-    ## Variables: 13
+    ## Variables: 14
     ## $ `APP ID`              <dbl> 1150337, 1150361, 1151782, 1151848, 1151...
     ## $ `Date Announced`      <dttm> 2018-04-23, 2018-04-23, 2018-04-23, 201...
     ## $ `CIA Name`            <chr> "A/Pr Dina LoGiudice", "Prof Robert Sans...
@@ -128,6 +128,7 @@ glimpse(clean_2018) # to check that our changes are correct
     ## $ `Broad Research Area` <chr> "Clinical Medicine and Science", "Public...
     ## $ `Field of Research`   <chr> "Geriatrics and Gerontology", "Aborigina...
     ## $ Keywords              <chr> "indigenous Australians dementia cogniti...
+    ## $ `..19`                <chr> ".", ".", ".", ".", ".", ".", ".", ".", ...
 
 **Note:** We don't want to make changes directly onto the original data or remove too many columns during initial data tidying. Some parameters may be unexpectedly useful for downstream analyses.
 
@@ -186,26 +187,26 @@ clean_2018 %>%
 ```
 
     ## # A tibble: 18 x 2
-    ##    `Grant Type`                                                          n
-    ##    <fct>                                                             <int>
-    ##  1 Project Grants                                                      510
-    ##  2 Early Career Fellowships                                            115
-    ##  3 Research Fellowships                                                101
-    ##  4 Postgraduate Scholarships                                            78
-    ##  5 Career Development Fellowships                                       55
-    ##  6 Equipment Grant                                                      42
-    ##  7 Independent Research Institutes Infrastructure Support Scheme (I~    23
-    ##  8 Partnerships                                                         23
-    ##  9 Development Grants                                                   20
-    ## 10 Targeted Calls for Research                                          17
-    ## 11 Centres of Research Excellence                                       16
-    ## 12 Practitioner Fellowships                                             14
-    ## 13 Translating Research into Practice Fellowships                       13
-    ## 14 International Collaboration - NHMRC/NAFOSTED Joint Call for Coll~     7
-    ## 15 2018 Partnership Projects PRC1                                        5
-    ## 16 Boosting Dementia Research Initiative                                 4
-    ## 17 Boosting Dementia Research Grants -Priority Round 3                   1
-    ## 18 Partnership Centre: Systems Perspective on Preventing Lifestyle-~     1
+    ##    `Grant Type`                                                           n
+    ##    <fct>                                                              <int>
+    ##  1 Project Grants                                                       510
+    ##  2 Early Career Fellowships                                             115
+    ##  3 Research Fellowships                                                 101
+    ##  4 Postgraduate Scholarships                                             78
+    ##  5 Career Development Fellowships                                        55
+    ##  6 Equipment Grant                                                       42
+    ##  7 Independent Research Institutes Infrastructure Support Scheme (IR~    23
+    ##  8 Partnerships                                                          23
+    ##  9 Development Grants                                                    20
+    ## 10 Targeted Calls for Research                                           17
+    ## 11 Centres of Research Excellence                                        16
+    ## 12 Practitioner Fellowships                                              14
+    ## 13 Translating Research into Practice Fellowships                        13
+    ## 14 International Collaboration - NHMRC/NAFOSTED Joint Call for Colla~     7
+    ## 15 2018 Partnership Projects PRC1                                         5
+    ## 16 Boosting Dementia Research Initiative                                  4
+    ## 17 Boosting Dementia Research Grants -Priority Round 3                    1
+    ## 18 Partnership Centre: Systems Perspective on Preventing Lifestyle-r~     1
 
 Differences in funding per state/ institution
 ---------------------------------------------
@@ -317,11 +318,27 @@ plot_grid(counts_title, counts_plots,
 
 An alternate way of visualising the same data is through **static geospatial data**. The `tmap` package requires shape objects (objects from the class Spatial or Raster; from the sp and the raster packages).
 
-We first need a shapefile of the boundaries data of Australian States and Territories and these can be found from the Australian Bureau of Statistics [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1259.0.30.001July%202011?OpenDocument). Shapefiles will require conversion into Raster objects in R.
+We first need a shapefile of the boundaries data of Australian States and Territories and these can be found from the Australian Bureau of Statistics [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1259.0.30.001July%202011?OpenDocument). We can directly read shapefiles in R using `rgdal`.
 
 ``` r
 library(tmap) # mapping onto static geographical maps
+library(rgdal)
+
+# To directly read shapefile
+
+shape <- readOGR(dsn = "C:/Users/user/Desktop/State_shapefiles", layer = "STE11aAust")
+summary(shape)
+
+# To extract the content of the attributes table
+data.frame(shape)
+
+# To draw and label all Australian states
+tm_shape(shape) + 
+  tm_borders("grey") +
+  tm_text("STATE_NAME")
 ```
+
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 ### Data normalisation for inter-state comparisons
 
@@ -339,7 +356,12 @@ One way we can account for this bias is to **normalise** the total number of gra
 # Create a new dataset with population size
 pop_2018 <- data_frame(State = c("VIC", "NSW", "QLD", "ACT", "WA", "NT", "SA", "TAS"),
                       Pop.size = c(6459800, 7987300, 5012200, 420900, 2595900, 247300, 1736400, 528100))
+```
 
+    ## Warning: `data_frame()` is deprecated, use `tibble()`.
+    ## This warning is displayed once per session.
+
+``` r
 # Normalisation factor = state population/ largest state population
 pop_2018 <- mutate(pop_2018,
                    Pop.norm.factor = Pop.size/7987300)

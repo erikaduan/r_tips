@@ -69,7 +69,7 @@ This allows us to identify several points:
 
 ```{r}
 clean_2018 <- nhmrc_2018 %>%
-  select(-`Plain Description`, -X__1) %>% # removes unwanted columns
+  select(-`Plain Description`) %>% # removes unwanted columns
   unite("Keywords", c(`Res KW1`, `Res KW2`, `Res KW3`, `Res KW4`, `Res KW5`), 
         sep = " ",
         remove = T) # creates a single column for all keywords
@@ -209,11 +209,24 @@ plot_grid(counts_title, counts_plots,
 
 An alternate way of visualising the same data is through **static geospatial data**. The `tmap` package requires shape objects (objects from the class Spatial or Raster; from the sp and the raster packages). 
 
-We first need a shapefile of the boundaries data of Australian States and Territories and these can be found from the Australian Bureau of Statistics [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1259.0.30.001July%202011?OpenDocument). Shapefiles will require conversion into Raster objects in R. 
+We first need a shapefile of the boundaries data of Australian States and Territories and these can be found from the Australian Bureau of Statistics [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1259.0.30.001July%202011?OpenDocument). We can directly read shapefiles in R using `rgdal`. 
 
 ```{r, results = 'hide', warning = FALSE, message = FALSE}
 library(tmap) # mapping onto static geographical maps
+library(rgdal)
 
+# To directly read shapefile
+
+shape <- readOGR(dsn = "C:/Users/user/Desktop/State_shapefiles", layer = "STE11aAust")
+summary(shape)
+
+# To extract the content of the attributes table
+data.frame(shape)
+
+# To draw and label all Australian states
+tm_shape(shape) + 
+  tm_borders("grey") +
+  tm_text("STATE_NAME")
 ```
 
 
