@@ -1,7 +1,7 @@
 Using R to analyse NHMRC funding trends
 ================
 Erika Duan
-2019-01-05
+2019-01-09
 
 -   [Introduction](#introduction)
 -   [Data tidying](#data-tidying)
@@ -52,7 +52,7 @@ library("DT") # for displaying interactive tables
 
 temp <- tempfile() #downloads and stores the 2018 NHMRC dataset as a temporary file
 
-download.file("https://nhmrc.gov.au/file/12086/download?token=1q3_D-vV", 
+download.file("https://nhmrc.gov.au/file/12086/download?token=EQHf-aA1", 
               destfile = temp,
               method = "curl")
 
@@ -313,11 +313,17 @@ plot_grid(counts_title, counts_plots,
 
 **Another important insight** is that Career Development Fellowships are more disproportionately awarded to only Victoria and NSW compared to other funding schemes. This potentially may be related to the decreased number of total CD fellowships funded (i.e. increased competition) and indicates that a mid-career pipeline leak may be more likely to exist, especially for non-VIC/NSW researchers.
 
-An alternate way of visualising the same data is through **static geospatial data**.
+### Data visualisation through geospatial data
+
+An alternate way of visualising the same data is through **static geospatial data**. The `tmap` package requires shape objects (objects from the class Spatial or Raster; from the sp and the raster packages).
+
+We first need a shapefile of the boundaries data of Australian States and Territories and these can be found from the Australian Bureau of Statistics [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1259.0.30.001July%202011?OpenDocument). Shapefiles will require conversion into Raster objects in R.
 
 ``` r
 library(tmap) # mapping onto static geographical maps
 ```
+
+### Data normalisation for inter-state comparisons
 
 **Total counts can often obscure information, as certain biases are inherited.** For instance, it may seem as if low grant success rates occur in WA, ACT, NT and Tasmania. This, however, is not necessarily an accurate interpretation, as the total number of funding applications and applicants is likely much higher in VIC and NSW.
 
@@ -375,7 +381,7 @@ Project.norm <- pop_norm_2018 %>%
 plot_grid(Project, Project.norm, ncol=1) 
 ```
 
-![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 **Insight:** If we factor population size (to obtain a less biased way to compare state research competitiveness), **NT, ACT and SA perform relatively well for their relatively decreased population size**. Overall project grant success rates are comparatively higher in QLD compared to NSW.
 
@@ -436,7 +442,7 @@ total_Research <- plot_grid(Research, Research.norm, ncol=1)
 plot_grid(total_ECR, total_CD, total_Research, ncol = 3)
 ```
 
-![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 **Insight:** By normalising for state population size, it appears that funding success rates are more equivalent between some smaller states and VIC, with an increased disparity between VIC and NSW. Interestingly, after normalising by population size, we can see that Victoria gets the lion's share of Research Fellowships.
 
@@ -487,7 +493,7 @@ datatable(norm_factor,
   formatStyle("State", fontWeight = "bold")
 ```
 
-![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-12-1.png)
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 **Insight:** If we quickly have a look at the two normalisation factors, **VIC is ranked higher than NSW by total institution number but not population size** (which may better explain why VIC received the highest number of multiple grant types).
 
@@ -524,3 +530,4 @@ This post was written based on the following resources and R packages:
 -   [How to arrange plots using cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/plot_grid.html)
 -   [Guide to categorical data analysis using forcats](https://r4ds.had.co.nz/factors.html)
 -   [R for Data Science](https://r4ds.had.co.nz)
+-   [How to use geospatial data in R](https://blog.exploratory.io/making-maps-for-australia-states-and-local-government-areas-in-r-d78edb506f37)

@@ -44,7 +44,7 @@ library("DT") # for displaying interactive tables
 
 temp <- tempfile() #downloads and stores the 2018 NHMRC dataset as a temporary file
 
-download.file("https://nhmrc.gov.au/file/12086/download?token=1q3_D-vV", 
+download.file("https://nhmrc.gov.au/file/12086/download?token=EQHf-aA1", 
               destfile = temp,
               method = "curl")
 
