@@ -3,7 +3,7 @@ title: "Using R to analyse NHMRC funding trends"
 author: "Erika Duan"
 date: "`r Sys.Date()`"
 output: 
-  html_document:
+  github_document:
     toc: true
     toc_depth: 2
 ---
@@ -205,12 +205,23 @@ plot_grid(counts_title, counts_plots,
 
 **Another important insight** is that Career Development Fellowships are more disproportionately awarded to only Victoria and NSW compared to other funding schemes. This potentially may be related to the decreased number of total CD fellowships funded (i.e. increased competition) and indicates that a mid-career pipeline leak may be more likely to exist, especially for non-VIC/NSW researchers.
 
-An alternate way of visualising the same data is through **static geospatial data**. 
+### Data visualisation through geospatial data
+
+An alternate way of visualising the same data is through **static geospatial data**. The `tmap` package requires shape objects (objects from the class Spatial or Raster; from the sp and the raster packages). 
+
+We first need a shapefile of the boundaries data of Australian States and Territories and these can be found from the Australian Bureau of Statistics [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1259.0.30.001July%202011?OpenDocument). Shapefiles will require conversion into Raster objects in R. 
 
 ```{r, results = 'hide', warning = FALSE, message = FALSE}
 library(tmap) # mapping onto static geographical maps
 
 ```
+
+
+```{r}
+
+```
+
+### Data normalisation for inter-state comparisons
 
 **Total counts can often obscure information, as certain biases are inherited.** For instance, it may seem as if low grant success rates occur in WA, ACT, NT and Tasmania. This, however, is not necessarily an accurate interpretation, as the total number of funding applications and applicants is likely much higher in VIC and NSW. 
 
@@ -410,3 +421,5 @@ This post was written based on the following resources and R packages:
 *  [How to arrange plots using cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/plot_grid.html)
 *  [Guide to categorical data analysis using forcats](https://r4ds.had.co.nz/factors.html)
 *  [R for Data Science](https://r4ds.had.co.nz)
+*  [How to use geospatial data in R](https://blog.exploratory.io/making-maps-for-australia-states-and-local-government-areas-in-r-d78edb506f37
+)
