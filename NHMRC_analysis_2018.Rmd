@@ -213,26 +213,90 @@ We first need a shapefile of the boundaries data of Australian States and Territ
 
 ```{r, results = 'hide', warning = FALSE, message = FALSE}
 library(tmap) # mapping onto static geographical maps
-library(rgdal)
-
-# To directly read shapefile
-
-shape <- readOGR(dsn = "C:/Users/user/Desktop/State_shapefiles", layer = "STE11aAust")
-summary(shape)
-
-# To extract the content of the attributes table
-data.frame(shape)
-
-# To draw and label all Australian states
-tm_shape(shape) + 
-  tm_borders("grey") +
-  tm_text("STATE_NAME")
+library(rgdal) # converting shapefiles into spatial dataframes
 ```
 
 
 ```{r}
+# To read the shapefile and convert to a usable spatial dataframe
+shape <- readOGR(dsn = "C:/Users/user/Desktop/State_shapefiles", layer = "STE11aAust")
+
+# To view extract the content of the attributes table
+data.frame(shape)
+shape.data <- data.frame(shape@data)
+
+# Create consistent abbreviations for each state
+abbrev <- c("NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT", "OT") %>%
+  as.data.frame()
+shape.data <- bind_cols(shape.data, abbrev) %>%
+  rename("State" = ".")
+
+# Use clean_2018 data and collect grant type information by state
+shape_2018 <- clean_2018 %>%
+    select(`Grant Type`, State) %>%
+  filter(`Grant Type` %in% c("Project Grants", # filters for grant types of interest 
+           "Early Career Fellowships",
+           "Career Development Fellowships",
+           "Research Fellowships")) %>%
+  group_by(`Grant Type`, State) %>%
+  summarise(Count = n()) %>%
+  spread(`Grant Type`, Count,
+         fill = 0) 
+
+# Join with shape.data and add onto Large SPDF
+shape.data <- left_join(shape.data, shape_2018,
+                        by = "State") %>%
+  mutate_all(funs(replace(., is.na(.), 0))) # replace NAs with 0 for consistency 
+  
+shape@data <- shape.data
+
+omit.OT <- subset(shape, State != "OT") # creates a subset without Other Territories labelled
+
+# For Career Development fellowships
+tm_shape(omit.OT) +
+  tm_fill(col = "Career Development Fellowships",
+          palette = "YlOrRd",
+          title = "CD Fellowships") +
+  tm_borders("grey") +
+  tm_text("State")
 
 ```
+
+We can then use functions like `tmap_arrange` to visualise spatial data for all key grant types as below. 
+
+```{r}
+CD.shape <- tm_shape(omit.OT) +
+  tm_fill(col = "Career Development Fellowships",
+          palette = "YlOrRd",
+          title = "CD Fships") +
+  tm_borders("grey") +
+  tm_text("State")
+
+ECR.shape <- tm_shape(omit.OT) +
+  tm_fill(col = "Early Career Fellowships",
+          palette = "YlOrRd",
+          title = "ECR Fships") +
+  tm_borders("grey") +
+  tm_text("State")
+
+Research.shape <- tm_shape(omit.OT) +
+  tm_fill(col = "Research Fellowships",
+          palette = "YlOrRd",
+          title = "Research Fships") +
+  tm_borders("grey") +
+  tm_text("State")
+
+Project.shape <- tm_shape(omit.OT) +
+  tm_fill(col = "Project Grants",
+          palette = "YlOrRd",
+          title = "Projects") +
+  tm_borders("grey") +
+  tm_text("State")
+
+tmap_arrange(Project.shape, ECR.shape, CD.shape, Research.shape, ncol = 2)
+```
+
+*Notes: In the future, change map font sizes, legend position and highlight ACT (dotted distributions vs fill?).*
 
 ### Data normalisation for inter-state comparisons
 
@@ -409,6 +473,26 @@ Normalising by state population versus total institution number is **surprisingl
 **Surprisingly, state rankings by either normalisation factors are relatively similar to each other**, indicating that there is likely a relationship between the two parameters (we can confirm this by calculating the correlation). Looking at this table, I would prefer to normalise by total institution number, when comparing state funding success.  
 
 # Funding and research topic coverage per state institution 
+
+Reasons that VIC received more funding in 2018 include:  
+
+*  It simply contains more research institutions per state.
+*  It contains more high-performance research institutions per state.
+*  It contains more research institutions located within research hubs (requires advanced spatial data analysis).
+
+To establish whether the first or second option is true, we can look at funding numbers across all VIC research institutions (to save space, we will just focus on project grants). The NHMRC dataset contains a grant subtype for project grants (New Investigator vs Standard), which we can use as a surrogate marker for the number of junior research investigators supported. 
+
+```{r}
+vic_2018 <- clean_2018 %>%
+  filter(State == "VIC",
+         `Grant Type` == "Project Grants") 
+
+# To visualise how project grants were distributed across VIC
+
+
+```
+
+
 
 ```{r}
 # Identifying top 5 topic trends during 2018

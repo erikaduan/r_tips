@@ -1,7 +1,7 @@
 Using R to analyse NHMRC funding trends
 ================
 Erika Duan
-2019-01-09
+2019-01-12
 
 -   [Introduction](#introduction)
 -   [Data tidying](#data-tidying)
@@ -322,23 +322,126 @@ We first need a shapefile of the boundaries data of Australian States and Territ
 
 ``` r
 library(tmap) # mapping onto static geographical maps
-library(rgdal)
-
-# To directly read shapefile
-
-shape <- readOGR(dsn = "C:/Users/user/Desktop/State_shapefiles", layer = "STE11aAust")
-summary(shape)
-
-# To extract the content of the attributes table
-data.frame(shape)
-
-# To draw and label all Australian states
-tm_shape(shape) + 
-  tm_borders("grey") +
-  tm_text("STATE_NAME")
+library(rgdal) # converting shapefiles into spatial dataframes
 ```
 
-![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-8-1.png)
+``` r
+# To read the shapefile and convert to a usable spatial dataframe
+shape <- readOGR(dsn = "C:/Users/user/Desktop/State_shapefiles", layer = "STE11aAust")
+```
+
+    ## OGR data source with driver: ESRI Shapefile 
+    ## Source: "C:\Users\user\Desktop\State_shapefiles", layer: "STE11aAust"
+    ## with 9 features
+    ## It has 2 fields
+
+``` r
+# To view extract the content of the attributes table
+data.frame(shape)
+```
+
+    ##   STATE_CODE                   STATE_NAME
+    ## 0          1              New South Wales
+    ## 1          2                     Victoria
+    ## 2          3                   Queensland
+    ## 3          4              South Australia
+    ## 4          5            Western Australia
+    ## 5          6                     Tasmania
+    ## 6          7           Northern Territory
+    ## 7          8 Australian Capital Territory
+    ## 8          9            Other Territories
+
+``` r
+shape.data <- data.frame(shape@data)
+
+# Create consistent abbreviations for each state
+abbrev <- c("NSW", "VIC", "QLD", "SA", "WA", "TAS", "NT", "ACT", "OT") %>%
+  as.data.frame()
+shape.data <- bind_cols(shape.data, abbrev) %>%
+  rename("State" = ".")
+
+# Use clean_2018 data and collect grant type information by state
+shape_2018 <- clean_2018 %>%
+    select(`Grant Type`, State) %>%
+  filter(`Grant Type` %in% c("Project Grants", # filters for grant types of interest 
+           "Early Career Fellowships",
+           "Career Development Fellowships",
+           "Research Fellowships")) %>%
+  group_by(`Grant Type`, State) %>%
+  summarise(Count = n()) %>%
+  spread(`Grant Type`, Count,
+         fill = 0) 
+
+# Join with shape.data and add onto Large SPDF
+shape.data <- left_join(shape.data, shape_2018,
+                        by = "State") %>%
+  mutate_all(funs(replace(., is.na(.), 0))) # replace NAs with 0 for consistency 
+```
+
+    ## Warning: Column `State` joining factor and character vector, coercing into
+    ## character vector
+
+    ## Warning in `[<-.factor`(`*tmp*`, list, value = 0): invalid factor level, NA
+    ## generated
+
+    ## Warning in `[<-.factor`(`*tmp*`, list, value = 0): invalid factor level, NA
+    ## generated
+
+``` r
+shape@data <- shape.data
+
+omit.OT <- subset(shape, State != "OT") # creates a subset without Other Territories labelled
+
+# For Career Development fellowships
+tm_shape(omit.OT) +
+  tm_fill(col = "Career Development Fellowships",
+          palette = "YlOrRd",
+          title = "CD Fellowships") +
+  tm_borders("grey") +
+  tm_text("State")
+```
+
+    ## Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
+
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-9-1.png)
+
+We can then use functions like `tmap_arrange` to visualise spatial data for all key grant types as below.
+
+``` r
+CD.shape <- tm_shape(omit.OT) +
+  tm_fill(col = "Career Development Fellowships",
+          palette = "YlOrRd",
+          title = "CD Fships") +
+  tm_borders("grey") +
+  tm_text("State")
+
+ECR.shape <- tm_shape(omit.OT) +
+  tm_fill(col = "Early Career Fellowships",
+          palette = "YlOrRd",
+          title = "ECR Fships") +
+  tm_borders("grey") +
+  tm_text("State")
+
+Research.shape <- tm_shape(omit.OT) +
+  tm_fill(col = "Research Fellowships",
+          palette = "YlOrRd",
+          title = "Research Fships") +
+  tm_borders("grey") +
+  tm_text("State")
+
+Project.shape <- tm_shape(omit.OT) +
+  tm_fill(col = "Project Grants",
+          palette = "YlOrRd",
+          title = "Projects") +
+  tm_borders("grey") +
+  tm_text("State")
+
+tmap_arrange(Project.shape, ECR.shape, CD.shape, Research.shape, ncol = 2)
+```
+
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-10-1.png)
+
+*Notes: In the future, change map font sizes, legend position and highlight ACT (dotted distributions vs fill?).*
 
 ### Data normalisation for inter-state comparisons
 
@@ -403,7 +506,7 @@ Project.norm <- pop_norm_2018 %>%
 plot_grid(Project, Project.norm, ncol=1) 
 ```
 
-![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 **Insight:** If we factor population size (to obtain a less biased way to compare state research competitiveness), **NT, ACT and SA perform relatively well for their relatively decreased population size**. Overall project grant success rates are comparatively higher in QLD compared to NSW.
 
@@ -464,7 +567,7 @@ total_Research <- plot_grid(Research, Research.norm, ncol=1)
 plot_grid(total_ECR, total_CD, total_Research, ncol = 3)
 ```
 
-![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-12-1.png)
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 **Insight:** By normalising for state population size, it appears that funding success rates are more equivalent between some smaller states and VIC, with an increased disparity between VIC and NSW. Interestingly, after normalising by population size, we can see that Victoria gets the lion's share of Research Fellowships.
 
@@ -515,7 +618,7 @@ datatable(norm_factor,
   formatStyle("State", fontWeight = "bold")
 ```
 
-![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-13-1.png)
+![](NHMRC_analysis_2018_files/figure-markdown_github/unnamed-chunk-14-1.png)
 
 **Insight:** If we quickly have a look at the two normalisation factors, **VIC is ranked higher than NSW by total institution number but not population size** (which may better explain why VIC received the highest number of multiple grant types).
 
@@ -525,6 +628,22 @@ Normalising by state population versus total institution number is **surprisingl
 
 Funding and research topic coverage per state institution
 =========================================================
+
+Reasons that VIC received more funding in 2018 include:
+
+-   It simply contains more research institutions per state.
+-   It contains more high-performance research institutions per state.
+-   It contains more research institutions located within research hubs (requires advanced spatial data analysis).
+
+To establish whether the first or second option is true, we can look at funding numbers across all VIC research institutions (to save space, we will just focus on project grants). The NHMRC dataset contains a grant subtype for project grants (New Investigator vs Standard), which we can use as a surrogate marker for the number of junior research investigators supported.
+
+``` r
+vic_2018 <- clean_2018 %>%
+  filter(State == "VIC",
+         `Grant Type` == "Project Grants") 
+
+# To visualise how project grants were distributed across VIC
+```
 
 ``` r
 # Identifying top 5 topic trends during 2018
