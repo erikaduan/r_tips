@@ -7,7 +7,7 @@ Many kudos goes to Dr Chuanxin Liu, my former PhD student, current data science 
 # List of R tips  
 
 1. [How to draw a volcano plot using ggplot2](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-03-26_volcano-plots-in-ggplot/2020-03-26_volcano-plots-in-ggplot.md)  
-2. [You can use data.table or tidyverse!](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-07_data-table-versus-dplyr/2020-04-07_data-table-versus-dplyr.md)  
+2. [You can use data.table or tidyverse!](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-07_data-table-versus-dplyr/2020-04-07_data-table-versus-dplyr.md) 📚 
 3. TBC  
 
 # Citations  
