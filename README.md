@@ -1,22 +1,25 @@
-# R-tips
-A repository of personal **R usage tips** for data analysis and visualisation.
+# R tips  
 
-**Authors:** 
+This repository contains a series of **R usage tips** covering topics across **data cleaning**, **visualisation** and **machine learning**. The creation of this repository was precipitated by a call-out for RLadies-Melbourne lightning talks in 2018, and I have enjoyed writing coding tutorials ever since.  
 
-* [Erika Duan](https://scholar.google.com.au/citations?user=fBMQu8wAAAAJ&hl=en) (learning and now writing most of the code)
-* Chuanxin Liu (the genius at coding and R)
+Many kudos goes to Dr Chuanxin Liu, my former PhD student, current data science colleague and occasional code editor, for teaching me how to learn to code in R.  
 
-**R-tips guide:**  
-* How to draw a volcano plot to visualise fold change vs p-values differences in a large dataset (https://github.com/erikaduan/R-tips/blob/master/Rladies_volcano_plots.md)
-* Data analysis of NHMRC 2018 funding outcomes with R (https://github.com/erikaduan/R-tips/blob/master/NHMRC_analysis_2018.md)
- 
-**Packages used:**
+# List of R tips  
 
-* [Tidyverse](https://www.tidyverse.org/packages/)
-* [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
-* [Cowplot](https://cran.r-project.org/web/packages/cowplot/index.html)
-* [gghighlight](https://github.com/yutannihilation/gghighlight)
+1. How to draw a volcano plot using ggplot2  
+2. You can use data.table or tidyverse!  
+3. TBC  
 
-**Online resources used:** 
+# Citations  
 
-* [For using github](https://jennybc.github.io/2014-05-12-ubc/ubc-r/session03_git.html)
+* Hadley Wickham (2017). `tidyverse`: Easily Install and Load the 'Tidyverse'. R package version 1.2.1.
+  https://CRAN.R-project.org/package=tidyverse  
+
+* Matt Dowle and Arun Srinivasan (2019). data.table: Extension of `data.frame`. R package version 1.12.6.
+  https://CRAN.R-project.org/package=data.table  
+
+* Kirill Müller (2017). `here`: A Simpler Way to Find Your Files. R package version 0.1.
+  https://CRAN.R-project.org/package=here  
+  
+* Paul Murrell (2015). `compare`: Comparing Objects for Differences. R package version 0.2-6.
+  https://CRAN.R-project.org/package=compare  

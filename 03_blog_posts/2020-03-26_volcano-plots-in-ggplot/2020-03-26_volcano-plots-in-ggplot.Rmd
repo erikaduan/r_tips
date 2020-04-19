@@ -1,0 +1,398 @@
+---
+title: "How to draw a volcano plot using ggplot2"
+author: "Erika Duan"
+date: "`r Sys.Date()`"
+output: 
+  github_document: 
+    toc: true
+---
+
+```{r, message = FALSE}
+#-----load required packages-----
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse,
+               ggrepel) # for best label separation
+```
+ 
+ 
+# Introduction   
+
+In 2018, deep into my academic research on immune cell behaviour in response to pathogens, I was learning about RNA sequencing workflows and starting to code in R. The original version of this post, which described the RNA sequencing [DESEQ2](https://bioconductor.riken.jp/packages/3.7/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) workflow in more detail, was written as a short lightning talk for R-Ladies Melbourne in 2018.   
+
+In the last two years, a surprising number of small yet handy functions have been added to `tidyverse`. This post has been re-purposed to highlight the versatility of `ggplot2` for creating beautiful graphs. Most of the coding logic should still be attributed to Chuanxin Liu, my former PhD student and current data science colleague.    
+
+
+# Creating a test dataset  
+
+We start with a data frame containing just three columns of information:  
+
++ Row Id (gene symbol)   
++ Fold change (change in gene expression levels in diseased versus healthy tissue samples)   
++ Adjusted P-value (adjusted with a correction for multiple testing)    
+
+**Note:** The code used to create the test dataset can be accessed from the `Rmd` file accompanying this tutorial.    
+
+```{r, echo = FALSE}
+#-----create a test dataset-----
+# this chunk of code has no other purpose except to provide us with a dataset to plot  
+
+#-----simulate fold changes-----
+# generate a normally distributed range of fold changes  
+# the fold change cannot be a negative value  
+
+set.seed(111)
+
+fold_change <- rnorm(250,
+                     mean = 1.0,
+                     sd = 0.8) %>%
+  sort()
+
+fold_change <- fold_change[fold_change > 0.1] # remove negative and negatively skewed values  
+
+#-----simulate gene symbols-----
+gene <- rep("Gene", times = length(fold_change))
+
+gene_symbol <- seq(from = 1,
+                   to = length(fold_change))
+
+gene_id <- str_c(gene, gene_symbol,
+                 sep = "_")
+
+#-----simulate adjusted p-values and match with fold changes-----
+# assume ~ 10% of genes are differentially expressed in disease vs healthy samples 
+# ~ 10% of genes have an adjusted p-values >= 0.05 & fold change < 0.5 or > 2  
+
+# split regions into sig, non_sig and near_identical genes  
+sig_length <- length(fold_change) * 0.2  
+sig_length <- ceiling(sig_length)
+
+sig_length_up <- sig_length/2 
+sig_length_up <- ceiling(sig_length_up)
+sig_length_down <- sig_length - sig_length_up
+
+nonsig_length <- length(fold_change) * 0.6 
+nonsig_length <- ceiling(nonsig_length)
+
+nonsig_length_up <- nonsig_length/2 
+nonsig_length_up <- ceiling(nonsig_length_up)
+nonsig_length_down <- nonsig_length - nonsig_length_up
+
+near_identical_length <- length(fold_change) - sig_length - nonsig_length
+
+# generate different p-value range for sig genes
+sig_pvalues <- rnorm(sig_length,
+                     mean = 0.06,
+                     sd = 0.03)
+
+sig_pvalues <- sig_pvalues[sig_pvalues > 0]
+
+sig_up <- sample(sig_pvalues,
+                 size = sig_length_up,
+                 replace = T)
+
+sig_down <- sample(sig_pvalues,
+                 size = sig_length_down,
+                 replace = T)
+
+# generate different p-value range for non-sig genes
+nonsig_pvalues <- rnorm(nonsig_length,
+                        mean = 0.6,
+                        sd = 0.2)
+
+nonsig_pvalues <- nonsig_pvalues[nonsig_pvalues < 0.7 & nonsig_pvalues > 0]
+
+nonsig_up <- sample(nonsig_pvalues,
+                    size = nonsig_length_up,
+                    replace = T)
+
+nonsig_down <- sample(nonsig_pvalues,
+                      size = nonsig_length_down,
+                      replace = T) 
+
+# generate different p-value range for near_identical genes  
+near_identical_values <- rnorm(near_identical_length,
+                          mean = 0.9,
+                          sd = 0.3)
+
+near_identical_values <- near_identical_values[near_identical_values < 1 & near_identical_values > 0.4]
+
+near_identical <- sample(near_identical_values,
+                      size = near_identical_length,
+                      replace = T) 
+
+# create final p_adjusted vector      
+p_adjusted <- c(sig_up,
+                nonsig_up,
+                near_identical,
+                nonsig_down,
+                sig_down) 
+
+#-----create data frame-----
+diseased_vs_healthy <- tibble(gene_id,
+                              fold_change,
+                              p_adjusted)
+```
+
+```{r} 
+#-----using kable to quickly visualise the test dataset-----  
+diseased_vs_healthy %>%
+  head(10) %>%
+  knitr::kable()
+```
+
+
+# Drawing a simple volcano plot  
+
+A simple volcano plot depicts:  
+
++ Along its x-axis: log2(fold_change)   
++ Along its y-axis: -log10(p_adjusted)   
+
+**Note:** The y-axis depicts -log10(p_adjusted), which allows the points on the plot to project upwards as the fold change increases or decreases i.e. like a volcano spray. Graphically, this is more intuitive to visualise.    
+
+The versatility of `ggplot2` also means that you don't necessarily need to create new columns for your axis transformations.  
+
+```{r}
+#-----creating a simple volcano plot-----
+vol_plot <- diseased_vs_healthy %>%
+  ggplot(aes(x = log2(fold_change),
+             y = -log10(p_adjusted))) + 
+  geom_point() 
+
+vol_plot # a simple volcano plot is created
+```
+
+# Adding horizontal and vertical lines   
+
+The functions `geom_hline` and `geom_vline` can be used to add horizontal and vertical lines on your plot respectively. In this case, I am interested in visualising boundaries for genes which have a padj <= 0.05 and a fold change <= 0.05 or >= 2.    
+
+```{r}
+#-----define quandrants of interest-----
+vol_plot + 
+  geom_hline(yintercept = -log10(0.05),
+             linetype = "dashed") + # horizontal dashed line
+  geom_vline(xintercept = c(log2(0.5), log2(2)),
+             linetype = "dashed") # vertical dashed line
+```
+
+# Modifying the x-axis and y-axis       
+
+Volcano plots should have a symmetrical x-axis. One way we can do this is by manually setting the limits of the x-axis using `xlim(min, max)`.     
+
+```{r}
+#-----identify the best range for xlim-----
+diseased_vs_healthy %>%
+  select(fold_change) %>%
+  min() %>%
+  log2() %>%
+  floor()
+
+diseased_vs_healthy %>%
+  select(fold_change) %>%
+  max() %>%
+  log2() %>%
+  ceiling()
+
+#-----add xlim-----  
+vol_plot + 
+  geom_hline(yintercept = -log10(0.05),
+             linetype = "dashed") + 
+  geom_vline(xintercept = c(log2(0.5), log2(2)),
+             linetype = "dashed") + 
+  xlim(-4, 4) # manually specify x-axis limits
+```
+
+We can also change the limits of the x-axis via `scale_x_continuous`. This method also gives us the flexibility to finetune the spacing and labelling of axis tick marks.  
+
+```{r}
+#-----modify scale_x_continuous-----
+vol_plot + 
+  geom_hline(yintercept = -log10(0.05),
+             linetype = "dashed") + 
+  geom_vline(xintercept = c(log2(0.5), log2(2)),
+             linetype = "dashed") +
+  scale_x_continuous(breaks = c(seq(-3, 3, 1)), # modify x-axis tick intervals  
+                     limits = c(-4, 4)) + # modify xlim 
+  scale_y_continuous(breaks = c(seq(0, 2.5, 0.5)), # modify y-axis tick intervals
+                     limits = c(0, 2.5)) # modify ylim
+
+# note that the values entered in limits overrides the values in breaks
+```
+
+# Adding colour, size and transparency   
+
+To visualise different groups of genes using different colours, point sizes, shapes or transparencies, we would need to categorise genes into different groups and store this data as a new parameter (i.e. new column of data).    
+
+In this case, I am going to label:  
+
++ Genes with a fold change >= 2 and adjusted p-value <= 0.05 as 'up'. 
++ Genes with a fold change <= 0.5 and adjusted p-value <= 0.05 as 'down'.
++ All other genes as 'ns' i.e. non-significant.  
+
+```{r}
+#-----create a new column which distinguishes individual rows by type----- 
+diseased_vs_healthy <- diseased_vs_healthy %>%
+  mutate(gene_type = case_when(fold_change >= 2 & p_adjusted <= 0.05 ~ "up",
+                               fold_change <= 0.5 & p_adjusted <= 0.05 ~ "down",
+                               TRUE ~ "ns"))   
+
+#-----obtaining a summary of gene_type numbers-----           
+diseased_vs_healthy %>%
+  count(gene_type)
+
+# note that using count is similar to performing the operation below   
+
+# diseased_vs_healthy %>%
+#   group_by(gene_type) %>%
+#   summarize(Counts = n()) 
+```
+
+In `ggplot2`, we have the option to specify our own colour, size and shape scheme using `scale_color_manual` etc. A tidy way of doing this is to store your manual specifications as vectors.  
+
+```{r}
+#-----double check how many different categories exist under gene_type----- 
+diseased_vs_healthy %>%
+  distinct(gene_type) 
+
+#-----adding colour, size and alphas (transparency) to a simple volcano plot----- 
+cols <- c("up" = "#ffad73", "down" = "#26b3ff", "ns" = "grey") 
+sizes <- c("up" = 2.5, "down" = 2.5, "ns" = 1) 
+alphas <- c("up" = 1, "down" = 1, "ns" = 0.5)
+
+fancy_vol_plot <- diseased_vs_healthy %>%
+  ggplot(aes(x = log2(fold_change),
+             y = -log10(p_adjusted))) + 
+  geom_point(aes(color = gene_type, # specify color, size and alpha as new aes parameters  
+                 size = gene_type,
+                 alpha = gene_type)) + 
+  geom_hline(yintercept = -log10(0.05),
+             linetype = "dashed") + 
+  geom_vline(xintercept = c(log2(0.5), log2(2)),
+             linetype = "dashed") +
+  scale_color_manual(values = cols) + # modify colour
+  scale_size_manual(values = sizes) + # modify point size
+  scale_alpha_manual(values = alphas) + # modify point transparency
+  scale_x_continuous(breaks = c(seq(-4, 4, 1)), 
+                     limits = c(-4, 4)) +  
+  scale_y_continuous(breaks = c(seq(0, 2.5, 0.5)),
+                     limits = c(0, 2.5)) 
+
+fancy_vol_plot
+```
+
+# Labelling points of interest  
+
+We can also label a subset of points using `geom_text` or `geom_text_repel`. This can be done by creating a new column which only stores the labels of interest (i.e. only rows of interest will have a label and all other rows will be designated as `NA`).    
+
+**Note:** adjusting the parameters for optimal text separation using `geom_text_repel` can be a bit fiddly. I generally tend to start by modifying force and then deciding which region of the plot I want to nudge my text/labels towards. [See here](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html) for more tips on adjusting `geom_text_repel` parameters. 
+
+```{r, include = FALSE}
+#-----label genes of interest----- 
+interesting_genes <- c("Gene_200", "Gene_205", "Gene_210") 
+
+diseased_vs_healthy <- diseased_vs_healthy %>%
+  mutate(labelled_genes = case_when(gene_id %in% interesting_genes ~ gene_id))  
+
+#-----add label as new aes parameter in ggplot-----
+fancy_vol_plot <- diseased_vs_healthy %>%
+  ggplot(aes(x = log2(fold_change),
+             y = -log10(p_adjusted),
+             label = labelled_genes)) + # specify label as new aes
+  geom_point(aes(color = gene_type, 
+                 size = gene_type,
+                 alpha = gene_type)) +
+  geom_text_repel(force = 3, # degree of repulsion
+                  hjust = 0, # left edge aligned labels
+                  nudge_x = 0.3, 
+                  nudge_y = 0.2, 
+                  direction = "y", # labels are nudged along the y-axis
+                  na.rm = T) +
+  geom_hline(yintercept = -log10(0.05),
+             linetype = "dashed") + 
+  geom_vline(xintercept = c(log2(0.5), log2(2)),
+             linetype = "dashed") +
+  scale_color_manual(values = cols) +
+  scale_size_manual(values = sizes) +
+  scale_alpha_manual(values = alphas) +
+  scale_x_continuous(breaks = c(seq(-4, 4, 1)), 
+                     limits = c(-4, 4)) +  
+  scale_y_continuous(breaks = c(seq(0, 2.5, 0.5)),
+                     limits = c(0, 2.5)) 
+
+fancy_vol_plot   
+```
+
+We can also colour the points of interest by overlaying another scatter plot on top of the original plot.  
+
+```{r}
+#-----overlay another scatter plot of labelled points-----
+fancy_vol_plot + 
+  geom_point(data = diseased_vs_healthy %>%
+               filter(gene_id %in% interesting_genes), # only show genes of interest   
+             color = "#d91933",
+             size = 1.5)  
+
+# note that the second geom_point still inherits the original aesthetics of ggplot  
+```
+
+# Modifying plot theme and labels       
+
+Plot visualisation can be further improved by changing the `theme` of the plot, or by modifying individual `theme` parameters. The function `labs` is also a handy way of specifying all your plot labels within a single function. The function `annotate` can be used to add small annotations that can be stored as short labels or vectors.    
+
+**Note:** Sadly, there isn't an easy way to change the text displayed inside the figure legends, apart from changing the text in the data frame itself. This is probably the most involved modification I've encountered.  
+
+```{r}
+#-----factor and recode gene_type to change legend text-----  
+diseased_vs_healthy <- diseased_vs_healthy %>%
+  mutate(gene_type = factor(gene_type, # create factor  
+                               levels = c("up", "down", "ns")), # reorder factor
+         gene_type = fct_recode(gene_type,
+                                "upregulated" = "up",
+                                "downregulated" = "down",
+                                "non-significant" = "ns")) 
+
+cols <- c("upregulated" = "#ffad73", "downregulated" = "#26b3ff", "non-significant" = "grey") 
+sizes <- c("upregulated" = 2.5, "downregulated" = 2.5, "non-significant" = 1) 
+alphas <- c("upregulated" = 1, "downregulated" = 1, "non-significant" = 0.5)
+
+#-----rewrite ggplot and modify plot themes and labels-----
+final_vol_plot <- diseased_vs_healthy %>%
+  ggplot(aes(x = log2(fold_change),
+             y = -log10(p_adjusted),
+             label = labelled_genes)) + 
+  geom_point(aes(color = gene_type, 
+                 size = gene_type,
+                 alpha = gene_type)) +
+  geom_text_repel(force = 3,
+                  hjust = 0, 
+                  nudge_x = 0.3, 
+                  nudge_y = 0.2, 
+                  direction = "y",
+                  na.rm = T) +
+  geom_hline(yintercept = -log10(0.05),
+             linetype = "dashed") + 
+  geom_vline(xintercept = c(log2(0.5), log2(2)),
+             linetype = "dashed") +
+  geom_point(data = diseased_vs_healthy %>%
+               filter(gene_id %in% interesting_genes), 
+             color = "#d91933",
+             size = 1.5) +
+  scale_color_manual(values = cols) +
+  scale_size_manual(values = sizes) +
+  scale_alpha_manual(values = alphas) +
+  scale_x_continuous(breaks = c(seq(-4, 4, 1)), 
+                     limits = c(-4, 4)) +  
+  scale_y_continuous(breaks = c(seq(0, 2.5, 0.5)),
+                     limits = c(0, 2.5)) 
+
+final_vol_plot +
+  theme_classic() + # creates a white background
+  theme(panel.border = element_rect(colour = "black", fill = NA, size= 0.5),
+        legend.title = element_blank()) + # creates a plot border 
+  labs(title = "Gene expression changes in diseased versus healthy samples",
+       x = "log2(fold change)",
+       y = "-log10(adjusted P-value)") +
+  annotate("text", x = 3, y = 2.5,
+           label = "3 genes of interest", color = "#d91933")
+```
+
