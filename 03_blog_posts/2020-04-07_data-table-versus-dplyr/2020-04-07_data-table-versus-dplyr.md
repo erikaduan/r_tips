@@ -1,7 +1,7 @@
 You can use data.table or tidyverse\!
 ================
 Erika Duan
-2020-04-20
+2020-04-26
 
   - [Introduction](#introduction)
   - [Creating a test dataset](#creating-a-test-dataset)
@@ -32,7 +32,7 @@ Erika Duan
 #-----load required packages-----  
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,
-               ids,
+               ids, # for generating random ids
                tidyverse,
                data.table,
                compare, # compare between data frames
@@ -94,16 +94,16 @@ student_courses %>%
 
 | student\_id | online\_platform | online\_course       | platform\_start\_date | platform\_end\_date |
 | :---------- | :--------------- | :------------------- | :-------------------- | :------------------ |
-| 00005ccd    | B                | website\_design      | 2017-11-12            | 2018-01-15          |
-| 00005ccd    | D                | data\_mining         | 2018-11-17            | 2019-05-10          |
-| 00005ccd    | E                | Python\_intermediate | 2018-04-25            | 2018-06-30          |
-| 00005ccd    | C                | accounting           | 2018-04-18            | 2018-09-29          |
-| 00005ccd    | E                | bread\_baking        | 2019-04-28            | 2019-05-29          |
-| 00005ccd    | D                | poetry\_writing      | 2019-05-14            | 2019-06-04          |
-| 00005ccd    | A                | website\_design      | 2017-10-08            | 2018-03-20          |
-| 00005ccd    | A                | Python\_advanced     | 2017-10-08            | 2018-03-20          |
-| 00005ccd    | A                | poetry\_writing      | 2017-10-08            | 2018-03-20          |
-| 00005ccd    | C                | metal\_welding       | 2017-05-17            | 2017-08-16          |
+| 00005ccd    | B                | website\_design      | 2017-11-12            | 2018-01-21          |
+| 00005ccd    | D                | data\_mining         | 2018-11-17            | 2019-01-25          |
+| 00005ccd    | E                | Python\_intermediate | 2018-04-25            | 2018-06-01          |
+| 00005ccd    | C                | accounting           | 2018-04-18            | 2018-07-09          |
+| 00005ccd    | E                | bread\_baking        | 2019-04-28            | 2019-06-02          |
+| 00005ccd    | D                | poetry\_writing      | 2019-05-14            | 2019-10-19          |
+| 00005ccd    | A                | website\_design      | 2017-10-08            | 2018-01-13          |
+| 00005ccd    | A                | Python\_advanced     | 2017-10-08            | 2018-01-13          |
+| 00005ccd    | A                | poetry\_writing      | 2017-10-08            | 2018-01-13          |
+| 00005ccd    | C                | metal\_welding       | 2017-05-17            | 2017-08-13          |
 
 # Basic `data.table` operations
 
@@ -634,13 +634,13 @@ student_courses %>%
 ```
 
     ##   student_id online_platform    online_course platform_start_date
-    ## 1   00028486               E machine_learning          2016-03-21
-    ## 2   00028486               A   website_design          2016-07-13
-    ## 3   00028486               D      data_mining          2018-02-26
-    ## 4   00028486               D machine_learning          2019-08-10
-    ## 5   00028486               D       R_beginner          2019-08-10
-    ## 6   00028486               D   website_design          2019-08-10
-    ## 7   00028486               A       R_advanced          2019-11-26
+    ## 1   00028486               E machine_learning          2016-03-13
+    ## 2   00028486               A   website_design          2016-07-26
+    ## 3   00028486               D      data_mining          2018-02-16
+    ## 4   00028486               D machine_learning          2019-08-21
+    ## 5   00028486               D       R_beginner          2019-08-21
+    ## 6   00028486               D   website_design          2019-08-21
+    ## 7   00028486               A       R_advanced          2019-11-02
 
 If we closely examine the data, it is quite common for students to sign
 up to one online platform, then switch to another platform, before
@@ -690,10 +690,10 @@ t_first_course_per_platform_seq %>%
     ## # A tibble: 4 x 4
     ##   student_id online_platform online_course    platform_start_date
     ##   <chr>      <chr>           <chr>            <date>             
-    ## 1 00028486   E               machine_learning 2016-03-21         
-    ## 2 00028486   A               website_design   2016-07-13         
-    ## 3 00028486   D               data_mining      2018-02-26         
-    ## 4 00028486   A               R_advanced       2019-11-26
+    ## 1 00028486   E               machine_learning 2016-03-13         
+    ## 2 00028486   A               website_design   2016-07-26         
+    ## 3 00028486   D               data_mining      2018-02-16         
+    ## 4 00028486   A               R_advanced       2019-11-02
 
 ``` r
 #-----previously incorrect way of extracting the first course per platform-----
@@ -708,9 +708,9 @@ t_first_course_per_platform  %>%
     ## # A tibble: 3 x 4
     ##   student_id online_platform online_course    platform_start_date
     ##   <chr>      <chr>           <chr>            <date>             
-    ## 1 00028486   E               machine_learning 2016-03-21         
-    ## 2 00028486   A               website_design   2016-07-13         
-    ## 3 00028486   D               data_mining      2018-02-26
+    ## 1 00028486   E               machine_learning 2016-03-13         
+    ## 2 00028486   A               website_design   2016-07-26         
+    ## 3 00028486   D               data_mining      2018-02-16
 
 Performing all these steps in `data.table` will be possible once
 `fcase`, its equivalent of `case_when`, is released in [data.table
@@ -723,16 +723,12 @@ dt_sep_online_platforms <- student_courses[order(student_id, platform_start_date
                                              lag_online_platform := shift(online_platform, 1L, type = "lag"),
                                              by = student_id] 
 
-# convert back to tidyverse mutate syntax until fcase is released for data.table
+# note that case_when is directly compatiable with data.table
 
-dt_sep_online_platforms <- dt_sep_online_platforms %>%
-  mutate(lag_online_platform = lag(online_platform, 1L),
-         seq_online_platform = case_when(is.na(lag_online_platform) ~ row_number(),
-                                         online_platform != lag_online_platform ~ row_number()))
-
-# conversation into data.table class required
-
-setDT(dt_sep_online_platforms)
+dt_sep_online_platforms <- dt_sep_online_platforms[,
+                                                   seq_online_platform := case_when(is.na(lag_online_platform) ~ seq_len(.N),
+                                                                                    online_platform != lag_online_platform ~ seq_len(.N)),
+                                                   by = student_id] 
 
 setnafill(dt_sep_online_platforms, # data.table syntax for fill
           type = "locf", # last observation carried forward
@@ -754,12 +750,12 @@ interesting to see whether `fcase` can perform significantly faster than
 `case_when` in the future.
 
     ## # A tibble: 4 x 3
-    ##   Tasks                                      Tidyverse      `Data table`   
-    ##   <chr>                                      <drtn>         <drtn>         
-    ## 1 Sort by student ID & platform start date    5.187002 secs 1.019726992 se~
-    ## 2 Create new lag values grouped by student ~  6.041917 secs 3.355391979 se~
-    ## 3 Perform case_when grouped by student ID    27.601570 secs          NA se~
-    ## 4 Fill NAs grouped by student ID              3.945503 secs 0.005247116 se~
+    ##   Tasks                                     Tidyverse      `Data table`    
+    ##   <chr>                                     <drtn>         <drtn>          
+    ## 1 Sort by student ID & platform start date   3.572195 secs  0.967489004 se~
+    ## 2 Create new lag values grouped by student~  4.023089 secs  2.657021046 se~
+    ## 3 Perform case_when grouped by student ID   18.412508 secs 14.536787987 se~
+    ## 4 Fill NAs grouped by student ID             2.670468 secs  0.004459858 se~
 
 ## Group by using a numeric instead of character variable type
 
@@ -815,22 +811,16 @@ type using `data.table.`
 # The magic behind the code
 
 So why are `data.table` operations more efficient than `tidyverse` when
-variable groupings are involved? We can find an explanation
-[here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-keys-fast-subset.html).
+variable groupings are involved? We can find some explanations
+[here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-keys-fast-subset.html)
+and
+[here](https://stackoverflow.com/questions/61322864/is-there-a-visual-explanation-of-why-data-table-operations-are-faster-than-tidyv).
 
-It turns out that `data.table` operations make use of automatic indexing
-and binary search based subsetting. In contrast, `tidyverse` operations
-rely on vector scans, which process information row by row to create
-logical vectors (containing either `TRUE` or `FALSE` as its output) of
-size `nrow(dataset)`. Intermediate outputs are stored as separate
-logical vectors. The last step involves returning all the rows where the
-expression evaluates to `TRUE`.
-
-In contrast, an index is automatically generated on a key during the
-first `data.table` operation. Subsequent operations are performed on
-subsets of matching row indices, which negates the need to iteratively
-generate and then compare between multiple `nrow(dataset)` length
-vectors.
+In `tidyverse`, operations rely on vector scans, which process
+information row by row to create logical vectors (containing either
+`TRUE` or `FALSE` as its output) of size `nrow(dataset)`. Intermediate
+outputs are stored as separate logical vectors. The last step involves
+returning all the rows where the expression evaluates to `TRUE`.
 
 # Other resources
 

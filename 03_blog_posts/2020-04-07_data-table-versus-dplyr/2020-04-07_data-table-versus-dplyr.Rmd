@@ -71,7 +71,7 @@ create_start_dates <- function(first_year, last_year, n) {
   months <- sample(seq(1, 12), n, # numbers 1 - 12
                    replace = T)  
 
-  dates <- sample(seq(1, 30), n, 
+  dates <- sample(seq(1, 28), n, 
                   replace = T)
 
   start_dates <- str_c(years, months, dates, sep = "-")
@@ -788,16 +788,12 @@ dt_sep_online_platforms <- student_courses[order(student_id, platform_start_date
                                              lag_online_platform := shift(online_platform, 1L, type = "lag"),
                                              by = student_id] 
 
-# convert back to tidyverse mutate syntax until fcase is released for data.table
+# note that case_when is directly compatiable with data.table
 
-dt_sep_online_platforms <- dt_sep_online_platforms %>%
-  mutate(lag_online_platform = lag(online_platform, 1L),
-         seq_online_platform = case_when(is.na(lag_online_platform) ~ row_number(),
-                                         online_platform != lag_online_platform ~ row_number()))
-
-# conversation into data.table class required
-
-setDT(dt_sep_online_platforms)
+dt_sep_online_platforms <- dt_sep_online_platforms[,
+                                                   seq_online_platform := case_when(is.na(lag_online_platform) ~ seq_len(.N),
+                                                                                    online_platform != lag_online_platform ~ seq_len(.N)),
+                                                   by = student_id] 
 
 setnafill(dt_sep_online_platforms, # data.table syntax for fill
           type = "locf", # last observation carried forward
@@ -860,15 +856,12 @@ dt_sep_online_platforms <- dt_sep_online_platforms[,
 
 time_dt_lag_end <- Sys.time()
 
-dt_sep_online_platforms <- dt_sep_online_platforms %>%
-  mutate(seq_online_platform = case_when(is.na(lag_online_platform) ~ row_number(),
-                                         online_platform != lag_online_platform ~ row_number()))
+dt_sep_online_platforms <- dt_sep_online_platforms[,
+                                                   seq_online_platform := case_when(is.na(lag_online_platform) ~ seq_len(.N),
+                                                                                    online_platform != lag_online_platform ~ seq_len(.N)),
+                                                   by = student_id] 
 
 time_dt_case_when_end <- Sys.time()
-
-setDT(dt_sep_online_platforms)
-
-time_dt_fill_start <- Sys.time()
 
 setnafill(dt_sep_online_platforms, # data.table syntax for fill
           type = "locf", # last observation carried forward
@@ -889,8 +882,8 @@ t <- c(time_t_sort_end - time_t_start,
 
 dt <- c(time_dt_sort_end - time_dt_start,
         time_dt_lag_end - time_dt_sort_end,
-        "Same as data frame",
-        time_dt_fill_end - time_dt_fill_start)
+        time_dt_case_when_end - time_dt_lag_end,
+        time_dt_fill_end - time_dt_case_when_end)  
 
 performance <- tibble(Tasks,
                       `Tidyverse` = t,
@@ -965,12 +958,9 @@ graphics.off()
 
 # The magic behind the code     
 
-So why are `data.table` operations more efficient than `tidyverse` when variable groupings are involved? We can find an explanation [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-keys-fast-subset.html).  
+So why are `data.table` operations more efficient than `tidyverse` when variable groupings are involved? We can find some explanations [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-keys-fast-subset.html) and [here](https://stackoverflow.com/questions/61322864/is-there-a-visual-explanation-of-why-data-table-operations-are-faster-than-tidyv).    
 
-It turns out that `data.table` operations make use of automatic indexing and binary search based subsetting. In contrast, `tidyverse` operations rely on vector scans, which process information row by row to create logical vectors (containing either `TRUE` or `FALSE` as its output) of size `nrow(dataset)`. Intermediate outputs are stored as separate logical vectors. The last step involves returning all the rows where the expression evaluates to `TRUE`.   
-
-
-In contrast, an index is automatically generated on a key during the first `data.table` operation. Subsequent operations are performed on subsets of matching row indices, which negates the need to iteratively generate and then compare between multiple `nrow(dataset)` length vectors.          
+In `tidyverse`, operations rely on vector scans, which process information row by row to create logical vectors (containing either `TRUE` or `FALSE` as its output) of size `nrow(dataset)`. Intermediate outputs are stored as separate logical vectors. The last step involves returning all the rows where the expression evaluates to `TRUE`.   
 
 
 # Other resources   
