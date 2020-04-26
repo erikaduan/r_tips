@@ -1,7 +1,7 @@
 You can use data.table or tidyverse\!
 ================
 Erika Duan
-2020-04-19
+2020-04-20
 
   - [Introduction](#introduction)
   - [Creating a test dataset](#creating-a-test-dataset)
@@ -756,10 +756,10 @@ interesting to see whether `fcase` can perform significantly faster than
     ## # A tibble: 4 x 3
     ##   Tasks                                      Tidyverse      `Data table`   
     ##   <chr>                                      <drtn>         <drtn>         
-    ## 1 Sort by student ID & platform start date    3.233297 secs 0.845043898 se~
-    ## 2 Create new lag values grouped by student ~  4.638682 secs 2.660112143 se~
-    ## 3 Perform case_when grouped by student ID    21.866270 secs          NA se~
-    ## 4 Fill NAs grouped by student ID              2.968479 secs 0.005473137 se~
+    ## 1 Sort by student ID & platform start date    5.187002 secs 1.019726992 se~
+    ## 2 Create new lag values grouped by student ~  6.041917 secs 3.355391979 se~
+    ## 3 Perform case_when grouped by student ID    27.601570 secs          NA se~
+    ## 4 Fill NAs grouped by student ID              3.945503 secs 0.005247116 se~
 
 ## Group by using a numeric instead of character variable type
 
@@ -846,7 +846,7 @@ vectors.
   - A list of advanced `data.table` operations and tricks by [Andrew
     Brooks](http://brooksandrew.github.io/simpleblog/articles/advanced-data-table/).
 
-  - Datacamp’s \`data.table
+  - Datacamp’s `data.table`
     [cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/blog_assets/datatable_Cheat_Sheet_R.pdf).
 
   - An explanation of how `data.table` modifies by reference by [Tyson
