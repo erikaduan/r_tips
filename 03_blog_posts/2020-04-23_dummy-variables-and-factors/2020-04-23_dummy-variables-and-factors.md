@@ -1,7 +1,7 @@
 Working with dummy variables and factors
 ================
 Erika Duan
-2020-04-26
+2020-05-03
 
   - [Introduction](#introduction)
   - [Creating a test dataset](#creating-a-test-dataset)
@@ -25,12 +25,12 @@ Erika Duan
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,
                tidyverse,
-               fastDummies,
+               fastDummies, # for creating dummy variables
                caret,
-               randomForest,
-               xgboost,
-               kernlab, 
-               doParallel) # for creating dummy variables
+               randomForest, # random forest modelling
+               xgboost, # XGBoost modelling
+               kernlab, # linear SVM modelling
+               doParallel) # parallel processing  
 ```
 
 # Introduction
@@ -207,11 +207,27 @@ into binary (i.e. dummy) columns.
 
 ``` r
 #-----using fastDummies::dummy_cols to create dummy variables-----  
-# unique(cat_prediction$cat_breed) 
+# view all categorical variables  
+cat_prediction %>%
+  select_if(~ is.character(.)) %>%
+  map(~ unique(.))
+```
 
-#> [1] "mixed"             "bengal"            "siamese"           "british_shorthair" "aristocat"        
-#> [6] "ragdoll" 
+    ## $cat_breed
+    ## [1] "mixed"             "bengal"            "siamese"          
+    ## [4] "british_shorthair" "aristocat"         "ragdoll"          
+    ## 
+    ## $fav_activity
+    ## [1] "napping"           "sitting_on_humans" "hunting_toys"     
+    ## [4] "window_watching"  
+    ## 
+    ## $likes_children
+    ## [1] "no"  "yes"
+    ## 
+    ## $will_bite
+    ## [1] "no"  "yes"
 
+``` r
 # identify all categorial variables  
 
 categorical_variables <- cat_prediction %>%
@@ -439,7 +455,7 @@ levels(y_train_xgb) <- list("0" = "no",
 # create numerical response variable from test data
 y_test_xgb <- cat_prediction_test$will_bite 
 
-levels(y_test_xgb) <- list("0" = "no",
+levels(y_test_xgb) <- list("0" = "no", # numerical values have to be wrapped by ""
                            "1" = "yes")
 ```
 

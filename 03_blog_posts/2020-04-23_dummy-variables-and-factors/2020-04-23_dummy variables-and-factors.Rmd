@@ -12,12 +12,12 @@ output:
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,
                tidyverse,
-               fastDummies,
+               fastDummies, # for creating dummy variables
                caret,
-               randomForest,
-               xgboost,
-               kernlab, 
-               doParallel) # for creating dummy variables
+               randomForest, # random forest modelling
+               xgboost, # XGBoost modelling
+               kernlab, # linear SVM modelling
+               doParallel) # parallel processing  
 ```
 
 
@@ -47,7 +47,6 @@ Cats are such idiosyncratic creatures. You can never really tell if a cat wants 
 ```{r, echo = FALSE}
 #-----creating a test dataset-----
 # this chunk of code has no other purpose except to provide us with an example dataset    
-
 set.seed(111) 
 
 #-----create a vector of random cat breeds-----
@@ -203,10 +202,10 @@ I like to use the `fastDummies` package for fast conversion of character into bi
 
 ```{r}
 #-----using fastDummies::dummy_cols to create dummy variables-----  
-# unique(cat_prediction$cat_breed) 
-
-#> [1] "mixed"             "bengal"            "siamese"           "british_shorthair" "aristocat"        
-#> [6] "ragdoll" 
+# view all categorical variables  
+cat_prediction %>%
+  select_if(~ is.character(.)) %>%
+  map(~ unique(.))
 
 # identify all categorial variables  
 
@@ -357,7 +356,7 @@ levels(y_train_xgb) <- list("0" = "no",
 # create numerical response variable from test data
 y_test_xgb <- cat_prediction_test$will_bite 
 
-levels(y_test_xgb) <- list("0" = "no",
+levels(y_test_xgb) <- list("0" = "no", # numerical values have to be wrapped by ""
                            "1" = "yes")
 ```
 

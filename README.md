@@ -4,12 +4,12 @@ This repository contains a series of **R usage tips** covering topics across **d
 
 ![R tips](https://github.com/erikaduan/R-tips/blob/master/02_figures/R-milestones.jpg)  
 
-Many kudos goes to Dr Chuanxin Liu, my former PhD student, current data science colleague and occasional code editor, for teaching me how to learn to code in R.  
+Many kudos to Dr [Chuanxin Liu](https://github.com/codetrainee), my former PhD student, current data science colleague and occasional code editor, for teaching me how to learn to code in R in my past life as an immunologist.  
 
 # List of R tips  
 
-1. [How to draw a volcano plot using ggplot2](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-03-26_volcano-plots-in-ggplot/2020-03-26_volcano-plots-in-ggplot.md) 🎨 
-2. [You can use data.table or tidyverse!](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-07_data-table-versus-dplyr/2020-04-07_data-table-versus-dplyr.md) 📚 
+1. [How to draw a volcano plot using ggplot2](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-03-26_volcano-plots-in-ggplot/2020-03-26_volcano-plots-in-ggplot.md) 🎨  
+2. [You can use data.table or tidyverse!](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-07_data-table-versus-dplyr/2020-04-07_data-table-versus-dplyr.md) 📚  
 3. [Working with dummy variables and factors](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-23_dummy-variables-and-factors/2020-04-23_dummy-variables-and-factors.md) 📚🔮  
 
 # Citations  
