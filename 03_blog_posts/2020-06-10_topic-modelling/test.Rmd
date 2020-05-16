@@ -1,0 +1,63 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+# Identifying fields of interest   
+
+If the comment fields are short, you should actually be able to eyeball shared parameters of interest (i.e. cocoa bean grade, whether it melts well, whether it is smooth, whether malt filling was mentioned and whether it was sweet). 
+
+A more systematic method would be to do some topic modelling (at the sub-sentence level) on the survey responses. A simple approach involves:  
+
++ Convert survey responses into a tidy text format (a table with one-token-per-row).  
++ Tokenise the text and clean tokens i.e. remove stop words.     
++ Create an LGA model with a predefined number of topics (k).    
+
+```{r}
+#-----creating a tidy text-----
+tidy_survey <- survey %>%
+  select(starts_with("Field", ignore.case = F)) %>%
+  pivot_longer(cols = everything(),
+               names_to = "line",
+               values_to = "text") # stack all fields into a single row of data  
+
+# remove rows containing NA, "" or white space
+
+tidy_survey <- tidy_survey %>%
+  mutate(text = str_replace_na(text)) %>% # convert NAs into "NA"  
+  filter(text != "NA",
+         text != "",
+         !(str_detect(text, "^\\s+$"))) %>%
+  mutate(line = seq_along(line))
+
+# create and tidy tokens  
+
+survey_tokens <- tidy_survey %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words) # remove common stop words i.e. "the", "of", "to"  
+
+# count most frequent words 
+
+survey_tokens <- survey_tokens %>% 
+  group_by(line) %>%
+  count(word, sort = TRUE) %>%
+  rename("document" = "line",
+         "term" = "word",
+         "count" = "n")
+```
+
+```{r}
+#-----create a LDA_VEM topic model with 2 topics-----
+survey_dtm <- survey_tokens %>% 
+  cast_dtm(document, term, count) # requires a tibble with columns document|term|count
+
+survey_lda <- LDA(survey_dtm, k = 2,
+                  control = list(seed = 123)) # set a seed to create a reproducible model  
+```
+
+```{r}
+#-----extracting word topic probabilities-----  
+#  provides the probability of a term being generated from a topic
+survey_topics <- tidy(survey_lda, matrix = "beta")
+
+
+```
