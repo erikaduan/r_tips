@@ -2,7 +2,9 @@
 
 This repository contains a series of **R usage tips** covering topics across **data cleaning**, **visualisation** and **machine learning**. The creation of this repository was precipitated by a call-out for RLadies-Melbourne lightning talks in 2018.  
 
-<center><img src="https://github.com/erikaduan/R-tips/blob/master/02_figures/R-milestones.jpg" width="600"></center>   
+<p align="center">  
+<img src="https://github.com/erikaduan/R-tips/blob/master/02_figures/R-milestones.jpg" width="600"></center>  
+</p>  
 
 Many kudos to Dr [Chuanxin Liu](https://github.com/codetrainee), my former PhD student, current data science colleague and occasional code editor, for teaching me how to learn to code in R in my past life as an immunologist.  
 
