@@ -958,15 +958,11 @@ graphics.off()
 
 # The magic behind the code     
 
-So why are `data.table` operations more efficient than `tidyverse` when variable group bys are required? Detailed explanations can be found [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-keys-fast-subset.html), [here](https://jangorecki.gitlab.io/data.cube/library/data.table/html/datatable-optimize.html) and [here](https://stackoverflow.com/questions/61322864/is-there-a-visual-explanation-of-why-data-table-operations-are-faster-than-tidyv).     
+So why are `data.table` operations more efficient than `tidyverse` when variable group bys are required? Detailed explanations exist [here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-keys-fast-subset.html), [here](https://jangorecki.gitlab.io/data.cube/library/data.table/html/datatable-optimize.html) and [here](https://stackoverflow.com/questions/61322864/is-there-a-visual-explanation-of-why-data-table-operations-are-faster-than-tidyv).     
 
-In short, `tidyverse` operations use a vector scan approach, where row-wise processing is used to create logical vectors (containing either `TRUE` or `FALSE`) of size `nrow(dataset)`. Intermediate outputs are stored as separate logical vectors and the last step involves returning all rows where the expression evaluates to `TRUE`.    
+`Tidyverse` operations use a vector scan approach to generate logical vectors (with `TRUE` or `FALSE` values) of size `nrow(dataset)`. Intermediate outputs are also stored as logical vectors and the last step involves returning all rows where the expression evaluates to `TRUE`.    
 
-In contrast, `data.table` is efficient because it both contains a very fast `ordering` **and** permits fast subsetting by creating an index on the first run. Successive subsets on the same column can then reuses this index for binary search based subsetting instead of vector scanning.   
-
-```{r}
-
-```
+In contrast, `data.table` is efficient because it contains a very fast ordering method **and** enables fast subsetting of data by indexing the data frame on the first run (i.e. it performs binary search based subsetting instead of vector scanning).      
 
 
 # Other resources   

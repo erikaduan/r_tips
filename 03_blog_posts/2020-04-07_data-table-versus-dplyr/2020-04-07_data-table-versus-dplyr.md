@@ -1,7 +1,7 @@
 You can use data.table or tidyverse\!
 ================
 Erika Duan
-2020-04-26
+2020-05-24
 
   - [Introduction](#introduction)
   - [Creating a test dataset](#creating-a-test-dataset)
@@ -752,10 +752,10 @@ interesting to see whether `fcase` can perform significantly faster than
     ## # A tibble: 4 x 3
     ##   Tasks                                     Tidyverse      `Data table`    
     ##   <chr>                                     <drtn>         <drtn>          
-    ## 1 Sort by student ID & platform start date   3.572195 secs  0.967489004 se~
-    ## 2 Create new lag values grouped by student~  4.023089 secs  2.657021046 se~
-    ## 3 Perform case_when grouped by student ID   18.412508 secs 14.536787987 se~
-    ## 4 Fill NAs grouped by student ID             2.670468 secs  0.004459858 se~
+    ## 1 Sort by student ID & platform start date   3.230812 secs  0.712323904 se~
+    ## 2 Create new lag values grouped by student~  3.511389 secs  1.939750910 se~
+    ## 3 Perform case_when grouped by student ID   14.010131 secs 11.656648159 se~
+    ## 4 Fill NAs grouped by student ID             2.436539 secs  0.004992962 se~
 
 ## Group by using a numeric instead of character variable type
 
@@ -811,16 +811,22 @@ type using `data.table.`
 # The magic behind the code
 
 So why are `data.table` operations more efficient than `tidyverse` when
-variable groupings are involved? We can find some explanations
-[here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-keys-fast-subset.html)
+variable group bys are required? Detailed explanations exist
+[here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-keys-fast-subset.html),
+[here](https://jangorecki.gitlab.io/data.cube/library/data.table/html/datatable-optimize.html)
 and
 [here](https://stackoverflow.com/questions/61322864/is-there-a-visual-explanation-of-why-data-table-operations-are-faster-than-tidyv).
 
-In `tidyverse`, operations rely on vector scans, which process
-information row by row to create logical vectors (containing either
-`TRUE` or `FALSE` as its output) of size `nrow(dataset)`. Intermediate
-outputs are stored as separate logical vectors. The last step involves
-returning all the rows where the expression evaluates to `TRUE`.
+`Tidyverse` operations use a vector scan approach to generate logical
+vectors (with `TRUE` or `FALSE` values) of size `nrow(dataset)`.
+Intermediate outputs are also stored as logical vectors and the last
+step involves returning all rows where the expression evaluates to
+`TRUE`.
+
+In contrast, `data.table` is efficient because it contains a very fast
+ordering method **and** enables fast subsetting of data by indexing the
+data frame on the first run (i.e. it performs binary search based
+subsetting instead of vector scanning).
 
 # Other resources
 
