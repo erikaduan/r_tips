@@ -1,7 +1,7 @@
 Untangling strings (\#@%\*\!\!)
 ================
 Erika Duan
-2020-05-17
+2020-06-06
 
   - [Introduction](#introduction)
   - [Creating a test dataset](#creating-a-test-dataset)
@@ -274,7 +274,7 @@ from the RStudio cheetsheet on
 [`string_r`](https://github.com/rstudio/cheatsheets/blob/master/strings.pdf)
 and is depicted below.
 
-<img src="../../02_figures/2020-05-03_look-arounds.jpg" width="60%" style="display: block; margin: auto;" />
+<img src="../../02_figures/2020-05-16_look-arounds.jpg" width="60%" style="display: block; margin: auto;" />
 
 ``` r
 #-----use cases for different types of look arounds-----  

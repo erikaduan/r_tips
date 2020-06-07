@@ -56,26 +56,22 @@ Imagine you have a dataset describing how students are engaging with online cour
 #-----create a function to generate random dates-----  
 # this chunk of code has no other purpose except to provide us with an example dataset  
 
-create_start_dates <- function(first_year, last_year, n) {
-  if(!is.numeric(first_year) | !is.numeric(last_year)) {
-    stop("Error: first_year and last_year should be numbers")
+create_start_dates <- function(start_date, end_date, n) {
+  if(!is.character(start_date) | !is.character(end_date)) {
+    stop("Error: start_date and end_date should be written in the format YYYY-mm-dd")
   }
   
-  if(last_year < first_year) {
-    stop("Error: first_year should occur before the last_year")
+  start_date <- as.Date(start_date)
+  end_date <- as.Date(end_date)  
+  
+  if(end_date < start_date) {
+    stop("Error: start_date should be earlier than end_date")
   }
   
-  years <- sample(seq(first_year, last_year), n,
-                  replace = T)  
-  
-  months <- sample(seq(1, 12), n, # numbers 1 - 12
-                   replace = T)  
-
-  dates <- sample(seq(1, 28), n, 
-                  replace = T)
-
-  start_dates <- str_c(years, months, dates, sep = "-")
-  start_dates <- as.Date(start_dates, format = "%Y-%m-%d")  
+  set.seed(111)
+  sample(seq(start_date, end_date, by = "day"),
+         n,
+         replace = T)
 }  
 ```
 
@@ -143,7 +139,7 @@ platform_subset <- student_courses %>%
 platform_subset <- platform_subset %>%
   filter(is.na(lead_unique_group) | lead_unique_group != unique_group)
 
-platform_start_date <- create_start_dates(first_year = 2016, last_year = 2019,
+platform_start_date <- create_start_dates(start_date = "2016-01-01", end_date = "2019-01-01",  
                                           n = nrow(platform_subset))
 
 platform_subset <- platform_subset %>%
@@ -371,12 +367,14 @@ In `data.table`, the use case `:=` also exists. This can only be used on a singl
 ```{r}
 #----creating a function to convert days into weeks-----
 convert_days_to_weeks <- function(day){
-  if (is.character(day)) {
+  if (is.character(day) || is.logical(day)) {
     stop("Please input a number i.e. number of days.")  
   }
   if (is.numeric(day)) {
     return(day/7)
   }
+  
+  # for time intervals
   day <- as.numeric(day)
   day/7
 }
@@ -750,7 +748,6 @@ t_sep_online_platforms <- student_courses %>%
   ungroup()
 
 # lag_online_platform produces an NA in the first row of each subset as we have grouped by student_id
-
 # create a new column where the NA from lag_online_platform corresponds to its row number
 # ammend that column so a row number is also created where online_platform != lag_online_platform  
 # remaining NAs reflect situations where online_platform == lag_online_platform 

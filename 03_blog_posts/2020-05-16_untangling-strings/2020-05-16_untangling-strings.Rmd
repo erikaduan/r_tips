@@ -12,11 +12,9 @@ always_allow_html: true
 #-----load required packages-----  
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,  
-               tidyverse,
-               tidytext, 
-               topicmodels,
-               DT,
-               microbenchmark) # for visualising tables   
+               tidyverse,  
+               DT, # for visualising tables   
+               microbenchmark) 
 ```
 
 
@@ -258,7 +256,7 @@ str_replace_all(messy_dates, "(?<=^\\S{1,100})\\s{1,4}" , "-")
 Look around operations are useful when you are unsure of the pattern itself, but you know exactly what its preceding or following pattern is. I've found that the clearest explanation of look around operations comes from the RStudio cheetsheet on [`string_r`](https://github.com/rstudio/cheatsheets/blob/master/strings.pdf) and is depicted below.         
 
 ```{r, echo = FALSE, fig.align = 'center', fig.show = 'hold', out.width = '60%'} 
-knitr::include_graphics("../../02_figures/2020-05-03_look-arounds.jpg")  
+knitr::include_graphics("../../02_figures/2020-05-16_look-arounds.jpg")  
 ```
 
 ```{r, results = 'hide'}

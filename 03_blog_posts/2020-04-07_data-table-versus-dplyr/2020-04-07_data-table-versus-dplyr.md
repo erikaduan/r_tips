@@ -1,7 +1,7 @@
 You can use data.table or tidyverse\!
 ================
 Erika Duan
-2020-05-24
+2020-05-28
 
   - [Introduction](#introduction)
   - [Creating a test dataset](#creating-a-test-dataset)
@@ -94,16 +94,16 @@ student_courses %>%
 
 | student\_id | online\_platform | online\_course       | platform\_start\_date | platform\_end\_date |
 | :---------- | :--------------- | :------------------- | :-------------------- | :------------------ |
-| 00005ccd    | B                | website\_design      | 2017-11-12            | 2018-01-21          |
-| 00005ccd    | D                | data\_mining         | 2018-11-17            | 2019-01-25          |
-| 00005ccd    | E                | Python\_intermediate | 2018-04-25            | 2018-06-01          |
-| 00005ccd    | C                | accounting           | 2018-04-18            | 2018-07-09          |
-| 00005ccd    | E                | bread\_baking        | 2019-04-28            | 2019-06-02          |
-| 00005ccd    | D                | poetry\_writing      | 2019-05-14            | 2019-10-19          |
-| 00005ccd    | A                | website\_design      | 2017-10-08            | 2018-01-13          |
-| 00005ccd    | A                | Python\_advanced     | 2017-10-08            | 2018-01-13          |
-| 00005ccd    | A                | poetry\_writing      | 2017-10-08            | 2018-01-13          |
-| 00005ccd    | C                | metal\_welding       | 2017-05-17            | 2017-08-13          |
+| 00005ccd    | B                | website\_design      | 2017-05-21            | 2017-08-02          |
+| 00005ccd    | D                | data\_mining         | 2018-09-05            | 2019-01-14          |
+| 00005ccd    | E                | Python\_intermediate | 2016-06-23            | 2016-10-29          |
+| 00005ccd    | C                | accounting           | 2018-03-03            | 2018-04-24          |
+| 00005ccd    | E                | bread\_baking        | 2017-11-29            | 2018-01-09          |
+| 00005ccd    | D                | poetry\_writing      | 2016-03-09            | 2016-06-16          |
+| 00005ccd    | A                | website\_design      | 2016-10-31            | 2017-04-18          |
+| 00005ccd    | A                | Python\_advanced     | 2016-10-31            | 2017-04-18          |
+| 00005ccd    | A                | poetry\_writing      | 2016-10-31            | 2017-04-18          |
+| 00005ccd    | C                | metal\_welding       | 2018-12-04            | 2019-03-05          |
 
 # Basic `data.table` operations
 
@@ -274,12 +274,14 @@ readability.
 ``` r
 #----creating a function to convert days into weeks-----
 convert_days_to_weeks <- function(day){
-  if (is.character(day)) {
+  if (is.character(day) || is.logical(day)) {
     stop("Please input a number i.e. number of days.")  
   }
   if (is.numeric(day)) {
     return(day/7)
   }
+  
+  # for time intervals
   day <- as.numeric(day)
   day/7
 }
@@ -408,13 +410,13 @@ head(with_chaining)
 head(no_chaining)
 ```
 
-    ##    student_id online_platform       online_course         status
-    ## 1:   00005ccd               D      poetry_writing           <NA>
-    ## 2:   00005ccd               E        bread_baking           <NA>
-    ## 3:   00005ccd               D         data_mining           <NA>
-    ## 4:   00005ccd               E Python_intermediate           <NA>
-    ## 5:   00005ccd               C          accounting           <NA>
-    ## 6:   00005ccd               B      website_design special_cohort
+    ##    student_id online_platform  online_course         status
+    ## 1:   00005ccd               C  metal_welding           <NA>
+    ## 2:   00005ccd               D    data_mining           <NA>
+    ## 3:   00005ccd               C     accounting           <NA>
+    ## 4:   00005ccd               E   bread_baking           <NA>
+    ## 5:   00005ccd               B website_design special_cohort
+    ## 6:   00005ccd               A website_design           <NA>
 
 # Group by operations
 
@@ -634,13 +636,13 @@ student_courses %>%
 ```
 
     ##   student_id online_platform    online_course platform_start_date
-    ## 1   00028486               E machine_learning          2016-03-13
-    ## 2   00028486               A   website_design          2016-07-26
-    ## 3   00028486               D      data_mining          2018-02-16
-    ## 4   00028486               D machine_learning          2019-08-21
-    ## 5   00028486               D       R_beginner          2019-08-21
-    ## 6   00028486               D   website_design          2019-08-21
-    ## 7   00028486               A       R_advanced          2019-11-02
+    ## 1   00028486               D machine_learning          2016-03-01
+    ## 2   00028486               D       R_beginner          2016-03-01
+    ## 3   00028486               D   website_design          2016-03-01
+    ## 4   00028486               A   website_design          2016-07-04
+    ## 5   00028486               A       R_advanced          2017-08-27
+    ## 6   00028486               D      data_mining          2018-05-04
+    ## 7   00028486               E machine_learning          2018-05-13
 
 If we closely examine the data, it is quite common for students to sign
 up to one online platform, then switch to another platform, before
@@ -666,7 +668,6 @@ t_sep_online_platforms <- student_courses %>%
   ungroup()
 
 # lag_online_platform produces an NA in the first row of each subset as we have grouped by student_id
-
 # create a new column where the NA from lag_online_platform corresponds to its row number
 # ammend that column so a row number is also created where online_platform != lag_online_platform  
 # remaining NAs reflect situations where online_platform == lag_online_platform 
@@ -690,10 +691,10 @@ t_first_course_per_platform_seq %>%
     ## # A tibble: 4 x 4
     ##   student_id online_platform online_course    platform_start_date
     ##   <chr>      <chr>           <chr>            <date>             
-    ## 1 00028486   E               machine_learning 2016-03-13         
-    ## 2 00028486   A               website_design   2016-07-26         
-    ## 3 00028486   D               data_mining      2018-02-16         
-    ## 4 00028486   A               R_advanced       2019-11-02
+    ## 1 00028486   D               machine_learning 2016-03-01         
+    ## 2 00028486   A               website_design   2016-07-04         
+    ## 3 00028486   D               data_mining      2018-05-04         
+    ## 4 00028486   E               machine_learning 2018-05-13
 
 ``` r
 #-----previously incorrect way of extracting the first course per platform-----
@@ -708,9 +709,9 @@ t_first_course_per_platform  %>%
     ## # A tibble: 3 x 4
     ##   student_id online_platform online_course    platform_start_date
     ##   <chr>      <chr>           <chr>            <date>             
-    ## 1 00028486   E               machine_learning 2016-03-13         
-    ## 2 00028486   A               website_design   2016-07-26         
-    ## 3 00028486   D               data_mining      2018-02-16
+    ## 1 00028486   D               machine_learning 2016-03-01         
+    ## 2 00028486   A               website_design   2016-07-04         
+    ## 3 00028486   E               machine_learning 2018-05-13
 
 Performing all these steps in `data.table` will be possible once
 `fcase`, its equivalent of `case_when`, is released in [data.table
@@ -752,10 +753,10 @@ interesting to see whether `fcase` can perform significantly faster than
     ## # A tibble: 4 x 3
     ##   Tasks                                     Tidyverse      `Data table`    
     ##   <chr>                                     <drtn>         <drtn>          
-    ## 1 Sort by student ID & platform start date   3.230812 secs  0.712323904 se~
-    ## 2 Create new lag values grouped by student~  3.511389 secs  1.939750910 se~
-    ## 3 Perform case_when grouped by student ID   14.010131 secs 11.656648159 se~
-    ## 4 Fill NAs grouped by student ID             2.436539 secs  0.004992962 se~
+    ## 1 Sort by student ID & platform start date   3.383002 secs  0.816079140 se~
+    ## 2 Create new lag values grouped by student~  3.557593 secs  2.352519989 se~
+    ## 3 Perform case_when grouped by student ID   16.303818 secs 12.905283928 se~
+    ## 4 Fill NAs grouped by student ID             2.519151 secs  0.004179955 se~
 
 ## Group by using a numeric instead of character variable type
 
