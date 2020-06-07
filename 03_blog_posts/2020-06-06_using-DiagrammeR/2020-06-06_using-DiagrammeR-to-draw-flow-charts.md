@@ -231,6 +231,8 @@ my_ML_workflow <- grViz("digraph {
                      
                   }")
 
+# my_ML_workflow  
+
 #-----export graph-----
 my_ML_workflow %>% 
   export_svg %>%
@@ -288,6 +290,8 @@ simple_trial <- grViz("digraph {
 [4]: paste0('  Patients assigned Treatment A (n = ', flow_chart_data[[4]], ')')
 [5]: paste0('  Patients assigned Treatment B (n = ', flow_chart_data[[5]], ')')
 ") 
+
+# simple_trial  
 
 #-----export graph-----
 simple_trial %>% 
@@ -387,6 +391,8 @@ multi_trial <- grViz("digraph {
 [9]: paste0('  Patients assigned Treatment A (n = ', hospital_b[[4]], ')')
 [10]: paste0('  Patients assigned Treatment B (n = ', hospital_b[[5]], ')')
 ")  
+
+# multi_trial
 
 #-----export graph-----
 multi_trial %>% 
