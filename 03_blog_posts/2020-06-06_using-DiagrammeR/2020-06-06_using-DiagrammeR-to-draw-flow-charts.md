@@ -1,7 +1,7 @@
 Using DiagrammeR to draw flow charts
 ================
 Erika Duan
-2020-06-07
+2020-06-10
 
   - [Introduction](#introduction)
   - [Introduction to DiagrammeR](#introduction-to-diagrammer)
@@ -246,7 +246,7 @@ my_ML_workflow %>%
 
 Another handy feature of `grVis()` is that values generated in R can be
 directly passed into flow charts.This is done by setting node labels as
-`@@n` within the graph and passing values to \[n\] in the footer of the
+`@@n` within the graph and passing values to `[n]` in the footer of the
 plot.
 
 ``` r
@@ -309,9 +309,9 @@ within a graph.
 
 The process of adding subgroups involves:
 
-1.  Defining subclusters.
+1.  Define subclusters.
 2.  Define nodes in each subcluster.  
-3.  Defining edges as usual.
+3.  Define edges as usual.
 
 <!-- end list -->
 
