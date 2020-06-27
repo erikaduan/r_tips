@@ -1,7 +1,7 @@
 Using DiagrammeR to draw flow charts
 ================
 Erika Duan
-2020-06-10
+2020-06-27
 
   - [Introduction](#introduction)
   - [Introduction to DiagrammeR](#introduction-to-diagrammer)
@@ -16,7 +16,18 @@ Erika Duan
         chart](#clinical-trial-progress-flow-chart)
       - [Multi-site clinical trial progress flow
         chart](#multi-site-clinical-trial-progress-flow-chart)
+      - [Entity relationship diagrams](#entity-relationship-diagrams)
   - [Other resources](#other-resources)
+
+``` r
+#-----load requisite R packages-----  
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(here,  
+               tidyverse,
+               DiagrammeR,
+               DiagrammeRsvg,
+               rsvg) # for exporting graphs    
+```
 
 # Introduction
 
@@ -289,7 +300,8 @@ simple_trial <- grViz("digraph {
 [3]: paste0('Patients randomised (n = ', flow_chart_data[[3]], ')')
 [4]: paste0('  Patients assigned Treatment A (n = ', flow_chart_data[[4]], ')')
 [5]: paste0('  Patients assigned Treatment B (n = ', flow_chart_data[[5]], ')')
-") 
+
+                ") 
 
 # simple_trial  
 
@@ -390,7 +402,8 @@ multi_trial <- grViz("digraph {
 [8]: paste0('Patients randomised (n = ', hospital_b[[3]], ')')
 [9]: paste0('  Patients assigned Treatment A (n = ', hospital_b[[4]], ')')
 [10]: paste0('  Patients assigned Treatment B (n = ', hospital_b[[5]], ')')
-")  
+
+               ")  
 
 # multi_trial
 
@@ -403,10 +416,91 @@ multi_trial %>%
 
 <img src="../../02_figures/2020-06-06_flowchart-clinical-multiple.svg" width="90%" style="display: block; margin: auto;" />
 
+## Entity relationship diagrams
+
+[Entity relationship
+diagrams](https://en.wikipedia.org/wiki/Entity–relationship_model)
+(ERDs) are useful for visualising data warehouse data joins. In
+particular, the crow’s foot notation is useful for tracking table joins,
+especially if one-to-many or many-to-many table relationships exist.
+
+<img src="../../02_figures/2020-06-06_flowchart-crows-foot-notation.jpg" title="Image sourced from https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68" alt="Image sourced from https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68" width="50%" style="display: block; margin: auto;" />
+
+A tip for creating ERDs using `DiagrammeR` is to set the edge direction
+to both `(dir = 'both')` combined with `arrowhead` and `arrowtail`
+arguments. This allows you to specify [different
+symbols](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html#arrow-shapes)
+for each side of an edge.
+
+**Note:** Crow’s foot notation is currently not fully supported as arrow
+shape options in `DiagrammeR`, but setting the arrow shape to `tee` or
+`crow` overlaid with [Chen’s
+notation](https://stackoverflow.com/questions/44745480/chen-notation-whats-the-different-between-n-and-m-when-marking-a-relations)
+as edge labels can still help convey whether data joins are one-to-one
+or one-to-many.
+
+``` r
+#-----create an ERD via an grViz object-----  
+my_ERD <- grViz("digraph {
+
+          graph[layout = dot, rankdir = 'LR'] 
+          
+          node[shape = rectangle, style = filled, fillcolor = 'linen', fontsize = 12]
+          
+          subgraph cluster_patient { 
+             graph[rankdir = TB, label = 'Patient Table', fontsize = 18, 
+                   shape = rectangle, color = 'sandybrown', style = dashed]
+
+             a[label = 'PatientID']
+             b[label = 'CreatedDate']
+             c[label = 'HospitalSite']
+             
+          }
+             
+          subgraph cluster_procedure { 
+             graph[rankdir = TB, label = 'Procedure Table', fontsize = 18, 
+                   shape = rectangle, color = 'lightsalmon', style = dashed]
+
+             d[label = 'ProcedureID']
+             e[label = 'ProcedureStartDate']
+             f[label = 'ProcedureFinishDate'] 
+             
+          }
+          
+          subgraph cluster_invoice { 
+             graph[rankdir = TB, label = 'Invoice Table', fontsize = 18, 
+                   shape = rectangle, color = 'lightsalmon', style = dashed]
+
+             g[label = 'InvoiceID']
+             h[label = 'InvoiceCost']
+             i[label = 'CreatedDate']
+             j[label = 'PaidDate']
+             
+          } 
+          
+          edge[color = black, dir = 'both', style = 'dashed']
+               
+              a -> d[arrowhead = 'crow', arrowtail = 'tee', label = '1 : N']
+              d -> g[arrowhead = 'tee', arrowtail = 'tee', label = '1 : 1'] 
+          
+          }")
+
+# my_ERD
+
+#-----export graph----- 
+my_ERD %>% 
+  export_svg %>%
+  charToRaw %>%
+  rsvg_svg(here("02_figures", "2020-06-06_flowchart-ERD.svg"))
+```
+
+<img src="../../02_figures/2020-06-06_flowchart-ERD.svg" width="60%" style="display: block; margin: auto;" />
+
 # Other resources
 
-  - DiagrammeR [package
-    documentation](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html).
+  - DiagrammeR package and [package
+    documentation](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html)
+    by Richard Iannone.
 
   - DiagrammeR
     [vignette](https://cran.r-project.org/web/packages/DiagrammeR/vignettes/node-edge-data-frames.html)
