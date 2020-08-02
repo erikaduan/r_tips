@@ -24,7 +24,6 @@ Comment fields sit right in between tidy tabular data entries and large text fil
 
 This can make it hard to gauge whether wrangling comment fields is a fruitful endeavour (especially when you have multiple other data sources that need examining). Luckily, some knowledge of string manipulations and regular expressions can help simplify this process.      
 
-
 # Creating a test dataset   
 
 Let's imagine that my local chocolate company, [Haighs Chocolates](https://www.haighschocolates.com.au), wants to understand what food critics versus Haighs fans think about their newest product. They send out a bag of free samples with a link to an online survey that asks individuals to rate their chocolates (on a scale of 1 to 10) and provide additional comments.    
@@ -281,7 +280,6 @@ str_extract(recipes, "(?<=secret\\s{1,10})\\S+.+")
 ```
 
 **Note:** Positive look-behinds require defined boundary specifications i.e. the operation `+` needs to be converted into `{1,1000}`.     
-
 
 # Improving comment field readability   
 
