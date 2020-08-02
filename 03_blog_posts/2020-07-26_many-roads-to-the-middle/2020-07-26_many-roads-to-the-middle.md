@@ -1,4 +1,4 @@
-Many roads to the middle: mean, median and mode
+Many roads to the middle: centrality measures in statistics
 ================
 Erika Duan
 2020-08-02
@@ -375,9 +375,8 @@ calc_geom_mean(growth_factor = c(1.3, 0.95, 1.25), periods = 3)
 
 ## Harmonic mean
 
-The [harmonic
-mean](#harmonic-mean){<https://en.wikipedia.org/wiki/Harmonic_mean>} is
-the reciprocal of the arithmetic mean of the reciprocals of a set of
+The [harmonic mean](https://en.wikipedia.org/wiki/Harmonic_mean) is the
+reciprocal of the arithmetic mean of the reciprocals of a set of
 different rates and is displayed below.
 
   

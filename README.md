@@ -15,6 +15,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 3. [Working with dummy variables and factors](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-23_dummy-variables-and-factors/2020-04-23_dummy-variables-and-factors.md) 📚🔮  
 4. [Untangling strings using regular expressions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-05-16_untangling-strings/2020-05-16_untangling-strings.md) 📚  
 5. [Using DiagrammeR to draw flow charts](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-06-06_using-DiagrammeR/2020-06-06_using-DiagrammeR-to-draw-flow-charts.md) 🎨  
+6. [Understanding centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md) 🔢  
 
 # Content type  
 
@@ -23,6 +24,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 | 📚 | Data wrangling |  
 | 🎨 | Data visualisation |  
 | 🔮 | Machine learning |  
+| 🔢 | Statistics|
 
 
 

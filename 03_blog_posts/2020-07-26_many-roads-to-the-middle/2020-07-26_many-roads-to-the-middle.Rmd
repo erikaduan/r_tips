@@ -1,5 +1,5 @@
 ---
-title: "Many roads to the middle: mean, median and mode"
+title: "Many roads to the middle: centrality measures in statistics"
 author: "Erika Duan"
 date: "`r Sys.Date()`"
 output:
@@ -287,7 +287,7 @@ calc_geom_mean(growth_factor = c(1.3, 0.95, 1.25), periods = 3)
 
 ## Harmonic mean    
 
-The [harmonic mean]{https://en.wikipedia.org/wiki/Harmonic_mean} is the reciprocal of the arithmetic mean of the reciprocals of a set of different rates and is displayed below.   
+The [harmonic mean](https://en.wikipedia.org/wiki/Harmonic_mean) is the reciprocal of the arithmetic mean of the reciprocals of a set of different rates and is displayed below.   
 
 $$(\frac{\displaystyle\sum_{i=1}^{n}\frac{1}{x_i}}{n})^{-1}$$   
 
