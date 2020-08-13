@@ -283,9 +283,9 @@ Things get better as `grVis()` also allows visualisation of subgroups within a g
 
 The process of adding subgroups involves:  
 
-1. Define subclusters. 
-2. Define nodes in each subcluster.  
-3. Define edges as usual.   
+1. First defining each subcluster.     
+2. Defining the nodes in each subcluster.   
+3. Defining the edges as usual.    
 
 ```{r}
 #-----create flow chart with subgroups that are dependent on changing parameters-----  

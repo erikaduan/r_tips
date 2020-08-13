@@ -16,6 +16,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 4. [Untangling strings using regular expressions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-05-16_untangling-strings/2020-05-16_untangling-strings.md) 📚  
 5. [Using DiagrammeR to draw flow charts](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-06-06_using-DiagrammeR/2020-06-06_using-DiagrammeR-to-draw-flow-charts.md) 🎨  
 6. [Understanding centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md) 🔢  
+7. [Topic modelling](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-10_topic-modelling/2020-08-10_topic-modelling.md) 📚🔮  
 
 # Content type  
 

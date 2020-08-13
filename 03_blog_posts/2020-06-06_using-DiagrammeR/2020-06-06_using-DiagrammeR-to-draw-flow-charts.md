@@ -1,7 +1,7 @@
 Using DiagrammeR to draw flow charts
 ================
 Erika Duan
-2020-06-27
+2020-08-13
 
   - [Introduction](#introduction)
   - [Introduction to DiagrammeR](#introduction-to-diagrammer)
@@ -321,9 +321,9 @@ within a graph.
 
 The process of adding subgroups involves:
 
-1.  Define subclusters.
-2.  Define nodes in each subcluster.  
-3.  Define edges as usual.
+1.  First defining each subcluster.  
+2.  Defining the nodes in each subcluster.  
+3.  Defining the edges as usual.
 
 <!-- end list -->
 

@@ -205,7 +205,7 @@ str_extract(strange_fruits, "a(pp|gg)le")
 str_extract(strange_fruits, "(a)(p|g)\\2")
 #> [1] "app" "app" "app" "app" NA    "agg"   
 
-# (e) is group 1 and can be called using \\1    
+# (a) is group 1 and can be called using \\1    
 # (p|g) is group 2 and can be called using \\2     
 ```
 

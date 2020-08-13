@@ -1,7 +1,7 @@
 Untangling strings (\#@%\*\!\!)
 ================
 Erika Duan
-2020-06-06
+2020-08-08
 
   - [Introduction](#introduction)
   - [Creating a test dataset](#creating-a-test-dataset)
@@ -214,7 +214,7 @@ str_extract(strange_fruits, "a(pp|gg)le")
 str_extract(strange_fruits, "(a)(p|g)\\2")
 #> [1] "app" "app" "app" "app" NA    "agg"   
 
-# (e) is group 1 and can be called using \\1    
+# (a) is group 1 and can be called using \\1    
 # (p|g) is group 2 and can be called using \\2     
 ```
 
@@ -453,7 +453,14 @@ melt_status <- melt_matrix %>%
         sep = "",
         remove = T,
         na.rm = T) # make sure to remove NAs  
+```
 
+    ## Note: Using an external vector in selections is ambiguous.
+    ## i Use `all_of(melt_cols)` instead of `melt_cols` to silence this message.
+    ## i See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+    ## This message is displayed once per session.
+
+``` r
 #-----convert responses into factors and recode factor levels-----  
 melt_status$is_melty <- factor(melt_status$is_melty)
 levels(melt_status$is_melty) 
@@ -495,7 +502,14 @@ sweetness_status <- sweetness_matrix %>%
         sep = "",
         remove = T,
         na.rm = T) # make sure to remove NAs  
+```
 
+    ## Note: Using an external vector in selections is ambiguous.
+    ## i Use `all_of(sweetness_cols)` instead of `sweetness_cols` to silence this message.
+    ## i See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+    ## This message is displayed once per session.
+
+``` r
 #-----convert responses into factors and recode factor levels-----  
 sweetness_status$is_sweet <- factor(sweetness_status$is_sweet)
 levels(sweetness_status$is_sweet) 
