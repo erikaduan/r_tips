@@ -6,7 +6,7 @@ This repository contains a series of **R usage tips** covering topics across **d
 <img src="https://github.com/erikaduan/R-tips/blob/master/02_figures/R-milestones.jpg" width="600"></center>  
 </p>  
 
-Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD student, current data science colleague and occasional code editor, for teaching me how to learn to code in R in my past life as an immunologist.  
+Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD student and occasional code editor, for teaching me how to learn to code in R in my past life as an immunologist.  
 
 # List of R tips  
 
@@ -17,6 +17,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 5. [Using DiagrammeR to draw flow charts](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-06-06_using-DiagrammeR/2020-06-06_using-DiagrammeR-to-draw-flow-charts.md) 🎨  
 6. [Understanding centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md) 🔢  
 7. [Topic modelling](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-10_topic-modelling/2020-08-10_topic-modelling.md) 📚🔮  
+8. [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-30_automating_RMDs/2020-08-30_automating_RMDs.md) 📚🎨🔨  
 
 # Content type  
 
@@ -25,9 +26,8 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 | 📚 | Data wrangling |  
 | 🎨 | Data visualisation |  
 | 🔮 | Machine learning |  
-| 🔢 | Statistics|
-
-
+| 🔨 | Productionisation |  
+| 🔢 | Statistics |  
 
 # Citations  
 
