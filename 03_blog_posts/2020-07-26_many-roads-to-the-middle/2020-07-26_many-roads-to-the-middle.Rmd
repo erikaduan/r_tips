@@ -293,7 +293,7 @@ $$(\frac{\displaystyle\sum_{i=1}^{n}\frac{1}{x_i}}{n})^{-1}$$
 
 In machine learning, the harmonic mean is used to find the average of the two different rates precision (TP/ TP + FP) and recall (TP/ TP + FN), and this is called the [F1 score](https://en.wikipedia.org/wiki/F1_score). An F1 score of 1 represents perfect precision and recall.    
 
-$$F_1 = \frac{2}{\frac{1}{recall}\times\frac{1}{precision}} = 2 \times\frac{precision\times recal}{precision + recall}$$  
+$$F_1 = \frac{2}{\frac{1}{recall}+\frac{1}{precision}} = 2 \times\frac{precision\times recal}{precision + recall}$$  
 
 The $F_1$ score is itself derived from the equation for $F_\beta$, where $\beta$ is a positive number which represents how many times recall is more important to optimise for than precision.        
 

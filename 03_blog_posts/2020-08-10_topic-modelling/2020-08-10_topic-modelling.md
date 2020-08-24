@@ -188,7 +188,8 @@ Lemmatisation is the non-trivial process of determining whether two
 words share the same root word i.e. the word *be* is the root word of
 *is*, *am* and *are*. The process involves separating individual words
 into stems (morpheme with a central meaning) and affixes (morphemes with
-additional meanings) using reference dictionaries.
+additional meanings) using reference dictionaries built using
+specialised linguistics knowledge.
 
 In contrast, stemming can be used as a faster but cruder substitute for
 lemmatisation. Stemming is used to remove end-word affixes using a

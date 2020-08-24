@@ -1,7 +1,7 @@
 Many roads to the middle: centrality measures in statistics
 ================
 Erika Duan
-2020-08-02
+2020-08-23
 
   - [Introduction](#introduction)
   - [Standard normal distribution](#standard-normal-distribution)
@@ -390,10 +390,10 @@ score](https://en.wikipedia.org/wiki/F1_score). An F1 score of 1
 represents perfect precision and recall.
 
   
-![F\_1 = \\frac{2}{\\frac{1}{recall}\\times\\frac{1}{precision}} = 2
+![F\_1 = \\frac{2}{\\frac{1}{recall}+\\frac{1}{precision}} = 2
 \\times\\frac{precision\\times recal}{precision +
-recall}](https://latex.codecogs.com/png.latex?F_1%20%3D%20%5Cfrac%7B2%7D%7B%5Cfrac%7B1%7D%7Brecall%7D%5Ctimes%5Cfrac%7B1%7D%7Bprecision%7D%7D%20%3D%202%20%5Ctimes%5Cfrac%7Bprecision%5Ctimes%20recal%7D%7Bprecision%20%2B%20recall%7D
-"F_1 = \\frac{2}{\\frac{1}{recall}\\times\\frac{1}{precision}} = 2 \\times\\frac{precision\\times recal}{precision + recall}")  
+recall}](https://latex.codecogs.com/png.latex?F_1%20%3D%20%5Cfrac%7B2%7D%7B%5Cfrac%7B1%7D%7Brecall%7D%2B%5Cfrac%7B1%7D%7Bprecision%7D%7D%20%3D%202%20%5Ctimes%5Cfrac%7Bprecision%5Ctimes%20recal%7D%7Bprecision%20%2B%20recall%7D
+"F_1 = \\frac{2}{\\frac{1}{recall}+\\frac{1}{precision}} = 2 \\times\\frac{precision\\times recal}{precision + recall}")  
 
 The ![F\_1](https://latex.codecogs.com/png.latex?F_1 "F_1") score is
 itself derived from the equation for
