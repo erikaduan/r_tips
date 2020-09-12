@@ -498,7 +498,7 @@ unemployment_data %>%
         panel.grid.major.y = element_line(linetype = "dashed"))  
 ```
 
-![](2020-09-12_binomial_distribution_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](2020-09-12_binomial-distribution_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 **Note:** The final step in generating a funnel plot would be to
 calculate overdispersion limits (when we have more variation between

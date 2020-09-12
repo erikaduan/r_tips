@@ -8,7 +8,7 @@ output:
     pandoc_args: --webtex 
 ---
 
-```{r, echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}  
+```{r, echo = TRUE, message = FALSE, warning = FALSE}  
 #-----load required packages-----  
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,  
