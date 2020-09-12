@@ -1,7 +1,7 @@
 Many roads to the middle: centrality measures in statistics
 ================
 Erika Duan
-2020-08-23
+2020-09-06
 
   - [Introduction](#introduction)
   - [Standard normal distribution](#standard-normal-distribution)
@@ -21,6 +21,7 @@ Erika Duan
 #-----load required packages-----  
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(tidyverse,
+               tidymodels,
                patchwork,
                lubridate,
                moments, # to calculate skew and kurtosis
@@ -256,7 +257,7 @@ calc_dsc_prob_mean(values = c(0:25), 25, 0.1)
 ## Continuous probability distribution
 
 In a continuous probability distribution, the range of values which
-exist is defined by the function
+exist is defined by the probability density function
 ![f(x)](https://latex.codecogs.com/png.latex?f%28x%29 "f(x)"). This
 function is represented as a curve, where
 ![f(x)](https://latex.codecogs.com/png.latex?f%28x%29 "f(x)") represents
@@ -391,9 +392,9 @@ represents perfect precision and recall.
 
   
 ![F\_1 = \\frac{2}{\\frac{1}{recall}+\\frac{1}{precision}} = 2
-\\times\\frac{precision\\times recal}{precision +
-recall}](https://latex.codecogs.com/png.latex?F_1%20%3D%20%5Cfrac%7B2%7D%7B%5Cfrac%7B1%7D%7Brecall%7D%2B%5Cfrac%7B1%7D%7Bprecision%7D%7D%20%3D%202%20%5Ctimes%5Cfrac%7Bprecision%5Ctimes%20recal%7D%7Bprecision%20%2B%20recall%7D
-"F_1 = \\frac{2}{\\frac{1}{recall}+\\frac{1}{precision}} = 2 \\times\\frac{precision\\times recal}{precision + recall}")  
+\\times\\frac{precision\\times recall}{precision +
+recall}](https://latex.codecogs.com/png.latex?F_1%20%3D%20%5Cfrac%7B2%7D%7B%5Cfrac%7B1%7D%7Brecall%7D%2B%5Cfrac%7B1%7D%7Bprecision%7D%7D%20%3D%202%20%5Ctimes%5Cfrac%7Bprecision%5Ctimes%20recall%7D%7Bprecision%20%2B%20recall%7D
+"F_1 = \\frac{2}{\\frac{1}{recall}+\\frac{1}{precision}} = 2 \\times\\frac{precision\\times recall}{precision + recall}")  
 
 The ![F\_1](https://latex.codecogs.com/png.latex?F_1 "F_1") score is
 itself derived from the equation for
@@ -543,4 +544,6 @@ actual_numbers + rolling_means
     concept of the harmonic mean.  
   - Tutorial on how to calculate the rolling average
     [here](https://www.storybench.org/how-to-calculate-a-rolling-average-in-r/)
-    and [here](http://uc-r.github.io/ts_moving_averages).
+    and [here](http://uc-r.github.io/ts_moving_averages).  
+  - [Explanation](https://math.stackexchange.com/questions/23293/probability-density-function-vs-probability-mass-function#:~:text=Probability%20mass%20functions%20are%20used,variable%20falls%20within%20some%20interval.)
+    of the definition of the probability density function.

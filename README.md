@@ -18,6 +18,8 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 6. [Understanding centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md) 🔢  
 7. [Topic modelling](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-10_topic-modelling/2020-08-10_topic-modelling.md) 📚🔮  
 8. [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-30_automating_RMDs/2020-08-30_automating_RMDs.md) 📚🎨🔨  
+9. Automating R Markdown report generation - Part 2 📚🔨  
+10. [Introduction to binomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-12_binomial-distribution.md) 🔢🎨  
 
 # Content type  
 
@@ -26,7 +28,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 | 📚 | Data wrangling |  
 | 🎨 | Data visualisation |  
 | 🔮 | Machine learning |  
-| 🔨 | Productionisation |  
+| 🔨 | Production |  
 | 🔢 | Statistics |  
 
 # Citations  
