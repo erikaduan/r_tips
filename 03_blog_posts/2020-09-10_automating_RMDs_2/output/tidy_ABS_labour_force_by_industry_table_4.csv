@@ -1,0 +1,2718 @@
+date,industry,count
+1984-11-01,"Agriculture, Forestry and Fishing",403.03
+1984-11-01,Mining,94.817
+1984-11-01,Manufacturing,1096.201
+1984-11-01,"Electricity, Gas, Water and Waste Services",152.319
+1984-11-01,Construction,452.899
+1984-11-01,Wholesale Trade,347.955
+1984-11-01,Retail Trade,688.679
+1984-11-01,Accommodation and Food Services,327.448
+1984-11-01,"Transport, Postal and Warehousing",387.244
+1984-11-01,Information Media and Telecommunications,157.94
+1984-11-01,Financial and Insurance Services,264.032
+1984-11-01,"Rental, Hiring and Real Estate Services",80.928
+1984-11-01,"Professional, Scientific and Technical Services",260.723
+1984-11-01,Administrative and Support Services,119.745
+1984-11-01,Public Administration and Safety,387.161
+1984-11-01,Education and Training,450.241
+1984-11-01,Health Care and Social Assistance,540.956
+1984-11-01,Arts and Recreation Services,70.767
+1984-11-01,Other Services,274.491
+1985-02-01,"Agriculture, Forestry and Fishing",403.756
+1985-02-01,Mining,95.062
+1985-02-01,Manufacturing,1091.798
+1985-02-01,"Electricity, Gas, Water and Waste Services",138.178
+1985-02-01,Construction,474.557
+1985-02-01,Wholesale Trade,356.122
+1985-02-01,Retail Trade,690.108
+1985-02-01,Accommodation and Food Services,327.863
+1985-02-01,"Transport, Postal and Warehousing",402.422
+1985-02-01,Information Media and Telecommunications,160.638
+1985-02-01,Financial and Insurance Services,265.826
+1985-02-01,"Rental, Hiring and Real Estate Services",86.894
+1985-02-01,"Professional, Scientific and Technical Services",262.576
+1985-02-01,Administrative and Support Services,121.832
+1985-02-01,Public Administration and Safety,389.255
+1985-02-01,Education and Training,454.42
+1985-02-01,Health Care and Social Assistance,539.381
+1985-02-01,Arts and Recreation Services,74.341
+1985-02-01,Other Services,282.056
+1985-05-01,"Agriculture, Forestry and Fishing",391.292
+1985-05-01,Mining,95.006
+1985-05-01,Manufacturing,1079.604
+1985-05-01,"Electricity, Gas, Water and Waste Services",143.659
+1985-05-01,Construction,483.089
+1985-05-01,Wholesale Trade,346.706
+1985-05-01,Retail Trade,704.852
+1985-05-01,Accommodation and Food Services,328.985
+1985-05-01,"Transport, Postal and Warehousing",406.13
+1985-05-01,Information Media and Telecommunications,164.14
+1985-05-01,Financial and Insurance Services,277.291
+1985-05-01,"Rental, Hiring and Real Estate Services",91.169
+1985-05-01,"Professional, Scientific and Technical Services",272.418
+1985-05-01,Administrative and Support Services,124.24
+1985-05-01,Public Administration and Safety,387.48
+1985-05-01,Education and Training,453.149
+1985-05-01,Health Care and Social Assistance,523.335
+1985-05-01,Arts and Recreation Services,75.674
+1985-05-01,Other Services,284.329
+1985-08-01,"Agriculture, Forestry and Fishing",421.721
+1985-08-01,Mining,105.61
+1985-08-01,Manufacturing,1068.402
+1985-08-01,"Electricity, Gas, Water and Waste Services",151.351
+1985-08-01,Construction,485.225
+1985-08-01,Wholesale Trade,357.507
+1985-08-01,Retail Trade,720.227
+1985-08-01,Accommodation and Food Services,326.059
+1985-08-01,"Transport, Postal and Warehousing",412.86
+1985-08-01,Information Media and Telecommunications,165.971
+1985-08-01,Financial and Insurance Services,278.935
+1985-08-01,"Rental, Hiring and Real Estate Services",93.665
+1985-08-01,"Professional, Scientific and Technical Services",274.928
+1985-08-01,Administrative and Support Services,125.194
+1985-08-01,Public Administration and Safety,390.637
+1985-08-01,Education and Training,459.581
+1985-08-01,Health Care and Social Assistance,540.708
+1985-08-01,Arts and Recreation Services,77.374
+1985-08-01,Other Services,288.342
+1985-11-01,"Agriculture, Forestry and Fishing",425.865
+1985-11-01,Mining,109.729
+1985-11-01,Manufacturing,1082.527
+1985-11-01,"Electricity, Gas, Water and Waste Services",153.03
+1985-11-01,Construction,481.334
+1985-11-01,Wholesale Trade,359.871
+1985-11-01,Retail Trade,725.553
+1985-11-01,Accommodation and Food Services,342.188
+1985-11-01,"Transport, Postal and Warehousing",406.389
+1985-11-01,Information Media and Telecommunications,164.823
+1985-11-01,Financial and Insurance Services,293.153
+1985-11-01,"Rental, Hiring and Real Estate Services",98.502
+1985-11-01,"Professional, Scientific and Technical Services",282.658
+1985-11-01,Administrative and Support Services,131.595
+1985-11-01,Public Administration and Safety,386.77
+1985-11-01,Education and Training,472.867
+1985-11-01,Health Care and Social Assistance,563.28
+1985-11-01,Arts and Recreation Services,82.718
+1985-11-01,Other Services,299.324
+1986-02-01,"Agriculture, Forestry and Fishing",419.1
+1986-02-01,Mining,108.983
+1986-02-01,Manufacturing,1092.191
+1986-02-01,"Electricity, Gas, Water and Waste Services",154.311
+1986-02-01,Construction,464.816
+1986-02-01,Wholesale Trade,354.568
+1986-02-01,Retail Trade,741.518
+1986-02-01,Accommodation and Food Services,345.732
+1986-02-01,"Transport, Postal and Warehousing",405.175
+1986-02-01,Information Media and Telecommunications,165.982
+1986-02-01,Financial and Insurance Services,302.051
+1986-02-01,"Rental, Hiring and Real Estate Services",89.078
+1986-02-01,"Professional, Scientific and Technical Services",290.807
+1986-02-01,Administrative and Support Services,131.702
+1986-02-01,Public Administration and Safety,398.208
+1986-02-01,Education and Training,462.318
+1986-02-01,Health Care and Social Assistance,575.817
+1986-02-01,Arts and Recreation Services,77.175
+1986-02-01,Other Services,304.557
+1986-05-01,"Agriculture, Forestry and Fishing",430.314
+1986-05-01,Mining,106.148
+1986-05-01,Manufacturing,1090.669
+1986-05-01,"Electricity, Gas, Water and Waste Services",152.763
+1986-05-01,Construction,487.971
+1986-05-01,Wholesale Trade,361.667
+1986-05-01,Retail Trade,756.788
+1986-05-01,Accommodation and Food Services,348.169
+1986-05-01,"Transport, Postal and Warehousing",413.942
+1986-05-01,Information Media and Telecommunications,166.084
+1986-05-01,Financial and Insurance Services,300.091
+1986-05-01,"Rental, Hiring and Real Estate Services",84.765
+1986-05-01,"Professional, Scientific and Technical Services",293.043
+1986-05-01,Administrative and Support Services,136.55
+1986-05-01,Public Administration and Safety,397.777
+1986-05-01,Education and Training,455.361
+1986-05-01,Health Care and Social Assistance,582.515
+1986-05-01,Arts and Recreation Services,77.371
+1986-05-01,Other Services,310.118
+1986-08-01,"Agriculture, Forestry and Fishing",421.079
+1986-08-01,Mining,98.632
+1986-08-01,Manufacturing,1076.585
+1986-08-01,"Electricity, Gas, Water and Waste Services",150.394
+1986-08-01,Construction,501.968
+1986-08-01,Wholesale Trade,356.779
+1986-08-01,Retail Trade,755.823
+1986-08-01,Accommodation and Food Services,354.521
+1986-08-01,"Transport, Postal and Warehousing",432.356
+1986-08-01,Information Media and Telecommunications,170.205
+1986-08-01,Financial and Insurance Services,305.161
+1986-08-01,"Rental, Hiring and Real Estate Services",85.465
+1986-08-01,"Professional, Scientific and Technical Services",291.17
+1986-08-01,Administrative and Support Services,134.145
+1986-08-01,Public Administration and Safety,397.243
+1986-08-01,Education and Training,474.711
+1986-08-01,Health Care and Social Assistance,566.969
+1986-08-01,Arts and Recreation Services,80.467
+1986-08-01,Other Services,307.391
+1986-11-01,"Agriculture, Forestry and Fishing",420.343
+1986-11-01,Mining,100.788
+1986-11-01,Manufacturing,1065.701
+1986-11-01,"Electricity, Gas, Water and Waste Services",143.973
+1986-11-01,Construction,499.119
+1986-11-01,Wholesale Trade,369.375
+1986-11-01,Retail Trade,764.702
+1986-11-01,Accommodation and Food Services,355.636
+1986-11-01,"Transport, Postal and Warehousing",433.534
+1986-11-01,Information Media and Telecommunications,164.189
+1986-11-01,Financial and Insurance Services,303.321
+1986-11-01,"Rental, Hiring and Real Estate Services",92.414
+1986-11-01,"Professional, Scientific and Technical Services",304.547
+1986-11-01,Administrative and Support Services,139.325
+1986-11-01,Public Administration and Safety,405.504
+1986-11-01,Education and Training,486.275
+1986-11-01,Health Care and Social Assistance,579.062
+1986-11-01,Arts and Recreation Services,81.343
+1986-11-01,Other Services,304.248
+1987-02-01,"Agriculture, Forestry and Fishing",420.074
+1987-02-01,Mining,105.155
+1987-02-01,Manufacturing,1073.529
+1987-02-01,"Electricity, Gas, Water and Waste Services",141.103
+1987-02-01,Construction,506.14
+1987-02-01,Wholesale Trade,371.132
+1987-02-01,Retail Trade,762.147
+1987-02-01,Accommodation and Food Services,359.594
+1987-02-01,"Transport, Postal and Warehousing",417.593
+1987-02-01,Information Media and Telecommunications,163.332
+1987-02-01,Financial and Insurance Services,304.43
+1987-02-01,"Rental, Hiring and Real Estate Services",86.5
+1987-02-01,"Professional, Scientific and Technical Services",312.89
+1987-02-01,Administrative and Support Services,143.793
+1987-02-01,Public Administration and Safety,407.7
+1987-02-01,Education and Training,487.655
+1987-02-01,Health Care and Social Assistance,593.467
+1987-02-01,Arts and Recreation Services,84.569
+1987-02-01,Other Services,307.14
+1987-05-01,"Agriculture, Forestry and Fishing",410.876
+1987-05-01,Mining,105.896
+1987-05-01,Manufacturing,1087.052
+1987-05-01,"Electricity, Gas, Water and Waste Services",136.443
+1987-05-01,Construction,507.217
+1987-05-01,Wholesale Trade,370.251
+1987-05-01,Retail Trade,749.971
+1987-05-01,Accommodation and Food Services,368.67
+1987-05-01,"Transport, Postal and Warehousing",418.999
+1987-05-01,Information Media and Telecommunications,166.12
+1987-05-01,Financial and Insurance Services,312.201
+1987-05-01,"Rental, Hiring and Real Estate Services",95.752
+1987-05-01,"Professional, Scientific and Technical Services",312.404
+1987-05-01,Administrative and Support Services,142.819
+1987-05-01,Public Administration and Safety,412.868
+1987-05-01,Education and Training,491.957
+1987-05-01,Health Care and Social Assistance,591.208
+1987-05-01,Arts and Recreation Services,84.87
+1987-05-01,Other Services,309.545
+1987-08-01,"Agriculture, Forestry and Fishing",411.234
+1987-08-01,Mining,101.963
+1987-08-01,Manufacturing,1098.836
+1987-08-01,"Electricity, Gas, Water and Waste Services",133.162
+1987-08-01,Construction,502.218
+1987-08-01,Wholesale Trade,377.802
+1987-08-01,Retail Trade,773.202
+1987-08-01,Accommodation and Food Services,378.102
+1987-08-01,"Transport, Postal and Warehousing",404.673
+1987-08-01,Information Media and Telecommunications,165.533
+1987-08-01,Financial and Insurance Services,329.182
+1987-08-01,"Rental, Hiring and Real Estate Services",94.516
+1987-08-01,"Professional, Scientific and Technical Services",313.874
+1987-08-01,Administrative and Support Services,146.588
+1987-08-01,Public Administration and Safety,428.673
+1987-08-01,Education and Training,492.083
+1987-08-01,Health Care and Social Assistance,603.349
+1987-08-01,Arts and Recreation Services,87.295
+1987-08-01,Other Services,321.367
+1987-11-01,"Agriculture, Forestry and Fishing",398.851
+1987-11-01,Mining,101.362
+1987-11-01,Manufacturing,1113.392
+1987-11-01,"Electricity, Gas, Water and Waste Services",135.604
+1987-11-01,Construction,499.789
+1987-11-01,Wholesale Trade,367.861
+1987-11-01,Retail Trade,795.901
+1987-11-01,Accommodation and Food Services,382.128
+1987-11-01,"Transport, Postal and Warehousing",415.183
+1987-11-01,Information Media and Telecommunications,168.754
+1987-11-01,Financial and Insurance Services,329.916
+1987-11-01,"Rental, Hiring and Real Estate Services",90.456
+1987-11-01,"Professional, Scientific and Technical Services",313.718
+1987-11-01,Administrative and Support Services,142.492
+1987-11-01,Public Administration and Safety,420.943
+1987-11-01,Education and Training,489.143
+1987-11-01,Health Care and Social Assistance,579.622
+1987-11-01,Arts and Recreation Services,87.182
+1987-11-01,Other Services,328.486
+1988-02-01,"Agriculture, Forestry and Fishing",426.85
+1988-02-01,Mining,98.019
+1988-02-01,Manufacturing,1111.716
+1988-02-01,"Electricity, Gas, Water and Waste Services",141.765
+1988-02-01,Construction,509.315
+1988-02-01,Wholesale Trade,379.601
+1988-02-01,Retail Trade,799.981
+1988-02-01,Accommodation and Food Services,397.141
+1988-02-01,"Transport, Postal and Warehousing",428.246
+1988-02-01,Information Media and Telecommunications,168.835
+1988-02-01,Financial and Insurance Services,334.295
+1988-02-01,"Rental, Hiring and Real Estate Services",95.424
+1988-02-01,"Professional, Scientific and Technical Services",321.083
+1988-02-01,Administrative and Support Services,148.011
+1988-02-01,Public Administration and Safety,417.609
+1988-02-01,Education and Training,490.559
+1988-02-01,Health Care and Social Assistance,585.878
+1988-02-01,Arts and Recreation Services,86.273
+1988-02-01,Other Services,335.42
+1988-05-01,"Agriculture, Forestry and Fishing",423.428
+1988-05-01,Mining,96.126
+1988-05-01,Manufacturing,1115.024
+1988-05-01,"Electricity, Gas, Water and Waste Services",127.453
+1988-05-01,Construction,523.747
+1988-05-01,Wholesale Trade,391.321
+1988-05-01,Retail Trade,807.666
+1988-05-01,Accommodation and Food Services,396.272
+1988-05-01,"Transport, Postal and Warehousing",416.854
+1988-05-01,Information Media and Telecommunications,169.012
+1988-05-01,Financial and Insurance Services,330.297
+1988-05-01,"Rental, Hiring and Real Estate Services",102.971
+1988-05-01,"Professional, Scientific and Technical Services",335.623
+1988-05-01,Administrative and Support Services,150.514
+1988-05-01,Public Administration and Safety,416.83
+1988-05-01,Education and Training,490.407
+1988-05-01,Health Care and Social Assistance,608.614
+1988-05-01,Arts and Recreation Services,85.454
+1988-05-01,Other Services,337.425
+1988-08-01,"Agriculture, Forestry and Fishing",436.038
+1988-08-01,Mining,97.967
+1988-08-01,Manufacturing,1140.049
+1988-08-01,"Electricity, Gas, Water and Waste Services",127.038
+1988-08-01,Construction,538.132
+1988-08-01,Wholesale Trade,394.162
+1988-08-01,Retail Trade,814.49
+1988-08-01,Accommodation and Food Services,403.648
+1988-08-01,"Transport, Postal and Warehousing",405.954
+1988-08-01,Information Media and Telecommunications,169.661
+1988-08-01,Financial and Insurance Services,327.675
+1988-08-01,"Rental, Hiring and Real Estate Services",107.681
+1988-08-01,"Professional, Scientific and Technical Services",341.482
+1988-08-01,Administrative and Support Services,154.34
+1988-08-01,Public Administration and Safety,403.118
+1988-08-01,Education and Training,486.801
+1988-08-01,Health Care and Social Assistance,621.311
+1988-08-01,Arts and Recreation Services,85.262
+1988-08-01,Other Services,340.583
+1988-11-01,"Agriculture, Forestry and Fishing",429.666
+1988-11-01,Mining,96.96
+1988-11-01,Manufacturing,1137.956
+1988-11-01,"Electricity, Gas, Water and Waste Services",128.278
+1988-11-01,Construction,566.085
+1988-11-01,Wholesale Trade,404.332
+1988-11-01,Retail Trade,815.948
+1988-11-01,Accommodation and Food Services,411.332
+1988-11-01,"Transport, Postal and Warehousing",410.875
+1988-11-01,Information Media and Telecommunications,175.104
+1988-11-01,Financial and Insurance Services,338.405
+1988-11-01,"Rental, Hiring and Real Estate Services",109.242
+1988-11-01,"Professional, Scientific and Technical Services",343.648
+1988-11-01,Administrative and Support Services,158.198
+1988-11-01,Public Administration and Safety,410.731
+1988-11-01,Education and Training,499.286
+1988-11-01,Health Care and Social Assistance,623.957
+1988-11-01,Arts and Recreation Services,84.471
+1988-11-01,Other Services,342.425
+1989-02-01,"Agriculture, Forestry and Fishing",430.839
+1989-02-01,Mining,99.723
+1989-02-01,Manufacturing,1150.904
+1989-02-01,"Electricity, Gas, Water and Waste Services",131.361
+1989-02-01,Construction,582.502
+1989-02-01,Wholesale Trade,411.69
+1989-02-01,Retail Trade,846.492
+1989-02-01,Accommodation and Food Services,409.294
+1989-02-01,"Transport, Postal and Warehousing",423.263
+1989-02-01,Information Media and Telecommunications,175.376
+1989-02-01,Financial and Insurance Services,351.36
+1989-02-01,"Rental, Hiring and Real Estate Services",114.075
+1989-02-01,"Professional, Scientific and Technical Services",345.216
+1989-02-01,Administrative and Support Services,158.337
+1989-02-01,Public Administration and Safety,401.135
+1989-02-01,Education and Training,493.349
+1989-02-01,Health Care and Social Assistance,644.428
+1989-02-01,Arts and Recreation Services,91.01
+1989-02-01,Other Services,337.648
+1989-05-01,"Agriculture, Forestry and Fishing",426.369
+1989-05-01,Mining,103.307
+1989-05-01,Manufacturing,1172.858
+1989-05-01,"Electricity, Gas, Water and Waste Services",134.322
+1989-05-01,Construction,595.767
+1989-05-01,Wholesale Trade,409.868
+1989-05-01,Retail Trade,836.896
+1989-05-01,Accommodation and Food Services,418.066
+1989-05-01,"Transport, Postal and Warehousing",421.513
+1989-05-01,Information Media and Telecommunications,175.593
+1989-05-01,Financial and Insurance Services,351.36
+1989-05-01,"Rental, Hiring and Real Estate Services",115.981
+1989-05-01,"Professional, Scientific and Technical Services",345.821
+1989-05-01,Administrative and Support Services,162
+1989-05-01,Public Administration and Safety,406.824
+1989-05-01,Education and Training,504.451
+1989-05-01,Health Care and Social Assistance,666.379
+1989-05-01,Arts and Recreation Services,97.495
+1989-05-01,Other Services,343.799
+1989-08-01,"Agriculture, Forestry and Fishing",416.222
+1989-08-01,Mining,107.438
+1989-08-01,Manufacturing,1169.052
+1989-08-01,"Electricity, Gas, Water and Waste Services",126.374
+1989-08-01,Construction,608.872
+1989-08-01,Wholesale Trade,419.109
+1989-08-01,Retail Trade,863.179
+1989-08-01,Accommodation and Food Services,425.975
+1989-08-01,"Transport, Postal and Warehousing",435.689
+1989-08-01,Information Media and Telecommunications,179.809
+1989-08-01,Financial and Insurance Services,346.095
+1989-08-01,"Rental, Hiring and Real Estate Services",126.692
+1989-08-01,"Professional, Scientific and Technical Services",360.288
+1989-08-01,Administrative and Support Services,163.394
+1989-08-01,Public Administration and Safety,410.968
+1989-08-01,Education and Training,515.508
+1989-08-01,Health Care and Social Assistance,631.63
+1989-08-01,Arts and Recreation Services,99.518
+1989-08-01,Other Services,349.907
+1989-11-01,"Agriculture, Forestry and Fishing",420.625
+1989-11-01,Mining,108.745
+1989-11-01,Manufacturing,1156.315
+1989-11-01,"Electricity, Gas, Water and Waste Services",120.669
+1989-11-01,Construction,609.209
+1989-11-01,Wholesale Trade,432.206
+1989-11-01,Retail Trade,869.061
+1989-11-01,Accommodation and Food Services,437.803
+1989-11-01,"Transport, Postal and Warehousing",432.041
+1989-11-01,Information Media and Telecommunications,176.678
+1989-11-01,Financial and Insurance Services,354.016
+1989-11-01,"Rental, Hiring and Real Estate Services",129.678
+1989-11-01,"Professional, Scientific and Technical Services",373.15
+1989-11-01,Administrative and Support Services,168.675
+1989-11-01,Public Administration and Safety,422.18
+1989-11-01,Education and Training,529.074
+1989-11-01,Health Care and Social Assistance,635.851
+1989-11-01,Arts and Recreation Services,103.883
+1989-11-01,Other Services,362.348
+1990-02-01,"Agriculture, Forestry and Fishing",420.531
+1990-02-01,Mining,104.668
+1990-02-01,Manufacturing,1146.377
+1990-02-01,"Electricity, Gas, Water and Waste Services",116.883
+1990-02-01,Construction,614.439
+1990-02-01,Wholesale Trade,426.06
+1990-02-01,Retail Trade,872.17
+1990-02-01,Accommodation and Food Services,449.186
+1990-02-01,"Transport, Postal and Warehousing",421.403
+1990-02-01,Information Media and Telecommunications,166.821
+1990-02-01,Financial and Insurance Services,364.144
+1990-02-01,"Rental, Hiring and Real Estate Services",130.619
+1990-02-01,"Professional, Scientific and Technical Services",382.816
+1990-02-01,Administrative and Support Services,165.142
+1990-02-01,Public Administration and Safety,433.255
+1990-02-01,Education and Training,538.396
+1990-02-01,Health Care and Social Assistance,635.438
+1990-02-01,Arts and Recreation Services,97.042
+1990-02-01,Other Services,354.125
+1990-05-01,"Agriculture, Forestry and Fishing",438.902
+1990-05-01,Mining,101.38
+1990-05-01,Manufacturing,1136.839
+1990-05-01,"Electricity, Gas, Water and Waste Services",117.913
+1990-05-01,Construction,576.498
+1990-05-01,Wholesale Trade,429.988
+1990-05-01,Retail Trade,880.88
+1990-05-01,Accommodation and Food Services,451.62
+1990-05-01,"Transport, Postal and Warehousing",420.029
+1990-05-01,Information Media and Telecommunications,178.196
+1990-05-01,Financial and Insurance Services,374.159
+1990-05-01,"Rental, Hiring and Real Estate Services",130.495
+1990-05-01,"Professional, Scientific and Technical Services",363.514
+1990-05-01,Administrative and Support Services,168.193
+1990-05-01,Public Administration and Safety,453.096
+1990-05-01,Education and Training,550.533
+1990-05-01,Health Care and Social Assistance,647.99
+1990-05-01,Arts and Recreation Services,95.286
+1990-05-01,Other Services,358.607
+1990-08-01,"Agriculture, Forestry and Fishing",434.12
+1990-08-01,Mining,97.046
+1990-08-01,Manufacturing,1130.057
+1990-08-01,"Electricity, Gas, Water and Waste Services",117.751
+1990-08-01,Construction,590.045
+1990-08-01,Wholesale Trade,428.03
+1990-08-01,Retail Trade,861.618
+1990-08-01,Accommodation and Food Services,442.716
+1990-08-01,"Transport, Postal and Warehousing",431.461
+1990-08-01,Information Media and Telecommunications,180.919
+1990-08-01,Financial and Insurance Services,368.287
+1990-08-01,"Rental, Hiring and Real Estate Services",119.249
+1990-08-01,"Professional, Scientific and Technical Services",366.366
+1990-08-01,Administrative and Support Services,174.546
+1990-08-01,Public Administration and Safety,459.73
+1990-08-01,Education and Training,536.901
+1990-08-01,Health Care and Social Assistance,663.892
+1990-08-01,Arts and Recreation Services,89.932
+1990-08-01,Other Services,352.362
+1990-11-01,"Agriculture, Forestry and Fishing",442.219
+1990-11-01,Mining,97.258
+1990-11-01,Manufacturing,1104.068
+1990-11-01,"Electricity, Gas, Water and Waste Services",117.411
+1990-11-01,Construction,584.017
+1990-11-01,Wholesale Trade,427.853
+1990-11-01,Retail Trade,860.659
+1990-11-01,Accommodation and Food Services,447.117
+1990-11-01,"Transport, Postal and Warehousing",425.935
+1990-11-01,Information Media and Telecommunications,177.125
+1990-11-01,Financial and Insurance Services,356.483
+1990-11-01,"Rental, Hiring and Real Estate Services",118.446
+1990-11-01,"Professional, Scientific and Technical Services",371.793
+1990-11-01,Administrative and Support Services,172.723
+1990-11-01,Public Administration and Safety,451.522
+1990-11-01,Education and Training,534.734
+1990-11-01,Health Care and Social Assistance,674.644
+1990-11-01,Arts and Recreation Services,90.569
+1990-11-01,Other Services,353.654
+1991-02-01,"Agriculture, Forestry and Fishing",425.612
+1991-02-01,Mining,101.867
+1991-02-01,Manufacturing,1084.197
+1991-02-01,"Electricity, Gas, Water and Waste Services",113.471
+1991-02-01,Construction,568.306
+1991-02-01,Wholesale Trade,440.61
+1991-02-01,Retail Trade,842.878
+1991-02-01,Accommodation and Food Services,451.29
+1991-02-01,"Transport, Postal and Warehousing",425.65
+1991-02-01,Information Media and Telecommunications,177.259
+1991-02-01,Financial and Insurance Services,345.298
+1991-02-01,"Rental, Hiring and Real Estate Services",116.642
+1991-02-01,"Professional, Scientific and Technical Services",378.878
+1991-02-01,Administrative and Support Services,176.506
+1991-02-01,Public Administration and Safety,444.274
+1991-02-01,Education and Training,540.791
+1991-02-01,Health Care and Social Assistance,662.032
+1991-02-01,Arts and Recreation Services,95.008
+1991-02-01,Other Services,356.758
+1991-05-01,"Agriculture, Forestry and Fishing",420.732
+1991-05-01,Mining,90.101
+1991-05-01,Manufacturing,1051.855
+1991-05-01,"Electricity, Gas, Water and Waste Services",111.993
+1991-05-01,Construction,545.611
+1991-05-01,Wholesale Trade,418.728
+1991-05-01,Retail Trade,832.773
+1991-05-01,Accommodation and Food Services,459.939
+1991-05-01,"Transport, Postal and Warehousing",430.976
+1991-05-01,Information Media and Telecommunications,172.372
+1991-05-01,Financial and Insurance Services,347.749
+1991-05-01,"Rental, Hiring and Real Estate Services",108.248
+1991-05-01,"Professional, Scientific and Technical Services",387.199
+1991-05-01,Administrative and Support Services,179.243
+1991-05-01,Public Administration and Safety,436.363
+1991-05-01,Education and Training,535.887
+1991-05-01,Health Care and Social Assistance,679.261
+1991-05-01,Arts and Recreation Services,99.763
+1991-05-01,Other Services,360.394
+1991-08-01,"Agriculture, Forestry and Fishing",401.875
+1991-08-01,Mining,87.415
+1991-08-01,Manufacturing,1045.554
+1991-08-01,"Electricity, Gas, Water and Waste Services",115.605
+1991-08-01,Construction,515.185
+1991-08-01,Wholesale Trade,418.082
+1991-08-01,Retail Trade,836.89
+1991-08-01,Accommodation and Food Services,467.272
+1991-08-01,"Transport, Postal and Warehousing",422.277
+1991-08-01,Information Media and Telecommunications,169.91
+1991-08-01,Financial and Insurance Services,347.622
+1991-08-01,"Rental, Hiring and Real Estate Services",111.488
+1991-08-01,"Professional, Scientific and Technical Services",385.241
+1991-08-01,Administrative and Support Services,180.298
+1991-08-01,Public Administration and Safety,444.05
+1991-08-01,Education and Training,540.699
+1991-08-01,Health Care and Social Assistance,691.713
+1991-08-01,Arts and Recreation Services,98.288
+1991-08-01,Other Services,353.831
+1991-11-01,"Agriculture, Forestry and Fishing",393.332
+1991-11-01,Mining,84.56
+1991-11-01,Manufacturing,1048.391
+1991-11-01,"Electricity, Gas, Water and Waste Services",115.792
+1991-11-01,Construction,523.069
+1991-11-01,Wholesale Trade,416.134
+1991-11-01,Retail Trade,826.436
+1991-11-01,Accommodation and Food Services,473.251
+1991-11-01,"Transport, Postal and Warehousing",415.199
+1991-11-01,Information Media and Telecommunications,166.802
+1991-11-01,Financial and Insurance Services,341.056
+1991-11-01,"Rental, Hiring and Real Estate Services",114.585
+1991-11-01,"Professional, Scientific and Technical Services",383.701
+1991-11-01,Administrative and Support Services,179.246
+1991-11-01,Public Administration and Safety,435.635
+1991-11-01,Education and Training,531.724
+1991-11-01,Health Care and Social Assistance,695.951
+1991-11-01,Arts and Recreation Services,106.949
+1991-11-01,Other Services,346.075
+1992-02-01,"Agriculture, Forestry and Fishing",385.69
+1992-02-01,Mining,89.381
+1992-02-01,Manufacturing,1044.069
+1992-02-01,"Electricity, Gas, Water and Waste Services",121.103
+1992-02-01,Construction,515.04
+1992-02-01,Wholesale Trade,409.428
+1992-02-01,Retail Trade,841.981
+1992-02-01,Accommodation and Food Services,471.678
+1992-02-01,"Transport, Postal and Warehousing",404.501
+1992-02-01,Information Media and Telecommunications,172.347
+1992-02-01,Financial and Insurance Services,328.859
+1992-02-01,"Rental, Hiring and Real Estate Services",113.427
+1992-02-01,"Professional, Scientific and Technical Services",395.369
+1992-02-01,Administrative and Support Services,185.498
+1992-02-01,Public Administration and Safety,442.414
+1992-02-01,Education and Training,549.603
+1992-02-01,Health Care and Social Assistance,692.488
+1992-02-01,Arts and Recreation Services,104.836
+1992-02-01,Other Services,367.869
+1992-05-01,"Agriculture, Forestry and Fishing",378.345
+1992-05-01,Mining,87.546
+1992-05-01,Manufacturing,1048.108
+1992-05-01,"Electricity, Gas, Water and Waste Services",122.635
+1992-05-01,Construction,516.225
+1992-05-01,Wholesale Trade,405.517
+1992-05-01,Retail Trade,847.312
+1992-05-01,Accommodation and Food Services,471.642
+1992-05-01,"Transport, Postal and Warehousing",400.73
+1992-05-01,Information Media and Telecommunications,167.529
+1992-05-01,Financial and Insurance Services,327.26
+1992-05-01,"Rental, Hiring and Real Estate Services",107.35
+1992-05-01,"Professional, Scientific and Technical Services",402.962
+1992-05-01,Administrative and Support Services,184.928
+1992-05-01,Public Administration and Safety,438.237
+1992-05-01,Education and Training,554.371
+1992-05-01,Health Care and Social Assistance,668.813
+1992-05-01,Arts and Recreation Services,99.804
+1992-05-01,Other Services,369.683
+1992-08-01,"Agriculture, Forestry and Fishing",383.601
+1992-08-01,Mining,88.55
+1992-08-01,Manufacturing,1041.66
+1992-08-01,"Electricity, Gas, Water and Waste Services",116.707
+1992-08-01,Construction,523.051
+1992-08-01,Wholesale Trade,413.081
+1992-08-01,Retail Trade,847.805
+1992-08-01,Accommodation and Food Services,473.836
+1992-08-01,"Transport, Postal and Warehousing",393.291
+1992-08-01,Information Media and Telecommunications,167.39
+1992-08-01,Financial and Insurance Services,331.933
+1992-08-01,"Rental, Hiring and Real Estate Services",114.34
+1992-08-01,"Professional, Scientific and Technical Services",396.464
+1992-08-01,Administrative and Support Services,187.905
+1992-08-01,Public Administration and Safety,441.213
+1992-08-01,Education and Training,559.977
+1992-08-01,Health Care and Social Assistance,690.354
+1992-08-01,Arts and Recreation Services,99.571
+1992-08-01,Other Services,379.252
+1992-11-01,"Agriculture, Forestry and Fishing",384.646
+1992-11-01,Mining,85.518
+1992-11-01,Manufacturing,1056.114
+1992-11-01,"Electricity, Gas, Water and Waste Services",105.849
+1992-11-01,Construction,524.397
+1992-11-01,Wholesale Trade,393.57
+1992-11-01,Retail Trade,840.689
+1992-11-01,Accommodation and Food Services,461.72
+1992-11-01,"Transport, Postal and Warehousing",381.25
+1992-11-01,Information Media and Telecommunications,165.921
+1992-11-01,Financial and Insurance Services,321.484
+1992-11-01,"Rental, Hiring and Real Estate Services",121.014
+1992-11-01,"Professional, Scientific and Technical Services",387.986
+1992-11-01,Administrative and Support Services,187.724
+1992-11-01,Public Administration and Safety,461.142
+1992-11-01,Education and Training,553.297
+1992-11-01,Health Care and Social Assistance,689.058
+1992-11-01,Arts and Recreation Services,90.018
+1992-11-01,Other Services,356.334
+1993-02-01,"Agriculture, Forestry and Fishing",394.655
+1993-02-01,Mining,82.871
+1993-02-01,Manufacturing,1034.133
+1993-02-01,"Electricity, Gas, Water and Waste Services",110.554
+1993-02-01,Construction,532.465
+1993-02-01,Wholesale Trade,403.165
+1993-02-01,Retail Trade,853.661
+1993-02-01,Accommodation and Food Services,468.02
+1993-02-01,"Transport, Postal and Warehousing",389.898
+1993-02-01,Information Media and Telecommunications,158.704
+1993-02-01,Financial and Insurance Services,317.355
+1993-02-01,"Rental, Hiring and Real Estate Services",118.369
+1993-02-01,"Professional, Scientific and Technical Services",359.217
+1993-02-01,Administrative and Support Services,183.477
+1993-02-01,Public Administration and Safety,471.59
+1993-02-01,Education and Training,559.337
+1993-02-01,Health Care and Social Assistance,671.579
+1993-02-01,Arts and Recreation Services,92.521
+1993-02-01,Other Services,364.806
+1993-05-01,"Agriculture, Forestry and Fishing",369.541
+1993-05-01,Mining,88.013
+1993-05-01,Manufacturing,1035.105
+1993-05-01,"Electricity, Gas, Water and Waste Services",108.416
+1993-05-01,Construction,547.243
+1993-05-01,Wholesale Trade,414.723
+1993-05-01,Retail Trade,859.593
+1993-05-01,Accommodation and Food Services,466.372
+1993-05-01,"Transport, Postal and Warehousing",389.499
+1993-05-01,Information Media and Telecommunications,165.895
+1993-05-01,Financial and Insurance Services,309.422
+1993-05-01,"Rental, Hiring and Real Estate Services",121.942
+1993-05-01,"Professional, Scientific and Technical Services",357.836
+1993-05-01,Administrative and Support Services,184.686
+1993-05-01,Public Administration and Safety,461.431
+1993-05-01,Education and Training,565.426
+1993-05-01,Health Care and Social Assistance,674.339
+1993-05-01,Arts and Recreation Services,103.495
+1993-05-01,Other Services,367.396
+1993-08-01,"Agriculture, Forestry and Fishing",394.723
+1993-08-01,Mining,89.519
+1993-08-01,Manufacturing,1021.57
+1993-08-01,"Electricity, Gas, Water and Waste Services",106.397
+1993-08-01,Construction,553.021
+1993-08-01,Wholesale Trade,422.365
+1993-08-01,Retail Trade,846.057
+1993-08-01,Accommodation and Food Services,465.148
+1993-08-01,"Transport, Postal and Warehousing",388.837
+1993-08-01,Information Media and Telecommunications,159.096
+1993-08-01,Financial and Insurance Services,301.921
+1993-08-01,"Rental, Hiring and Real Estate Services",117.542
+1993-08-01,"Professional, Scientific and Technical Services",371.547
+1993-08-01,Administrative and Support Services,182.755
+1993-08-01,Public Administration and Safety,490.634
+1993-08-01,Education and Training,567.953
+1993-08-01,Health Care and Social Assistance,690.254
+1993-08-01,Arts and Recreation Services,102.735
+1993-08-01,Other Services,357.786
+1993-11-01,"Agriculture, Forestry and Fishing",395.967
+1993-11-01,Mining,93.219
+1993-11-01,Manufacturing,1041.222
+1993-11-01,"Electricity, Gas, Water and Waste Services",106.536
+1993-11-01,Construction,551.475
+1993-11-01,Wholesale Trade,429.333
+1993-11-01,Retail Trade,857.641
+1993-11-01,Accommodation and Food Services,475.884
+1993-11-01,"Transport, Postal and Warehousing",398.07
+1993-11-01,Information Media and Telecommunications,164.779
+1993-11-01,Financial and Insurance Services,326.144
+1993-11-01,"Rental, Hiring and Real Estate Services",113.384
+1993-11-01,"Professional, Scientific and Technical Services",381.51
+1993-11-01,Administrative and Support Services,186.257
+1993-11-01,Public Administration and Safety,460.275
+1993-11-01,Education and Training,571.733
+1993-11-01,Health Care and Social Assistance,697.982
+1993-11-01,Arts and Recreation Services,104.842
+1993-11-01,Other Services,365.768
+1994-02-01,"Agriculture, Forestry and Fishing",380.695
+1994-02-01,Mining,87.253
+1994-02-01,Manufacturing,1053.416
+1994-02-01,"Electricity, Gas, Water and Waste Services",105.009
+1994-02-01,Construction,558.233
+1994-02-01,Wholesale Trade,419.066
+1994-02-01,Retail Trade,858.639
+1994-02-01,Accommodation and Food Services,491.218
+1994-02-01,"Transport, Postal and Warehousing",399.53
+1994-02-01,Information Media and Telecommunications,170.909
+1994-02-01,Financial and Insurance Services,324.966
+1994-02-01,"Rental, Hiring and Real Estate Services",120.12
+1994-02-01,"Professional, Scientific and Technical Services",407.608
+1994-02-01,Administrative and Support Services,195.004
+1994-02-01,Public Administration and Safety,460.98
+1994-02-01,Education and Training,563.51
+1994-02-01,Health Care and Social Assistance,708.339
+1994-02-01,Arts and Recreation Services,107.912
+1994-02-01,Other Services,358.909
+1994-05-01,"Agriculture, Forestry and Fishing",389.335
+1994-05-01,Mining,86.879
+1994-05-01,Manufacturing,1072.781
+1994-05-01,"Electricity, Gas, Water and Waste Services",103.947
+1994-05-01,Construction,557.317
+1994-05-01,Wholesale Trade,435.126
+1994-05-01,Retail Trade,879.128
+1994-05-01,Accommodation and Food Services,483.56
+1994-05-01,"Transport, Postal and Warehousing",398.493
+1994-05-01,Information Media and Telecommunications,174.454
+1994-05-01,Financial and Insurance Services,318.474
+1994-05-01,"Rental, Hiring and Real Estate Services",116.753
+1994-05-01,"Professional, Scientific and Technical Services",406.913
+1994-05-01,Administrative and Support Services,203.811
+1994-05-01,Public Administration and Safety,462.854
+1994-05-01,Education and Training,563.202
+1994-05-01,Health Care and Social Assistance,709.096
+1994-05-01,Arts and Recreation Services,111.979
+1994-05-01,Other Services,357.882
+1994-08-01,"Agriculture, Forestry and Fishing",389.598
+1994-08-01,Mining,85.696
+1994-08-01,Manufacturing,1080.052
+1994-08-01,"Electricity, Gas, Water and Waste Services",103.869
+1994-08-01,Construction,574.1
+1994-08-01,Wholesale Trade,407.501
+1994-08-01,Retail Trade,894.268
+1994-08-01,Accommodation and Food Services,522.575
+1994-08-01,"Transport, Postal and Warehousing",400.357
+1994-08-01,Information Media and Telecommunications,187.08
+1994-08-01,Financial and Insurance Services,310.264
+1994-08-01,"Rental, Hiring and Real Estate Services",115.332
+1994-08-01,"Professional, Scientific and Technical Services",432.926
+1994-08-01,Administrative and Support Services,215.779
+1994-08-01,Public Administration and Safety,450.193
+1994-08-01,Education and Training,563.295
+1994-08-01,Health Care and Social Assistance,694.872
+1994-08-01,Arts and Recreation Services,117.334
+1994-08-01,Other Services,387.816
+1994-11-01,"Agriculture, Forestry and Fishing",379.851
+1994-11-01,Mining,83.522
+1994-11-01,Manufacturing,1060.765
+1994-11-01,"Electricity, Gas, Water and Waste Services",100.683
+1994-11-01,Construction,583.046
+1994-11-01,Wholesale Trade,403.19
+1994-11-01,Retail Trade,899.436
+1994-11-01,Accommodation and Food Services,526.95
+1994-11-01,"Transport, Postal and Warehousing",415.004
+1994-11-01,Information Media and Telecommunications,190.652
+1994-11-01,Financial and Insurance Services,313.505
+1994-11-01,"Rental, Hiring and Real Estate Services",116.156
+1994-11-01,"Professional, Scientific and Technical Services",438.591
+1994-11-01,Administrative and Support Services,227.498
+1994-11-01,Public Administration and Safety,458.184
+1994-11-01,Education and Training,566.807
+1994-11-01,Health Care and Social Assistance,703.085
+1994-11-01,Arts and Recreation Services,120.594
+1994-11-01,Other Services,386.624
+1995-02-01,"Agriculture, Forestry and Fishing",387.97
+1995-02-01,Mining,85.822
+1995-02-01,Manufacturing,1080.399
+1995-02-01,"Electricity, Gas, Water and Waste Services",97.444
+1995-02-01,Construction,592.29
+1995-02-01,Wholesale Trade,418.231
+1995-02-01,Retail Trade,890.047
+1995-02-01,Accommodation and Food Services,537.937
+1995-02-01,"Transport, Postal and Warehousing",415.792
+1995-02-01,Information Media and Telecommunications,187.8
+1995-02-01,Financial and Insurance Services,309.626
+1995-02-01,"Rental, Hiring and Real Estate Services",119.361
+1995-02-01,"Professional, Scientific and Technical Services",447.827
+1995-02-01,Administrative and Support Services,248.562
+1995-02-01,Public Administration and Safety,458.683
+1995-02-01,Education and Training,573.475
+1995-02-01,Health Care and Social Assistance,716.035
+1995-02-01,Arts and Recreation Services,124.699
+1995-02-01,Other Services,389.017
+1995-05-01,"Agriculture, Forestry and Fishing",377.961
+1995-05-01,Mining,86.535
+1995-05-01,Manufacturing,1070.607
+1995-05-01,"Electricity, Gas, Water and Waste Services",94.163
+1995-05-01,Construction,602.574
+1995-05-01,Wholesale Trade,426.109
+1995-05-01,Retail Trade,887.778
+1995-05-01,Accommodation and Food Services,543.634
+1995-05-01,"Transport, Postal and Warehousing",414.075
+1995-05-01,Information Media and Telecommunications,187.719
+1995-05-01,Financial and Insurance Services,316.563
+1995-05-01,"Rental, Hiring and Real Estate Services",124.997
+1995-05-01,"Professional, Scientific and Technical Services",478.275
+1995-05-01,Administrative and Support Services,243.903
+1995-05-01,Public Administration and Safety,466.799
+1995-05-01,Education and Training,582.282
+1995-05-01,Health Care and Social Assistance,730.032
+1995-05-01,Arts and Recreation Services,123.664
+1995-05-01,Other Services,386.098
+1995-08-01,"Agriculture, Forestry and Fishing",385.122
+1995-08-01,Mining,83.931
+1995-08-01,Manufacturing,1074.703
+1995-08-01,"Electricity, Gas, Water and Waste Services",95.263
+1995-08-01,Construction,591.951
+1995-08-01,Wholesale Trade,420.243
+1995-08-01,Retail Trade,901.058
+1995-08-01,Accommodation and Food Services,544.361
+1995-08-01,"Transport, Postal and Warehousing",410.278
+1995-08-01,Information Media and Telecommunications,183.031
+1995-08-01,Financial and Insurance Services,319.063
+1995-08-01,"Rental, Hiring and Real Estate Services",118.228
+1995-08-01,"Professional, Scientific and Technical Services",477.986
+1995-08-01,Administrative and Support Services,246.502
+1995-08-01,Public Administration and Safety,483.962
+1995-08-01,Education and Training,603.101
+1995-08-01,Health Care and Social Assistance,745.058
+1995-08-01,Arts and Recreation Services,128.109
+1995-08-01,Other Services,397.023
+1995-11-01,"Agriculture, Forestry and Fishing",405.385
+1995-11-01,Mining,80.642
+1995-11-01,Manufacturing,1059.87
+1995-11-01,"Electricity, Gas, Water and Waste Services",95.1
+1995-11-01,Construction,601.187
+1995-11-01,Wholesale Trade,429.924
+1995-11-01,Retail Trade,911.844
+1995-11-01,Accommodation and Food Services,539.521
+1995-11-01,"Transport, Postal and Warehousing",417.168
+1995-11-01,Information Media and Telecommunications,192.262
+1995-11-01,Financial and Insurance Services,312.599
+1995-11-01,"Rental, Hiring and Real Estate Services",114.678
+1995-11-01,"Professional, Scientific and Technical Services",492.8
+1995-11-01,Administrative and Support Services,245.426
+1995-11-01,Public Administration and Safety,486.616
+1995-11-01,Education and Training,600.69
+1995-11-01,Health Care and Social Assistance,737.616
+1995-11-01,Arts and Recreation Services,123.801
+1995-11-01,Other Services,419.758
+1996-02-01,"Agriculture, Forestry and Fishing",400.792
+1996-02-01,Mining,88.495
+1996-02-01,Manufacturing,1062.413
+1996-02-01,"Electricity, Gas, Water and Waste Services",95.313
+1996-02-01,Construction,600.706
+1996-02-01,Wholesale Trade,403.62
+1996-02-01,Retail Trade,933.286
+1996-02-01,Accommodation and Food Services,526.266
+1996-02-01,"Transport, Postal and Warehousing",425.771
+1996-02-01,Information Media and Telecommunications,207.874
+1996-02-01,Financial and Insurance Services,316.031
+1996-02-01,"Rental, Hiring and Real Estate Services",107.095
+1996-02-01,"Professional, Scientific and Technical Services",497.527
+1996-02-01,Administrative and Support Services,242.355
+1996-02-01,Public Administration and Safety,482.521
+1996-02-01,Education and Training,603.555
+1996-02-01,Health Care and Social Assistance,745.954
+1996-02-01,Arts and Recreation Services,122.19
+1996-02-01,Other Services,417.177
+1996-05-01,"Agriculture, Forestry and Fishing",405.514
+1996-05-01,Mining,85.623
+1996-05-01,Manufacturing,1064.435
+1996-05-01,"Electricity, Gas, Water and Waste Services",84.977
+1996-05-01,Construction,594.554
+1996-05-01,Wholesale Trade,410.481
+1996-05-01,Retail Trade,942.573
+1996-05-01,Accommodation and Food Services,531.043
+1996-05-01,"Transport, Postal and Warehousing",430.305
+1996-05-01,Information Media and Telecommunications,199.433
+1996-05-01,Financial and Insurance Services,318.391
+1996-05-01,"Rental, Hiring and Real Estate Services",108.777
+1996-05-01,"Professional, Scientific and Technical Services",510.155
+1996-05-01,Administrative and Support Services,237.741
+1996-05-01,Public Administration and Safety,468.003
+1996-05-01,Education and Training,600.814
+1996-05-01,Health Care and Social Assistance,754.134
+1996-05-01,Arts and Recreation Services,116.771
+1996-05-01,Other Services,415.518
+1996-08-01,"Agriculture, Forestry and Fishing",405.979
+1996-08-01,Mining,85.024
+1996-08-01,Manufacturing,1065.853
+1996-08-01,"Electricity, Gas, Water and Waste Services",79.405
+1996-08-01,Construction,604.795
+1996-08-01,Wholesale Trade,415.104
+1996-08-01,Retail Trade,929.772
+1996-08-01,Accommodation and Food Services,540.21
+1996-08-01,"Transport, Postal and Warehousing",433.351
+1996-08-01,Information Media and Telecommunications,203.111
+1996-08-01,Financial and Insurance Services,315.815
+1996-08-01,"Rental, Hiring and Real Estate Services",117.464
+1996-08-01,"Professional, Scientific and Technical Services",503.326
+1996-08-01,Administrative and Support Services,238.604
+1996-08-01,Public Administration and Safety,470.95
+1996-08-01,Education and Training,592.246
+1996-08-01,Health Care and Social Assistance,757.301
+1996-08-01,Arts and Recreation Services,122.872
+1996-08-01,Other Services,405.43
+1996-11-01,"Agriculture, Forestry and Fishing",393.001
+1996-11-01,Mining,87.895
+1996-11-01,Manufacturing,1076.674
+1996-11-01,"Electricity, Gas, Water and Waste Services",77.508
+1996-11-01,Construction,575.13
+1996-11-01,Wholesale Trade,406.65
+1996-11-01,Retail Trade,932.55
+1996-11-01,Accommodation and Food Services,545.306
+1996-11-01,"Transport, Postal and Warehousing",426.455
+1996-11-01,Information Media and Telecommunications,203.664
+1996-11-01,Financial and Insurance Services,317.918
+1996-11-01,"Rental, Hiring and Real Estate Services",126.366
+1996-11-01,"Professional, Scientific and Technical Services",511.561
+1996-11-01,Administrative and Support Services,246.284
+1996-11-01,Public Administration and Safety,469.498
+1996-11-01,Education and Training,600.289
+1996-11-01,Health Care and Social Assistance,764.7
+1996-11-01,Arts and Recreation Services,116.585
+1996-11-01,Other Services,399.871
+1997-02-01,"Agriculture, Forestry and Fishing",407.319
+1997-02-01,Mining,84.553
+1997-02-01,Manufacturing,1084.62
+1997-02-01,"Electricity, Gas, Water and Waste Services",78.982
+1997-02-01,Construction,578.012
+1997-02-01,Wholesale Trade,414.991
+1997-02-01,Retail Trade,918.093
+1997-02-01,Accommodation and Food Services,567.02
+1997-02-01,"Transport, Postal and Warehousing",428.943
+1997-02-01,Information Media and Telecommunications,203.112
+1997-02-01,Financial and Insurance Services,321.722
+1997-02-01,"Rental, Hiring and Real Estate Services",123.486
+1997-02-01,"Professional, Scientific and Technical Services",519.993
+1997-02-01,Administrative and Support Services,244.644
+1997-02-01,Public Administration and Safety,473.857
+1997-02-01,Education and Training,595.155
+1997-02-01,Health Care and Social Assistance,753.792
+1997-02-01,Arts and Recreation Services,127.583
+1997-02-01,Other Services,398.95
+1997-05-01,"Agriculture, Forestry and Fishing",403.306
+1997-05-01,Mining,80.734
+1997-05-01,Manufacturing,1083.721
+1997-05-01,"Electricity, Gas, Water and Waste Services",80.947
+1997-05-01,Construction,574.006
+1997-05-01,Wholesale Trade,408.199
+1997-05-01,Retail Trade,917.948
+1997-05-01,Accommodation and Food Services,563.015
+1997-05-01,"Transport, Postal and Warehousing",428.134
+1997-05-01,Information Media and Telecommunications,203.168
+1997-05-01,Financial and Insurance Services,315.001
+1997-05-01,"Rental, Hiring and Real Estate Services",122.287
+1997-05-01,"Professional, Scientific and Technical Services",522.612
+1997-05-01,Administrative and Support Services,253.874
+1997-05-01,Public Administration and Safety,473.418
+1997-05-01,Education and Training,594.81
+1997-05-01,Health Care and Social Assistance,754.387
+1997-05-01,Arts and Recreation Services,130.861
+1997-05-01,Other Services,405.88
+1997-08-01,"Agriculture, Forestry and Fishing",395.234
+1997-08-01,Mining,81.037
+1997-08-01,Manufacturing,1087.681
+1997-08-01,"Electricity, Gas, Water and Waste Services",78.728
+1997-08-01,Construction,568.498
+1997-08-01,Wholesale Trade,396.99
+1997-08-01,Retail Trade,917.423
+1997-08-01,Accommodation and Food Services,565.653
+1997-08-01,"Transport, Postal and Warehousing",432.656
+1997-08-01,Information Media and Telecommunications,196.448
+1997-08-01,Financial and Insurance Services,313.612
+1997-08-01,"Rental, Hiring and Real Estate Services",122.416
+1997-08-01,"Professional, Scientific and Technical Services",542.775
+1997-08-01,Administrative and Support Services,257.879
+1997-08-01,Public Administration and Safety,459.697
+1997-08-01,Education and Training,591.234
+1997-08-01,Health Care and Social Assistance,778.028
+1997-08-01,Arts and Recreation Services,133.989
+1997-08-01,Other Services,397.929
+1997-11-01,"Agriculture, Forestry and Fishing",427.543
+1997-11-01,Mining,80.597
+1997-11-01,Manufacturing,1081.708
+1997-11-01,"Electricity, Gas, Water and Waste Services",78.056
+1997-11-01,Construction,588.896
+1997-11-01,Wholesale Trade,408.982
+1997-11-01,Retail Trade,946.561
+1997-11-01,Accommodation and Food Services,560.434
+1997-11-01,"Transport, Postal and Warehousing",430.152
+1997-11-01,Information Media and Telecommunications,181.231
+1997-11-01,Financial and Insurance Services,307.389
+1997-11-01,"Rental, Hiring and Real Estate Services",125.318
+1997-11-01,"Professional, Scientific and Technical Services",547.666
+1997-11-01,Administrative and Support Services,258.241
+1997-11-01,Public Administration and Safety,462.793
+1997-11-01,Education and Training,597.48
+1997-11-01,Health Care and Social Assistance,787.562
+1997-11-01,Arts and Recreation Services,140.638
+1997-11-01,Other Services,414.744
+1998-02-01,"Agriculture, Forestry and Fishing",413.038
+1998-02-01,Mining,81.497
+1998-02-01,Manufacturing,1066.614
+1998-02-01,"Electricity, Gas, Water and Waste Services",77.898
+1998-02-01,Construction,604.911
+1998-02-01,Wholesale Trade,419.072
+1998-02-01,Retail Trade,941.847
+1998-02-01,Accommodation and Food Services,558.45
+1998-02-01,"Transport, Postal and Warehousing",429.901
+1998-02-01,Information Media and Telecommunications,184.479
+1998-02-01,Financial and Insurance Services,306.053
+1998-02-01,"Rental, Hiring and Real Estate Services",132.507
+1998-02-01,"Professional, Scientific and Technical Services",556.964
+1998-02-01,Administrative and Support Services,276.578
+1998-02-01,Public Administration and Safety,448.869
+1998-02-01,Education and Training,599.961
+1998-02-01,Health Care and Social Assistance,794.159
+1998-02-01,Arts and Recreation Services,131.489
+1998-02-01,Other Services,423.495
+1998-05-01,"Agriculture, Forestry and Fishing",413.627
+1998-05-01,Mining,86.268
+1998-05-01,Manufacturing,1040.384
+1998-05-01,"Electricity, Gas, Water and Waste Services",78.091
+1998-05-01,Construction,611.826
+1998-05-01,Wholesale Trade,426.88
+1998-05-01,Retail Trade,941.746
+1998-05-01,Accommodation and Food Services,574.565
+1998-05-01,"Transport, Postal and Warehousing",428.404
+1998-05-01,Information Media and Telecommunications,187.132
+1998-05-01,Financial and Insurance Services,317.336
+1998-05-01,"Rental, Hiring and Real Estate Services",132.554
+1998-05-01,"Professional, Scientific and Technical Services",540.58
+1998-05-01,Administrative and Support Services,284.603
+1998-05-01,Public Administration and Safety,448.11
+1998-05-01,Education and Training,614.009
+1998-05-01,Health Care and Social Assistance,799.9
+1998-05-01,Arts and Recreation Services,130.361
+1998-05-01,Other Services,412.712
+1998-08-01,"Agriculture, Forestry and Fishing",408.427
+1998-08-01,Mining,87.87
+1998-08-01,Manufacturing,1049.077
+1998-08-01,"Electricity, Gas, Water and Waste Services",81.666
+1998-08-01,Construction,614.572
+1998-08-01,Wholesale Trade,419.229
+1998-08-01,Retail Trade,961.844
+1998-08-01,Accommodation and Food Services,576.729
+1998-08-01,"Transport, Postal and Warehousing",423.178
+1998-08-01,Information Media and Telecommunications,187.609
+1998-08-01,Financial and Insurance Services,321.058
+1998-08-01,"Rental, Hiring and Real Estate Services",130.22
+1998-08-01,"Professional, Scientific and Technical Services",558.431
+1998-08-01,Administrative and Support Services,284.918
+1998-08-01,Public Administration and Safety,455.34
+1998-08-01,Education and Training,607.096
+1998-08-01,Health Care and Social Assistance,797.453
+1998-08-01,Arts and Recreation Services,125.825
+1998-08-01,Other Services,401.243
+1998-11-01,"Agriculture, Forestry and Fishing",402.018
+1998-11-01,Mining,85.193
+1998-11-01,Manufacturing,1031.493
+1998-11-01,"Electricity, Gas, Water and Waste Services",77.8
+1998-11-01,Construction,612.473
+1998-11-01,Wholesale Trade,405.329
+1998-11-01,Retail Trade,969.762
+1998-11-01,Accommodation and Food Services,585.13
+1998-11-01,"Transport, Postal and Warehousing",441.595
+1998-11-01,Information Media and Telecommunications,186.928
+1998-11-01,Financial and Insurance Services,332.513
+1998-11-01,"Rental, Hiring and Real Estate Services",124.073
+1998-11-01,"Professional, Scientific and Technical Services",562.243
+1998-11-01,Administrative and Support Services,302.102
+1998-11-01,Public Administration and Safety,461.147
+1998-11-01,Education and Training,615.38
+1998-11-01,Health Care and Social Assistance,801.78
+1998-11-01,Arts and Recreation Services,139.942
+1998-11-01,Other Services,405.101
+1999-02-01,"Agriculture, Forestry and Fishing",415.592
+1999-02-01,Mining,80.046
+1999-02-01,Manufacturing,1021.964
+1999-02-01,"Electricity, Gas, Water and Waste Services",76.52
+1999-02-01,Construction,616.935
+1999-02-01,Wholesale Trade,413.412
+1999-02-01,Retail Trade,975.075
+1999-02-01,Accommodation and Food Services,585.09
+1999-02-01,"Transport, Postal and Warehousing",460.862
+1999-02-01,Information Media and Telecommunications,184.063
+1999-02-01,Financial and Insurance Services,316.982
+1999-02-01,"Rental, Hiring and Real Estate Services",124.065
+1999-02-01,"Professional, Scientific and Technical Services",555.293
+1999-02-01,Administrative and Support Services,295.311
+1999-02-01,Public Administration and Safety,470.217
+1999-02-01,Education and Training,627.576
+1999-02-01,Health Care and Social Assistance,825.09
+1999-02-01,Arts and Recreation Services,134.063
+1999-02-01,Other Services,412.395
+1999-05-01,"Agriculture, Forestry and Fishing",426.106
+1999-05-01,Mining,78.44
+1999-05-01,Manufacturing,1021.488
+1999-05-01,"Electricity, Gas, Water and Waste Services",79.419
+1999-05-01,Construction,634.294
+1999-05-01,Wholesale Trade,413.194
+1999-05-01,Retail Trade,983.233
+1999-05-01,Accommodation and Food Services,583.641
+1999-05-01,"Transport, Postal and Warehousing",438.105
+1999-05-01,Information Media and Telecommunications,186.136
+1999-05-01,Financial and Insurance Services,296.51
+1999-05-01,"Rental, Hiring and Real Estate Services",134.655
+1999-05-01,"Professional, Scientific and Technical Services",558.331
+1999-05-01,Administrative and Support Services,298.288
+1999-05-01,Public Administration and Safety,484.147
+1999-05-01,Education and Training,633.733
+1999-05-01,Health Care and Social Assistance,793.577
+1999-05-01,Arts and Recreation Services,142.632
+1999-05-01,Other Services,410.999
+1999-08-01,"Agriculture, Forestry and Fishing",427.07
+1999-08-01,Mining,79.191
+1999-08-01,Manufacturing,1013.467
+1999-08-01,"Electricity, Gas, Water and Waste Services",80.488
+1999-08-01,Construction,666.043
+1999-08-01,Wholesale Trade,441.748
+1999-08-01,Retail Trade,996.419
+1999-08-01,Accommodation and Food Services,579.845
+1999-08-01,"Transport, Postal and Warehousing",441.075
+1999-08-01,Information Media and Telecommunications,188.319
+1999-08-01,Financial and Insurance Services,305.53
+1999-08-01,"Rental, Hiring and Real Estate Services",135.948
+1999-08-01,"Professional, Scientific and Technical Services",556.805
+1999-08-01,Administrative and Support Services,300.147
+1999-08-01,Public Administration and Safety,479.322
+1999-08-01,Education and Training,632.88
+1999-08-01,Health Care and Social Assistance,786.512
+1999-08-01,Arts and Recreation Services,136.193
+1999-08-01,Other Services,418.963
+1999-11-01,"Agriculture, Forestry and Fishing",430.369
+1999-11-01,Mining,80.358
+1999-11-01,Manufacturing,1025.053
+1999-11-01,"Electricity, Gas, Water and Waste Services",78.85
+1999-11-01,Construction,684.166
+1999-11-01,Wholesale Trade,430.05
+1999-11-01,Retail Trade,982.48
+1999-11-01,Accommodation and Food Services,595.859
+1999-11-01,"Transport, Postal and Warehousing",434.842
+1999-11-01,Information Media and Telecommunications,204.664
+1999-11-01,Financial and Insurance Services,316.08
+1999-11-01,"Rental, Hiring and Real Estate Services",129.617
+1999-11-01,"Professional, Scientific and Technical Services",584.782
+1999-11-01,Administrative and Support Services,300.108
+1999-11-01,Public Administration and Safety,473.885
+1999-11-01,Education and Training,629.593
+1999-11-01,Health Care and Social Assistance,804.92
+1999-11-01,Arts and Recreation Services,133.645
+1999-11-01,Other Services,414.256
+2000-02-01,"Agriculture, Forestry and Fishing",434.571
+2000-02-01,Mining,84.329
+2000-02-01,Manufacturing,1055.402
+2000-02-01,"Electricity, Gas, Water and Waste Services",77.035
+2000-02-01,Construction,684.522
+2000-02-01,Wholesale Trade,394.866
+2000-02-01,Retail Trade,992.734
+2000-02-01,Accommodation and Food Services,597.547
+2000-02-01,"Transport, Postal and Warehousing",435.74
+2000-02-01,Information Media and Telecommunications,221.868
+2000-02-01,Financial and Insurance Services,336.375
+2000-02-01,"Rental, Hiring and Real Estate Services",136.692
+2000-02-01,"Professional, Scientific and Technical Services",566.453
+2000-02-01,Administrative and Support Services,308.269
+2000-02-01,Public Administration and Safety,470.881
+2000-02-01,Education and Training,618.406
+2000-02-01,Health Care and Social Assistance,818.415
+2000-02-01,Arts and Recreation Services,141.867
+2000-02-01,Other Services,408.063
+2000-05-01,"Agriculture, Forestry and Fishing",426.268
+2000-05-01,Mining,76.753
+2000-05-01,Manufacturing,1104.207
+2000-05-01,"Electricity, Gas, Water and Waste Services",80.98
+2000-05-01,Construction,689.735
+2000-05-01,Wholesale Trade,357.785
+2000-05-01,Retail Trade,980.074
+2000-05-01,Accommodation and Food Services,611.255
+2000-05-01,"Transport, Postal and Warehousing",453.113
+2000-05-01,Information Media and Telecommunications,218.05
+2000-05-01,Financial and Insurance Services,328.697
+2000-05-01,"Rental, Hiring and Real Estate Services",141.878
+2000-05-01,"Professional, Scientific and Technical Services",579.359
+2000-05-01,Administrative and Support Services,321.47
+2000-05-01,Public Administration and Safety,479.13
+2000-05-01,Education and Training,630.473
+2000-05-01,Health Care and Social Assistance,837.599
+2000-05-01,Arts and Recreation Services,139.93
+2000-05-01,Other Services,398.428
+2000-08-01,"Agriculture, Forestry and Fishing",429.349
+2000-08-01,Mining,81.409
+2000-08-01,Manufacturing,1077.438
+2000-08-01,"Electricity, Gas, Water and Waste Services",78.536
+2000-08-01,Construction,694.306
+2000-08-01,Wholesale Trade,381.994
+2000-08-01,Retail Trade,988.331
+2000-08-01,Accommodation and Food Services,631.365
+2000-08-01,"Transport, Postal and Warehousing",460.878
+2000-08-01,Information Media and Telecommunications,223.492
+2000-08-01,Financial and Insurance Services,329.423
+2000-08-01,"Rental, Hiring and Real Estate Services",142.855
+2000-08-01,"Professional, Scientific and Technical Services",589.068
+2000-08-01,Administrative and Support Services,337.769
+2000-08-01,Public Administration and Safety,494.863
+2000-08-01,Education and Training,636.713
+2000-08-01,Health Care and Social Assistance,844.396
+2000-08-01,Arts and Recreation Services,139.553
+2000-08-01,Other Services,382.59
+2000-11-01,"Agriculture, Forestry and Fishing",425.16
+2000-11-01,Mining,82.009
+2000-11-01,Manufacturing,1047.712
+2000-11-01,"Electricity, Gas, Water and Waste Services",81.499
+2000-11-01,Construction,665.856
+2000-11-01,Wholesale Trade,367.782
+2000-11-01,Retail Trade,997.126
+2000-11-01,Accommodation and Food Services,630.688
+2000-11-01,"Transport, Postal and Warehousing",467.221
+2000-11-01,Information Media and Telecommunications,225.049
+2000-11-01,Financial and Insurance Services,324.839
+2000-11-01,"Rental, Hiring and Real Estate Services",141.424
+2000-11-01,"Professional, Scientific and Technical Services",607.082
+2000-11-01,Administrative and Support Services,344.436
+2000-11-01,Public Administration and Safety,499.591
+2000-11-01,Education and Training,635.336
+2000-11-01,Health Care and Social Assistance,827.663
+2000-11-01,Arts and Recreation Services,139.487
+2000-11-01,Other Services,378.445
+2001-02-01,"Agriculture, Forestry and Fishing",408.349
+2001-02-01,Mining,76.398
+2001-02-01,Manufacturing,1062.804
+2001-02-01,"Electricity, Gas, Water and Waste Services",80.323
+2001-02-01,Construction,647.797
+2001-02-01,Wholesale Trade,351.31
+2001-02-01,Retail Trade,1008.858
+2001-02-01,Accommodation and Food Services,633.985
+2001-02-01,"Transport, Postal and Warehousing",470.815
+2001-02-01,Information Media and Telecommunications,227.32
+2001-02-01,Financial and Insurance Services,324.662
+2001-02-01,"Rental, Hiring and Real Estate Services",141.676
+2001-02-01,"Professional, Scientific and Technical Services",633.536
+2001-02-01,Administrative and Support Services,343.285
+2001-02-01,Public Administration and Safety,508.393
+2001-02-01,Education and Training,637.155
+2001-02-01,Health Care and Social Assistance,865.559
+2001-02-01,Arts and Recreation Services,138.364
+2001-02-01,Other Services,385.187
+2001-05-01,"Agriculture, Forestry and Fishing",419.247
+2001-05-01,Mining,79.355
+2001-05-01,Manufacturing,1050.421
+2001-05-01,"Electricity, Gas, Water and Waste Services",79.943
+2001-05-01,Construction,648.864
+2001-05-01,Wholesale Trade,354.355
+2001-05-01,Retail Trade,1022.785
+2001-05-01,Accommodation and Food Services,623.009
+2001-05-01,"Transport, Postal and Warehousing",462.624
+2001-05-01,Information Media and Telecommunications,230.956
+2001-05-01,Financial and Insurance Services,346.561
+2001-05-01,"Rental, Hiring and Real Estate Services",143.754
+2001-05-01,"Professional, Scientific and Technical Services",613.662
+2001-05-01,Administrative and Support Services,330.115
+2001-05-01,Public Administration and Safety,502.866
+2001-05-01,Education and Training,641.416
+2001-05-01,Health Care and Social Assistance,888.976
+2001-05-01,Arts and Recreation Services,138.596
+2001-05-01,Other Services,414.838
+2001-08-01,"Agriculture, Forestry and Fishing",436.283
+2001-08-01,Mining,80.913
+2001-08-01,Manufacturing,1025.514
+2001-08-01,"Electricity, Gas, Water and Waste Services",85.009
+2001-08-01,Construction,659.775
+2001-08-01,Wholesale Trade,349.503
+2001-08-01,Retail Trade,1024.61
+2001-08-01,Accommodation and Food Services,636.265
+2001-08-01,"Transport, Postal and Warehousing",461.147
+2001-08-01,Information Media and Telecommunications,216.547
+2001-08-01,Financial and Insurance Services,349.084
+2001-08-01,"Rental, Hiring and Real Estate Services",143.282
+2001-08-01,"Professional, Scientific and Technical Services",593.154
+2001-08-01,Administrative and Support Services,329.101
+2001-08-01,Public Administration and Safety,526.85
+2001-08-01,Education and Training,654.465
+2001-08-01,Health Care and Social Assistance,874.924
+2001-08-01,Arts and Recreation Services,132.801
+2001-08-01,Other Services,429.23
+2001-11-01,"Agriculture, Forestry and Fishing",438.835
+2001-11-01,Mining,81.484
+2001-11-01,Manufacturing,1035.135
+2001-11-01,"Electricity, Gas, Water and Waste Services",82.53
+2001-11-01,Construction,678.733
+2001-11-01,Wholesale Trade,362.189
+2001-11-01,Retail Trade,1044.665
+2001-11-01,Accommodation and Food Services,628.705
+2001-11-01,"Transport, Postal and Warehousing",455.948
+2001-11-01,Information Media and Telecommunications,216.628
+2001-11-01,Financial and Insurance Services,348.858
+2001-11-01,"Rental, Hiring and Real Estate Services",156.368
+2001-11-01,"Professional, Scientific and Technical Services",575.826
+2001-11-01,Administrative and Support Services,315.087
+2001-11-01,Public Administration and Safety,508.934
+2001-11-01,Education and Training,667.612
+2001-11-01,Health Care and Social Assistance,893.437
+2001-11-01,Arts and Recreation Services,144.832
+2001-11-01,Other Services,425.762
+2002-02-01,"Agriculture, Forestry and Fishing",430.075
+2002-02-01,Mining,83.629
+2002-02-01,Manufacturing,1036.055
+2002-02-01,"Electricity, Gas, Water and Waste Services",82.211
+2002-02-01,Construction,698.194
+2002-02-01,Wholesale Trade,366.582
+2002-02-01,Retail Trade,1034.253
+2002-02-01,Accommodation and Food Services,652.27
+2002-02-01,"Transport, Postal and Warehousing",445.76
+2002-02-01,Information Media and Telecommunications,213.449
+2002-02-01,Financial and Insurance Services,337.475
+2002-02-01,"Rental, Hiring and Real Estate Services",158.751
+2002-02-01,"Professional, Scientific and Technical Services",597.237
+2002-02-01,Administrative and Support Services,315.504
+2002-02-01,Public Administration and Safety,534.321
+2002-02-01,Education and Training,667.325
+2002-02-01,Health Care and Social Assistance,896.455
+2002-02-01,Arts and Recreation Services,156.345
+2002-02-01,Other Services,406.34
+2002-05-01,"Agriculture, Forestry and Fishing",421.284
+2002-05-01,Mining,82.791
+2002-05-01,Manufacturing,1046.396
+2002-05-01,"Electricity, Gas, Water and Waste Services",79.8
+2002-05-01,Construction,697.101
+2002-05-01,Wholesale Trade,366.383
+2002-05-01,Retail Trade,1044.355
+2002-05-01,Accommodation and Food Services,640.467
+2002-05-01,"Transport, Postal and Warehousing",445.319
+2002-05-01,Information Media and Telecommunications,207.673
+2002-05-01,Financial and Insurance Services,338.078
+2002-05-01,"Rental, Hiring and Real Estate Services",148.382
+2002-05-01,"Professional, Scientific and Technical Services",600.11
+2002-05-01,Administrative and Support Services,323.328
+2002-05-01,Public Administration and Safety,544.547
+2002-05-01,Education and Training,667.987
+2002-05-01,Health Care and Social Assistance,898.186
+2002-05-01,Arts and Recreation Services,152.042
+2002-05-01,Other Services,415.453
+2002-08-01,"Agriculture, Forestry and Fishing",388.383
+2002-08-01,Mining,83.19
+2002-08-01,Manufacturing,1063.588
+2002-08-01,"Electricity, Gas, Water and Waste Services",82.355
+2002-08-01,Construction,676.895
+2002-08-01,Wholesale Trade,364.628
+2002-08-01,Retail Trade,1069.006
+2002-08-01,Accommodation and Food Services,617.157
+2002-08-01,"Transport, Postal and Warehousing",437.889
+2002-08-01,Information Media and Telecommunications,224.298
+2002-08-01,Financial and Insurance Services,339.217
+2002-08-01,"Rental, Hiring and Real Estate Services",153.482
+2002-08-01,"Professional, Scientific and Technical Services",613.763
+2002-08-01,Administrative and Support Services,335.393
+2002-08-01,Public Administration and Safety,550.353
+2002-08-01,Education and Training,682.126
+2002-08-01,Health Care and Social Assistance,926.249
+2002-08-01,Arts and Recreation Services,157.024
+2002-08-01,Other Services,428.264
+2002-11-01,"Agriculture, Forestry and Fishing",361.944
+2002-11-01,Mining,91.054
+2002-11-01,Manufacturing,1078.937
+2002-11-01,"Electricity, Gas, Water and Waste Services",89.085
+2002-11-01,Construction,698.936
+2002-11-01,Wholesale Trade,370.017
+2002-11-01,Retail Trade,1084.093
+2002-11-01,Accommodation and Food Services,626.671
+2002-11-01,"Transport, Postal and Warehousing",445.437
+2002-11-01,Information Media and Telecommunications,220.982
+2002-11-01,Financial and Insurance Services,341.253
+2002-11-01,"Rental, Hiring and Real Estate Services",158.556
+2002-11-01,"Professional, Scientific and Technical Services",600.421
+2002-11-01,Administrative and Support Services,334.117
+2002-11-01,Public Administration and Safety,577.528
+2002-11-01,Education and Training,682.725
+2002-11-01,Health Care and Social Assistance,934.579
+2002-11-01,Arts and Recreation Services,149.808
+2002-11-01,Other Services,423.577
+2003-02-01,"Agriculture, Forestry and Fishing",350.179
+2003-02-01,Mining,93.855
+2003-02-01,Manufacturing,1069.529
+2003-02-01,"Electricity, Gas, Water and Waste Services",91.966
+2003-02-01,Construction,749.88
+2003-02-01,Wholesale Trade,379.876
+2003-02-01,Retail Trade,1113.854
+2003-02-01,Accommodation and Food Services,629.361
+2003-02-01,"Transport, Postal and Warehousing",452.179
+2003-02-01,Information Media and Telecommunications,231.046
+2003-02-01,Financial and Insurance Services,356.4
+2003-02-01,"Rental, Hiring and Real Estate Services",151.929
+2003-02-01,"Professional, Scientific and Technical Services",605.524
+2003-02-01,Administrative and Support Services,342.2
+2003-02-01,Public Administration and Safety,591.277
+2003-02-01,Education and Training,699.434
+2003-02-01,Health Care and Social Assistance,911.243
+2003-02-01,Arts and Recreation Services,145.247
+2003-02-01,Other Services,423.926
+2003-05-01,"Agriculture, Forestry and Fishing",373.21
+2003-05-01,Mining,87.458
+2003-05-01,Manufacturing,1042.376
+2003-05-01,"Electricity, Gas, Water and Waste Services",93.002
+2003-05-01,Construction,710.672
+2003-05-01,Wholesale Trade,378.192
+2003-05-01,Retail Trade,1134.241
+2003-05-01,Accommodation and Food Services,647.106
+2003-05-01,"Transport, Postal and Warehousing",462.723
+2003-05-01,Information Media and Telecommunications,226.348
+2003-05-01,Financial and Insurance Services,338.851
+2003-05-01,"Rental, Hiring and Real Estate Services",171.224
+2003-05-01,"Professional, Scientific and Technical Services",617.901
+2003-05-01,Administrative and Support Services,342.112
+2003-05-01,Public Administration and Safety,578.205
+2003-05-01,Education and Training,684.317
+2003-05-01,Health Care and Social Assistance,905.936
+2003-05-01,Arts and Recreation Services,143.205
+2003-05-01,Other Services,425.744
+2003-08-01,"Agriculture, Forestry and Fishing",367.85
+2003-08-01,Mining,84.19
+2003-08-01,Manufacturing,1029.685
+2003-08-01,"Electricity, Gas, Water and Waste Services",97.494
+2003-08-01,Construction,752.973
+2003-08-01,Wholesale Trade,364.79
+2003-08-01,Retail Trade,1102.265
+2003-08-01,Accommodation and Food Services,645.643
+2003-08-01,"Transport, Postal and Warehousing",459.497
+2003-08-01,Information Media and Telecommunications,221.966
+2003-08-01,Financial and Insurance Services,340.079
+2003-08-01,"Rental, Hiring and Real Estate Services",179.739
+2003-08-01,"Professional, Scientific and Technical Services",620.983
+2003-08-01,Administrative and Support Services,337.95
+2003-08-01,Public Administration and Safety,576.659
+2003-08-01,Education and Training,707.854
+2003-08-01,Health Care and Social Assistance,908.203
+2003-08-01,Arts and Recreation Services,154.549
+2003-08-01,Other Services,421.055
+2003-11-01,"Agriculture, Forestry and Fishing",372.561
+2003-11-01,Mining,93.956
+2003-11-01,Manufacturing,990.551
+2003-11-01,"Electricity, Gas, Water and Waste Services",83.002
+2003-11-01,Construction,763.767
+2003-11-01,Wholesale Trade,375.117
+2003-11-01,Retail Trade,1087.897
+2003-11-01,Accommodation and Food Services,652.604
+2003-11-01,"Transport, Postal and Warehousing",486.102
+2003-11-01,Information Media and Telecommunications,210.869
+2003-11-01,Financial and Insurance Services,344.095
+2003-11-01,"Rental, Hiring and Real Estate Services",170.472
+2003-11-01,"Professional, Scientific and Technical Services",641.852
+2003-11-01,Administrative and Support Services,355.944
+2003-11-01,Public Administration and Safety,582.51
+2003-11-01,Education and Training,710.659
+2003-11-01,Health Care and Social Assistance,927.117
+2003-11-01,Arts and Recreation Services,146.73
+2003-11-01,Other Services,417.131
+2004-02-01,"Agriculture, Forestry and Fishing",362.771
+2004-02-01,Mining,101.316
+2004-02-01,Manufacturing,1021.051
+2004-02-01,"Electricity, Gas, Water and Waste Services",89.492
+2004-02-01,Construction,756.32
+2004-02-01,Wholesale Trade,379.576
+2004-02-01,Retail Trade,1086.695
+2004-02-01,Accommodation and Food Services,654.916
+2004-02-01,"Transport, Postal and Warehousing",472.186
+2004-02-01,Information Media and Telecommunications,214.519
+2004-02-01,Financial and Insurance Services,348.856
+2004-02-01,"Rental, Hiring and Real Estate Services",180.227
+2004-02-01,"Professional, Scientific and Technical Services",620.141
+2004-02-01,Administrative and Support Services,332.805
+2004-02-01,Public Administration and Safety,581.801
+2004-02-01,Education and Training,709.486
+2004-02-01,Health Care and Social Assistance,954.735
+2004-02-01,Arts and Recreation Services,159.386
+2004-02-01,Other Services,421.951
+2004-05-01,"Agriculture, Forestry and Fishing",355.73
+2004-05-01,Mining,104.852
+2004-05-01,Manufacturing,1044.839
+2004-05-01,"Electricity, Gas, Water and Waste Services",90.176
+2004-05-01,Construction,788.18
+2004-05-01,Wholesale Trade,376.441
+2004-05-01,Retail Trade,1089.634
+2004-05-01,Accommodation and Food Services,647.494
+2004-05-01,"Transport, Postal and Warehousing",472.416
+2004-05-01,Information Media and Telecommunications,217.698
+2004-05-01,Financial and Insurance Services,344.033
+2004-05-01,"Rental, Hiring and Real Estate Services",177.004
+2004-05-01,"Professional, Scientific and Technical Services",620.965
+2004-05-01,Administrative and Support Services,336.608
+2004-05-01,Public Administration and Safety,600.007
+2004-05-01,Education and Training,735.86
+2004-05-01,Health Care and Social Assistance,947.175
+2004-05-01,Arts and Recreation Services,153.912
+2004-05-01,Other Services,412.856
+2004-08-01,"Agriculture, Forestry and Fishing",348.324
+2004-08-01,Mining,97.772
+2004-08-01,Manufacturing,1056.364
+2004-08-01,"Electricity, Gas, Water and Waste Services",90.896
+2004-08-01,Construction,795.258
+2004-08-01,Wholesale Trade,371.019
+2004-08-01,Retail Trade,1100.661
+2004-08-01,Accommodation and Food Services,654.455
+2004-08-01,"Transport, Postal and Warehousing",486.81
+2004-08-01,Information Media and Telecommunications,216.061
+2004-08-01,Financial and Insurance Services,342.14
+2004-08-01,"Rental, Hiring and Real Estate Services",171.78
+2004-08-01,"Professional, Scientific and Technical Services",625.516
+2004-08-01,Administrative and Support Services,331.332
+2004-08-01,Public Administration and Safety,587.406
+2004-08-01,Education and Training,700.247
+2004-08-01,Health Care and Social Assistance,963.56
+2004-08-01,Arts and Recreation Services,154.837
+2004-08-01,Other Services,417.446
+2004-11-01,"Agriculture, Forestry and Fishing",351.428
+2004-11-01,Mining,100.718
+2004-11-01,Manufacturing,1044.59
+2004-11-01,"Electricity, Gas, Water and Waste Services",91.994
+2004-11-01,Construction,811.518
+2004-11-01,Wholesale Trade,385.126
+2004-11-01,Retail Trade,1131.163
+2004-11-01,Accommodation and Food Services,679.248
+2004-11-01,"Transport, Postal and Warehousing",485.877
+2004-11-01,Information Media and Telecommunications,233.836
+2004-11-01,Financial and Insurance Services,347.346
+2004-11-01,"Rental, Hiring and Real Estate Services",171.721
+2004-11-01,"Professional, Scientific and Technical Services",644.194
+2004-11-01,Administrative and Support Services,348.886
+2004-11-01,Public Administration and Safety,609.931
+2004-11-01,Education and Training,693.252
+2004-11-01,Health Care and Social Assistance,960.276
+2004-11-01,Arts and Recreation Services,160.464
+2004-11-01,Other Services,411.559
+2005-02-01,"Agriculture, Forestry and Fishing",359.554
+2005-02-01,Mining,108.277
+2005-02-01,Manufacturing,1038.882
+2005-02-01,"Electricity, Gas, Water and Waste Services",97.348
+2005-02-01,Construction,828.798
+2005-02-01,Wholesale Trade,377.659
+2005-02-01,Retail Trade,1148.961
+2005-02-01,Accommodation and Food Services,684.428
+2005-02-01,"Transport, Postal and Warehousing",496.952
+2005-02-01,Information Media and Telecommunications,229.685
+2005-02-01,Financial and Insurance Services,368.699
+2005-02-01,"Rental, Hiring and Real Estate Services",171.851
+2005-02-01,"Professional, Scientific and Technical Services",659.754
+2005-02-01,Administrative and Support Services,350.386
+2005-02-01,Public Administration and Safety,601.786
+2005-02-01,Education and Training,674.909
+2005-02-01,Health Care and Social Assistance,978.033
+2005-02-01,Arts and Recreation Services,164.362
+2005-02-01,Other Services,414.204
+2005-05-01,"Agriculture, Forestry and Fishing",354.527
+2005-05-01,Mining,113.492
+2005-05-01,Manufacturing,1024.188
+2005-05-01,"Electricity, Gas, Water and Waste Services",95.485
+2005-05-01,Construction,839.844
+2005-05-01,Wholesale Trade,363.171
+2005-05-01,Retail Trade,1181.84
+2005-05-01,Accommodation and Food Services,696.292
+2005-05-01,"Transport, Postal and Warehousing",494.563
+2005-05-01,Information Media and Telecommunications,238.888
+2005-05-01,Financial and Insurance Services,365.273
+2005-05-01,"Rental, Hiring and Real Estate Services",173.931
+2005-05-01,"Professional, Scientific and Technical Services",680.948
+2005-05-01,Administrative and Support Services,352.379
+2005-05-01,Public Administration and Safety,611.82
+2005-05-01,Education and Training,705.417
+2005-05-01,Health Care and Social Assistance,973.445
+2005-05-01,Arts and Recreation Services,175.448
+2005-05-01,Other Services,395.371
+2005-08-01,"Agriculture, Forestry and Fishing",348.731
+2005-08-01,Mining,125.57
+2005-08-01,Manufacturing,993.771
+2005-08-01,"Electricity, Gas, Water and Waste Services",100.593
+2005-08-01,Construction,856.083
+2005-08-01,Wholesale Trade,370.563
+2005-08-01,Retail Trade,1170.857
+2005-08-01,Accommodation and Food Services,681.691
+2005-08-01,"Transport, Postal and Warehousing",495.252
+2005-08-01,Information Media and Telecommunications,241.206
+2005-08-01,Financial and Insurance Services,378.029
+2005-08-01,"Rental, Hiring and Real Estate Services",180.378
+2005-08-01,"Professional, Scientific and Technical Services",690.981
+2005-08-01,Administrative and Support Services,348.566
+2005-08-01,Public Administration and Safety,618.667
+2005-08-01,Education and Training,731.409
+2005-08-01,Health Care and Social Assistance,1005.525
+2005-08-01,Arts and Recreation Services,180.08
+2005-08-01,Other Services,403.957
+2005-11-01,"Agriculture, Forestry and Fishing",343.134
+2005-11-01,Mining,133.198
+2005-11-01,Manufacturing,1029.366
+2005-11-01,"Electricity, Gas, Water and Waste Services",104.078
+2005-11-01,Construction,842.105
+2005-11-01,Wholesale Trade,366.971
+2005-11-01,Retail Trade,1162.128
+2005-11-01,Accommodation and Food Services,675.681
+2005-11-01,"Transport, Postal and Warehousing",493.423
+2005-11-01,Information Media and Telecommunications,236.862
+2005-11-01,Financial and Insurance Services,369.204
+2005-11-01,"Rental, Hiring and Real Estate Services",184.507
+2005-11-01,"Professional, Scientific and Technical Services",708.794
+2005-11-01,Administrative and Support Services,351.852
+2005-11-01,Public Administration and Safety,606.463
+2005-11-01,Education and Training,745.322
+2005-11-01,Health Care and Social Assistance,999.772
+2005-11-01,Arts and Recreation Services,174.305
+2005-11-01,Other Services,403.912
+2006-02-01,"Agriculture, Forestry and Fishing",347.708
+2006-02-01,Mining,124.812
+2006-02-01,Manufacturing,1015.202
+2006-02-01,"Electricity, Gas, Water and Waste Services",104.351
+2006-02-01,Construction,873.446
+2006-02-01,Wholesale Trade,360.788
+2006-02-01,Retail Trade,1152.603
+2006-02-01,Accommodation and Food Services,650.736
+2006-02-01,"Transport, Postal and Warehousing",496.456
+2006-02-01,Information Media and Telecommunications,231.305
+2006-02-01,Financial and Insurance Services,368.552
+2006-02-01,"Rental, Hiring and Real Estate Services",203.951
+2006-02-01,"Professional, Scientific and Technical Services",715.419
+2006-02-01,Administrative and Support Services,351.86
+2006-02-01,Public Administration and Safety,607.453
+2006-02-01,Education and Training,759.062
+2006-02-01,Health Care and Social Assistance,1028.353
+2006-02-01,Arts and Recreation Services,171.25
+2006-02-01,Other Services,408.478
+2006-05-01,"Agriculture, Forestry and Fishing",338.464
+2006-05-01,Mining,133.317
+2006-05-01,Manufacturing,1010.133
+2006-05-01,"Electricity, Gas, Water and Waste Services",107.087
+2006-05-01,Construction,875.045
+2006-05-01,Wholesale Trade,389.502
+2006-05-01,Retail Trade,1158.065
+2006-05-01,Accommodation and Food Services,653.608
+2006-05-01,"Transport, Postal and Warehousing",502.489
+2006-05-01,Information Media and Telecommunications,237.984
+2006-05-01,Financial and Insurance Services,383.44
+2006-05-01,"Rental, Hiring and Real Estate Services",181.869
+2006-05-01,"Professional, Scientific and Technical Services",726.613
+2006-05-01,Administrative and Support Services,345.187
+2006-05-01,Public Administration and Safety,624.003
+2006-05-01,Education and Training,733.469
+2006-05-01,Health Care and Social Assistance,1058.62
+2006-05-01,Arts and Recreation Services,184.7
+2006-05-01,Other Services,427.663
+2006-08-01,"Agriculture, Forestry and Fishing",339.784
+2006-08-01,Mining,135.851
+2006-08-01,Manufacturing,1011.205
+2006-08-01,"Electricity, Gas, Water and Waste Services",107.327
+2006-08-01,Construction,901.47
+2006-08-01,Wholesale Trade,406.764
+2006-08-01,Retail Trade,1168.327
+2006-08-01,Accommodation and Food Services,675.35
+2006-08-01,"Transport, Postal and Warehousing",502.207
+2006-08-01,Information Media and Telecommunications,249.488
+2006-08-01,Financial and Insurance Services,384.278
+2006-08-01,"Rental, Hiring and Real Estate Services",195.192
+2006-08-01,"Professional, Scientific and Technical Services",748.168
+2006-08-01,Administrative and Support Services,353.379
+2006-08-01,Public Administration and Safety,631.656
+2006-08-01,Education and Training,715.38
+2006-08-01,Health Care and Social Assistance,1049.33
+2006-08-01,Arts and Recreation Services,174.008
+2006-08-01,Other Services,407.712
+2006-11-01,"Agriculture, Forestry and Fishing",344.45
+2006-11-01,Mining,135.915
+2006-11-01,Manufacturing,1009.275
+2006-11-01,"Electricity, Gas, Water and Waste Services",103.381
+2006-11-01,Construction,934.305
+2006-11-01,Wholesale Trade,400.83
+2006-11-01,Retail Trade,1167.397
+2006-11-01,Accommodation and Food Services,672.191
+2006-11-01,"Transport, Postal and Warehousing",496.936
+2006-11-01,Information Media and Telecommunications,246.068
+2006-11-01,Financial and Insurance Services,400.831
+2006-11-01,"Rental, Hiring and Real Estate Services",194.289
+2006-11-01,"Professional, Scientific and Technical Services",743.042
+2006-11-01,Administrative and Support Services,343.124
+2006-11-01,Public Administration and Safety,631.731
+2006-11-01,Education and Training,742.602
+2006-11-01,Health Care and Social Assistance,1052.763
+2006-11-01,Arts and Recreation Services,182.691
+2006-11-01,Other Services,411.284
+2007-02-01,"Agriculture, Forestry and Fishing",344.084
+2007-02-01,Mining,137.688
+2007-02-01,Manufacturing,1010.41
+2007-02-01,"Electricity, Gas, Water and Waste Services",102.465
+2007-02-01,Construction,935.08
+2007-02-01,Wholesale Trade,386.928
+2007-02-01,Retail Trade,1181.047
+2007-02-01,Accommodation and Food Services,708.78
+2007-02-01,"Transport, Postal and Warehousing",519.425
+2007-02-01,Information Media and Telecommunications,249.88
+2007-02-01,Financial and Insurance Services,406.536
+2007-02-01,"Rental, Hiring and Real Estate Services",197.813
+2007-02-01,"Professional, Scientific and Technical Services",716.923
+2007-02-01,Administrative and Support Services,351.864
+2007-02-01,Public Administration and Safety,649.449
+2007-02-01,Education and Training,750.904
+2007-02-01,Health Care and Social Assistance,1052.117
+2007-02-01,Arts and Recreation Services,179.447
+2007-02-01,Other Services,403.961
+2007-05-01,"Agriculture, Forestry and Fishing",340.152
+2007-05-01,Mining,135.574
+2007-05-01,Manufacturing,1030.077
+2007-05-01,"Electricity, Gas, Water and Waste Services",103.407
+2007-05-01,Construction,926.148
+2007-05-01,Wholesale Trade,406.173
+2007-05-01,Retail Trade,1170.328
+2007-05-01,Accommodation and Food Services,701.588
+2007-05-01,"Transport, Postal and Warehousing",531.348
+2007-05-01,Information Media and Telecommunications,245.572
+2007-05-01,Financial and Insurance Services,406.426
+2007-05-01,"Rental, Hiring and Real Estate Services",204.943
+2007-05-01,"Professional, Scientific and Technical Services",744.809
+2007-05-01,Administrative and Support Services,353.776
+2007-05-01,Public Administration and Safety,642.651
+2007-05-01,Education and Training,765.49
+2007-05-01,Health Care and Social Assistance,1073.916
+2007-05-01,Arts and Recreation Services,191.125
+2007-05-01,Other Services,432.236
+2007-08-01,"Agriculture, Forestry and Fishing",351.602
+2007-08-01,Mining,139.325
+2007-08-01,Manufacturing,1030.062
+2007-08-01,"Electricity, Gas, Water and Waste Services",101.641
+2007-08-01,Construction,922.77
+2007-08-01,Wholesale Trade,377.21
+2007-08-01,Retail Trade,1212.197
+2007-08-01,Accommodation and Food Services,707.307
+2007-08-01,"Transport, Postal and Warehousing",539.078
+2007-08-01,Information Media and Telecommunications,235.711
+2007-08-01,Financial and Insurance Services,399.9
+2007-08-01,"Rental, Hiring and Real Estate Services",197.925
+2007-08-01,"Professional, Scientific and Technical Services",768.056
+2007-08-01,Administrative and Support Services,366.257
+2007-08-01,Public Administration and Safety,637.044
+2007-08-01,Education and Training,758.614
+2007-08-01,Health Care and Social Assistance,1066.67
+2007-08-01,Arts and Recreation Services,201.948
+2007-08-01,Other Services,442.5
+2007-11-01,"Agriculture, Forestry and Fishing",339.669
+2007-11-01,Mining,137.227
+2007-11-01,Manufacturing,1048.317
+2007-11-01,"Electricity, Gas, Water and Waste Services",109.757
+2007-11-01,Construction,940.416
+2007-11-01,Wholesale Trade,371.309
+2007-11-01,Retail Trade,1233.076
+2007-11-01,Accommodation and Food Services,685.627
+2007-11-01,"Transport, Postal and Warehousing",549.696
+2007-11-01,Information Media and Telecommunications,236.677
+2007-11-01,Financial and Insurance Services,408.538
+2007-11-01,"Rental, Hiring and Real Estate Services",195.545
+2007-11-01,"Professional, Scientific and Technical Services",767.365
+2007-11-01,Administrative and Support Services,337.435
+2007-11-01,Public Administration and Safety,633.257
+2007-11-01,Education and Training,780.755
+2007-11-01,Health Care and Social Assistance,1087.724
+2007-11-01,Arts and Recreation Services,204.433
+2007-11-01,Other Services,480.483
+2008-02-01,"Agriculture, Forestry and Fishing",318.271
+2008-02-01,Mining,139.549
+2008-02-01,Manufacturing,1061.405
+2008-02-01,"Electricity, Gas, Water and Waste Services",113.767
+2008-02-01,Construction,977.703
+2008-02-01,Wholesale Trade,401.457
+2008-02-01,Retail Trade,1220.606
+2008-02-01,Accommodation and Food Services,704.872
+2008-02-01,"Transport, Postal and Warehousing",539.597
+2008-02-01,Information Media and Telecommunications,228.062
+2008-02-01,Financial and Insurance Services,399.88
+2008-02-01,"Rental, Hiring and Real Estate Services",202.471
+2008-02-01,"Professional, Scientific and Technical Services",802.53
+2008-02-01,Administrative and Support Services,336.849
+2008-02-01,Public Administration and Safety,635.291
+2008-02-01,Education and Training,799.675
+2008-02-01,Health Care and Social Assistance,1096.084
+2008-02-01,Arts and Recreation Services,191.776
+2008-02-01,Other Services,461.135
+2008-05-01,"Agriculture, Forestry and Fishing",358.16
+2008-05-01,Mining,167.775
+2008-05-01,Manufacturing,1062.846
+2008-05-01,"Electricity, Gas, Water and Waste Services",120.552
+2008-05-01,Construction,970.334
+2008-05-01,Wholesale Trade,400.799
+2008-05-01,Retail Trade,1226.001
+2008-05-01,Accommodation and Food Services,710.496
+2008-05-01,"Transport, Postal and Warehousing",559.011
+2008-05-01,Information Media and Telecommunications,217.87
+2008-05-01,Financial and Insurance Services,404.702
+2008-05-01,"Rental, Hiring and Real Estate Services",197.286
+2008-05-01,"Professional, Scientific and Technical Services",788.376
+2008-05-01,Administrative and Support Services,342.422
+2008-05-01,Public Administration and Safety,626.2
+2008-05-01,Education and Training,810.382
+2008-05-01,Health Care and Social Assistance,1099.358
+2008-05-01,Arts and Recreation Services,177.544
+2008-05-01,Other Services,444.384
+2008-08-01,"Agriculture, Forestry and Fishing",344.85
+2008-08-01,Mining,172.299
+2008-08-01,Manufacturing,1041.922
+2008-08-01,"Electricity, Gas, Water and Waste Services",121.797
+2008-08-01,Construction,991.504
+2008-08-01,Wholesale Trade,413.143
+2008-08-01,Retail Trade,1218.935
+2008-08-01,Accommodation and Food Services,711.866
+2008-08-01,"Transport, Postal and Warehousing",570.243
+2008-08-01,Information Media and Telecommunications,225.684
+2008-08-01,Financial and Insurance Services,412.853
+2008-08-01,"Rental, Hiring and Real Estate Services",205.815
+2008-08-01,"Professional, Scientific and Technical Services",772.12
+2008-08-01,Administrative and Support Services,340.72
+2008-08-01,Public Administration and Safety,658.548
+2008-08-01,Education and Training,815.926
+2008-08-01,Health Care and Social Assistance,1092.681
+2008-08-01,Arts and Recreation Services,192.05
+2008-08-01,Other Services,459.29
+2008-11-01,"Agriculture, Forestry and Fishing",351.259
+2008-11-01,Mining,181.381
+2008-11-01,Manufacturing,1020.323
+2008-11-01,"Electricity, Gas, Water and Waste Services",130.022
+2008-11-01,Construction,984.257
+2008-11-01,Wholesale Trade,394.33
+2008-11-01,Retail Trade,1197.288
+2008-11-01,Accommodation and Food Services,711.225
+2008-11-01,"Transport, Postal and Warehousing",593.6
+2008-11-01,Information Media and Telecommunications,224.92
+2008-11-01,Financial and Insurance Services,398.54
+2008-11-01,"Rental, Hiring and Real Estate Services",209.798
+2008-11-01,"Professional, Scientific and Technical Services",815.34
+2008-11-01,Administrative and Support Services,339.569
+2008-11-01,Public Administration and Safety,667.38
+2008-11-01,Education and Training,785.406
+2008-11-01,Health Care and Social Assistance,1113.832
+2008-11-01,Arts and Recreation Services,198.81
+2008-11-01,Other Services,450.543
+2009-02-01,"Agriculture, Forestry and Fishing",356.513
+2009-02-01,Mining,170.221
+2009-02-01,Manufacturing,1006.151
+2009-02-01,"Electricity, Gas, Water and Waste Services",150.631
+2009-02-01,Construction,981.035
+2009-02-01,Wholesale Trade,387.101
+2009-02-01,Retail Trade,1219.334
+2009-02-01,Accommodation and Food Services,712.166
+2009-02-01,"Transport, Postal and Warehousing",595.418
+2009-02-01,Information Media and Telecommunications,227.478
+2009-02-01,Financial and Insurance Services,397.656
+2009-02-01,"Rental, Hiring and Real Estate Services",179.411
+2009-02-01,"Professional, Scientific and Technical Services",768.668
+2009-02-01,Administrative and Support Services,347.089
+2009-02-01,Public Administration and Safety,668.372
+2009-02-01,Education and Training,801.757
+2009-02-01,Health Care and Social Assistance,1154.229
+2009-02-01,Arts and Recreation Services,217.701
+2009-02-01,Other Services,448.4
+2009-05-01,"Agriculture, Forestry and Fishing",340.487
+2009-05-01,Mining,157.817
+2009-05-01,Manufacturing,994.084
+2009-05-01,"Electricity, Gas, Water and Waste Services",131.502
+2009-05-01,Construction,981.504
+2009-05-01,Wholesale Trade,404.514
+2009-05-01,Retail Trade,1208.073
+2009-05-01,Accommodation and Food Services,722.456
+2009-05-01,"Transport, Postal and Warehousing",591.788
+2009-05-01,Information Media and Telecommunications,218.773
+2009-05-01,Financial and Insurance Services,391.487
+2009-05-01,"Rental, Hiring and Real Estate Services",179.449
+2009-05-01,"Professional, Scientific and Technical Services",777.812
+2009-05-01,Administrative and Support Services,346.216
+2009-05-01,Public Administration and Safety,692.735
+2009-05-01,Education and Training,798.018
+2009-05-01,Health Care and Social Assistance,1190.151
+2009-05-01,Arts and Recreation Services,204.657
+2009-05-01,Other Services,441.769
+2009-08-01,"Agriculture, Forestry and Fishing",348.2
+2009-08-01,Mining,164.871
+2009-08-01,Manufacturing,1012.278
+2009-08-01,"Electricity, Gas, Water and Waste Services",127.563
+2009-08-01,Construction,980.326
+2009-08-01,Wholesale Trade,404.342
+2009-08-01,Retail Trade,1167.737
+2009-08-01,Accommodation and Food Services,741.535
+2009-08-01,"Transport, Postal and Warehousing",576.462
+2009-08-01,Information Media and Telecommunications,213.928
+2009-08-01,Financial and Insurance Services,393.396
+2009-08-01,"Rental, Hiring and Real Estate Services",188.593
+2009-08-01,"Professional, Scientific and Technical Services",787.406
+2009-08-01,Administrative and Support Services,351.226
+2009-08-01,Public Administration and Safety,642.836
+2009-08-01,Education and Training,810.073
+2009-08-01,Health Care and Social Assistance,1220.197
+2009-08-01,Arts and Recreation Services,196.403
+2009-08-01,Other Services,435.944
+2009-11-01,"Agriculture, Forestry and Fishing",342.526
+2009-11-01,Mining,166.387
+2009-11-01,Manufacturing,986.881
+2009-11-01,"Electricity, Gas, Water and Waste Services",121.835
+2009-11-01,Construction,969.795
+2009-11-01,Wholesale Trade,427.836
+2009-11-01,Retail Trade,1183.781
+2009-11-01,Accommodation and Food Services,745.871
+2009-11-01,"Transport, Postal and Warehousing",561.248
+2009-11-01,Information Media and Telecommunications,213.711
+2009-11-01,Financial and Insurance Services,405.727
+2009-11-01,"Rental, Hiring and Real Estate Services",185.378
+2009-11-01,"Professional, Scientific and Technical Services",835.289
+2009-11-01,Administrative and Support Services,370.184
+2009-11-01,Public Administration and Safety,678.337
+2009-11-01,Education and Training,831.613
+2009-11-01,Health Care and Social Assistance,1178.575
+2009-11-01,Arts and Recreation Services,197.906
+2009-11-01,Other Services,436.819
+2010-02-01,"Agriculture, Forestry and Fishing",348.144
+2010-02-01,Mining,179.121
+2010-02-01,Manufacturing,987.443
+2010-02-01,"Electricity, Gas, Water and Waste Services",132.906
+2010-02-01,Construction,978.125
+2010-02-01,Wholesale Trade,421.744
+2010-02-01,Retail Trade,1171.482
+2010-02-01,Accommodation and Food Services,735.323
+2010-02-01,"Transport, Postal and Warehousing",556.19
+2010-02-01,Information Media and Telecommunications,209.106
+2010-02-01,Financial and Insurance Services,417.537
+2010-02-01,"Rental, Hiring and Real Estate Services",166.917
+2010-02-01,"Professional, Scientific and Technical Services",853.634
+2010-02-01,Administrative and Support Services,383.496
+2010-02-01,Public Administration and Safety,683.581
+2010-02-01,Education and Training,831.207
+2010-02-01,Health Care and Social Assistance,1187.449
+2010-02-01,Arts and Recreation Services,202.572
+2010-02-01,Other Services,458.02
+2010-05-01,"Agriculture, Forestry and Fishing",357.536
+2010-05-01,Mining,183.176
+2010-05-01,Manufacturing,969.419
+2010-05-01,"Electricity, Gas, Water and Waste Services",136.632
+2010-05-01,Construction,992.082
+2010-05-01,Wholesale Trade,407.503
+2010-05-01,Retail Trade,1176.058
+2010-05-01,Accommodation and Food Services,753.017
+2010-05-01,"Transport, Postal and Warehousing",587.809
+2010-05-01,Information Media and Telecommunications,215.223
+2010-05-01,Financial and Insurance Services,383.898
+2010-05-01,"Rental, Hiring and Real Estate Services",193.062
+2010-05-01,"Professional, Scientific and Technical Services",844.812
+2010-05-01,Administrative and Support Services,368.432
+2010-05-01,Public Administration and Safety,694.444
+2010-05-01,Education and Training,815.8
+2010-05-01,Health Care and Social Assistance,1209.461
+2010-05-01,Arts and Recreation Services,194.507
+2010-05-01,Other Services,453.812
+2010-08-01,"Agriculture, Forestry and Fishing",360.441
+2010-08-01,Mining,195.394
+2010-08-01,Manufacturing,984.705
+2010-08-01,"Electricity, Gas, Water and Waste Services",148.261
+2010-08-01,Construction,985.351
+2010-08-01,Wholesale Trade,408.997
+2010-08-01,Retail Trade,1188.433
+2010-08-01,Accommodation and Food Services,719.768
+2010-08-01,"Transport, Postal and Warehousing",567.864
+2010-08-01,Information Media and Telecommunications,212.841
+2010-08-01,Financial and Insurance Services,392.15
+2010-08-01,"Rental, Hiring and Real Estate Services",199.88
+2010-08-01,"Professional, Scientific and Technical Services",847.389
+2010-08-01,Administrative and Support Services,375.732
+2010-08-01,Public Administration and Safety,695.438
+2010-08-01,Education and Training,863.377
+2010-08-01,Health Care and Social Assistance,1257.747
+2010-08-01,Arts and Recreation Services,187.771
+2010-08-01,Other Services,446.615
+2010-11-01,"Agriculture, Forestry and Fishing",348.519
+2010-11-01,Mining,200.276
+2010-11-01,Manufacturing,978.96
+2010-11-01,"Electricity, Gas, Water and Waste Services",145.969
+2010-11-01,Construction,1016.527
+2010-11-01,Wholesale Trade,400.559
+2010-11-01,Retail Trade,1203.759
+2010-11-01,Accommodation and Food Services,761.265
+2010-11-01,"Transport, Postal and Warehousing",567.874
+2010-11-01,Information Media and Telecommunications,212.508
+2010-11-01,Financial and Insurance Services,385.09
+2010-11-01,"Rental, Hiring and Real Estate Services",209.448
+2010-11-01,"Professional, Scientific and Technical Services",843.185
+2010-11-01,Administrative and Support Services,400.392
+2010-11-01,Public Administration and Safety,694.541
+2010-11-01,Education and Training,855.37
+2010-11-01,Health Care and Social Assistance,1274.661
+2010-11-01,Arts and Recreation Services,189.831
+2010-11-01,Other Services,462.412
+2011-02-01,"Agriculture, Forestry and Fishing",317.839
+2011-02-01,Mining,206.452
+2011-02-01,Manufacturing,967.661
+2011-02-01,"Electricity, Gas, Water and Waste Services",150.368
+2011-02-01,Construction,987.956
+2011-02-01,Wholesale Trade,410.577
+2011-02-01,Retail Trade,1211.637
+2011-02-01,Accommodation and Food Services,789.781
+2011-02-01,"Transport, Postal and Warehousing",588.687
+2011-02-01,Information Media and Telecommunications,214.081
+2011-02-01,Financial and Insurance Services,405.487
+2011-02-01,"Rental, Hiring and Real Estate Services",200.55
+2011-02-01,"Professional, Scientific and Technical Services",867.428
+2011-02-01,Administrative and Support Services,390.706
+2011-02-01,Public Administration and Safety,701.537
+2011-02-01,Education and Training,833.265
+2011-02-01,Health Care and Social Assistance,1271.107
+2011-02-01,Arts and Recreation Services,211.651
+2011-02-01,Other Services,439.534
+2011-05-01,"Agriculture, Forestry and Fishing",315.273
+2011-05-01,Mining,218.202
+2011-05-01,Manufacturing,958.246
+2011-05-01,"Electricity, Gas, Water and Waste Services",147.228
+2011-05-01,Construction,1018.691
+2011-05-01,Wholesale Trade,394.511
+2011-05-01,Retail Trade,1206.391
+2011-05-01,Accommodation and Food Services,774.308
+2011-05-01,"Transport, Postal and Warehousing",574.563
+2011-05-01,Information Media and Telecommunications,210.354
+2011-05-01,Financial and Insurance Services,421.344
+2011-05-01,"Rental, Hiring and Real Estate Services",199.745
+2011-05-01,"Professional, Scientific and Technical Services",847.644
+2011-05-01,Administrative and Support Services,392.632
+2011-05-01,Public Administration and Safety,713.24
+2011-05-01,Education and Training,852.243
+2011-05-01,Health Care and Social Assistance,1266.133
+2011-05-01,Arts and Recreation Services,217.106
+2011-05-01,Other Services,440.47
+2011-08-01,"Agriculture, Forestry and Fishing",303.555
+2011-08-01,Mining,222.535
+2011-08-01,Manufacturing,930.452
+2011-08-01,"Electricity, Gas, Water and Waste Services",139.709
+2011-08-01,Construction,1019.881
+2011-08-01,Wholesale Trade,399.35
+2011-08-01,Retail Trade,1208.634
+2011-08-01,Accommodation and Food Services,766.601
+2011-08-01,"Transport, Postal and Warehousing",582.255
+2011-08-01,Information Media and Telecommunications,207.099
+2011-08-01,Financial and Insurance Services,425.171
+2011-08-01,"Rental, Hiring and Real Estate Services",190.134
+2011-08-01,"Professional, Scientific and Technical Services",866.065
+2011-08-01,Administrative and Support Services,400.664
+2011-08-01,Public Administration and Safety,730.864
+2011-08-01,Education and Training,841.158
+2011-08-01,Health Care and Social Assistance,1308.238
+2011-08-01,Arts and Recreation Services,210.533
+2011-08-01,Other Services,444.804
+2011-11-01,"Agriculture, Forestry and Fishing",319.246
+2011-11-01,Mining,242.069
+2011-11-01,Manufacturing,937.797
+2011-11-01,"Electricity, Gas, Water and Waste Services",154.039
+2011-11-01,Construction,1004.584
+2011-11-01,Wholesale Trade,436.94
+2011-11-01,Retail Trade,1181.395
+2011-11-01,Accommodation and Food Services,761.711
+2011-11-01,"Transport, Postal and Warehousing",563.948
+2011-11-01,Information Media and Telecommunications,210.151
+2011-11-01,Financial and Insurance Services,424.664
+2011-11-01,"Rental, Hiring and Real Estate Services",192.889
+2011-11-01,"Professional, Scientific and Technical Services",864.382
+2011-11-01,Administrative and Support Services,391.574
+2011-11-01,Public Administration and Safety,734.936
+2011-11-01,Education and Training,851.854
+2011-11-01,Health Care and Social Assistance,1336.176
+2011-11-01,Arts and Recreation Services,207.343
+2011-11-01,Other Services,443.5
+2012-02-01,"Agriculture, Forestry and Fishing",321.718
+2012-02-01,Mining,252.139
+2012-02-01,Manufacturing,946.172
+2012-02-01,"Electricity, Gas, Water and Waste Services",153.739
+2012-02-01,Construction,995.226
+2012-02-01,Wholesale Trade,383.912
+2012-02-01,Retail Trade,1190.032
+2012-02-01,Accommodation and Food Services,735.742
+2012-02-01,"Transport, Postal and Warehousing",544.863
+2012-02-01,Information Media and Telecommunications,219.656
+2012-02-01,Financial and Insurance Services,421.736
+2012-02-01,"Rental, Hiring and Real Estate Services",227.864
+2012-02-01,"Professional, Scientific and Technical Services",876.238
+2012-02-01,Administrative and Support Services,393.186
+2012-02-01,Public Administration and Safety,737.245
+2012-02-01,Education and Training,855.734
+2012-02-01,Health Care and Social Assistance,1327.255
+2012-02-01,Arts and Recreation Services,202.225
+2012-02-01,Other Services,473.088
+2012-05-01,"Agriculture, Forestry and Fishing",332.988
+2012-05-01,Mining,278.385
+2012-05-01,Manufacturing,943.976
+2012-05-01,"Electricity, Gas, Water and Waste Services",153.019
+2012-05-01,Construction,971.366
+2012-05-01,Wholesale Trade,402.637
+2012-05-01,Retail Trade,1197.94
+2012-05-01,Accommodation and Food Services,762.954
+2012-05-01,"Transport, Postal and Warehousing",547.896
+2012-05-01,Information Media and Telecommunications,229.307
+2012-05-01,Financial and Insurance Services,426.475
+2012-05-01,"Rental, Hiring and Real Estate Services",213.531
+2012-05-01,"Professional, Scientific and Technical Services",927.976
+2012-05-01,Administrative and Support Services,394.556
+2012-05-01,Public Administration and Safety,705.498
+2012-05-01,Education and Training,878.184
+2012-05-01,Health Care and Social Assistance,1331.584
+2012-05-01,Arts and Recreation Services,218.273
+2012-05-01,Other Services,440.654
+2012-08-01,"Agriculture, Forestry and Fishing",314.173
+2012-08-01,Mining,273.251
+2012-08-01,Manufacturing,953.063
+2012-08-01,"Electricity, Gas, Water and Waste Services",148.799
+2012-08-01,Construction,958.27
+2012-08-01,Wholesale Trade,416.789
+2012-08-01,Retail Trade,1195.79
+2012-08-01,Accommodation and Food Services,773.225
+2012-08-01,"Transport, Postal and Warehousing",554.395
+2012-08-01,Information Media and Telecommunications,237.057
+2012-08-01,Financial and Insurance Services,416.809
+2012-08-01,"Rental, Hiring and Real Estate Services",200.83
+2012-08-01,"Professional, Scientific and Technical Services",910.495
+2012-08-01,Administrative and Support Services,392.728
+2012-08-01,Public Administration and Safety,687.54
+2012-08-01,Education and Training,884.697
+2012-08-01,Health Care and Social Assistance,1355.612
+2012-08-01,Arts and Recreation Services,219.263
+2012-08-01,Other Services,440.232
+2012-11-01,"Agriculture, Forestry and Fishing",295.233
+2012-11-01,Mining,263.203
+2012-11-01,Manufacturing,956.265
+2012-11-01,"Electricity, Gas, Water and Waste Services",141.041
+2012-11-01,Construction,981.918
+2012-11-01,Wholesale Trade,417.46
+2012-11-01,Retail Trade,1204.366
+2012-11-01,Accommodation and Food Services,784.9
+2012-11-01,"Transport, Postal and Warehousing",588.131
+2012-11-01,Information Media and Telecommunications,227.011
+2012-11-01,Financial and Insurance Services,419.136
+2012-11-01,"Rental, Hiring and Real Estate Services",196.508
+2012-11-01,"Professional, Scientific and Technical Services",918.903
+2012-11-01,Administrative and Support Services,397.37
+2012-11-01,Public Administration and Safety,695.961
+2012-11-01,Education and Training,890.017
+2012-11-01,Health Care and Social Assistance,1357.503
+2012-11-01,Arts and Recreation Services,209.473
+2012-11-01,Other Services,457.051
+2013-02-01,"Agriculture, Forestry and Fishing",297.937
+2013-02-01,Mining,268.285
+2013-02-01,Manufacturing,916.839
+2013-02-01,"Electricity, Gas, Water and Waste Services",135.067
+2013-02-01,Construction,1005.816
+2013-02-01,Wholesale Trade,444.791
+2013-02-01,Retail Trade,1201.804
+2013-02-01,Accommodation and Food Services,793.627
+2013-02-01,"Transport, Postal and Warehousing",601.446
+2013-02-01,Information Media and Telecommunications,214.559
+2013-02-01,Financial and Insurance Services,413.416
+2013-02-01,"Rental, Hiring and Real Estate Services",199.337
+2013-02-01,"Professional, Scientific and Technical Services",912.571
+2013-02-01,Administrative and Support Services,386.518
+2013-02-01,Public Administration and Safety,717.552
+2013-02-01,Education and Training,910.659
+2013-02-01,Health Care and Social Assistance,1374.839
+2013-02-01,Arts and Recreation Services,202.955
+2013-02-01,Other Services,447.879
+2013-05-01,"Agriculture, Forestry and Fishing",293.3
+2013-05-01,Mining,259.806
+2013-05-01,Manufacturing,918.153
+2013-05-01,"Electricity, Gas, Water and Waste Services",146.273
+2013-05-01,Construction,977.588
+2013-05-01,Wholesale Trade,428.479
+2013-05-01,Retail Trade,1245.66
+2013-05-01,Accommodation and Food Services,797.317
+2013-05-01,"Transport, Postal and Warehousing",586.934
+2013-05-01,Information Media and Telecommunications,214.514
+2013-05-01,Financial and Insurance Services,419.774
+2013-05-01,"Rental, Hiring and Real Estate Services",191.513
+2013-05-01,"Professional, Scientific and Technical Services",908.431
+2013-05-01,Administrative and Support Services,388.974
+2013-05-01,Public Administration and Safety,733.894
+2013-05-01,Education and Training,898.735
+2013-05-01,Health Care and Social Assistance,1372.525
+2013-05-01,Arts and Recreation Services,221.902
+2013-05-01,Other Services,451.293
+2013-08-01,"Agriculture, Forestry and Fishing",284.927
+2013-08-01,Mining,265.767
+2013-08-01,Manufacturing,916.905
+2013-08-01,"Electricity, Gas, Water and Waste Services",151.009
+2013-08-01,Construction,1035.667
+2013-08-01,Wholesale Trade,409.252
+2013-08-01,Retail Trade,1201.241
+2013-08-01,Accommodation and Food Services,778.468
+2013-08-01,"Transport, Postal and Warehousing",589.545
+2013-08-01,Information Media and Telecommunications,199.116
+2013-08-01,Financial and Insurance Services,425.576
+2013-08-01,"Rental, Hiring and Real Estate Services",193.16
+2013-08-01,"Professional, Scientific and Technical Services",909.04
+2013-08-01,Administrative and Support Services,383.753
+2013-08-01,Public Administration and Safety,778.14
+2013-08-01,Education and Training,868.303
+2013-08-01,Health Care and Social Assistance,1361.911
+2013-08-01,Arts and Recreation Services,214.954
+2013-08-01,Other Services,465.611
+2013-11-01,"Agriculture, Forestry and Fishing",316.73
+2013-11-01,Mining,269.774
+2013-11-01,Manufacturing,938.169
+2013-11-01,"Electricity, Gas, Water and Waste Services",153.655
+2013-11-01,Construction,989.927
+2013-11-01,Wholesale Trade,400.618
+2013-11-01,Retail Trade,1235.695
+2013-11-01,Accommodation and Food Services,768.981
+2013-11-01,"Transport, Postal and Warehousing",585.653
+2013-11-01,Information Media and Telecommunications,192.545
+2013-11-01,Financial and Insurance Services,412.946
+2013-11-01,"Rental, Hiring and Real Estate Services",194.017
+2013-11-01,"Professional, Scientific and Technical Services",898.604
+2013-11-01,Administrative and Support Services,387.423
+2013-11-01,Public Administration and Safety,755.934
+2013-11-01,Education and Training,892.883
+2013-11-01,Health Care and Social Assistance,1399.924
+2013-11-01,Arts and Recreation Services,207.236
+2013-11-01,Other Services,468.325
+2014-02-01,"Agriculture, Forestry and Fishing",318.118
+2014-02-01,Mining,265.254
+2014-02-01,Manufacturing,921.867
+2014-02-01,"Electricity, Gas, Water and Waste Services",146.86
+2014-02-01,Construction,1003.118
+2014-02-01,Wholesale Trade,388.371
+2014-02-01,Retail Trade,1239.413
+2014-02-01,Accommodation and Food Services,776.53
+2014-02-01,"Transport, Postal and Warehousing",583.171
+2014-02-01,Information Media and Telecommunications,196.28
+2014-02-01,Financial and Insurance Services,410.706
+2014-02-01,"Rental, Hiring and Real Estate Services",210.309
+2014-02-01,"Professional, Scientific and Technical Services",914.893
+2014-02-01,Administrative and Support Services,391.233
+2014-02-01,Public Administration and Safety,743.413
+2014-02-01,Education and Training,899.909
+2014-02-01,Health Care and Social Assistance,1393.193
+2014-02-01,Arts and Recreation Services,201.247
+2014-02-01,Other Services,482.595
+2014-05-01,"Agriculture, Forestry and Fishing",320.963
+2014-05-01,Mining,259.35
+2014-05-01,Manufacturing,919.132
+2014-05-01,"Electricity, Gas, Water and Waste Services",143.126
+2014-05-01,Construction,1015.112
+2014-05-01,Wholesale Trade,386.838
+2014-05-01,Retail Trade,1242.978
+2014-05-01,Accommodation and Food Services,773.947
+2014-05-01,"Transport, Postal and Warehousing",586.783
+2014-05-01,Information Media and Telecommunications,199.616
+2014-05-01,Financial and Insurance Services,404.446
+2014-05-01,"Rental, Hiring and Real Estate Services",225.839
+2014-05-01,"Professional, Scientific and Technical Services",933.658
+2014-05-01,Administrative and Support Services,393.045
+2014-05-01,Public Administration and Safety,730.213
+2014-05-01,Education and Training,907.918
+2014-05-01,Health Care and Social Assistance,1384.924
+2014-05-01,Arts and Recreation Services,189.681
+2014-05-01,Other Services,499.989
+2014-08-01,"Agriculture, Forestry and Fishing",321.342
+2014-08-01,Mining,241.3
+2014-08-01,Manufacturing,915.717
+2014-08-01,"Electricity, Gas, Water and Waste Services",140.466
+2014-08-01,Construction,1040.228
+2014-08-01,Wholesale Trade,388.549
+2014-08-01,Retail Trade,1233.17
+2014-08-01,Accommodation and Food Services,794.567
+2014-08-01,"Transport, Postal and Warehousing",594.717
+2014-08-01,Information Media and Telecommunications,206.909
+2014-08-01,Financial and Insurance Services,407.251
+2014-08-01,"Rental, Hiring and Real Estate Services",225.5
+2014-08-01,"Professional, Scientific and Technical Services",935.054
+2014-08-01,Administrative and Support Services,389.149
+2014-08-01,Public Administration and Safety,731.792
+2014-08-01,Education and Training,909.837
+2014-08-01,Health Care and Social Assistance,1383.885
+2014-08-01,Arts and Recreation Services,214.335
+2014-08-01,Other Services,482.398
+2014-11-01,"Agriculture, Forestry and Fishing",318.271
+2014-11-01,Mining,224.317
+2014-11-01,Manufacturing,913.458
+2014-11-01,"Electricity, Gas, Water and Waste Services",137.919
+2014-11-01,Construction,1047.962
+2014-11-01,Wholesale Trade,386.527
+2014-11-01,Retail Trade,1233.282
+2014-11-01,Accommodation and Food Services,820.565
+2014-11-01,"Transport, Postal and Warehousing",598.851
+2014-11-01,Information Media and Telecommunications,211.647
+2014-11-01,Financial and Insurance Services,414.641
+2014-11-01,"Rental, Hiring and Real Estate Services",222.814
+2014-11-01,"Professional, Scientific and Technical Services",951.37
+2014-11-01,Administrative and Support Services,381.145
+2014-11-01,Public Administration and Safety,737.125
+2014-11-01,Education and Training,899.862
+2014-11-01,Health Care and Social Assistance,1378.341
+2014-11-01,Arts and Recreation Services,237.019
+2014-11-01,Other Services,467.438
+2015-02-01,"Agriculture, Forestry and Fishing",313.673
+2015-02-01,Mining,217.718
+2015-02-01,Manufacturing,917.66
+2015-02-01,"Electricity, Gas, Water and Waste Services",140.889
+2015-02-01,Construction,1015.986
+2015-02-01,Wholesale Trade,379.398
+2015-02-01,Retail Trade,1221.558
+2015-02-01,Accommodation and Food Services,845.901
+2015-02-01,"Transport, Postal and Warehousing",588.192
+2015-02-01,Information Media and Telecommunications,217.816
+2015-02-01,Financial and Insurance Services,406.663
+2015-02-01,"Rental, Hiring and Real Estate Services",208.834
+2015-02-01,"Professional, Scientific and Technical Services",980.985
+2015-02-01,Administrative and Support Services,389.037
+2015-02-01,Public Administration and Safety,734.52
+2015-02-01,Education and Training,928.65
+2015-02-01,Health Care and Social Assistance,1453.924
+2015-02-01,Arts and Recreation Services,237.261
+2015-02-01,Other Services,482.936
+2015-05-01,"Agriculture, Forestry and Fishing",292.389
+2015-05-01,Mining,223.126
+2015-05-01,Manufacturing,914.103
+2015-05-01,"Electricity, Gas, Water and Waste Services",139.09
+2015-05-01,Construction,1030.342
+2015-05-01,Wholesale Trade,396.737
+2015-05-01,Retail Trade,1222.937
+2015-05-01,Accommodation and Food Services,827.99
+2015-05-01,"Transport, Postal and Warehousing",614.155
+2015-05-01,Information Media and Telecommunications,205.774
+2015-05-01,Financial and Insurance Services,392.377
+2015-05-01,"Rental, Hiring and Real Estate Services",209.878
+2015-05-01,"Professional, Scientific and Technical Services",1023.043
+2015-05-01,Administrative and Support Services,409.223
+2015-05-01,Public Administration and Safety,739.04
+2015-05-01,Education and Training,925.334
+2015-05-01,Health Care and Social Assistance,1480.214
+2015-05-01,Arts and Recreation Services,227.29
+2015-05-01,Other Services,478.633
+2015-08-01,"Agriculture, Forestry and Fishing",309.32
+2015-08-01,Mining,241.882
+2015-08-01,Manufacturing,892.246
+2015-08-01,"Electricity, Gas, Water and Waste Services",150.298
+2015-08-01,Construction,1030.558
+2015-08-01,Wholesale Trade,372.75
+2015-08-01,Retail Trade,1275.376
+2015-08-01,Accommodation and Food Services,809.383
+2015-08-01,"Transport, Postal and Warehousing",612.243
+2015-08-01,Information Media and Telecommunications,215.648
+2015-08-01,Financial and Insurance Services,417.539
+2015-08-01,"Rental, Hiring and Real Estate Services",213.614
+2015-08-01,"Professional, Scientific and Technical Services",962.796
+2015-08-01,Administrative and Support Services,409.764
+2015-08-01,Public Administration and Safety,735.052
+2015-08-01,Education and Training,940.4
+2015-08-01,Health Care and Social Assistance,1515.59
+2015-08-01,Arts and Recreation Services,220.673
+2015-08-01,Other Services,473.883
+2015-11-01,"Agriculture, Forestry and Fishing",315.195
+2015-11-01,Mining,215.636
+2015-11-01,Manufacturing,862.655
+2015-11-01,"Electricity, Gas, Water and Waste Services",138.9
+2015-11-01,Construction,1047.81
+2015-11-01,Wholesale Trade,389.392
+2015-11-01,Retail Trade,1280.22
+2015-11-01,Accommodation and Food Services,829.676
+2015-11-01,"Transport, Postal and Warehousing",608.687
+2015-11-01,Information Media and Telecommunications,221.177
+2015-11-01,Financial and Insurance Services,459.09
+2015-11-01,"Rental, Hiring and Real Estate Services",217.733
+2015-11-01,"Professional, Scientific and Technical Services",1022.142
+2015-11-01,Administrative and Support Services,417.774
+2015-11-01,Public Administration and Safety,737.137
+2015-11-01,Education and Training,930.98
+2015-11-01,Health Care and Social Assistance,1532.544
+2015-11-01,Arts and Recreation Services,232.322
+2015-11-01,Other Services,477.221
+2016-02-01,"Agriculture, Forestry and Fishing",317.237
+2016-02-01,Mining,217.995
+2016-02-01,Manufacturing,898.488
+2016-02-01,"Electricity, Gas, Water and Waste Services",139.761
+2016-02-01,Construction,1049.776
+2016-02-01,Wholesale Trade,348.962
+2016-02-01,Retail Trade,1282.409
+2016-02-01,Accommodation and Food Services,839.562
+2016-02-01,"Transport, Postal and Warehousing",632.249
+2016-02-01,Information Media and Telecommunications,213.367
+2016-02-01,Financial and Insurance Services,423.481
+2016-02-01,"Rental, Hiring and Real Estate Services",222.461
+2016-02-01,"Professional, Scientific and Technical Services",1021.779
+2016-02-01,Administrative and Support Services,430.673
+2016-02-01,Public Administration and Safety,747.325
+2016-02-01,Education and Training,927.447
+2016-02-01,Health Care and Social Assistance,1517.573
+2016-02-01,Arts and Recreation Services,238.483
+2016-02-01,Other Services,458.57
+2016-05-01,"Agriculture, Forestry and Fishing",326.853
+2016-05-01,Mining,219.536
+2016-05-01,Manufacturing,889.039
+2016-05-01,"Electricity, Gas, Water and Waste Services",134.66
+2016-05-01,Construction,1079.321
+2016-05-01,Wholesale Trade,382.598
+2016-05-01,Retail Trade,1256.528
+2016-05-01,Accommodation and Food Services,843.48
+2016-05-01,"Transport, Postal and Warehousing",624.517
+2016-05-01,Information Media and Telecommunications,194.761
+2016-05-01,Financial and Insurance Services,433.185
+2016-05-01,"Rental, Hiring and Real Estate Services",216.157
+2016-05-01,"Professional, Scientific and Technical Services",980.183
+2016-05-01,Administrative and Support Services,411.365
+2016-05-01,Public Administration and Safety,763.793
+2016-05-01,Education and Training,940.795
+2016-05-01,Health Care and Social Assistance,1569.274
+2016-05-01,Arts and Recreation Services,227.196
+2016-05-01,Other Services,478.556
+2016-08-01,"Agriculture, Forestry and Fishing",304.122
+2016-08-01,Mining,217.413
+2016-08-01,Manufacturing,889.36
+2016-08-01,"Electricity, Gas, Water and Waste Services",131.813
+2016-08-01,Construction,1053.951
+2016-08-01,Wholesale Trade,372.719
+2016-08-01,Retail Trade,1238.939
+2016-08-01,Accommodation and Food Services,857.145
+2016-08-01,"Transport, Postal and Warehousing",608.493
+2016-08-01,Information Media and Telecommunications,211.422
+2016-08-01,Financial and Insurance Services,435.552
+2016-08-01,"Rental, Hiring and Real Estate Services",215.963
+2016-08-01,"Professional, Scientific and Technical Services",1042.825
+2016-08-01,Administrative and Support Services,443.498
+2016-08-01,Public Administration and Safety,772.312
+2016-08-01,Education and Training,954.299
+2016-08-01,Health Care and Social Assistance,1527.609
+2016-08-01,Arts and Recreation Services,234.314
+2016-08-01,Other Services,486.966
+2016-11-01,"Agriculture, Forestry and Fishing",293.548
+2016-11-01,Mining,223.72
+2016-11-01,Manufacturing,970.497
+2016-11-01,"Electricity, Gas, Water and Waste Services",135.973
+2016-11-01,Construction,1065.7
+2016-11-01,Wholesale Trade,361.722
+2016-11-01,Retail Trade,1238.676
+2016-11-01,Accommodation and Food Services,853.443
+2016-11-01,"Transport, Postal and Warehousing",613.951
+2016-11-01,Information Media and Telecommunications,216.122
+2016-11-01,Financial and Insurance Services,426.152
+2016-11-01,"Rental, Hiring and Real Estate Services",218.492
+2016-11-01,"Professional, Scientific and Technical Services",1019.943
+2016-11-01,Administrative and Support Services,438.397
+2016-11-01,Public Administration and Safety,771.893
+2016-11-01,Education and Training,980.97
+2016-11-01,Health Care and Social Assistance,1547.593
+2016-11-01,Arts and Recreation Services,212.166
+2016-11-01,Other Services,467.737
+2017-02-01,"Agriculture, Forestry and Fishing",297.23
+2017-02-01,Mining,228.189
+2017-02-01,Manufacturing,913.533
+2017-02-01,"Electricity, Gas, Water and Waste Services",133.607
+2017-02-01,Construction,1109.158
+2017-02-01,Wholesale Trade,373.379
+2017-02-01,Retail Trade,1220.552
+2017-02-01,Accommodation and Food Services,867.064
+2017-02-01,"Transport, Postal and Warehousing",585.935
+2017-02-01,Information Media and Telecommunications,213.115
+2017-02-01,Financial and Insurance Services,446.285
+2017-02-01,"Rental, Hiring and Real Estate Services",215.205
+2017-02-01,"Professional, Scientific and Technical Services",1012.375
+2017-02-01,Administrative and Support Services,424.466
+2017-02-01,Public Administration and Safety,819.812
+2017-02-01,Education and Training,970.004
+2017-02-01,Health Care and Social Assistance,1529.992
+2017-02-01,Arts and Recreation Services,210.391
+2017-02-01,Other Services,488.711
+2017-05-01,"Agriculture, Forestry and Fishing",308.643
+2017-05-01,Mining,218.612
+2017-05-01,Manufacturing,886.711
+2017-05-01,"Electricity, Gas, Water and Waste Services",138.411
+2017-05-01,Construction,1123.468
+2017-05-01,Wholesale Trade,349.13
+2017-05-01,Retail Trade,1276.574
+2017-05-01,Accommodation and Food Services,885.667
+2017-05-01,"Transport, Postal and Warehousing",651.714
+2017-05-01,Information Media and Telecommunications,226.02
+2017-05-01,Financial and Insurance Services,438.429
+2017-05-01,"Rental, Hiring and Real Estate Services",208.253
+2017-05-01,"Professional, Scientific and Technical Services",1000.973
+2017-05-01,Administrative and Support Services,392.656
+2017-05-01,Public Administration and Safety,763.942
+2017-05-01,Education and Training,998.995
+2017-05-01,Health Care and Social Assistance,1633.467
+2017-05-01,Arts and Recreation Services,227.849
+2017-05-01,Other Services,497.874
+2017-08-01,"Agriculture, Forestry and Fishing",331.195
+2017-08-01,Mining,217.787
+2017-08-01,Manufacturing,889.341
+2017-08-01,"Electricity, Gas, Water and Waste Services",139.257
+2017-08-01,Construction,1156.662
+2017-08-01,Wholesale Trade,371.03
+2017-08-01,Retail Trade,1280.063
+2017-08-01,Accommodation and Food Services,897.139
+2017-08-01,"Transport, Postal and Warehousing",638.141
+2017-08-01,Information Media and Telecommunications,220.343
+2017-08-01,Financial and Insurance Services,420.442
+2017-08-01,"Rental, Hiring and Real Estate Services",208.664
+2017-08-01,"Professional, Scientific and Technical Services",1000.731
+2017-08-01,Administrative and Support Services,400.041
+2017-08-01,Public Administration and Safety,745.675
+2017-08-01,Education and Training,1015.383
+2017-08-01,Health Care and Social Assistance,1663.693
+2017-08-01,Arts and Recreation Services,242.807
+2017-08-01,Other Services,500.953
+2017-11-01,"Agriculture, Forestry and Fishing",323.716
+2017-11-01,Mining,217.943
+2017-11-01,Manufacturing,885.273
+2017-11-01,"Electricity, Gas, Water and Waste Services",140.412
+2017-11-01,Construction,1169.672
+2017-11-01,Wholesale Trade,366.359
+2017-11-01,Retail Trade,1299.784
+2017-11-01,Accommodation and Food Services,891.504
+2017-11-01,"Transport, Postal and Warehousing",643.84
+2017-11-01,Information Media and Telecommunications,214.345
+2017-11-01,Financial and Insurance Services,427.01
+2017-11-01,"Rental, Hiring and Real Estate Services",222.466
+2017-11-01,"Professional, Scientific and Technical Services",1034.283
+2017-11-01,Administrative and Support Services,409.792
+2017-11-01,Public Administration and Safety,744.818
+2017-11-01,Education and Training,1019.807
+2017-11-01,Health Care and Social Assistance,1653.816
+2017-11-01,Arts and Recreation Services,249.688
+2017-11-01,Other Services,539.361
+2018-02-01,"Agriculture, Forestry and Fishing",323.806
+2018-02-01,Mining,230.657
+2018-02-01,Manufacturing,927.672
+2018-02-01,"Electricity, Gas, Water and Waste Services",155.477
+2018-02-01,Construction,1197.406
+2018-02-01,Wholesale Trade,367.395
+2018-02-01,Retail Trade,1307.174
+2018-02-01,Accommodation and Food Services,881.424
+2018-02-01,"Transport, Postal and Warehousing",638.152
+2018-02-01,Information Media and Telecommunications,221.191
+2018-02-01,Financial and Insurance Services,428.849
+2018-02-01,"Rental, Hiring and Real Estate Services",217.646
+2018-02-01,"Professional, Scientific and Technical Services",1024.564
+2018-02-01,Administrative and Support Services,414.292
+2018-02-01,Public Administration and Safety,695.124
+2018-02-01,Education and Training,1035.381
+2018-02-01,Health Care and Social Assistance,1682.542
+2018-02-01,Arts and Recreation Services,253.365
+2018-02-01,Other Services,482.769
+2018-05-01,"Agriculture, Forestry and Fishing",323.78
+2018-05-01,Mining,237.877
+2018-05-01,Manufacturing,947.68
+2018-05-01,"Electricity, Gas, Water and Waste Services",149.291
+2018-05-01,Construction,1170.518
+2018-05-01,Wholesale Trade,360.829
+2018-05-01,Retail Trade,1276.59
+2018-05-01,Accommodation and Food Services,902.448
+2018-05-01,"Transport, Postal and Warehousing",623.581
+2018-05-01,Information Media and Telecommunications,230.07
+2018-05-01,Financial and Insurance Services,444.897
+2018-05-01,"Rental, Hiring and Real Estate Services",220.684
+2018-05-01,"Professional, Scientific and Technical Services",1054.331
+2018-05-01,Administrative and Support Services,415.631
+2018-05-01,Public Administration and Safety,786.693
+2018-05-01,Education and Training,1005
+2018-05-01,Health Care and Social Assistance,1674.197
+2018-05-01,Arts and Recreation Services,246.758
+2018-05-01,Other Services,469.348
+2018-08-01,"Agriculture, Forestry and Fishing",323.692
+2018-08-01,Mining,252.741
+2018-08-01,Manufacturing,976.549
+2018-08-01,"Electricity, Gas, Water and Waste Services",144.632
+2018-08-01,Construction,1186.126
+2018-08-01,Wholesale Trade,361.12
+2018-08-01,Retail Trade,1271.398
+2018-08-01,Accommodation and Food Services,884.229
+2018-08-01,"Transport, Postal and Warehousing",640.379
+2018-08-01,Information Media and Telecommunications,221.669
+2018-08-01,Financial and Insurance Services,456.452
+2018-08-01,"Rental, Hiring and Real Estate Services",225.283
+2018-08-01,"Professional, Scientific and Technical Services",1065.459
+2018-08-01,Administrative and Support Services,394.666
+2018-08-01,Public Administration and Safety,835.49
+2018-08-01,Education and Training,1006.417
+2018-08-01,Health Care and Social Assistance,1669.902
+2018-08-01,Arts and Recreation Services,250.693
+2018-08-01,Other Services,481.044
+2018-11-01,"Agriculture, Forestry and Fishing",333.745
+2018-11-01,Mining,255.036
+2018-11-01,Manufacturing,910.6
+2018-11-01,"Electricity, Gas, Water and Waste Services",153.632
+2018-11-01,Construction,1164.048
+2018-11-01,Wholesale Trade,411.695
+2018-11-01,Retail Trade,1277.178
+2018-11-01,Accommodation and Food Services,905.603
+2018-11-01,"Transport, Postal and Warehousing",650.476
+2018-11-01,Information Media and Telecommunications,223.786
+2018-11-01,Financial and Insurance Services,444.957
+2018-11-01,"Rental, Hiring and Real Estate Services",216.75
+2018-11-01,"Professional, Scientific and Technical Services",1083.225
+2018-11-01,Administrative and Support Services,414.239
+2018-11-01,Public Administration and Safety,838.847
+2018-11-01,Education and Training,1040.292
+2018-11-01,Health Care and Social Assistance,1681.841
+2018-11-01,Arts and Recreation Services,243.332
+2018-11-01,Other Services,492.688
+2019-02-01,"Agriculture, Forestry and Fishing",333.611
+2019-02-01,Mining,247.843
+2019-02-01,Manufacturing,865.977
+2019-02-01,"Electricity, Gas, Water and Waste Services",150.349
+2019-02-01,Construction,1146.965
+2019-02-01,Wholesale Trade,386.294
+2019-02-01,Retail Trade,1280.741
+2019-02-01,Accommodation and Food Services,911.306
+2019-02-01,"Transport, Postal and Warehousing",658.901
+2019-02-01,Information Media and Telecommunications,217.21
+2019-02-01,Financial and Insurance Services,441.492
+2019-02-01,"Rental, Hiring and Real Estate Services",214.36
+2019-02-01,"Professional, Scientific and Technical Services",1127.742
+2019-02-01,Administrative and Support Services,422.429
+2019-02-01,Public Administration and Safety,858.296
+2019-02-01,Education and Training,1025.644
+2019-02-01,Health Care and Social Assistance,1691.772
+2019-02-01,Arts and Recreation Services,250.897
+2019-02-01,Other Services,525.568
+2019-05-01,"Agriculture, Forestry and Fishing",328.188
+2019-05-01,Mining,246.268
+2019-05-01,Manufacturing,898.037
+2019-05-01,"Electricity, Gas, Water and Waste Services",156.213
+2019-05-01,Construction,1175.68
+2019-05-01,Wholesale Trade,405.417
+2019-05-01,Retail Trade,1298.394
+2019-05-01,Accommodation and Food Services,913.687
+2019-05-01,"Transport, Postal and Warehousing",663.17
+2019-05-01,Information Media and Telecommunications,198.184
+2019-05-01,Financial and Insurance Services,435.764
+2019-05-01,"Rental, Hiring and Real Estate Services",214.523
+2019-05-01,"Professional, Scientific and Technical Services",1138.567
+2019-05-01,Administrative and Support Services,461.413
+2019-05-01,Public Administration and Safety,834.328
+2019-05-01,Education and Training,1068.495
+2019-05-01,Health Care and Social Assistance,1678.762
+2019-05-01,Arts and Recreation Services,257.382
+2019-05-01,Other Services,515.066
+2019-08-01,"Agriculture, Forestry and Fishing",321.772
+2019-08-01,Mining,241.506
+2019-08-01,Manufacturing,873.542
+2019-08-01,"Electricity, Gas, Water and Waste Services",162.74
+2019-08-01,Construction,1176.626
+2019-08-01,Wholesale Trade,406.476
+2019-08-01,Retail Trade,1279.861
+2019-08-01,Accommodation and Food Services,915.179
+2019-08-01,"Transport, Postal and Warehousing",665.553
+2019-08-01,Information Media and Telecommunications,211.361
+2019-08-01,Financial and Insurance Services,446.785
+2019-08-01,"Rental, Hiring and Real Estate Services",219.576
+2019-08-01,"Professional, Scientific and Technical Services",1156.751
+2019-08-01,Administrative and Support Services,467.534
+2019-08-01,Public Administration and Safety,817.909
+2019-08-01,Education and Training,1088.192
+2019-08-01,Health Care and Social Assistance,1734.22
+2019-08-01,Arts and Recreation Services,248.244
+2019-08-01,Other Services,506.77
+2019-11-01,"Agriculture, Forestry and Fishing",319.883
+2019-11-01,Mining,249.671
+2019-11-01,Manufacturing,924.449
+2019-11-01,"Electricity, Gas, Water and Waste Services",151.527
+2019-11-01,Construction,1193.616
+2019-11-01,Wholesale Trade,381.969
+2019-11-01,Retail Trade,1252.732
+2019-11-01,Accommodation and Food Services,925.384
+2019-11-01,"Transport, Postal and Warehousing",649.282
+2019-11-01,Information Media and Telecommunications,210.768
+2019-11-01,Financial and Insurance Services,466.266
+2019-11-01,"Rental, Hiring and Real Estate Services",219.096
+2019-11-01,"Professional, Scientific and Technical Services",1158.316
+2019-11-01,Administrative and Support Services,438.826
+2019-11-01,Public Administration and Safety,841.627
+2019-11-01,Education and Training,1065.08
+2019-11-01,Health Care and Social Assistance,1770.161
+2019-11-01,Arts and Recreation Services,254.137
+2019-11-01,Other Services,506.221
+2020-02-01,"Agriculture, Forestry and Fishing",324.499
+2020-02-01,Mining,240.926
+2020-02-01,Manufacturing,921.087
+2020-02-01,"Electricity, Gas, Water and Waste Services",132.594
+2020-02-01,Construction,1182.671
+2020-02-01,Wholesale Trade,389.916
+2020-02-01,Retail Trade,1244.774
+2020-02-01,Accommodation and Food Services,938.91
+2020-02-01,"Transport, Postal and Warehousing",647.008
+2020-02-01,Information Media and Telecommunications,216.12
+2020-02-01,Financial and Insurance Services,465.963
+2020-02-01,"Rental, Hiring and Real Estate Services",219.271
+2020-02-01,"Professional, Scientific and Technical Services",1166.295
+2020-02-01,Administrative and Support Services,434.126
+2020-02-01,Public Administration and Safety,822.855
+2020-02-01,Education and Training,1122.433
+2020-02-01,Health Care and Social Assistance,1791.824
+2020-02-01,Arts and Recreation Services,248.1
+2020-02-01,Other Services,488.601
+2020-05-01,"Agriculture, Forestry and Fishing",354.545
+2020-05-01,Mining,233.311
+2020-05-01,Manufacturing,852.76
+2020-05-01,"Electricity, Gas, Water and Waste Services",164.606
+2020-05-01,Construction,1174.06
+2020-05-01,Wholesale Trade,390.358
+2020-05-01,Retail Trade,1189.095
+2020-05-01,Accommodation and Food Services,645.859
+2020-05-01,"Transport, Postal and Warehousing",583.203
+2020-05-01,Information Media and Telecommunications,183.497
+2020-05-01,Financial and Insurance Services,486.319
+2020-05-01,"Rental, Hiring and Real Estate Services",220.576
+2020-05-01,"Professional, Scientific and Technical Services",1108.982
+2020-05-01,Administrative and Support Services,388.989
+2020-05-01,Public Administration and Safety,849.417
+2020-05-01,Education and Training,1033.157
+2020-05-01,Health Care and Social Assistance,1731.894
+2020-05-01,Arts and Recreation Services,160.33
+2020-05-01,Other Services,435.84

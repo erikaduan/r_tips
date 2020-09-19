@@ -17,9 +17,10 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 5. [Using DiagrammeR to draw flow charts](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-06-06_using-DiagrammeR/2020-06-06_using-DiagrammeR-to-draw-flow-charts.md) 🎨  
 6. [Understanding centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md) 🔢  
 7. [Topic modelling](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-10_topic-modelling/2020-08-10_topic-modelling.md) 📚🔮  
-8. [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-30_automating_RMDs/2020-08-30_automating_RMDs.md) 📚🎨🔨  
-9. Automating R Markdown report generation - Part 2 📚🔨  
+8. [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-30_automating-RMDs-1/2020-08-30_automating-RMDs-1.md) 📚🎨🔨  
+9. [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-10_automating-RMDs-2/2020-09-10_automating-RMDs-2.md) 📚🔨  
 10. [Introduction to binomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-12_binomial_distribution/2020-09-12_binomial-distribution.md) 🔢🎨  
+11. Introduction to geometric and poisson distributions 🔢  
 
 # Content type  
 
