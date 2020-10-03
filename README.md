@@ -20,7 +20,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 8. [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-30_automating-RMDs-1/2020-08-30_automating-RMDs-1.md) 📚🎨🔨  
 9. [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-10_automating-RMDs-2/2020-09-10_automating-RMDs-2.md) 📚🔨  
 10. [Introduction to binomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-12_binomial_distribution/2020-09-12_binomial-distribution.md) 🔢🎨  
-11. Introduction to geometric and poisson distributions 🔢  
+11. [Introduction to hypergeometric, geometric, negative binomial and multinomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-22_hypergeometric-and-other-discrete-distributions/2020-09-22_hypergeometric-and-other-discrete-distributions.md) 🔢🎨  
 
 # Content type  
 
