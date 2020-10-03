@@ -44,7 +44,7 @@ $$Var(X) = E(X^2)-E(X)^2 = (0^2 \times (1-p)+1^2 \times p)-(p^2) = p(1-p)$$
 
 ```{r, results = 'hide'}
 #-----calculate the expectation and variance of a Bernoulli distribution-----  
-summarise_bernoulli_dist <- function(p){
+summarise_bernoulli_dist <- function(p) {
   if(p == 0 | p >= 1) {
     stop("Error: probability must be between 0 and 1.")
   }

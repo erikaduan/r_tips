@@ -1,7 +1,7 @@
 Introduction to binomial distributions
 ================
 Erika Duan
-2020-09-12
+2020-10-03
 
   - [Introduction](#introduction)
   - [Bernoulli trial](#bernoulli-trial)
@@ -74,7 +74,7 @@ p(1-p)](https://latex.codecogs.com/png.latex?Var%28X%29%20%3D%20E%28X%5E2%29-E%2
 
 ``` r
 #-----calculate the expectation and variance of a Bernoulli distribution-----  
-summarise_bernoulli_dist <- function(p){
+summarise_bernoulli_dist <- function(p) {
   if(p == 0 | p >= 1) {
     stop("Error: probability must be between 0 and 1.")
   }

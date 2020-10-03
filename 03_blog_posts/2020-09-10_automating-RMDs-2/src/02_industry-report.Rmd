@@ -121,7 +121,7 @@ tidy_data %>%
 
 <br> 
 
-If we subtract the employed persons count by the preceding quarter's count, we can obtain the total increase or decreased in employment numbers. This visualisation allows us to compare how much employment numbers have fluctuated over time between different industries.      
+If we subtract the employed persons count by the preceding quarter's count, we can visualise the total increase or decrease in employment numbers. This allows us to directly compare how much employment numbers have fluctuated over time between different industries.       
 
 <br>  
 
