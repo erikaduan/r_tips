@@ -1,7 +1,7 @@
 How to draw a volcano plot using ggplot2
 ================
 Erika Duan
-2020-04-19
+2020-10-10
 
   - [Introduction](#introduction)
   - [Creating a test dataset](#creating-a-test-dataset)
@@ -125,22 +125,16 @@ diseased_vs_healthy %>%
   select(fold_change) %>%
   min() %>%
   log2() %>%
-  floor()
-```
+  floor() 
+#> [1] -4   
 
-    ## [1] -4
-
-``` r
 diseased_vs_healthy %>%
   select(fold_change) %>%
   max() %>%
   log2() %>%
   ceiling()
-```
+#> [1] 2  
 
-    ## [1] 2
-
-``` r
 #-----add xlim-----  
 vol_plot + 
   geom_hline(yintercept = -log10(0.05),
@@ -171,9 +165,8 @@ vol_plot +
 
 ![](2020-03-26_volcano-plots-in-ggplot_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
-``` r
-# note that the values entered in limits overrides the values in breaks
-```
+**Note:** The values listed for the x and y limits supercede the range
+of values listed for x and y breaks.
 
 # Adding colour, size and transparency
 
@@ -201,22 +194,22 @@ diseased_vs_healthy <- diseased_vs_healthy %>%
 
 #-----obtaining a summary of gene_type numbers-----           
 diseased_vs_healthy %>%
-  count(gene_type)
+  count(gene_type) %>%
+  knitr::kable()
 ```
 
-    ## # A tibble: 3 x 2
-    ##   gene_type     n
-    ##   <chr>     <int>
-    ## 1 down          6
-    ## 2 ns          202
-    ## 3 up            9
+| gene\_type |   n |
+| :--------- | --: |
+| down       |   6 |
+| ns         | 202 |
+| up         |   9 |
 
 ``` r
-# note that using count is similar to performing the operation below   
+# note that the function count is equivalent to     
 
 # diseased_vs_healthy %>%
 #   group_by(gene_type) %>%
-#   summarize(Counts = n()) 
+#   summarize(count = n()) 
 ```
 
 In `ggplot2`, we have the option to specify our own colour, size and
@@ -293,9 +286,8 @@ fancy_vol_plot +
 
 ![](2020-03-26_volcano-plots-in-ggplot_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
-``` r
-# note that the second geom_point still inherits the original aesthetics of ggplot  
-```
+**Note:** The second `geom_point` function still inherits the aesthetics
+of the original ggplot.
 
 # Modifying plot theme and labels
 

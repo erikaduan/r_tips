@@ -31,7 +31,6 @@ We start with a data frame containing just three columns of information:
 + Adjusted P-value (adjusted with a correction for multiple testing)    
 
 **Note:** The code used to create the test dataset can be accessed from the `Rmd` file accompanying this tutorial.    
-
 ```{r, echo = FALSE}
 #-----create a test dataset-----
 # this chunk of code has no other purpose except to provide us with a dataset to plot  
@@ -162,6 +161,7 @@ vol_plot <- diseased_vs_healthy %>%
 vol_plot # a simple volcano plot is created
 ```
 
+
 # Adding horizontal and vertical lines   
 
 The functions `geom_hline` and `geom_vline` can be used to add horizontal and vertical lines on your plot respectively. In this case, I am interested in visualising boundaries for genes which have a padj <= 0.05 and a fold change <= 0.05 or >= 2.    
@@ -175,23 +175,26 @@ vol_plot +
              linetype = "dashed") # vertical dashed line
 ```
 
+
 # Modifying the x-axis and y-axis       
 
 Volcano plots should have a symmetrical x-axis. One way we can do this is by manually setting the limits of the x-axis using `xlim(min, max)`.     
 
-```{r}
+```{r, results = 'hide'}
 #-----identify the best range for xlim-----
 diseased_vs_healthy %>%
   select(fold_change) %>%
   min() %>%
   log2() %>%
-  floor()
+  floor() 
+#> [1] -4   
 
 diseased_vs_healthy %>%
   select(fold_change) %>%
   max() %>%
   log2() %>%
   ceiling()
+#> [1] 2  
 
 #-----add xlim-----  
 vol_plot + 
@@ -215,9 +218,10 @@ vol_plot +
                      limits = c(-4, 4)) + # modify xlim 
   scale_y_continuous(breaks = c(seq(0, 2.5, 0.5)), # modify y-axis tick intervals
                      limits = c(0, 2.5)) # modify ylim
-
-# note that the values entered in limits overrides the values in breaks
 ```
+
+**Note:** The values listed for the x and y limits supercede the range of values listed for x and y breaks.   
+
 
 # Adding colour, size and transparency   
 
@@ -238,13 +242,14 @@ diseased_vs_healthy <- diseased_vs_healthy %>%
 
 #-----obtaining a summary of gene_type numbers-----           
 diseased_vs_healthy %>%
-  count(gene_type)
+  count(gene_type) %>%
+  knitr::kable()
 
-# note that using count is similar to performing the operation below   
+# note that the function count is equivalent to     
 
 # diseased_vs_healthy %>%
 #   group_by(gene_type) %>%
-#   summarize(Counts = n()) 
+#   summarize(count = n()) 
 ```
 
 In `ggplot2`, we have the option to specify our own colour, size and shape scheme using `scale_color_manual` etc. A tidy way of doing this is to store your manual specifications as vectors.  
@@ -279,6 +284,7 @@ fancy_vol_plot <- diseased_vs_healthy %>%
 
 fancy_vol_plot
 ```
+
 
 # Labelling points of interest  
 
@@ -331,9 +337,10 @@ fancy_vol_plot +
                filter(gene_id %in% interesting_genes), # only show genes of interest   
              color = "#d91933",
              size = 1.5)  
-
-# note that the second geom_point still inherits the original aesthetics of ggplot  
 ```
+
+**Note:** The second `geom_point` function still inherits the aesthetics of the original ggplot.       
+
 
 # Modifying plot theme and labels       
 
@@ -395,4 +402,3 @@ final_vol_plot +
   annotate("text", x = 3, y = 2.5,
            label = "3 genes of interest", color = "#d91933")
 ```
-

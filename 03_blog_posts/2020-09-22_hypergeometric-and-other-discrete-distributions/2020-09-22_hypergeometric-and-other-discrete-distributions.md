@@ -2,7 +2,7 @@ Introduction to hypergeometric, geometric, negative binomial and
 multinomial distributions
 ================
 Erika Duan
-2020-10-03
+2020-10-11
 
   - [Introduction](#introduction)
   - [Hypergeometric distribution](#hypergeometric-distribution)
@@ -183,6 +183,27 @@ hypergeom_dist %>%
 
 <img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-5-1.png" width="80%" />
 
+**Note**: The advantage of the hypergeometric distribution is that it
+can be used to calculate the probability mass function for events with
+more than two outcomes.
+
+``` r
+#-----calculate probability of multivariate hypergeometric distribution-----   
+# suppose a data science consultancy employs 55 males, 17 females and 2 non-binary persons 
+# what is the probability that a team of 6 employees contains 3 males, 2 females and 1 non-binary person  
+
+N <- 55 + 17 + 2
+n <- 6
+
+choose_teams <- choose(N, n)
+choose_males <- choose(55, 3)
+choose_females <- choose(17, 2) 
+choose_binary <- choose(2, 1)
+
+(choose_males * choose_females * choose_binary)/choose_teams
+#> [1] 0.03852032
+```
+
 # Approximating the hypergeometric distribution with the binomial distribution
 
 The binomial distribution can sometimes be used to approximate the
@@ -241,7 +262,7 @@ ggplot(hypergeom_all) +
         plot.title = element_text(hjust = 0.5)) 
 ```
 
-<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-6-1.png" width="80%" />
+<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-7-1.png" width="80%" />
 
 # Geometric distribution
 
@@ -344,7 +365,7 @@ geom_dist %>%
         plot.title = element_text(hjust = 0.5))   
 ```
 
-<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-8-1.png" width="60%" />
+<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-9-1.png" width="60%" />
 
 **Note:** The minimum value of the geometric distribution is 1 (i.e. the
 first trial obtains a successful outcome) and there is no upper bound.
@@ -474,7 +495,7 @@ neg_binom_dist %>%
         plot.title = element_text(hjust = 0.5))     
 ```
 
-<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-10-1.png" width="80%" />
+<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-11-1.png" width="80%" />
 
 **Note:** [As per
 Wikipedia](https://en.wikipedia.org/wiki/Negative_binomial_distribution),
@@ -532,9 +553,149 @@ plot_6 <- plot_neg_binom(neg_binom_dist_6, 6)
 plot_1 / plot_2 / plot_6 
 ```
 
-<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-11-1.png" width="80%" />
+<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-12-1.png" width="80%" />
 
 # Multinomial distribution
+
+The [multinomial
+distribution](https://en.wikipedia.org/wiki/Multinomial_distribution)
+expands upon the concept of the binomial distribution and models the
+probability of counts for each side of a
+![k](https://latex.codecogs.com/png.latex?k "k") sided dice (which does
+not have to be fair) rolled ![n](https://latex.codecogs.com/png.latex?n
+"n") times.
+
+The assumptions of the multinomial distribution are:
+
+  - Trials are independent of each other (observing the outcome from one
+    trial does not affect the likelihood of observing an outcome in
+    another trial).
+  - The number of outcomes possible in a single trial is greater than
+    2.  
+  - Individual outcomes are mutually exclusive (only one outcome type
+    can be observed per trial).  
+  - In any single trial, these
+    ![k](https://latex.codecogs.com/png.latex?k "k") outcomes occur with
+    the probability ![p\_1,
+    p\_2,...,p\_k](https://latex.codecogs.com/png.latex?p_1%2C%20p_2%2C...%2Cp_k
+    "p_1, p_2,...,p_k") where ![\\displaystyle\\sum\_{i=1}^{k}p\_i
+    = 1](https://latex.codecogs.com/png.latex?%5Cdisplaystyle%5Csum_%7Bi%3D1%7D%5E%7Bk%7Dp_i%20%3D%201
+    "\\displaystyle\\sum_{i=1}^{k}p_i = 1").
+
+If we let ![X\_i](https://latex.codecogs.com/png.latex?X_i "X_i")
+represent the number of occurrences of outcome
+![i](https://latex.codecogs.com/png.latex?i "i"), then the probability
+mass function of the multinomial distribution can be described below.
+
+<img src="../../02_figures/2020-09-22_multinomial-distribution.jpg" width="80%" style="display: block; margin: auto;" />
+
+  - The expectation of ![E(X\_i) = n\\times
+    p\_i](https://latex.codecogs.com/png.latex?E%28X_i%29%20%3D%20n%5Ctimes%20p_i
+    "E(X_i) = n\\times p_i").  
+  - The variance of is ![Var(X\_i) = n \\times
+    p\_i(1-p\_i)](https://latex.codecogs.com/png.latex?Var%28X_i%29%20%3D%20n%20%5Ctimes%20p_i%281-p_i%29
+    "Var(X_i) = n \\times p_i(1-p_i)").
+
+<!-- end list -->
+
+``` r
+#-----calculate probability of multinomial distribution-----  
+# 4 blood types with probabilities pO = 0.45, pA = 0.2, pB = 0.25, pAB = 0.1 
+# probability of 10 randomly sampled people where 4 have O, 2 have A, 3 have B and 1 has AB blood type   
+
+dmultinom(x = c(4, 2, 3, 1), prob = c(0.45, 0.2, 0.25, 0.1))  
+#> [1] 0.03229242  
+```
+
+**Note:** The function `rmultinom` can be used to simulate a matrix of
+sample distributions drawn from a multinomial probability.
+
+``` r
+#-----simulate a matrix of sample distributions using rmultinom-----  
+simulation <- rmultinom(n = 6, # number of experiments
+                        size = 10, # number of people samples per experiment
+                        prob = c(0.45, 0.2, 0.25, 0.1))  
+
+# transpose matrix so rows reflect a single experiment and columns reflect frequency of each variable observed
+
+simulation %>%
+  t() %>%
+  as_tibble(.name_repair = "unique") %>%
+  rename("Type O" = "...1",
+         "Type A" = "...2",
+         "Type B" = "...3",
+         "Type AB" = "...4") %>%
+  knitr::kable()
+```
+
+| Type O | Type A | Type B | Type AB |
+| -----: | -----: | -----: | ------: |
+|      4 |      3 |      3 |       0 |
+|      3 |      1 |      3 |       3 |
+|      8 |      1 |      1 |       0 |
+|      8 |      1 |      1 |       0 |
+|      4 |      3 |      3 |       0 |
+|      3 |      2 |      3 |       2 |
+
+We can also simulate the multinomial distribution with the example of a
+fair dice throw, with sides ![k
+= 6](https://latex.codecogs.com/png.latex?k%20%3D%206 "k = 6") and an
+equal probability of landing on each number i.e. ![p =
+\\frac{1}{6}](https://latex.codecogs.com/png.latex?p%20%3D%20%5Cfrac%7B1%7D%7B6%7D
+"p = \\frac{1}{6}").
+
+**Note:** Observe how the frequency of ![X\_1, ...,
+X\_k](https://latex.codecogs.com/png.latex?X_1%2C%20...%2C%20X_k
+"X_1, ..., X_k") approaches
+![\\frac{1}{6}](https://latex.codecogs.com/png.latex?%5Cfrac%7B1%7D%7B6%7D
+"\\frac{1}{6}") as the number of dice throws significantly increase.
+
+``` r
+#-----create a function to simulate a dice throw-----  
+throw_dice <- function() {
+  sample(1:6, size = 1, replace = T) 
+}
+
+set.seed(111)
+throw_dice()
+#> [1] 6  
+```
+
+``` r
+#-----simulate 4 scenarios where dice is thrown 100 times-----      
+plot_throws <- function(n_throws, seed) {
+  set.seed(seed)
+  
+  times_100 <- replicate(n_throws, throw_dice()) %>%
+    tibble(result = .)  
+  
+  times_100 <- count(times_100, result) %>%
+    mutate(frequency = n / sum(n))  
+  
+  plot <- times_100 %>%
+    ggplot(aes(x = result, y = frequency)) +
+    geom_col(fill = "steelblue", colour = "black") + 
+    scale_x_continuous(breaks = 1:6) +
+    labs(x = "Dice side", y = "Frequency",
+         title = paste0("Simulation of ", n_throws, " throws")) +
+    theme_bw() +
+    theme(panel.grid = element_blank(),
+          plot.title = element_text(hjust = 0.5)) 
+  
+  print(plot)
+}
+
+walk2(list(100), list(111, 222, 333, 444), ~ plot_throws(.x, .y))
+```
+
+<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-17-1.png" width="40%" /><img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-17-2.png" width="40%" /><img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-17-3.png" width="40%" /><img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-17-4.png" width="40%" />
+
+``` r
+#-----simulate 4 scenarios where dice is thrown 10000 times-----   
+walk2(list(10000), list(111, 222, 333, 444), ~ plot_throws(.x, .y))
+```
+
+<img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-18-1.png" width="40%" /><img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-18-2.png" width="40%" /><img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-18-3.png" width="40%" /><img src="2020-09-22_hypergeometric-and-other-discrete-distributions_files/figure-gfm/unnamed-chunk-18-4.png" width="40%" />
 
 # Resources
 
@@ -558,4 +719,6 @@ plot_1 / plot_2 / plot_6
     for deriving the mean and variance of the negative binomial
     distribution.  
   - [Blog post](https://rpubs.com/mpfoley73/458738) demonstrating how to
-    calculate the negative binomial distribution in R.
+    calculate the negative binomial distribution in R.  
+  - [Blog post](https://rpubs.com/JanpuHou/296336) demonstrating how to
+    calculate the multinomial distribution in R.
