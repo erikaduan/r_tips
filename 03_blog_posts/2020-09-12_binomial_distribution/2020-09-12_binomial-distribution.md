@@ -1,7 +1,7 @@
 Introduction to binomial distributions
 ================
 Erika Duan
-2020-10-03
+2020-10-18
 
   - [Introduction](#introduction)
   - [Bernoulli trial](#bernoulli-trial)
@@ -479,23 +479,30 @@ unemployment_data <- bind_rows(unemployment_data, CIs)
 # x-axis displays LGA population size
 # y-axis displays local unemployment rate  
 # control limits are 95% confidence intervals for p  
+# subset the LGAs which fall outside of the 95% confidence intervals  
 
-unemployment_data %>%
-  ggplot(aes(x = lga_pop, y = lga_unemploy_rate, label = lgas)) +
-  geom_point() + 
-  geom_text_repel(colour = "grey30", direction = "both", force = 2, nudge_x = 10000, nudge_y = 0.005) + 
-  geom_hline(yintercept = 0.1, size = 0.5, colour = "firebrick", linetype = "dashed") + 
-  geom_line(aes(x = lga_pop, y = lwr.ci), colour = "steelblue", linetype = "dotted") + 
-  geom_line(aes(x = lga_pop, y = upr.ci), colour = "steelblue", linetype = "dotted") + 
+subset_lgas <- c("Orange", "Leeton", "Broken Hill", "Griffith")
+
+ggplot(unemployment_data, aes(x = lga_pop, y = lga_unemploy_rate, label = lgas)) +
+  geom_point(colour = if_else(unemployment_data$lgas %in% subset_lgas, "#b2182b", "grey40")) + 
+  geom_text_repel(colour = if_else(unemployment_data$lgas %in% subset_lgas,"black","grey40"),
+                  segment.color = "grey70", point.padding = 0.1, 
+                  size = 3.5, direction = "both", force = 6, nudge_x = 10000, nudge_y = 0.006) + 
+  geom_hline(yintercept = 0.1, size = 0.5, colour = "#2166ac", linetype = "dashed") + 
+  geom_line(aes(x = lga_pop, y = lwr.ci), size = 0.5, colour = "#67a9cf", linetype = "dotted") + 
+  geom_line(aes(x = lga_pop, y = upr.ci), size = 0.5, colour = "#67a9cf", linetype = "dotted") + 
   scale_x_continuous(labels = scales::comma) + 
   scale_y_continuous(limits = c(0.04, 0.16), labels = scales::percent_format(accuracy = 1)) + 
   labs(x = "LGA resident population",
        y = "LGA unemployment rate (%)",
-       title = "Which LGA unemployment rates significantly differ from the national rate?") + 
+       title = "Which LGA unemployment rates significantly differ from the national rate?",
+       caption = "Labour Force, Australia, Detailed - released 24 September 2020") + 
   theme_bw() +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.x = element_blank(),
-        panel.grid.major.y = element_line(linetype = "dashed"))  
+        panel.grid.major.y = element_line(linetype = "dashed"),
+        plot.title = element_text(hjust = 0.5),
+        plot.caption = element_text(hjust = 0.5, colour = "grey35")) 
 ```
 
 ![](2020-09-12_binomial-distribution_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
