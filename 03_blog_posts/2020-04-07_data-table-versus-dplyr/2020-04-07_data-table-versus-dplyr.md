@@ -1,32 +1,32 @@
-You can use data.table or tidyverse\!
+You can use data.table or tidyverse!
 ================
 Erika Duan
-2020-05-28
+2021-03-19
 
-  - [Introduction](#introduction)
-  - [Creating a test dataset](#creating-a-test-dataset)
-  - [Basic `data.table` operations](#basic-data.table-operations)
-      - [Filtering data](#filtering-data)
-      - [Sorting data](#sorting-data)
-      - [Selecting columns](#selecting-columns)
-      - [Creating and transforming
+-   [Introduction](#introduction)
+-   [Creating a test dataset](#creating-a-test-dataset)
+-   [Basic `data.table` operations](#basic-data.table-operations)
+    -   [Filtering data](#filtering-data)
+    -   [Sorting data](#sorting-data)
+    -   [Selecting columns](#selecting-columns)
+    -   [Creating and transforming
         columns](#creating-and-transforming-columns)
-      - [Transforming multiple columns](#transforming-multiple-columns)
-      - [Pipes versus chains](#pipes-versus-chains)
-  - [Group by operations](#group-by-operations)
-      - [Using group by with `.N`](#using-group-by-with-.n)
-      - [Grouping by multiple
+    -   [Transforming multiple columns](#transforming-multiple-columns)
+    -   [Pipes versus chains](#pipes-versus-chains)
+-   [Group by operations](#group-by-operations)
+    -   [Using group by with `.N`](#using-group-by-with-.n)
+    -   [Grouping by multiple
         variables](#grouping-by-multiple-variables)
-      - [Using group by with row-wise
+    -   [Using group by with row-wise
         operations](#using-group-by-with-row-wise-operations)
-      - [Using group by to extract the first or last
+    -   [Using group by to extract the first or last
         row](#using-group-by-to-extract-the-first-or-last-row)
-      - [Using group by with `lead` or `lag`
+    -   [Using group by with `lead` or `lag`
         operations](#using-group-by-with-lead-or-lag-operations)
-      - [Group by using a numeric instead of character variable
+    -   [Group by using a numeric instead of character variable
         type](#group-by-using-a-numeric-instead-of-character-variable-type)
-  - [The magic behind the code](#the-magic-behind-the-code)
-  - [Other resources](#other-resources)
+-   [The magic behind the code](#the-magic-behind-the-code)
+-   [Other resources](#other-resources)
 
 ``` r
 #-----load required packages-----  
@@ -49,8 +49,8 @@ visibility compared to `tidyverse`.
 The comments from `data.table` users described how I was using R quite
 accurately. I was someone who:
 
-  - Did not come from a computer programming background.
-  - Only started using R in 2017, when excellent packages in the
+-   Did not come from a computer programming background.
+-   Only started using R in 2017, when excellent packages in the
     `tidyverse` family were highly visible.
 
 <img src="../../02_figures/2020-04-07_twitter-post-data-table.jpg" width="60%" style="display: block; margin: auto;" />
@@ -59,9 +59,9 @@ Fast forward a few years and the [data processing
 efficiency](https://h2oai.github.io/db-benchmark/) of `data.table` has
 become extremely handy:
 
-  - When I have very large datasets (datasets over 1 million rows)
+-   When I have very large datasets (datasets over 0.5 million rows)
     **and**  
-  - I constantly need to use `group by` operations to extract new data
+-   I constantly need to use `group by` operations to extract new data
     features.
 
 Let me show you what I mean.
@@ -71,15 +71,15 @@ Let me show you what I mean.
 Imagine you have a dataset describing how students are engaging with
 online courses:
 
-  - Each student has a unique ID.  
-  - There are 5 different online platforms (labelled platforms A, B, C
+-   Each student has a unique ID.  
+-   There are 5 different online platforms (labelled platforms A, B, C
     and D).
-  - Students have the option of taking different courses within the same
+-   Students have the option of taking different courses within the same
     platform or by switching to a different platform.  
-  - Start dates are recorded when the student first signs up to a
+-   Start dates are recorded when the student first signs up to a
     platform and when the student first starts a course within a
     platform.  
-  - End dates are also recorded when the student finishes with an
+-   End dates are also recorded when the student finishes with an
     individual course and individual provider.
 
 **Note:** The code used to create the test dataset can be accessed from
@@ -92,18 +92,18 @@ student_courses %>%
   knitr::kable()
 ```
 
-| student\_id | online\_platform | online\_course       | platform\_start\_date | platform\_end\_date |
-| :---------- | :--------------- | :------------------- | :-------------------- | :------------------ |
-| 00005ccd    | B                | website\_design      | 2017-05-21            | 2017-08-02          |
-| 00005ccd    | D                | data\_mining         | 2018-09-05            | 2019-01-14          |
-| 00005ccd    | E                | Python\_intermediate | 2016-06-23            | 2016-10-29          |
-| 00005ccd    | C                | accounting           | 2018-03-03            | 2018-04-24          |
-| 00005ccd    | E                | bread\_baking        | 2017-11-29            | 2018-01-09          |
-| 00005ccd    | D                | poetry\_writing      | 2016-03-09            | 2016-06-16          |
-| 00005ccd    | A                | website\_design      | 2016-10-31            | 2017-04-18          |
-| 00005ccd    | A                | Python\_advanced     | 2016-10-31            | 2017-04-18          |
-| 00005ccd    | A                | poetry\_writing      | 2016-10-31            | 2017-04-18          |
-| 00005ccd    | C                | metal\_welding       | 2018-12-04            | 2019-03-05          |
+| student\_id | online\_platform | online\_course      | platform\_start\_date | platform\_end\_date |
+|:------------|:-----------------|:--------------------|:----------------------|:--------------------|
+| 00007f23    | E                | fitness\_training   | 2017-05-21            | 2017-06-29          |
+| 00007f23    | A                | UX\_design          | 2018-09-05            | 2018-10-21          |
+| 00007f23    | E                | website\_design     | 2016-06-23            | 2016-07-20          |
+| 00007f23    | C                | bread\_baking       | 2018-03-03            | 2018-04-07          |
+| 00007f23    | A                | metal\_welding      | 2017-11-29            | 2017-12-27          |
+| 00007f23    | D                | metal\_welding      | 2016-03-09            | 2016-04-08          |
+| 000080c8    | D                | contemporary\_dance | 2016-10-31            | 2016-11-09          |
+| 000080c8    | B                | fitness\_training   | 2018-12-04            | 2019-01-09          |
+| 0000ba9c    | D                | R\_beginner         | 2017-08-08            | 2017-09-08          |
+| 0000ba9c    | C                | website\_design     | 2018-09-22            | 2018-10-05          |
 
 # Basic `data.table` operations
 
@@ -113,21 +113,21 @@ function. This function is handy as it assigns both `data.table` and
 
 ``` r
 #-----converting a data frame into a data table-----  
-# class(student_courses)
+class(student_courses)
 #> [1] "tbl_df"     "tbl"        "data.frame"
 
 setDT(student_courses)  
 
-# class(student_courses)
+class(student_courses)
 #> [1] "data.table" "data.frame"  
 ```
 
 The general form of a `data.table` query is structured in the form
 `DT[i, j, by]` where:
 
-  - Data subsetting (i.e. filtering rows) is performed using `i`.  
-  - Data column selection or creation is performed using `j`.  
-  - Grouping data by a variable is performed using `by`.
+-   Data subsetting (i.e. filtering rows) is performed using `i`.  
+-   Data column selection or creation is performed using `j`.  
+-   Grouping data by a variable is performed using `by`.
 
 ## Filtering data
 
@@ -162,7 +162,7 @@ argument `times = 10`), `tidyverse` and `data.table` are comparable with
 each other. Filtering between a range of numerical vectors is slightly
 faster in `data.table`.
 
-<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-9-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## Sorting data
 
@@ -194,13 +194,14 @@ operations is to sort your dataset once early in your data cleaning
 workflow, after you have loaded your raw data, renamed your columns and
 performed some basic cleaning.
 
-<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## Selecting columns
 
-In `data.table`, column selection is performed inside `j` of `DT[i, j,
-by]` and returns either a vector or another `data.table`. A `data.table`
-is only returned if the variable selection is wrapped inside a list.
+In `data.table`, column selection is performed inside `j` of
+`DT[i, j, by]` and returns either a vector or another `data.table`. A
+`data.table` is only returned if the variable selection is wrapped
+inside a list.
 
 In `tidyverse`, performing data frame operations will always return
 another data frame, unless you explicitly use `pull` to extract a column
@@ -219,13 +220,13 @@ t_student_course_info <- student_courses %>%
          online_platform,
          online_course)
 
-# class(t_student_ids)
+class(t_student_ids)
 #> [1] "data.table" "data.frame" 
 
-# class(v_student_ids)
+class(v_student_ids)
 #> [1] "character"
 
-# class(t_student_course_info)
+class(t_student_course_info)
 #> [1] "data.table" "data.frame"
 
 #-----selecting a column using data.table-----  
@@ -240,20 +241,20 @@ dt_student_course_info <- student_courses[,
                                             online_platform,
                                             online_course)]
 
-# class(v_student_ids)
+class(v_student_ids)
 #> [1] "character"
 
-# class(dt_student_ids)
+class(dt_student_ids)
 #> [1] "data.table" "data.frame"
 
-# class(dt_student_course_info)
+class(dt_student_course_info)
 #> [1] "data.table" "data.frame"
 ```
 
 We can see that `tidyverse` outperforms `data.table` when we need to
 subset columns inside a data frame.
 
-<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-13-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## Creating and transforming columns
 
@@ -291,9 +292,9 @@ t_platform_length <- student_courses %>%
   mutate(platform_length_days = platform_end_date - platform_start_date,
          platform_length_weeks = convert_days_to_weeks(platform_length_days))    
 
-# colnames(t_platform_length) 
-#> [1] "df_index"              "student_id"            "online_platform"       "online_course"        
-#> [5] "platform_start_date"   "platform_end_date"     "platform_length_days"  "platform_length_weeks"
+colnames(t_platform_length) 
+#> [1] "df_index"              "student_id"            "online_platform"       "online_course"      
+#> [5] "platform_start_date"   "platform_end_date"     "platform_length_days" "platform_length_weeks"
 
 #-----creating new platform_length columns using data.table-----  
 # note the difference between using = and := 
@@ -301,7 +302,7 @@ t_platform_length <- student_courses %>%
 dt_platform_length <- student_courses[,
                                       .(platform_length_days = platform_end_date - platform_start_date)]
 
-# colnames(dt_platform_length)
+colnames(dt_platform_length)
 #> [1] "platform_length_days"  
 
 dt_platform_length <- student_courses[,
@@ -309,7 +310,7 @@ dt_platform_length <- student_courses[,
                                       ][, 
                                         platform_length_weeks := convert_days_to_weeks(platform_length_days)]
 
-# colnames(dt_platform_length)
+colnames(dt_platform_length)
 #> [1] "df_index"              "student_id"            "online_platform"       "online_course"        
 #> [5] "platform_start_date"   "platform_end_date"     "platform_length_days"  "platform_length_weeks"  
 
@@ -320,7 +321,7 @@ dt_platform_length_weeks <- student_courses[,
                                             platform_length_weeks = convert_days_to_weeks(platform_length_days)
                                             .(platform_length_weeks = platform_length_weeks)}]  
 
-# colnames(dt_platform_length_weeks)  
+colnames(dt_platform_length_weeks)  
 #> [1] "platform_length_weeks"
 ```
 
@@ -330,7 +331,7 @@ returns the variable(s) of interest i.e. `dt_platform_length_weeks` does
 not improve computational efficiency compared with `mutate`, which
 returns all variables in the data frame.
 
-<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-15-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## Transforming multiple columns
 
@@ -384,9 +385,8 @@ with_chaining <- student_courses[online_platform == "B"
                                    ][order(student_id, -platform_start_date, -platform_end_date)
                                      ][, .(student_id, online_platform, online_course, status)]  
 
-# compare(with_chaining, with_pipes, ignoreAttrs = T)
+compare(with_chaining, with_pipes, ignoreAttrs = T)
 #> TRUE
-#>   dropped attributes
 
 # note that chaining allows a filtered data frame to first be subsetted and then transformed  
 # without chaining, the transformation is applied where relevant across the whole data table     
@@ -394,29 +394,31 @@ with_chaining <- student_courses[online_platform == "B"
 no_chaining <- student_courses[online_platform == "B", status := "special_cohort"
                                ][order(student_id, -platform_start_date, -platform_end_date)
                                  ][, .(student_id, online_platform, online_course, status)]    
+```
 
+``` r
 head(with_chaining)
 ```
 
-    ##    student_id online_platform       online_course         status
-    ## 1:   00005ccd               B      website_design special_cohort
-    ## 2:   0000a626               B      website_design special_cohort
-    ## 3:   0000a626               B      website_design special_cohort
-    ## 4:   0001c631               B Python_intermediate special_cohort
-    ## 5:   00023a86               B          R_beginner special_cohort
-    ## 6:   00023a86               B           UX_design special_cohort
+    ##    student_id online_platform      online_course         status
+    ## 1:   000080c8               B   fitness_training special_cohort
+    ## 2:   00014b3f               B         R_advanced special_cohort
+    ## 3:   00041691               B     R_intermediate special_cohort
+    ## 4:   00041691               B contemporary_dance special_cohort
+    ## 5:   0004fdd2               B contemporary_dance special_cohort
+    ## 6:   00056ef2               B            pottery special_cohort
 
 ``` r
 head(no_chaining)
 ```
 
-    ##    student_id online_platform  online_course         status
-    ## 1:   00005ccd               C  metal_welding           <NA>
-    ## 2:   00005ccd               D    data_mining           <NA>
-    ## 3:   00005ccd               C     accounting           <NA>
-    ## 4:   00005ccd               E   bread_baking           <NA>
-    ## 5:   00005ccd               B website_design special_cohort
-    ## 6:   00005ccd               A website_design           <NA>
+    ##    student_id online_platform    online_course status
+    ## 1:   00007f23               A        UX_design   <NA>
+    ## 2:   00007f23               C     bread_baking   <NA>
+    ## 3:   00007f23               A    metal_welding   <NA>
+    ## 4:   00007f23               E fitness_training   <NA>
+    ## 5:   00007f23               E   website_design   <NA>
+    ## 6:   00007f23               D    metal_welding   <NA>
 
 # Group by operations
 
@@ -455,10 +457,6 @@ t_unique_courses_per_student <- student_courses %>%
   summarise(total_online_courses = n_distinct(online_course)) %>%
   ungroup      
 
-# summary(df_unique_courses_per_student$total_online_courses == df_courses_per_student$total_online_courses)
-#>     Mode   FALSE    TRUE 
-#>  logical   44500   35347 
-
 #-----using by and length(unique(.x)) from data.table-----  
 dt_unique_courses_per_student <- student_courses[,
                                                  .(total_online_courses = length(unique(online_course))),
@@ -471,7 +469,7 @@ We can see that `data.table` performs faster than `tidyverse` once we
 need to group by variables. An exception to this trend is when we
 specifically use `length(unique(.x))` inside a grouped `data.table`.
 
-<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-19-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-21-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## Grouping by multiple variables
 
@@ -494,19 +492,7 @@ t_courses_per_student_per_platform <- student_courses %>%
   ungroup      
 
 head(t_courses_per_student_per_platform)
-```
 
-    ## # A tibble: 6 x 3
-    ##   student_id online_platform total_online_courses
-    ##   <chr>      <chr>                          <int>
-    ## 1 00005ccd   A                                  3
-    ## 2 00005ccd   B                                  1
-    ## 3 00005ccd   C                                  2
-    ## 4 00005ccd   D                                  2
-    ## 5 00005ccd   E                                  2
-    ## 6 0000a626   A                                  1
-
-``` r
 #-----grouping by two variables using data.table-----   
 dt_courses_per_student_per_platform <- student_courses[,
                                                        .(total_online_courses = .N),
@@ -514,17 +500,7 @@ dt_courses_per_student_per_platform <- student_courses[,
                                                               online_platform)]  
 
 head(dt_courses_per_student_per_platform)
-```
 
-    ##    student_id online_platform total_online_courses
-    ## 1:   00005ccd               B                    1
-    ## 2:   00005ccd               D                    2
-    ## 3:   00005ccd               E                    2
-    ## 4:   00005ccd               C                    2
-    ## 5:   00005ccd               A                    3
-    ## 6:   0000a626               D                    2
-
-``` r
 # using keyby instead of by allows sorting by the variables in our grouping 
 
 dt_courses_per_student_per_platform <- student_courses[,
@@ -535,18 +511,10 @@ dt_courses_per_student_per_platform <- student_courses[,
 head(dt_courses_per_student_per_platform)
 ```
 
-    ##    student_id online_platform total_online_courses
-    ## 1:   00005ccd               A                    3
-    ## 2:   00005ccd               B                    1
-    ## 3:   00005ccd               C                    2
-    ## 4:   00005ccd               D                    2
-    ## 5:   00005ccd               E                    2
-    ## 6:   0000a626               A                    1
-
 We can see that the addition of a second variable grouping does not
 greatly decrease `data.table` performance in contrast to `tidyverse`.
 
-<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-21-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-23-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## Using group by with row-wise operations
 
@@ -574,7 +542,7 @@ dt_time_per_student_per_platform <- student_courses[,
 Once again, `data.table` runs much faster than `tidyverse` when we need
 to perform row-wise operations on groups of variables.
 
-<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-23-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-25-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## Using group by to extract the first or last row
 
@@ -615,7 +583,7 @@ Interestingly, performing row extraction is significantly faster in
 (i.e. the last row in a group) is called. In the latter scenario,
 `data.table` appears to perform much worse than `tidyverse`.
 
-<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-25-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-27-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## Using group by with `lead` or `lag` operations
 
@@ -634,15 +602,6 @@ student_courses %>%
          online_course,
          platform_start_date)
 ```
-
-    ##   student_id online_platform    online_course platform_start_date
-    ## 1   00028486               D machine_learning          2016-03-01
-    ## 2   00028486               D       R_beginner          2016-03-01
-    ## 3   00028486               D   website_design          2016-03-01
-    ## 4   00028486               A   website_design          2016-07-04
-    ## 5   00028486               A       R_advanced          2017-08-27
-    ## 6   00028486               D      data_mining          2018-05-04
-    ## 7   00028486               E machine_learning          2018-05-13
 
 If we closely examine the data, it is quite common for students to sign
 up to one online platform, then switch to another platform, before
@@ -686,17 +645,7 @@ t_first_course_per_platform_seq %>%
          online_platform,
          online_course,
          platform_start_date)
-```
 
-    ## # A tibble: 4 x 4
-    ##   student_id online_platform online_course    platform_start_date
-    ##   <chr>      <chr>           <chr>            <date>             
-    ## 1 00028486   D               machine_learning 2016-03-01         
-    ## 2 00028486   A               website_design   2016-07-04         
-    ## 3 00028486   D               data_mining      2018-05-04         
-    ## 4 00028486   E               machine_learning 2018-05-13
-
-``` r
 #-----previously incorrect way of extracting the first course per platform-----
 t_first_course_per_platform  %>%
   filter(student_id == "00028486") %>% 
@@ -705,13 +654,6 @@ t_first_course_per_platform  %>%
          online_course,
          platform_start_date)
 ```
-
-    ## # A tibble: 3 x 4
-    ##   student_id online_platform online_course    platform_start_date
-    ##   <chr>      <chr>           <chr>            <date>             
-    ## 1 00028486   D               machine_learning 2016-03-01         
-    ## 2 00028486   A               website_design   2016-07-04         
-    ## 3 00028486   E               machine_learning 2018-05-13
 
 Performing all these steps in `data.table` will be possible once
 `fcase`, its equivalent of `case_when`, is released in [data.table
@@ -740,7 +682,7 @@ dt_first_course_per_platform_seq <- dt_sep_online_platforms[,
                                                             .SD[1L],
                                                             by = .(student_id, seq_online_platform)] 
 
-# compare(dt_first_course_per_platform$online_course, t_first_course_per_platform_seq$online_course)
+compare(dt_first_course_per_platform$online_course, t_first_course_per_platform_seq$online_course)
 #> TRUE
 ```
 
@@ -749,14 +691,6 @@ written above. Once again, `data.table` operations are faster than
 `tidyverse` operations when we need to group by variables. It will be
 interesting to see whether `fcase` can perform significantly faster than
 `case_when` in the future.
-
-    ## # A tibble: 4 x 3
-    ##   Tasks                                     Tidyverse      `Data table`    
-    ##   <chr>                                     <drtn>         <drtn>          
-    ## 1 Sort by student ID & platform start date   3.383002 secs  0.816079140 se~
-    ## 2 Create new lag values grouped by student~  3.557593 secs  2.352519989 se~
-    ## 3 Perform case_when grouped by student ID   16.303818 secs 12.905283928 se~
-    ## 4 Fill NAs grouped by student ID             2.519151 secs  0.004179955 se~
 
 ## Group by using a numeric instead of character variable type
 
@@ -803,11 +737,11 @@ dt_courses_per_student <- student_courses[,
 ```
 
 You can see that grouping by a numeric variable type using `tidyverse`
-outperforms grouping by a character variable type using `data.table`\!
-Of course, the fastest operation is to group by a numerical variable
-type using `data.table.`
+outperforms grouping by a character variable type using `data.table`! Of
+course, the fastest operation is to group by a numerical variable type
+using `data.table.`
 
-<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-31-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="2020-04-07_data-table-versus-dplyr_files/figure-gfm/unnamed-chunk-33-1.png" width="70%" style="display: block; margin: auto;" />
 
 # The magic behind the code
 
@@ -831,28 +765,28 @@ subsetting instead of vector scanning).
 
 # Other resources
 
-  - The definitive [stack overflow
+-   The definitive [stack overflow
     discussion](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly/27840349#27840349)
     about the best use cases for data.table versus dplyr (from
     tidyverse).
 
-  - A great side by side comparison of data.table versus dplyr
+-   A great side by side comparison of data.table versus dplyr
     operations by
     [Atrebas](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/).
 
-  - A list of advanced `data.table` operations and tricks by [Andrew
+-   A list of advanced `data.table` operations and tricks by [Andrew
     Brooks](http://brooksandrew.github.io/simpleblog/articles/advanced-data-table/).
 
-  - Datacamp’s `data.table`
+-   Datacamp’s `data.table`
     [cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/blog_assets/datatable_Cheat_Sheet_R.pdf).
 
-  - An explanation of how `data.table` modifies by reference by [Tyson
+-   An explanation of how `data.table` modifies by reference by [Tyson
     Barrett](https://tysonbarrett.com//jekyll/update/2019/07/12/datatable/).
 
-  - A section explaining `data.table` efficiency in [Efficient R
+-   A section explaining `data.table` efficiency in [Efficient R
     programming by Colin Gillespie and Robin
     Lovelace](https://csgillespie.github.io/efficientR/data-processing-with-data-table.html).
 
-  - A more detailed explanation of the usage of binary search based
+-   A more detailed explanation of the usage of binary search based
     subset in `data.table` by [Arun
     Srinivasan](https://gist.github.com/arunsrinivasan/dacb9d1cac301de8d9ff).

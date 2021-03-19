@@ -7,6 +7,10 @@ output:
     toc: true
 ---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, results = 'hide', message = FALSE)   
+```
+
 ```{r, message = FALSE}
 #-----load required packages-----  
 if (!require("pacman")) install.packages("pacman")
@@ -28,13 +32,13 @@ The comments from `data.table` users described how I was using R quite accuratel
 + Did not come from a computer programming background.
 + Only started using R in 2017, when excellent packages in the `tidyverse` family were highly visible.   
 
-```{r, echo = FALSE, fig.align = 'center', fig.show = 'hold', out.width = '60%'} 
+```{r, echo = FALSE, results = 'markup', fig.align = 'center', out.width = '60%'} 
 knitr::include_graphics("../../02_figures/2020-04-07_twitter-post-data-table.jpg")
 ```
 
 Fast forward a few years and the [data processing efficiency](https://h2oai.github.io/db-benchmark/) of `data.table` has become extremely handy:  
 
-+ When I have very large datasets (datasets over 1 million rows) **and**   
++ When I have very large datasets (datasets over 0.5 million rows) **and**   
 + I constantly need to use `group by` operations to extract new data features.    
 
 Let me show you what I mean.       
@@ -54,45 +58,42 @@ Imagine you have a dataset describing how students are engaging with online cour
 
 ```{r, echo = FALSE}
 #-----create a function to generate random dates-----  
-# this chunk of code has no other purpose except to provide us with an example dataset  
-
 create_start_dates <- function(start_date, end_date, n) {
   if(!is.character(start_date) | !is.character(end_date)) {
     stop("Error: start_date and end_date should be written in the format YYYY-mm-dd")
   }
   
-  start_date <- as.Date(start_date)
-  end_date <- as.Date(end_date)  
+  start_date <- as.Date(start_date, format = "%Y-%m-%d")
+  end_date <- as.Date(end_date, format = "%Y-%m-%d")  
   
   if(end_date < start_date) {
     stop("Error: start_date should be earlier than end_date")
   }
   
   set.seed(111)
-  sample(seq(start_date, end_date, by = "day"),
-         n,
-         replace = T)
+  new_date <- sample(seq(start_date, end_date, by = "day"),
+                     n,
+                     replace = T)
+  return(new_date)
 }  
 ```
 
 ```{r, echo = FALSE}
-#-----create a test dataset using tidyverse syntax-----
-# this chunk of code has no other purpose except to provide us with an example dataset  
+#-----create a test dataset of 500000 course enrollments-----
+# create 80000 unique student_ids and sample with replacement 500000 times  
 
 set.seed(111)
-
-#-----create 100000 unique student_ids-----
-students <- random_id(n = 80000, bytes = 4,
-                         use_openssl = F) # so set.seed() works  
+students <- random_id(n = 150000, bytes = 4,
+                      use_openssl = F) # so set.seed() works  
 
 student_id <- sample(students, 500000,
-                   replace = T) %>%
+                     replace = T) %>%
   sort()
 
-#-----create 5 online_platforms------
+#-----simulate 5 platforms with different market shares----- 
 online_platform <- sample(LETTERS[1:5], 500000,
                           replace = T,
-                          prob = c(0.35, 0.05, 0.1, 0.3, 0.2))  # simulate differing platform market share 
+                          prob = c(0.35, 0.05, 0.1, 0.3, 0.2)) 
 
 #-----create 20 unique course_names-----
 courses <- c("R_beginner",
@@ -114,30 +115,30 @@ courses <- c("R_beginner",
              "contemporary_dance",
              "carpentry",
              "metal_welding",
-             "accounting")  
+             "fitness_training")  
 
 online_course <- sample(courses, 500000,
-                         replace = T)  
+                        replace = T)  
 
 student_courses <- tibble(index = seq(1, 500000, 1), # create an index to join by
                           student_id,
                           online_platform,
                           online_course)
 
-#-----create provider_start_date-----  
+#-----create platform_start_date-----  
 platform_subset <- student_courses %>%
   select(index, 
          student_id,
          online_platform) %>% 
   mutate(unique_group = str_c(student_id, online_platform, sep = "-")) %>%
   group_by(student_id) %>%
-  mutate(lead_unique_group = lead(unique_group, 1)) %>%
+  mutate(previous_unique_group = lag(unique_group, 1)) %>%
   ungroup()
 
-# filter out rows where unique_group == lead_unique_group  
+# filter to keep rows representing the first time a student commences on a new platform      
 
 platform_subset <- platform_subset %>%
-  filter(is.na(lead_unique_group) | lead_unique_group != unique_group)
+  filter(is.na(previous_unique_group) | previous_unique_group != unique_group)
 
 platform_start_date <- create_start_dates(start_date = "2016-01-01", end_date = "2019-01-01",  
                                           n = nrow(platform_subset))
@@ -146,18 +147,21 @@ platform_subset <- platform_subset %>%
   mutate(platform_start_date = platform_start_date)
 
 #-----create provider_end_date-----
+# create random course lengths 
+
+set.seed(111)
 platform_length <- runif(nrow(platform_subset),
-                         min = 9, max = 180)
+                         min = 9, max = 60) %>%
+  floor(.)
 
 platform_subset <- platform_subset %>%
   mutate(platform_end_date = platform_start_date + platform_length)
 
-#-----left join online_course to provider_subset by df_index-----
+#-----left join online_course to provider_subset by index-----
 platform_subset <- platform_subset %>%
-  select(-c(student_id,
-            online_platform,
-            unique_group,
-            lead_unique_group)) # remove duplicate columns and unnecessary columns    
+  select(index,
+         platform_start_date,
+         platform_end_date)     
 
 student_courses <- left_join(student_courses,
                              platform_subset,
@@ -165,19 +169,23 @@ student_courses <- left_join(student_courses,
 
 student_courses <- student_courses %>%
   fill(c(platform_start_date, platform_end_date), 
-       .direction = "up") # fill NAs (NAs are above the value to be filled)  
+       .direction = "up")  
 
 student_courses <- student_courses %>%
-  select(-index) # remove df_index from the final dataset   
+  select(-index)   
 
-#-----create course_end_date-----
-# TBC
-
-#-----create course_end_date-----
-# TBC
+#TODO create course start date and course end date  
+# course start date is a random number between platform start and end date 
+# for subsequent courses on the same platform
 ```
   
-```{r}
+```{r, echo = FALSE}
+#-----remove all objects except student_courses-----  
+rm(list = setdiff(ls(), "student_courses"))
+gc()
+```  
+  
+```{r, results = 'markup'}
 #-----using kable to quickly visualise the test dataset-----  
 student_courses %>%
   head(10) %>%
@@ -191,12 +199,12 @@ A data frame can be converted into a `data.table` using the `setDT` function. Th
 
 ```{r}
 #-----converting a data frame into a data table-----  
-# class(student_courses)
+class(student_courses)
 #> [1] "tbl_df"     "tbl"        "data.frame"
 
 setDT(student_courses)  
 
-# class(student_courses)
+class(student_courses)
 #> [1] "data.table" "data.frame"  
 ```
 
@@ -271,7 +279,7 @@ dt_sorted <- student_courses[order(student_id,
 
 Here, the takeaway message is that sorting data by multiple variables (i.e. columns) is computationally expensive, with `data.table` outperforming `tidyverse`. A handy way to avoid redundant sorting operations is to sort your dataset once early in your data cleaning workflow, after you have loaded your raw data, renamed your columns and performed some basic cleaning.           
 
-```{r, echo = FALSE, message = FALSE, fig.align = "center", out.width = '70%'}
+```{r, echo = FALSE, results = 'markup', fig.align = "center", out.width = '70%'}
 mbm_sort <- microbenchmark(tidyverse_sort = student_courses %>%
                              arrange(student_id,
                                      online_platform,
@@ -307,13 +315,13 @@ t_student_course_info <- student_courses %>%
          online_platform,
          online_course)
 
-# class(t_student_ids)
+class(t_student_ids)
 #> [1] "data.table" "data.frame" 
 
-# class(v_student_ids)
+class(v_student_ids)
 #> [1] "character"
 
-# class(t_student_course_info)
+class(t_student_course_info)
 #> [1] "data.table" "data.frame"
 
 #-----selecting a column using data.table-----  
@@ -328,19 +336,19 @@ dt_student_course_info <- student_courses[,
                                             online_platform,
                                             online_course)]
 
-# class(v_student_ids)
+class(v_student_ids)
 #> [1] "character"
 
-# class(dt_student_ids)
+class(dt_student_ids)
 #> [1] "data.table" "data.frame"
 
-# class(dt_student_course_info)
+class(dt_student_course_info)
 #> [1] "data.table" "data.frame"
 ```
 
 We can see that `tidyverse` outperforms `data.table` when we need to subset columns inside a data frame.    
 
-```{r, echo = FALSE, message = FALSE, fig.align = "center", out.width = '70%'}
+```{r, echo = FALSE, results = 'markup', fig.align = "center", out.width = '70%'}
 mbm_select <- microbenchmark(tidyverse_select = student_courses %>%
                                select(student_id,
                                       online_platform,
@@ -384,9 +392,9 @@ t_platform_length <- student_courses %>%
   mutate(platform_length_days = platform_end_date - platform_start_date,
          platform_length_weeks = convert_days_to_weeks(platform_length_days))    
 
-# colnames(t_platform_length) 
-#> [1] "df_index"              "student_id"            "online_platform"       "online_course"        
-#> [5] "platform_start_date"   "platform_end_date"     "platform_length_days"  "platform_length_weeks"
+colnames(t_platform_length) 
+#> [1] "df_index"              "student_id"            "online_platform"       "online_course"      
+#> [5] "platform_start_date"   "platform_end_date"     "platform_length_days" "platform_length_weeks"
 
 #-----creating new platform_length columns using data.table-----  
 # note the difference between using = and := 
@@ -394,7 +402,7 @@ t_platform_length <- student_courses %>%
 dt_platform_length <- student_courses[,
                                       .(platform_length_days = platform_end_date - platform_start_date)]
 
-# colnames(dt_platform_length)
+colnames(dt_platform_length)
 #> [1] "platform_length_days"  
 
 dt_platform_length <- student_courses[,
@@ -402,7 +410,7 @@ dt_platform_length <- student_courses[,
                                       ][, 
                                         platform_length_weeks := convert_days_to_weeks(platform_length_days)]
 
-# colnames(dt_platform_length)
+colnames(dt_platform_length)
 #> [1] "df_index"              "student_id"            "online_platform"       "online_course"        
 #> [5] "platform_start_date"   "platform_end_date"     "platform_length_days"  "platform_length_weeks"  
 
@@ -413,13 +421,13 @@ dt_platform_length_weeks <- student_courses[,
                                             platform_length_weeks = convert_days_to_weeks(platform_length_days)
                                             .(platform_length_weeks = platform_length_weeks)}]  
 
-# colnames(dt_platform_length_weeks)  
+colnames(dt_platform_length_weeks)  
 #> [1] "platform_length_weeks"
 ```
   
 Performance is similar for `tidyverse` and `data.table` when creating new columns. Somewhat surprising, creating a `data.table` which only returns the variable(s) of interest i.e. `dt_platform_length_weeks` does not improve computational efficiency compared with `mutate`, which returns all variables in the data frame.           
 
-```{r, echo = FALSE, message = FALSE, fig.align = "center", out.width = '70%'}
+```{r, echo = FALSE, results = 'markup', fig.align = "center", out.width = '70%'}
 mbm_mutate <- microbenchmark(tidyverse_all_columns = student_courses %>%
                                mutate(platform_length_days = platform_end_date - platform_start_date,
                                       platform_length_weeks = convert_days_to_weeks(platform_length_days)),
@@ -478,9 +486,8 @@ with_chaining <- student_courses[online_platform == "B"
                                    ][order(student_id, -platform_start_date, -platform_end_date)
                                      ][, .(student_id, online_platform, online_course, status)]  
 
-# compare(with_chaining, with_pipes, ignoreAttrs = T)
+compare(with_chaining, with_pipes, ignoreAttrs = T)
 #> TRUE
-#>   dropped attributes
 
 # note that chaining allows a filtered data frame to first be subsetted and then transformed  
 # without chaining, the transformation is applied where relevant across the whole data table     
@@ -488,7 +495,9 @@ with_chaining <- student_courses[online_platform == "B"
 no_chaining <- student_courses[online_platform == "B", status := "special_cohort"
                                ][order(student_id, -platform_start_date, -platform_end_date)
                                  ][, .(student_id, online_platform, online_course, status)]    
+```
 
+```{r, results = 'markup'}
 head(with_chaining)
 head(no_chaining)
 ```
@@ -525,10 +534,6 @@ t_unique_courses_per_student <- student_courses %>%
   summarise(total_online_courses = n_distinct(online_course)) %>%
   ungroup      
 
-# summary(df_unique_courses_per_student$total_online_courses == df_courses_per_student$total_online_courses)
-#>     Mode   FALSE    TRUE 
-#>  logical   44500   35347 
-
 #-----using by and length(unique(.x)) from data.table-----  
 dt_unique_courses_per_student <- student_courses[,
                                                  .(total_online_courses = length(unique(online_course))),
@@ -539,7 +544,7 @@ dt_unique_courses_per_student <- student_courses[,
 
 We can see that `data.table` performs faster than `tidyverse` once we need to group by variables. An exception to this trend is when we specifically use `length(unique(.x))` inside a grouped `data.table`.           
 
-```{r, echo = FALSE, message = FALSE, fig.align = "center", out.width = '70%'}
+```{r, echo = FALSE, results = 'markup', fig.align = "center", out.width = '70%'}
 mbm_n <- microbenchmark(tidyverse_total_courses = student_courses %>%
                           group_by(student_id) %>%
                           summarise(total_online_courses = n()) %>%
@@ -598,7 +603,7 @@ head(dt_courses_per_student_per_platform)
    
 We can see that the addition of a second variable grouping does not greatly decrease `data.table` performance in contrast to `tidyverse`.  
 
-```{r, echo = FALSE, message = FALSE, fig.align = "center", out.width = '70%'}
+```{r, echo = FALSE, results = 'markup', fig.align = "center", out.width = '70%'}
 mbm_n2 <- microbenchmark(tidyverse_by_student = student_courses %>%
                            group_by(student_id) %>%
                            summarise(total_online_courses = n()) %>%
@@ -644,7 +649,7 @@ dt_time_per_student_per_platform <- student_courses[,
 
 Once again, `data.table` runs much faster than `tidyverse` when we need to perform row-wise operations on groups of variables.    
 
-```{r, echo = FALSE, message = FALSE, fig.align = "center", out.width = '70%'}
+```{r, echo = FALSE, results = 'markup', fig.align = "center", out.width = '70%'}
 mbm_platform_lengths <- microbenchmark(tidyverse_platform_lengths = student_courses %>%
                                          group_by(student_id, online_platform) %>%
                                          summarise(min_weeks = min(platform_length_weeks),
@@ -695,7 +700,7 @@ dt_last_course_per_platform <- student_courses[order(platform_start_date)
    
 Interestingly, performing row extraction is significantly faster in `data.table` compared to `tidyverse`, except when an arbitary row number (i.e. the last row in a group) is called. In the latter scenario, `data.table` appears to perform much worse than `tidyverse`.       
 
-```{r, echo = FALSE, message = FALSE, fig.align = "center", out.width = '70%'}
+```{r, echo = FALSE, results = 'markup', fig.align = "center", out.width = '70%'}
 mbm_extract_first_row <- microbenchmark(tidyverse_extract_first_course = student_courses %>%
                                           group_by(student_id, online_platform) %>%
                                           filter(row_number() == 1L) %>%
@@ -801,7 +806,7 @@ dt_first_course_per_platform_seq <- dt_sep_online_platforms[,
                                                             .SD[1L],
                                                             by = .(student_id, seq_online_platform)] 
 
-# compare(dt_first_course_per_platform$online_course, t_first_course_per_platform_seq$online_course)
+compare(dt_first_course_per_platform$online_course, t_first_course_per_platform_seq$online_course)
 #> TRUE
 ```
 
@@ -931,7 +936,7 @@ dt_courses_per_student <- student_courses[,
 
 You can see that grouping by a numeric variable type using `tidyverse` outperforms grouping by a character variable type using `data.table`! Of course, the fastest operation is to group by a numerical variable type using `data.table.`    
 
-```{r, echo = FALSE, message = FALSE, fig.align = "center", out.width = '70%'}
+```{r, echo = FALSE, results = 'markup', fig.align = "center", out.width = '70%'}
 mbm_chr_to_numeric <- microbenchmark(tidyverse_character_id = student_courses %>%
                                        group_by(student_id) %>%
                                        summarise(total_online_courses = n()) %>%
