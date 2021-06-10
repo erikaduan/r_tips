@@ -8,6 +8,9 @@ This repository contains a series of **R programming tips** covering topics acro
 
 Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD student and code editor, for teaching me how to code in R in my past life as an immunologist.  
 
+
+# Content summary
+
 | Legend | Category |  
 |--------|----------|  
 | 📚 | Data wrangling |  
@@ -15,8 +18,9 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 | 🔮 | Machine learning |  
 | 🔨 | Production |  
 | 🔢 | Statistics |  
-# Tutorials
 
+
+# Tutorials
 ## 🎨 Data visualisation 
 
 + [An introduction to `ggplot2` using volcano plots](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-03-26_volcano-plots-in-ggplot/2020-03-26_volcano-plots-in-ggplot.md)  
@@ -39,6 +43,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 + [Understanding centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md)  
 + [Introduction to binomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-12_binomial_distribution/2020-09-12_binomial-distribution.md)  
 + [Introduction to hypergeometric, geometric, negative binomial and multinomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-22_hypergeometric-and-other-discrete-distributions/2020-09-22_hypergeometric-and-other-discrete-distributions.md)  
+
 
 # Citations  
 
