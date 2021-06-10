@@ -10,27 +10,28 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 
 # List of R tips  
 
-1. [How to draw a volcano plot using ggplot2](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-03-26_volcano-plots-in-ggplot/2020-03-26_volcano-plots-in-ggplot.md) 🎨  
-2. [You can use data.table or tidyverse!](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-07_data-table-versus-dplyr/2020-04-07_data-table-versus-dplyr.md) 📚  
-3. [Working with dummy variables and factors](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-23_dummy-variables-and-factors/2020-04-23_dummy-variables-and-factors.md) 📚🔮  
-4. [Untangling strings using regular expressions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-05-16_untangling-strings/2020-05-16_untangling-strings.md) 📚  
-5. [Using DiagrammeR to draw flow charts](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-06-06_using-DiagrammeR/2020-06-06_using-DiagrammeR-to-draw-flow-charts.md) 🎨  
-6. [Understanding centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md) 🔢  
-7. [Topic modelling](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-10_topic-modelling/2020-08-10_topic-modelling.md) 📚🔮  
-8. [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-30_automating-RMDs-1/2020-08-30_automating-RMDs-1.md) 📚🎨🔨  
-9. [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-10_automating-RMDs-2/2020-09-10_automating-RMDs-2.md) 📚🔨  
-10. [Introduction to binomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-12_binomial_distribution/2020-09-12_binomial-distribution.md) 🔢🎨  
-11. [Introduction to hypergeometric, geometric, negative binomial and multinomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-22_hypergeometric-and-other-discrete-distributions/2020-09-22_hypergeometric-and-other-discrete-distributions.md) 🔢🎨  
+## 🎨 Data visualisation 
 
-# Content type  
++ [An introduction to `ggplot2` using volcano plots](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-03-26_volcano-plots-in-ggplot/2020-03-26_volcano-plots-in-ggplot.md)  
++ [Using `DiagrammeR` to draw flow charts](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-06-06_using-DiagrammeR/2020-06-06_using-DiagrammeR-to-draw-flow-charts.md)  
 
-| Legend | Category |  
-|--------|----------|  
-| 📚 | Data wrangling |  
-| 🎨 | Data visualisation |  
-| 🔮 | Machine learning |  
-| 🔨 | Production |  
-| 🔢 | Statistics |  
+## 📚 Data cleaning
+
++ [Data cleaning using `data.table` and `tidyverse`](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-07_data-table-versus-dplyr/2020-04-07_data-table-versus-dplyr.md)  
++ [Manipulating character strings using regular expressions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-05-16_untangling-strings/2020-05-16_untangling-strings.md) 📚  
+
+## 🔨 Data report productionisation  
+
++ [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-08-30_automating-RMDs-1/2020-08-30_automating-RMDs-1.md)  
++ [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-10_automating-RMDs-2/2020-09-10_automating-RMDs-2.md)  
+
+## 🔮 Machine learning in R  
++ [Working with dummy variables and factors](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-04-23_dummy-variables-and-factors/2020-04-23_dummy-variables-and-factors.md)  
+
+## 🔢 Statistical theory in R  
++ [Understanding centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md)  
++ [Introduction to binomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-12_binomial_distribution/2020-09-12_binomial-distribution.md)  
++ [Introduction to hypergeometric, geometric, negative binomial and multinomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_blog_posts/2020-09-22_hypergeometric-and-other-discrete-distributions/2020-09-22_hypergeometric-and-other-discrete-distributions.md)  
 
 # Citations  
 
