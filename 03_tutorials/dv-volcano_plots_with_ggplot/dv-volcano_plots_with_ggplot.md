@@ -71,18 +71,25 @@ The data contains five columns of interest:
 Each row displays values for a unique gene, which fulfills tidy data
 requirements for creating data visualisations.
 
-    ## 
-    ## -- Column specification --------------------------------------------------------
-    ## cols(
-    ##   ENTREZID = col_double(),
-    ##   SYMBOL = col_character(),
-    ##   GENENAME = col_character(),
-    ##   logFC = col_double(),
-    ##   AveExpr = col_double(),
-    ##   t = col_double(),
-    ##   P.Value = col_double(),
-    ##   adj.P.Val = col_double()
-    ## )
+``` r
+# Load dataset -----------------------------------------------------------------
+samples <- read_delim(here("01_raw_data", "dv_luminal-pregnant-versus-lactate-cells.txt"),
+                      delim = "\t") # Columns are separated by a tab 
+
+# Clean column names -----------------------------------------------------------
+# Convert columns names to snake case by default using clean_names()  
+samples <- clean_names(samples) 
+
+# Manually edit column names using rename()  
+samples <- samples %>%
+  rename(entrez_id = entrezid,
+         gene_name = genename) 
+
+# Visualise the dataset as a table ---------------------------------------------  
+samples %>%
+  head(6) %>%
+  knitr::kable()
+```
 
 | entrez\_id | symbol  | gene\_name                                                                      |   log\_fc | ave\_expr |         t | p\_value | adj\_p\_val |
 |-----------:|:--------|:--------------------------------------------------------------------------------|----------:|----------:|----------:|---------:|------------:|
@@ -97,18 +104,17 @@ requirements for creating data visualisations.
 
 A volcano plot depicts:
 
--   Along its x-axis: `log_fc` i.e. the
-    *l**o**g*<sub>2</sub>-transformed fold change.  
--   Along its y-axis: `-log10(adj_p_val)` i.e. the
-     − *l**o**g*<sub>10</sub>- transformed adjusted p-value.
+-   Along its x-axis: `log_fc` i.e. the log2-transformed fold change.  
+-   Along its y-axis: `-log10(adj_p_val)` i.e. the -log10-transformed
+    adjusted p-value.
 
 **Note:** The transformation `-log10(adj_p_val)` allows points on the
 plot to project upwards as the fold change increases or decreases in
 magnitude. The adjusted p-value decreases non-linearly as the fold
 change increases or decreases in magnitude. Visualising decreasing
-`adj_p_val` values as in a positive direction along the y-axis is more
-intuitive as you are interested identifying genes which have a large
-fold-change and small adjusted p-value.
+`adj_p_val` values in a positive direction along the y-axis is more
+intuitive as you are most interested in identifying genes which have a
+large fold-change and small adjusted p-value.
 
 You can apply transformations directly inside `ggplot(data, aes(x, y))`.
 

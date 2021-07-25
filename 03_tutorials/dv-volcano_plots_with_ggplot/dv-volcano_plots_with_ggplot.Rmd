@@ -2,9 +2,10 @@
 title: "How to draw a volcano plot using ggplot2"
 author: "Erika Duan"
 date: "`r Sys.Date()`"
-output: 
-  github_document: 
+output:
+  github_document:
     toc: true
+    pandoc_args: --webtex 
 ---
 
 ```{r setup, include=FALSE}
@@ -47,7 +48,7 @@ The data contains five columns of interest:
 
 Each row displays values for a unique gene, which fulfills tidy data requirements for creating data visualisations.   
 
-```{r load sample, echo=FALSE, results='markup'} 
+```{r load sample, results='markup', message=FALSE} 
 # Load dataset -----------------------------------------------------------------
 samples <- read_delim(here("01_raw_data", "dv_luminal-pregnant-versus-lactate-cells.txt"),
                       delim = "\t") # Columns are separated by a tab 
@@ -72,10 +73,10 @@ samples %>%
 
 A volcano plot depicts:  
 
-+ Along its x-axis: `log_fc` i.e. the $log_2$-transformed fold change.      
-+ Along its y-axis: `-log10(adj_p_val)` i.e. the $-log_{10}$- transformed adjusted p-value.       
++ Along its x-axis: `log_fc` i.e. the log2-transformed fold change.      
++ Along its y-axis: `-log10(adj_p_val)` i.e. the -log10-transformed adjusted p-value.       
 
-**Note:** The transformation `-log10(adj_p_val)` allows points on the plot to project upwards as the fold change increases or decreases in magnitude. The adjusted p-value decreases non-linearly as the fold change increases or decreases in magnitude. Visualising decreasing `adj_p_val` values as in a positive direction along the y-axis is more intuitive as you are interested identifying genes which have a large fold-change and small adjusted p-value.     
+**Note:** The transformation `-log10(adj_p_val)` allows points on the plot to project upwards as the fold change increases or decreases in magnitude. The adjusted p-value decreases non-linearly as the fold change increases or decreases in magnitude. Visualising decreasing `adj_p_val` values in a positive direction along the y-axis is more intuitive as you are most interested in identifying genes which have a large fold-change and small adjusted p-value.     
 
 You can apply transformations directly inside `ggplot(data, aes(x, y))`.   
 
