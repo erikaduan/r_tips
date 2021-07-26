@@ -87,7 +87,7 @@ The steps are to:
     FROM `dbt-tutorial`.jaffle_shop.orders
     ```
 
-7. Unfortunately, the payments table does not exist as a public dataset on BigQuery. To circumvent this problem, you can download `raw_payments.csv` from the [jaffle shop GitHub repository](https://github.com/dbt-labs/jaffle_shop) and manually upload it as a new table in your project. This allows you to practice writing queries to join more than two tables together.    
+7. Unfortunately, the `payments` table does not exist as a public dataset on BigQuery. To circumvent this problem, you can download `raw_payments.csv` from the [jaffle shop GitHub repository](https://github.com/dbt-labs/jaffle_shop) and manually upload it as a new table in your project. This allows you to practice writing queries to join more than two tables together.    
 
     ```{r load figure for step 7, echo=FALSE, results = 'markup', fig.align='center', out.width='80%'} 
     # Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------
@@ -143,6 +143,72 @@ If you are connecting to an on-premise MS SQL database, you can bypass the need 
 ```
 
 
+# Run SQL queries in R   
+
+Once you have established a database connection, you only need to run the following lines of code to return your SQL query as an R `data.frame`.    
+
+1. Use `bigrquery::dbSendQuery()` or `odbc::dbSendQuery()` to submit and execute your SQL query.  
+2. Use `bigrquery::dbFetch()` or `odbc::dbFetch()` to fetch the query result and return it as a `data.frame`. 
+3. Use `bigrquery::dbClearResult()` or `odbc::dbClearResult()` to free all resources (i.e. memory) associated with retrieving the SQL query.  
+4. Use `bigrquery::dbDisconnect()` or `odbc::dbDisconnect()` to close the database connection.  
+
+```{r query customer table, message=FALSE}
+# Send BigQuery SQL query ------------------------------------------------------
+customer_query <- bigrquery::dbSendQuery(
+  bigquery_conn,
+  "
+  SELECT 
+  
+    customer_id AS id,
+    first_name,
+    last_name
+    
+  From `jaffle-shop-data-warehouse.jaffle_shop.customers` 
+  
+  LIMIT 5
+  "
+) 
+
+# Fetch BigQuery SQL query ----------------------------------------------------- 
+customer_df <- bigrquery::dbFetch(customer_query)
+
+# Clear BigQuery SQL query -----------------------------------------------------
+bigrquery::dbClearResult(customer_query)
+
+# Disconnect from BigQuery database --------------------------------------------
+bigrquery::dbDisconnect(bigquery_conn)
+```
+
+```{r view customer_df}
+# Preview customer_df ----------------------------------------------------------
+class(customer_df)
+#> [1] "tbl_df"     "tbl"        "data.frame"  
+
+customer_df %>%
+  head(3)
+```
+
+```{r output customer_df preview, echo=FALSE, results='markup'}
+# Output customer_df as kable() table ------------------------------------------
+customer_df %>%
+  head(3) %>%
+  knitr::kable()
+```
+
+
+# Convert between SQL and R using `dbplyr`  
+
+```{r}
+
+```
+
+
+# Tips to productionise your SQL to workflow  
+
+```{r}
+
+```
+
 
 # Other resources  
 
@@ -151,6 +217,4 @@ If you are connecting to an on-premise MS SQL database, you can bypass the need 
 + An RStudio [guide](https://db.rstudio.com/getting-started/connect-to-database/) on how to connect to an existing database using the `odbc` and `DBI` packages.    
 + An Rstudio [guide](https://db.rstudio.com/databases/big-query/) on how to connect to Google BigQuery using `odbc` or `bigrquery`.   
 
-
 + https://cran.r-project.org/web/packages/dbplyr/vignettes/dbplyr.html  
-
