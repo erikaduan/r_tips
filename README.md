@@ -40,7 +40,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 + [Working with dummy variables and factors](https://github.com/erikaduan/R-tips/blob/master/03_tutorials/2020-04-23_dummy-variables-and-factors/2020-04-23_dummy-variables-and-factors.md)  
 
 ## 🔢 Statistical theory in R  
-+ [Introduction to expectation and variance]()  
++ [Introduction to expectation and variance](https://github.com/erikaduan/R-tips/blob/master/03_tutorials/st-expectation_and_variance/st-expectation_and_variance.md)  
 + [Understanding centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/03_tutorials/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md)  
 + [Introduction to binomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_tutorials/2020-09-12_binomial_distribution/2020-09-12_binomial-distribution.md)  
 + [Introduction to hypergeometric, geometric, negative binomial and multinomial distributions](https://github.com/erikaduan/R-tips/blob/master/03_tutorials/2020-09-22_hypergeometric-and-other-discrete-distributions/2020-09-22_hypergeometric-and-other-discrete-distributions.md)  
