@@ -31,7 +31,7 @@ pacman::p_load(here,
 The expectation of variable X, or E(X), is the long term average of the
 random variable.  
 When we have a list of numbers, for example a sample of plant heights,
-it is easy to calculate the **expectation** or the average using the
+it is easy to calculate the expectation or the average using the
 following equation below:
 
 ![\\frac{x\_1 + x\_2 + \\: ... \\: + x\_n}{n} = \\frac{1}{n} \\displaystyle \\sum\_{i=1}^{n}x\_i = E(X)](https://latex.codecogs.com/png.latex?%5Cfrac%7Bx_1%20%2B%20x_2%20%2B%20%5C%3A%20...%20%5C%3A%20%2B%20x_n%7D%7Bn%7D%20%3D%20%5Cfrac%7B1%7D%7Bn%7D%20%5Cdisplaystyle%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7Dx_i%20%3D%20E%28X%29 "\frac{x_1 + x_2 + \: ... \: + x_n}{n} = \frac{1}{n} \displaystyle \sum_{i=1}^{n}x_i = E(X)")
@@ -40,7 +40,7 @@ However, in statistics, we are interested in modelling the probability
 distribution of a function (which is usually not a simple list of
 numbers).
 
-<img src="../../02_figures/st-expectation_and_variance-probability_distributions.jpg" width="90%" style="display: block; margin: auto;" />
+<img src="../../figures/st-expectation_and_variance-probability_distributions.jpg" width="90%" style="display: block; margin: auto;" />
 
 ## Discrete probability distributions
 
@@ -189,7 +189,7 @@ individual values of x are from the mean and is defined below:
 
 ![\\frac{1}{n} \\displaystyle \\sum\_{i=1}^n (X - \\overline{X})^2 = E \\left( \\left( X-E(X) \\right) ^2 \\right)](https://latex.codecogs.com/png.latex?%5Cfrac%7B1%7D%7Bn%7D%20%5Cdisplaystyle%20%5Csum_%7Bi%3D1%7D%5En%20%28X%20-%20%5Coverline%7BX%7D%29%5E2%20%3D%20E%20%5Cleft%28%20%5Cleft%28%20X-E%28X%29%20%5Cright%29%20%5E2%20%5Cright%29 "\frac{1}{n} \displaystyle \sum_{i=1}^n (X - \overline{X})^2 = E \left( \left( X-E(X) \right) ^2 \right)")
 
-<img src="../../02_figures/st-expectation_and_variance-variance.jpg" width="70%" style="display: block; margin: auto;" />
+<img src="../../figures/st-expectation_and_variance-variance.jpg" width="70%" style="display: block; margin: auto;" />
 
 ## Discrete probability distributions
 
@@ -280,7 +280,7 @@ positive or negative linear relationship or no relationship with each
 other. It is often used as an intermediate step in other algorithms,
 i.e. PCA.
 
-<img src="../../02_figures/st-expectation_and_variance-covariance.jpg" width="80%" style="display: block; margin: auto;" />
+<img src="../../figures/st-expectation_and_variance-covariance.jpg" width="80%" style="display: block; margin: auto;" />
 
 ``` r
 # Covariance depends on variable scale ----------------------------------------- 
@@ -299,7 +299,7 @@ cov(4 * X1, 4 * Y1)
 #> [1] 101.6373  
 ```
 
-The following rule also hold:  
+The following rule also holds:  
 ![Var(aX + bY) = a^2Var(X) + b^2Var(Y) + 2abCov(X, Y)](https://latex.codecogs.com/png.latex?Var%28aX%20%2B%20bY%29%20%3D%20a%5E2Var%28X%29%20%2B%20b%5E2Var%28Y%29%20%2B%202abCov%28X%2C%20Y%29 "Var(aX + bY) = a^2Var(X) + b^2Var(Y) + 2abCov(X, Y)")
 
 **Note:** A covariance of 0 does not imply that X and Y are independent
@@ -338,7 +338,7 @@ The Pearson correlation coefficient is a method to calculate the
 strength of a linear relationship between variables X and Y independent
 of variable scale.
 
-<img src="../../02_figures/st-expectation_and_variance-pearson_correlation.jpg" width="90%" style="display: block; margin: auto;" />
+<img src="../../figures/st-expectation_and_variance-pearson_correlation.jpg" width="90%" style="display: block; margin: auto;" />
 
 ``` r
 # Calculate pearson correlation ------------------------------------------------   

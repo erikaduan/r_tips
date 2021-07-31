@@ -1,7 +1,7 @@
 How to draw a volcano plot using ggplot2
 ================
 Erika Duan
-2021-07-25
+2021-07-31
 
 -   [Introduction](#introduction)
 -   [Import a test dataset](#import-a-test-dataset)
@@ -54,7 +54,7 @@ The data used in this tutorial originates from [Fu et al. Nat Cell Biol.
 2015](https://pubmed.ncbi.nlm.nih.gov/25730472/) and can be accessed
 [here](https://zenodo.org/record/2529117#.X-_obzTis2w). In this
 tutorial, a copy of the dataset has been stored in
-`../../01_raw_data/dv_luminal-pregnant-versus-lactate-cells.txt`.
+`../../raw_data/dv_luminal-pregnant-versus-lactate-cells.txt`.
 
 The data contains five columns of interest:
 
@@ -73,7 +73,7 @@ requirements for creating data visualisations.
 
 ``` r
 # Load dataset -----------------------------------------------------------------
-samples <- read_delim(here("01_raw_data", "dv_luminal-pregnant-versus-lactate-cells.txt"),
+samples <- read_delim(here("raw_data", "dv_luminal-pregnant-versus-lactate-cells.txt"),
                       delim = "\t") # Columns are separated by a tab 
 
 # Clean column names -----------------------------------------------------------

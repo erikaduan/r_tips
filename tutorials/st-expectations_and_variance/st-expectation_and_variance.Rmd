@@ -26,7 +26,7 @@ pacman::p_load(here,
 # Introduction to expectation   
 
 The expectation of variable X, or E(X), is the long term average of the random variable.   
-When we have a list of numbers, for example a sample of plant heights, it is easy to calculate the **expectation** or the average using the following equation below: 
+When we have a list of numbers, for example a sample of plant heights, it is easy to calculate the expectation or the average using the following equation below: 
 
 $\frac{x_1 + x_2 + \: ... \: + x_n}{n} = \frac{1}{n} \displaystyle \sum_{i=1}^{n}x_i = E(X)$     
 
@@ -35,7 +35,7 @@ However, in statistics, we are interested in modelling the probability distribut
 
 ```{r load distributions figure, echo=FALSE, results = 'markup', fig.align='center', out.width='90%'} 
 # Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------
-knitr::include_graphics("../../02_figures/st-expectation_and_variance-probability_distributions.jpg")
+knitr::include_graphics("../../figures/st-expectation_and_variance-probability_distributions.jpg")
 ```
 
 
@@ -162,7 +162,7 @@ $\frac{1}{n} \displaystyle \sum_{i=1}^n (X - \overline{X})^2 = E \left( \left( X
 
 ```{r load var derivation, echo=FALSE, results = 'markup', fig.align='center', out.width='70%'} 
 # Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------
-knitr::include_graphics("../../02_figures/st-expectation_and_variance-variance.jpg")  
+knitr::include_graphics("../../figures/st-expectation_and_variance-variance.jpg")  
 ```
 
 
@@ -316,7 +316,7 @@ The covariance is a method to calculate whether variables X and Y have a positiv
 
 ```{r load covariance figure, echo=FALSE, results = 'markup', fig.align='center', out.width='80%'} 
 # Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------
-knitr::include_graphics("../../02_figures/st-expectation_and_variance-covariance.jpg")
+knitr::include_graphics("../../figures/st-expectation_and_variance-covariance.jpg")
 ```
 
 ```{r covariance depends on scale}
@@ -336,7 +336,7 @@ cov(4 * X1, 4 * Y1)
 #> [1] 101.6373  
 ```
 
-The following rule also hold:     
+The following rule also holds:     
 $Var(aX + bY) = a^2Var(X) + b^2Var(Y) + 2abCov(X, Y)$      
 
 **Note:** A covariance of 0 does not imply that X and Y are independent variables. For example, Y could have a perfect non-linear relationship with respect to X and have a covariance of 0.  
@@ -372,7 +372,7 @@ The Pearson correlation coefficient is a method to calculate the strength of a l
 
 ```{r load correlation figure, echo=FALSE, results = 'markup', fig.align='center', out.width='90%'} 
 # Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------   
-knitr::include_graphics("../../02_figures/st-expectation_and_variance-pearson_correlation.jpg")   
+knitr::include_graphics("../../figures/st-expectation_and_variance-pearson_correlation.jpg")   
 ```
 
 ```{r calc correlation}
