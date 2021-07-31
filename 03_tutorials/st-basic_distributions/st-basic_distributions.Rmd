@@ -23,10 +23,16 @@ pacman::p_load(here,
 ```
 
 
-# Normal distribution  
+# Normal distribution    
+
+The normal distribution 
 
 
 ## Standard normal distribution  
+
+
+## Multi-variate normal distribution  
+
 
 
 # Chi-squared distribution  
@@ -35,4 +41,4 @@ pacman::p_load(here,
 # T distribution   
 
 
-# F distribution   
+# F distribution     
