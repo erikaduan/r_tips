@@ -1,7 +1,7 @@
 Introduction to expectation and variance
 ================
 Erika Duan
-2021-07-31
+2021-08-02
 
 -   [Introduction to expectation](#introduction-to-expectation)
     -   [Discrete probability
@@ -28,11 +28,12 @@ pacman::p_load(here,
 
 # Introduction to expectation
 
-The expectation of variable X, or E(X), is the long term average of the
-random variable.  
+The expectation of a random variable X, or E(X), is its long term
+average.
+
 When we have a list of numbers, for example a sample of plant heights,
 it is easy to calculate the expectation or the average using the
-following equation below:
+following equation:
 
 ![\\frac{x\_1 + x\_2 + \\: ... \\: + x\_n}{n} = \\frac{1}{n} \\displaystyle \\sum\_{i=1}^{n}x\_i = E(X)](https://latex.codecogs.com/png.latex?%5Cfrac%7Bx_1%20%2B%20x_2%20%2B%20%5C%3A%20...%20%5C%3A%20%2B%20x_n%7D%7Bn%7D%20%3D%20%5Cfrac%7B1%7D%7Bn%7D%20%5Cdisplaystyle%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7Dx_i%20%3D%20E%28X%29 "\frac{x_1 + x_2 + \: ... \: + x_n}{n} = \frac{1}{n} \displaystyle \sum_{i=1}^{n}x_i = E(X)")
 
@@ -44,8 +45,8 @@ numbers).
 
 ## Discrete probability distributions
 
-The expectation of a discrete probability distribution is described
-below:
+The expectation of a discrete probability distribution is described by
+the following equation:
 
 ![\\displaystyle \\sum\_{i=1}^n x\_i \\times p(x\_i)](https://latex.codecogs.com/png.latex?%5Cdisplaystyle%20%5Csum_%7Bi%3D1%7D%5En%20x_i%20%5Ctimes%20p%28x_i%29 "\displaystyle \sum_{i=1}^n x_i \times p(x_i)")
 
@@ -118,8 +119,8 @@ binom_dist %>%
 
 ## Continuous probability distributions
 
-The expectation of a continuous probability distribution is described
-below:
+The expectation of a continuous probability distribution is described by
+the following equation:
 
 ![\\int\_{-\\infty}^{\\infty} x \\times f(x) \\:dx](https://latex.codecogs.com/png.latex?%5Cint_%7B-%5Cinfty%7D%5E%7B%5Cinfty%7D%20x%20%5Ctimes%20f%28x%29%20%5C%3Adx "\int_{-\infty}^{\infty} x \times f(x) \:dx")
 
@@ -184,8 +185,9 @@ norm_dist %>%
 
 # Introduction to variance
 
-The variance of variable X, or Var(X), is a description of how far away
-individual values of x are from the mean and is defined below:
+The variance of random variable X, or Var(X), is a description of how
+far away individual values of x are from the mean and is defined by the
+following equation:
 
 ![\\frac{1}{n} \\displaystyle \\sum\_{i=1}^n (X - \\overline{X})^2 = E \\left( \\left( X-E(X) \\right) ^2 \\right)](https://latex.codecogs.com/png.latex?%5Cfrac%7B1%7D%7Bn%7D%20%5Cdisplaystyle%20%5Csum_%7Bi%3D1%7D%5En%20%28X%20-%20%5Coverline%7BX%7D%29%5E2%20%3D%20E%20%5Cleft%28%20%5Cleft%28%20X-E%28X%29%20%5Cright%29%20%5E2%20%5Cright%29 "\frac{1}{n} \displaystyle \sum_{i=1}^n (X - \overline{X})^2 = E \left( \left( X-E(X) \right) ^2 \right)")
 
@@ -373,4 +375,7 @@ cor(4 * X1, 4 * Y1)
     variables.  
 -   A jbstatistics [YouTube
     video](https://www.youtube.com/watch?v=oHcrna8Fk18) on discrete
+    probability distributions.  
+-   A jbstatistics [YouTube
+    video](https://www.youtube.com/watch?v=OWSOhpS00_s) on continuous
     probability distributions.

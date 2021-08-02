@@ -25,8 +25,9 @@ pacman::p_load(here,
 
 # Introduction to expectation   
 
-The expectation of variable X, or E(X), is the long term average of the random variable.   
-When we have a list of numbers, for example a sample of plant heights, it is easy to calculate the expectation or the average using the following equation below: 
+The expectation of a random variable X, or E(X), is its long term average.    
+
+When we have a list of numbers, for example a sample of plant heights, it is easy to calculate the expectation or the average using the following equation: 
 
 $\frac{x_1 + x_2 + \: ... \: + x_n}{n} = \frac{1}{n} \displaystyle \sum_{i=1}^{n}x_i = E(X)$     
 
@@ -41,7 +42,7 @@ knitr::include_graphics("../../figures/st-expectation_and_variance-probability_d
 
 ## Discrete probability distributions  
 
-The expectation of a discrete probability distribution is described below:  
+The expectation of a discrete probability distribution is described by the following equation:  
  
 $\displaystyle \sum_{i=1}^n x_i \times p(x_i)$      
   
@@ -108,7 +109,7 @@ binom_dist %>%
 
 ## Continuous probability distributions  
 
-The expectation of a continuous probability distribution is described below:   
+The expectation of a continuous probability distribution is described by the following equation:   
  
 $\int_{-\infty}^{\infty} x \times f(x) \:dx$     
  
@@ -156,7 +157,7 @@ norm_dist %>%
 
 # Introduction to variance    
 
-The variance of variable X, or Var(X), is a description of how far away individual values of x are from the mean and is defined below:     
+The variance of random variable X, or Var(X), is a description of how far away individual values of x are from the mean and is defined by the following equation:     
  
 $\frac{1}{n} \displaystyle \sum_{i=1}^n (X - \overline{X})^2 = E \left( \left( X-E(X) \right) ^2 \right)$        
 
@@ -399,3 +400,4 @@ cor(4 * X1, 4 * Y1)
 + StatQuest YouTube videos on how to find the expectation for a [discrete](https://www.youtube.com/watch?v=KLs_7b7SKi4) versus [continuous](https://www.youtube.com/watch?v=OSPr6G6Ka-U) distribution.    
 + StatQuest YouTube videos on how to find the [covariance](https://www.youtube.com/watch?v=qtaqvPAeEJY) versus [Pearson's correlation coefficient](https://www.youtube.com/watch?v=xZ_z8KWkhXE) for two variables.  
 + A jbstatistics [YouTube video](https://www.youtube.com/watch?v=oHcrna8Fk18) on discrete probability distributions.   
++ A jbstatistics [YouTube video](https://www.youtube.com/watch?v=OWSOhpS00_s) on continuous probability distributions.   

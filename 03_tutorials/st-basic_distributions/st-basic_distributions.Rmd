@@ -25,7 +25,25 @@ pacman::p_load(here,
 
 # Normal distribution    
 
-The normal distribution 
+The normal distribution, or Gaussian distribution, is frequently observed in nature and is characterised by the following properties.  
+
++ It is a symmetrical continuous distribution where $-\infty < x < \infty$.   
++ Its mean, median and mode are identical due to its symmetrical distribution.  
++ Its probability density function contains two parameters; the mean i.e. $\mu$ and the standard deviation i.e. $\sigma$ where $-\infty < \mu < \infty$ and $\sigma > 0$.   
++ Its probability density function is described by the equation below:   
+$f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \times e^{\frac{-(x - \mu) ^2}{2\sigma2}}$.    
+
+
+```{r}
+# Calculate expectation of normal distribution ---------------------------------
+# Store x * f(x) where f(x) is a normal distribution with mean 140 and sd 16      
+funs_x_fx <- function(x) x * (1/ (sqrt(2 * pi * 16 ^ 2)) * exp(-((x - 140) ^ 2) / (2 * 16 ^ 2)))
+
+expectation_n1 <- integrate(funs_x_fx, lower = 92, upper = 188)
+expectation_n1  
+#> 139.622 with absolute error < 0.00013  
+```
+
 
 
 ## Standard normal distribution  
@@ -42,3 +60,9 @@ The normal distribution
 
 
 # F distribution     
+
+
+# Other resources  
+
++ University of Sydney Mathematics Learning Centre [chapter](https://www.sydney.edu.au/content/dam/students/documents/mathematics-learning-centre/normal-distribution.pdf) on the normal distribution.     
++ A jbstatistics [YouTube video](https://www.youtube.com/watch?v=iYiOVISWXS4) on the normal distribution.   
