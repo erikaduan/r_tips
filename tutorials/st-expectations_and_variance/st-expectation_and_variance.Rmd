@@ -35,7 +35,7 @@ $\frac{x_1 + x_2 + \: ... \: + x_n}{n} = \frac{1}{n} \displaystyle \sum_{i=1}^{n
 However, in statistics, we are interested in modelling the probability distribution of a function (which is usually not a simple list of numbers).      
 
 ```{r load distributions figure, echo=FALSE, results = 'markup', fig.align='center', out.width='90%'} 
-# Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------
+# Knit st-expectation_and_variance-probability_distributions.jpg ---------------
 knitr::include_graphics("../../figures/st-expectation_and_variance-probability_distributions.jpg")
 ```
 
@@ -162,7 +162,7 @@ The variance of random variable X, or Var(X), is a description of how far away i
 $\frac{1}{n} \displaystyle \sum_{i=1}^n (X - \overline{X})^2 = E \left( \left( X-E(X) \right) ^2 \right)$        
 
 ```{r load var derivation, echo=FALSE, results = 'markup', fig.align='center', out.width='70%'} 
-# Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------
+# Knit st-expectation_and_variance-variance ------------------------------------
 knitr::include_graphics("../../figures/st-expectation_and_variance-variance.jpg")  
 ```
 
@@ -316,7 +316,7 @@ norm_dist %>%
 The covariance is a method to calculate whether variables X and Y have a positive or negative linear relationship or no relationship with each other. It is often used as an intermediate step in other algorithms, i.e. PCA.  
 
 ```{r load covariance figure, echo=FALSE, results = 'markup', fig.align='center', out.width='80%'} 
-# Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------
+# Knit st-expectation_and_variance-covariance ----------------------------------
 knitr::include_graphics("../../figures/st-expectation_and_variance-covariance.jpg")
 ```
 
@@ -372,7 +372,7 @@ quad %>%
 The Pearson correlation coefficient is a method to calculate the strength of a linear relationship between variables X and Y independent of variable scale.   
 
 ```{r load correlation figure, echo=FALSE, results = 'markup', fig.align='center', out.width='90%'} 
-# Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------   
+# Knit st-expectation_and_variance-pearson_correlation.jpg ---------------------   
 knitr::include_graphics("../../figures/st-expectation_and_variance-pearson_correlation.jpg")   
 ```
 

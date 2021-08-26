@@ -45,14 +45,14 @@ The steps are to:
 
     ```{r load figure for step 2, echo=FALSE, results = 'markup', fig.align='center', out.width='60%'} 
       # Knit dp-SQL_to_R_workflows-create_BigQuery_project.jpg -----------------------
-      knitr::include_graphics("../../02_figures/dp-SQL_to_R_workflows-create_BigQuery_project.jpg")
+      knitr::include_graphics("../../figures/dp-SQL_to_R_workflows-create_BigQuery_project.jpg")
     ```
 
 3. Create a new dataset inside your project. This is equivalent to creating a new database in a data warehouse.           
 
     ```{r load figure for step 3, echo=FALSE, results = 'markup', fig.align='center', out.width='80%'} 
     # Knit dp-SQL_to_R_workflows-create_dataset.jpg --------------------------------
-    knitr::include_graphics("../../02_figures/dp-SQL_to_R_workflows-create_dataset.jpg")
+    knitr::include_graphics("../../figures/dp-SQL_to_R_workflows-create_dataset.jpg")
     ```
 
 4. Copy and paste the SQL query below to generate the `customers` table.   
@@ -71,7 +71,7 @@ The steps are to:
 
     ```{r load figure for step 5, echo=FALSE, results = 'markup', fig.align='center', out.width='80%'} 
     # Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------
-    knitr::include_graphics("../../02_figures/dp-SQL_to_R_workflows-create_customers_table.jpg")
+    knitr::include_graphics("../../figures/dp-SQL_to_R_workflows-create_customers_table.jpg")
     ```
 
 6. Copy and paste the SQL query below to generate the `orders` table. Run and save the results as a BigQuery table called `orders`.      
@@ -91,7 +91,7 @@ The steps are to:
 
     ```{r load figure for step 7, echo=FALSE, results = 'markup', fig.align='center', out.width='80%'} 
     # Knit dp-SQL_to_R_workflows-create_customers_table.jpg ------------------------
-    knitr::include_graphics("../../02_figures/dp-SQL_to_R_workflows-create_payments_table.jpg")
+    knitr::include_graphics("../../figures/dp-SQL_to_R_workflows-create_payments_table.jpg")
     ```
 
 Congratulations! You have now created a very small-scale cloud-hosted database to practice running SQL queries on.     

@@ -1,7 +1,7 @@
 How to integrate SQL queries into an R project
 ================
 Erika Duan
-2021-07-26
+2021-08-26
 
 -   [Introduction](#introduction)
 -   [Set up BigQuery data warehouse](#set-up-bigquery-data-warehouse)
@@ -58,12 +58,12 @@ The steps are to:
 2.  Create a new Google Cloud Project and select this project in
     BigQuery.
 
-    <img src="../../02_figures/dp-SQL_to_R_workflows-create_BigQuery_project.jpg" width="60%" style="display: block; margin: auto;" />
+    <img src="../../figures/dp-SQL_to_R_workflows-create_BigQuery_project.jpg" width="60%" style="display: block; margin: auto;" />
 
 3.  Create a new dataset inside your project. This is equivalent to
     creating a new database in a data warehouse.
 
-    <img src="../../02_figures/dp-SQL_to_R_workflows-create_dataset.jpg" width="80%" style="display: block; margin: auto;" />
+    <img src="../../figures/dp-SQL_to_R_workflows-create_dataset.jpg" width="80%" style="display: block; margin: auto;" />
 
 4.  Copy and paste the SQL query below to generate the `customers`
     table.
@@ -81,7 +81,7 @@ The steps are to:
 5.  Run the query and save the results as a BigQuery table called
     `customers`.
 
-    <img src="../../02_figures/dp-SQL_to_R_workflows-create_customers_table.jpg" width="80%" style="display: block; margin: auto;" />
+    <img src="../../figures/dp-SQL_to_R_workflows-create_customers_table.jpg" width="80%" style="display: block; margin: auto;" />
 
 6.  Copy and paste the SQL query below to generate the `orders` table.
     Run and save the results as a BigQuery table called `orders`.
@@ -104,7 +104,7 @@ The steps are to:
     upload it as a new table in your project. This allows you to
     practice writing queries to join more than two tables together.
 
-    <img src="../../02_figures/dp-SQL_to_R_workflows-create_payments_table.jpg" width="80%" style="display: block; margin: auto;" />
+    <img src="../../figures/dp-SQL_to_R_workflows-create_payments_table.jpg" width="80%" style="display: block; margin: auto;" />
 
 Congratulations! You have now created a very small-scale cloud-hosted
 database to practice running SQL queries on.

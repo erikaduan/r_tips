@@ -1,7 +1,7 @@
 Introduction to expectation and variance
 ================
 Erika Duan
-2021-08-02
+2021-08-06
 
 -   [Introduction to expectation](#introduction-to-expectation)
     -   [Discrete probability
