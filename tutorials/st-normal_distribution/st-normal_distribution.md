@@ -1,14 +1,13 @@
-Fundamental statistical distributions
+Introduction to the Normal distribution
 ================
 Erika Duan
-2021-08-09
+2021-09-19
 
 -   [Normal distribution](#normal-distribution)
     -   [Standard normal distribution](#standard-normal-distribution)
     -   [Bivariate normal distribution](#bivariate-normal-distribution)
--   [Chi-squared distribution](#chi-squared-distribution)
--   [T distribution](#t-distribution)
--   [F distribution](#f-distribution)
+    -   [Multivariate normal
+        distribution](#multivariate-normal-distribution)
 -   [Other resources](#other-resources)
 
 ``` r
@@ -47,13 +46,13 @@ with a standard deviation of 16 cm.
 
 -   What would the distribution of tomato plant height look like if the
     height of 100 plants was randomly measured?
--   What would the probability density function of tomato plant height
-    look like if the height of 10, 100 or 1000 plants was randomly
-    measured?
+-   What would the distribution of tomato plant height look like if the
+    height of 10, 100 or 1000 plants was randomly measured?
 
 ``` r
-# Simulate tomato plant heights from normal distribution -----------------------
+# Simulate tomato plant heights from a known normal distribution ---------------
 set.seed(111)  
+
 plant_height <- tibble(x = seq(1, 100),
                        height = rnorm(100, mean = 140, sd = 16))  
 
@@ -84,11 +83,13 @@ density <- plant_height %>%
 (measurements + density)
 ```
 
-![](st-basic_distributions_files/figure-gfm/plot%20norm%20dist-1.png)<!-- -->
+<img src="st-normal_distribution_files/figure-gfm/plot norm dist-1.png" style="display: block; margin: auto;" />
 
 ``` r
-# Simulate tomato plant heights from 10, 100 and 1000 samples ------------------ 
+# Simulate tomato plant heights from a known normal distribution ---------------
+# Simulate for n = 10, 100 or 1000 samples 
 set.seed(111)
+
 sample_10 <- tibble(x = seq(1, 10), 
                     height = rnorm(10, mean = 140, sd = 16))  
 
@@ -122,7 +123,7 @@ plot_density <- function(df, value) {
 (plot_density(sample_10, height) / plot_density(sample_100, height) / plot_density(sample_1000, height))
 ```
 
-![](st-basic_distributions_files/figure-gfm/plot%20norm%20dist%20for%20different%20n-1.png)<!-- -->
+<img src="st-normal_distribution_files/figure-gfm/plot norm dist for different n-1.png" style="display: block; margin: auto;" />
 
 -   What would the distribution of sample means
     i.e. ![\\bar x](https://latex.codecogs.com/png.latex?%5Cbar%20x "\bar x"),
@@ -130,18 +131,21 @@ plot_density <- function(df, value) {
     random locations?
 
 ``` r
-# Simulate 100 samples from 1000 fields ----------------------------------------
+# Simulate 1000 iterations of n = 100 tomato plants ----------------------------
+# set.seed(111) cannot be used as it fixes the sample values from each iteration 
+
 sample_means <- vector("double", length = 1000L)
 for (i in 1:1000) {
   plot <- rnorm(100, mean = 140, sd = 16)
   sample_means[[i]] <- mean(plot)    
 }
 
-# Plot distribution of 100 sample means ----------------------------------------
+# Plot distribution of 1000 sample means ---------------------------------------
 sample_means %>%
   tibble(height = .) %>% # Convert to tibble for plotting
   ggplot(aes(x = height)) +
-  geom_histogram(binwidth = 1, fill = "lightsalmon", colour = "black") +
+  geom_histogram(binwidth = 1, fill = "white", colour = "black") +
+  geom_vline(xintercept = 140, colour = "tomato", linetype = "dotted") + 
   labs(x = "Plant height mean (cm)",
        y = "Count") + 
   theme_minimal() +
@@ -150,7 +154,7 @@ sample_means %>%
         plot.title = element_text(hjust = 0.5))  
 ```
 
-<img src="st-basic_distributions_files/figure-gfm/plot CLT-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="st-normal_distribution_files/figure-gfm/plot CLT-1.png" width="50%" style="display: block; margin: auto;" />
 
 The phenomenon above is an example of the [central limit
 theorem](https://statisticsbyjim.com/basics/central-limit-theorem/),
@@ -231,34 +235,32 @@ plant_height %>%
         plot.title = element_text(hjust = 0.5)) 
 ```
 
-<img src="st-basic_distributions_files/figure-gfm/plot standard norm dist-1.png" width="70%" style="display: block; margin: auto;" />
+<img src="st-normal_distribution_files/figure-gfm/plot standard norm dist-1.png" width="70%" style="display: block; margin: auto;" />
 
 ## Bivariate normal distribution
 
 The bivariate normal distribution is the simplest example of a
-multivariate normal distribution where two random variables both have a
-normal distribution and their [joint probability
+multivariate normal distribution where two random variables are both
+normally distributed and their [joint probability
 distribution](https://en.wikipedia.org/wiki/Joint_probability_distribution)
-is also characterised by a normal distribution.
+is therefore also characterised by a normal distribution.
 
-<img src="../../figures/st-basic_distributions-bivariate_normal_distribution.jpg" width="80%" style="display: block; margin: auto;" />
+<img src="../../figures/st-normal_distribution-bivariate_normal_distribution.jpg" width="80%" style="display: block; margin: auto;" />
 
 The probability density function of the bivariate normal distribution is
 represented by the following equation:
 
-![f(x, y) = \\frac{1}{2\\pi\|\\Sigma\|^{1/2}}e \\begin{Bmatrix} \\frac{-1}{2} \\begin{pmatrix} x - u\_1 \\\\ y - u\_2 \\end{pmatrix}^\\intercal \\Sigma^{-1} \\begin{pmatrix} x - u\_1 \\\\ y - u\_2 \\end{pmatrix}\\end{Bmatrix}](https://latex.codecogs.com/png.latex?f%28x%2C%20y%29%20%3D%20%5Cfrac%7B1%7D%7B2%5Cpi%7C%5CSigma%7C%5E%7B1%2F2%7D%7De%20%5Cbegin%7BBmatrix%7D%20%5Cfrac%7B-1%7D%7B2%7D%20%5Cbegin%7Bpmatrix%7D%20x%20-%20u_1%20%5C%5C%20y%20-%20u_2%20%5Cend%7Bpmatrix%7D%5E%5Cintercal%20%5CSigma%5E%7B-1%7D%20%5Cbegin%7Bpmatrix%7D%20x%20-%20u_1%20%5C%5C%20y%20-%20u_2%20%5Cend%7Bpmatrix%7D%5Cend%7BBmatrix%7D "f(x, y) = \frac{1}{2\pi|\Sigma|^{1/2}}e \begin{Bmatrix} \frac{-1}{2} \begin{pmatrix} x - u_1 \\ y - u_2 \end{pmatrix}^\intercal \Sigma^{-1} \begin{pmatrix} x - u_1 \\ y - u_2 \end{pmatrix}\end{Bmatrix}")
+![f(x\_1, x\_2) = \\frac{1}{2\\pi\|\\Sigma\|^{1/2}}e \\begin{Bmatrix} \\frac{-1}{2} \\begin{pmatrix} x\_1 - u\_1 \\\\ x\_2 - u\_2 \\end{pmatrix}^\\intercal \\Sigma^{-1} \\begin{pmatrix} x\_1 - u\_1 \\\\ x\_2 - u\_2 \\end{pmatrix}\\end{Bmatrix}](https://latex.codecogs.com/png.latex?f%28x_1%2C%20x_2%29%20%3D%20%5Cfrac%7B1%7D%7B2%5Cpi%7C%5CSigma%7C%5E%7B1%2F2%7D%7De%20%5Cbegin%7BBmatrix%7D%20%5Cfrac%7B-1%7D%7B2%7D%20%5Cbegin%7Bpmatrix%7D%20x_1%20-%20u_1%20%5C%5C%20x_2%20-%20u_2%20%5Cend%7Bpmatrix%7D%5E%5Cintercal%20%5CSigma%5E%7B-1%7D%20%5Cbegin%7Bpmatrix%7D%20x_1%20-%20u_1%20%5C%5C%20x_2%20-%20u_2%20%5Cend%7Bpmatrix%7D%5Cend%7BBmatrix%7D "f(x_1, x_2) = \frac{1}{2\pi|\Sigma|^{1/2}}e \begin{Bmatrix} \frac{-1}{2} \begin{pmatrix} x_1 - u_1 \\ x_2 - u_2 \end{pmatrix}^\intercal \Sigma^{-1} \begin{pmatrix} x_1 - u_1 \\ x_2 - u_2 \end{pmatrix}\end{Bmatrix}")
 
-**Note:** Think of
-![y\_1](https://latex.codecogs.com/png.latex?y_1 "y_1") and
-![y\_2](https://latex.codecogs.com/png.latex?y_2 "y_2") as distinct
-random variables or model features, rather than different values from
-the same random variable.
+**Note:** ![x\_1](https://latex.codecogs.com/png.latex?x_1 "x_1") and
+![x\_2](https://latex.codecogs.com/png.latex?x_2 "x_2") should be
+thought of as two different column vectors of random values.
 
 ``` r
 # Create a bivariate normal distribution ---------------------------------------
 # Create two independent variables ~ N(0,1)  
-x <- seq(-5, 5, length = 100L) 
-y <- seq(-5, 5, length = 100L)
+x1 <- seq(-5, 5, length = 100L) 
+x2 <- seq(-5, 5, length = 100L)
 
 mean <- c(0, 0) # Both variables have mean = 0  
 
@@ -267,32 +269,32 @@ var_cov <- matrix(c(1, 0, 0, 1), # Variables are not correlated with each other
                   byrow = TRUE)
 
 # Calculate joint probability density function ---------------------------------
-f_y <- function(x, y) dmnorm(cbind(x, y), mean, var_cov)
-z <- outer(x, y, f_y) # Value z represents the density at (x, y)  
+f_x <- function(x1, x2) dmnorm(cbind(x1, x2), mean, var_cov)
+z <- outer(x1, x2, f_x) # Value z represents the density at (x1, x2)  
 
 # Plot 2D contour plot of joint probability density function -------------------
-contour(x, y, z,
-        xlab = "X", ylab = "Y", 
+contour(x1, x2, z,
+        xlab = "X1", ylab = "X2", 
         main = "Joint probability density function (2D contour plot)")  
 ```
 
-![](st-basic_distributions_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+<img src="st-normal_distribution_files/figure-gfm/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
 
 ``` r
 # plot 3D curve of joint probability density function --------------------------
-persp(x, y, z, theta = 30, phi = 30, 
+persp(x1, x2, z, theta = 30, phi = 30, 
       ltheta = 15, shade = 0.1, col = "lavender", expand = 0.5, r = 1, ticktype = "detailed",
-      xlab = "X", ylab = "Y", zlab = "Probability density",
+      xlab = "X1", ylab = "X2", zlab = "Probability density",
       main = "Joint probability density function (3D curve)")
 ```
 
-![](st-basic_distributions_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
+<img src="st-normal_distribution_files/figure-gfm/unnamed-chunk-1-2.png" style="display: block; margin: auto;" />
 
 ``` r
 # Create a bivariate normal distribution ---------------------------------------
 # Create two highly correlated variables ~ N(0,1)  
-x <- seq(-5, 5, length = 100L) 
-y <- seq(-5, 5, length = 100L)
+x1 <- seq(-5, 5, length = 100L) 
+x2 <- seq(-5, 5, length = 100L)
 
 mean <- c(0, 0) # Both variables have mean = 0  
 
@@ -301,101 +303,87 @@ var_cov <- matrix(c(1, 0.8, 0.8, 1), # Highly correlated variables i.e. r = 0.8
                   byrow = TRUE)
 
 # Calculate joint probability density function ---------------------------------
-f_y <- function(x, y) dmnorm(cbind(x, y), mean, var_cov)
-z <- outer(x, y, f_y) # Value z represents the density at (x, y)  
+f_x <- function(x1, x2) dmnorm(cbind(x1, x2), mean, var_cov)
+z <- outer(x1, x2, f_x) # Value z represents the density at (x1, x2)  
 
 # Plot 2D contour plot of joint probability density function -------------------
-contour(x, y, z,
-        xlab = "X", ylab = "Y", 
+contour(x1, x2, z,
+        xlab = "X1", ylab = "X2", 
         main = "Joint probability density function (2D contour plot)")  
 ```
 
-![](st-basic_distributions_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+<img src="st-normal_distribution_files/figure-gfm/unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
 
 ``` r
 # plot 3D curve of joint probability density function --------------------------
-persp(x, y, z, theta = 30, phi = 30, 
+persp(x1, x2, z, theta = 30, phi = 30, 
       ltheta = 15, shade = 0.1, col = "lavender", expand = 0.5, r = 1, ticktype = "detailed",
-      xlab = "X", ylab = "Y", zlab = "Probability density",
+      xlab = "X1", ylab = "X2", zlab = "Probability density",
       main = "Joint probability density function (3D curve)")  
 ```
 
-![](st-basic_distributions_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->
+<img src="st-normal_distribution_files/figure-gfm/unnamed-chunk-2-2.png" style="display: block; margin: auto;" />
 
-Assuming
-![\\boldsymbol{Y} = \[Y\_1, Y\_2, ... Y\_p\]^\\intercal](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BY%7D%20%3D%20%5BY_1%2C%20Y_2%2C%20...%20Y_p%5D%5E%5Cintercal "\boldsymbol{Y} = [Y_1, Y_2, ... Y_p]^\intercal")
-represents a column vector of random variables, the following properties
-hold for bivariate and multivariate normal distributions:
+## Multivariate normal distribution
 
--   If
-    ![\\boldsymbol{Y} \\sim N(\\boldsymbol{\\mu, \\boldsymbol{\\Sigma}})](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BY%7D%20%5Csim%20N%28%5Cboldsymbol%7B%5Cmu%2C%20%5Cboldsymbol%7B%5CSigma%7D%7D%29 "\boldsymbol{Y} \sim N(\boldsymbol{\mu, \boldsymbol{\Sigma}})"),
-    then
-    ![E(\\boldsymbol{Y}) = \\boldsymbol \\mu](https://latex.codecogs.com/png.latex?E%28%5Cboldsymbol%7BY%7D%29%20%3D%20%5Cboldsymbol%20%5Cmu "E(\boldsymbol{Y}) = \boldsymbol \mu")
-    and
-    ![Cov(\\boldsymbol{Y}) = \\boldsymbol{\\Sigma}](https://latex.codecogs.com/png.latex?Cov%28%5Cboldsymbol%7BY%7D%29%20%3D%20%5Cboldsymbol%7B%5CSigma%7D "Cov(\boldsymbol{Y}) = \boldsymbol{\Sigma}").  
--   If the correlation coefficient or covariance of
+We assume that the response variable in a multiple linear regression
+model, commonly denoted as
+![{\\boldsymbol{Y}}](https://latex.codecogs.com/png.latex?%7B%5Cboldsymbol%7BY%7D%7D "{\boldsymbol{Y}}"),
+has a multivariate normal distribution where
+![E({\\boldsymbol{Y}}) = \[\\mu\_1, \\mu\_2, \\cdots, \\mu\_n\]^\\intercal](https://latex.codecogs.com/png.latex?E%28%7B%5Cboldsymbol%7BY%7D%7D%29%20%3D%20%5B%5Cmu_1%2C%20%5Cmu_2%2C%20%5Ccdots%2C%20%5Cmu_n%5D%5E%5Cintercal "E({\boldsymbol{Y}}) = [\mu_1, \mu_2, \cdots, \mu_n]^\intercal")
+and is a
+![1 \\times n](https://latex.codecogs.com/png.latex?1%20%5Ctimes%20n "1 \times n")
+column vector. The joint probability distribution of
+![{\\boldsymbol{Y}}](https://latex.codecogs.com/png.latex?%7B%5Cboldsymbol%7BY%7D%7D "{\boldsymbol{Y}}")
+is therefore a function which spans the
+![n+1](https://latex.codecogs.com/png.latex?n%2B1 "n+1") dimension space
+and describes the probability of any combination of
+![\[Y\_1, Y\_2. \\cdots, Y\_n\]^\\intercal](https://latex.codecogs.com/png.latex?%5BY_1%2C%20Y_2.%20%5Ccdots%2C%20Y_n%5D%5E%5Cintercal "[Y_1, Y_2. \cdots, Y_n]^\intercal")
+values in being observed.
+
+If
+![\\boldsymbol{Y} \\sim N(\\boldsymbol{\\mu, \\boldsymbol{\\Sigma}})](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BY%7D%20%5Csim%20N%28%5Cboldsymbol%7B%5Cmu%2C%20%5Cboldsymbol%7B%5CSigma%7D%7D%29 "\boldsymbol{Y} \sim N(\boldsymbol{\mu, \boldsymbol{\Sigma}})"),
+it contains the following properties:
+
+-   ![E(\\boldsymbol{Y}) = \\boldsymbol \\mu = \[\\mu\_1, \\mu\_2, \\cdots, \\mu\_n\]^\\intercal](https://latex.codecogs.com/png.latex?E%28%5Cboldsymbol%7BY%7D%29%20%3D%20%5Cboldsymbol%20%5Cmu%20%3D%20%5B%5Cmu_1%2C%20%5Cmu_2%2C%20%5Ccdots%2C%20%5Cmu_n%5D%5E%5Cintercal "E(\boldsymbol{Y}) = \boldsymbol \mu = [\mu_1, \mu_2, \cdots, \mu_n]^\intercal")  
+-   ![Cov(\\boldsymbol{Y}) = \\boldsymbol{\\Sigma} = \\begin{matrix} \\sigma\_{11} & \\cdots & \\sigma\_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ \\sigma\_{n1} & \\cdots & \\sigma\_{nn} \\end{matrix}](https://latex.codecogs.com/png.latex?Cov%28%5Cboldsymbol%7BY%7D%29%20%3D%20%5Cboldsymbol%7B%5CSigma%7D%20%3D%20%5Cbegin%7Bmatrix%7D%20%5Csigma_%7B11%7D%20%26%20%5Ccdots%20%26%20%5Csigma_%7B1n%7D%20%5C%5C%20%5Cvdots%20%26%20%5Cddots%20%26%20%5Cvdots%20%5C%5C%20%5Csigma_%7Bn1%7D%20%26%20%5Ccdots%20%26%20%5Csigma_%7Bnn%7D%20%5Cend%7Bmatrix%7D "Cov(\boldsymbol{Y}) = \boldsymbol{\Sigma} = \begin{matrix} \sigma_{11} & \cdots & \sigma_{1n} \\ \vdots & \ddots & \vdots \\ \sigma_{n1} & \cdots & \sigma_{nn} \end{matrix}").  
+-   If the
+    ![Cov(Y\_1, Y\_2) = 0](https://latex.codecogs.com/png.latex?Cov%28Y_1%2C%20Y_2%29%20%3D%200 "Cov(Y_1, Y_2) = 0")
+    where
     ![Y\_1 \\sim N(\\mu, \\sigma^2\_1)](https://latex.codecogs.com/png.latex?Y_1%20%5Csim%20N%28%5Cmu%2C%20%5Csigma%5E2_1%29 "Y_1 \sim N(\mu, \sigma^2_1)")
     and
-    ![Y\_2 \\sim N(\\mu, \\sigma^2\_2)](https://latex.codecogs.com/png.latex?Y_2%20%5Csim%20N%28%5Cmu%2C%20%5Csigma%5E2_2%29 "Y_2 \sim N(\mu, \sigma^2_2)")
-    is 0, then ![Y\_1](https://latex.codecogs.com/png.latex?Y_1 "Y_1")
-    and ![Y\_2](https://latex.codecogs.com/png.latex?Y_2 "Y_2") are
-    independent.  
--   For any constant matrix
-    ![\\boldsymbol{A}^{k\\times n}](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BA%7D%5E%7Bk%5Ctimes%20n%7D "\boldsymbol{A}^{k\times n}")
-    and constant vector
-    ![\\boldsymbol{b}^{k\\times 1}](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7Bb%7D%5E%7Bk%5Ctimes%201%7D "\boldsymbol{b}^{k\times 1}"),
-    if
-    ![\\boldsymbol{Y} \\sim N(\\boldsymbol{\\mu, \\boldsymbol{\\Sigma}})](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BY%7D%20%5Csim%20N%28%5Cboldsymbol%7B%5Cmu%2C%20%5Cboldsymbol%7B%5CSigma%7D%7D%29 "\boldsymbol{Y} \sim N(\boldsymbol{\mu, \boldsymbol{\Sigma}})"),
-    then the following equation applies:  
-    ![\\boldsymbol{AY} + \\boldsymbol{b} \\sim N(\\boldsymbol{A \\mu} + \\boldsymbol{b}, \\boldsymbol{A\\Sigma A^\\intercal})](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BAY%7D%20%2B%20%5Cboldsymbol%7Bb%7D%20%5Csim%20N%28%5Cboldsymbol%7BA%20%5Cmu%7D%20%2B%20%5Cboldsymbol%7Bb%7D%2C%20%5Cboldsymbol%7BA%5CSigma%20A%5E%5Cintercal%7D%29 "\boldsymbol{AY} + \boldsymbol{b} \sim N(\boldsymbol{A \mu} + \boldsymbol{b}, \boldsymbol{A\Sigma A^\intercal})")
+    ![Y\_2 \\sim N(\\mu, \\sigma^2\_2)](https://latex.codecogs.com/png.latex?Y_2%20%5Csim%20N%28%5Cmu%2C%20%5Csigma%5E2_2%29 "Y_2 \sim N(\mu, \sigma^2_2)"),
+    then ![Y\_1](https://latex.codecogs.com/png.latex?Y_1 "Y_1") and
+    ![Y\_2](https://latex.codecogs.com/png.latex?Y_2 "Y_2") are
+    independent. This inference only holds for normally distributed
+    variables. In multiple linear regression, we assume that each
+    observed values represent an independent observation.
 
-# Chi-squared distribution
-
--   What would the distribution of sample variance
-    i.e. ![s](https://latex.codecogs.com/png.latex?s "s") look like if
-    100 tomato plants were randomly measured from 1000 random fields?
-
-``` r
-# Simulate 100 samples from 1000 fields ----------------------------------------
-sample_sds <- vector("double", length = 1000L)
-for (i in 1:1000) {
-  plot <- rnorm(100, mean = 140, sd = 16)
-  sample_sds[[i]] <- sd(plot)    
-}
-
-# Plot distribution of 100 sample standard deviations --------------------------
-sample_sds %>%
-  tibble(height = .) %>% # Convert to tibble for plotting
-  ggplot(aes(x = height)) +
-  geom_histogram(binwidth = 1, fill = "tomato", colour = "black") +
-  labs(x = "Plant height standard deviation (cm)",
-       y = "Count") + 
-  theme_minimal() +
-  theme(panel.grid = element_blank(),
-        panel.border = element_rect(fill = NA, colour = "black"),
-        plot.title = element_text(hjust = 0.5))  
-```
-
-![](st-basic_distributions_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
-
-# T distribution
-
-# F distribution
+**Note:** For any constant matrix
+![\\boldsymbol{A}^{n\\times n}](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BA%7D%5E%7Bn%5Ctimes%20n%7D "\boldsymbol{A}^{n\times n}")
+and constant vector
+![\\boldsymbol{b}^{n\\times 1}](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7Bb%7D%5E%7Bn%5Ctimes%201%7D "\boldsymbol{b}^{n\times 1}"),
+if
+![\\boldsymbol{Y} \\sim N(\\boldsymbol{\\mu, \\boldsymbol{\\Sigma}})](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BY%7D%20%5Csim%20N%28%5Cboldsymbol%7B%5Cmu%2C%20%5Cboldsymbol%7B%5CSigma%7D%7D%29 "\boldsymbol{Y} \sim N(\boldsymbol{\mu, \boldsymbol{\Sigma}})"),
+then the following linear transformation is also normally distributed
+and
+![\\boldsymbol{AY} + \\boldsymbol{b} \\sim N(\\boldsymbol{A \\mu} + \\boldsymbol{b}, \\boldsymbol{A\\Sigma A^\\intercal})](https://latex.codecogs.com/png.latex?%5Cboldsymbol%7BAY%7D%20%2B%20%5Cboldsymbol%7Bb%7D%20%5Csim%20N%28%5Cboldsymbol%7BA%20%5Cmu%7D%20%2B%20%5Cboldsymbol%7Bb%7D%2C%20%5Cboldsymbol%7BA%5CSigma%20A%5E%5Cintercal%7D%29 "\boldsymbol{AY} + \boldsymbol{b} \sim N(\boldsymbol{A \mu} + \boldsymbol{b}, \boldsymbol{A\Sigma A^\intercal})").
 
 # Other resources
 
--   University of Sydney Mathematics Learning Centre
-    [chapter](https://www.sydney.edu.au/content/dam/students/documents/mathematics-learning-centre/normal-distribution.pdf)
+-   A University of Sydney Mathematics Learning Centre
+    [resource](https://www.sydney.edu.au/content/dam/students/documents/mathematics-learning-centre/normal-distribution.pdf)
     on the normal distribution.  
 -   A jbstatistics [YouTube
     video](https://www.youtube.com/watch?v=iYiOVISWXS4) on the normal
     distribution.  
 -   A jbstatistics [YouTube
     video](https://www.youtube.com/watch?v=4R8xm19DmPM) on how to
-    standard normally distributed variables.  
--   A [statistical
+    standardise normally distributed variables to obtain the standard
+    normal distribution.  
+-   A University of British Columbia [statistics
     tutorial](https://ubc-mds.github.io/DSCI_551_stat-prob-dsci/lectures/noteworthy-distribution-families.html#multivariate-gaussiannormal-family-20-min-1)
     about the bivariate and multivariate normal distribution.  
--   A [statistical
+-   A University of British Columbia [statistics
     tutorial](https://ubc-mds.github.io/DSCI_551_stat-prob-dsci/lectures/dependence.html)
     on how to visualise multidimensional functions.

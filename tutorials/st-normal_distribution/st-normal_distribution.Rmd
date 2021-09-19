@@ -1,5 +1,5 @@
 ---
-title: "Fundamental statistical distributions"  
+title: "Introduction to the Normal distribution"  
 author: "Erika Duan"
 date: "`r Sys.Date()`"
 output:
@@ -10,7 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 # Set up global environment ----------------------------------------------------
-knitr::opts_chunk$set(echo=TRUE, results='hide', fig.show='asis')  
+knitr::opts_chunk$set(echo=TRUE, results='hide', fig.show='asis', fig.align='center')  
 ```
 
 
@@ -37,11 +37,12 @@ $f(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \times e^{\frac{-(x - \mu) ^2}{2\sigma^2
 Imagine that the height of tomato plants in a field is normally distributed. It is known that the average tomato plant height is 140 cm, with a standard deviation of 16 cm.
 
 + What would the distribution of tomato plant height look like if the height of 100 plants was randomly measured?
-+ What would the probability density function of tomato plant height look like if the height of 10, 100 or 1000 plants was randomly measured?  
++ What would the distribution of tomato plant height look like if the height of 10, 100 or 1000 plants was randomly measured?  
 
 ```{r plot norm dist, results='markup'}
-# Simulate tomato plant heights from normal distribution -----------------------
+# Simulate tomato plant heights from a known normal distribution ---------------
 set.seed(111)  
+
 plant_height <- tibble(x = seq(1, 100),
                        height = rnorm(100, mean = 140, sd = 16))  
 
@@ -73,8 +74,10 @@ density <- plant_height %>%
 ```
 
 ```{r plot norm dist for different n, results='markup'}
-# Simulate tomato plant heights from 10, 100 and 1000 samples ------------------ 
+# Simulate tomato plant heights from a known normal distribution ---------------
+# Simulate for n = 10, 100 or 1000 samples 
 set.seed(111)
+
 sample_10 <- tibble(x = seq(1, 10), 
                     height = rnorm(10, mean = 140, sd = 16))  
 
@@ -110,19 +113,22 @@ plot_density <- function(df, value) {
 
 + What would the distribution of sample means i.e. $\bar x$, look like if 100 tomato plants were randomly measured from 1000 random locations?     
 
-```{r plot CLT, results='markup', out.width='70%', fig.align='center'}
-# Simulate 100 samples from 1000 fields ----------------------------------------
+```{r plot CLT, results='markup', fig.width=4, fig.height=3, out.width='50%'}
+# Simulate 1000 iterations of n = 100 tomato plants ----------------------------
+# set.seed(111) cannot be used as it fixes the sample values from each iteration 
+
 sample_means <- vector("double", length = 1000L)
 for (i in 1:1000) {
   plot <- rnorm(100, mean = 140, sd = 16)
   sample_means[[i]] <- mean(plot)    
 }
 
-# Plot distribution of 100 sample means ----------------------------------------
+# Plot distribution of 1000 sample means ---------------------------------------
 sample_means %>%
   tibble(height = .) %>% # Convert to tibble for plotting
   ggplot(aes(x = height)) +
-  geom_histogram(binwidth = 1, fill = "lightsalmon", colour = "black") +
+  geom_histogram(binwidth = 1, fill = "white", colour = "black") +
+  geom_vline(xintercept = 140, colour = "tomato", linetype = "dotted") + 
   labs(x = "Plant height mean (cm)",
        y = "Count") + 
   theme_minimal() +
@@ -184,7 +190,7 @@ plant_height <- plant_height %>%
 ```
 
 
-```{r plot standard norm dist, results='markup', out.width='70%', fig.align='center'}
+```{r plot standard norm dist, results='markup', out.width='70%'}
 # Plot distribution of standardised tomato plant heights -----------------------
 plant_height %>% 
   ggplot(aes(x = std_height)) +
@@ -201,25 +207,24 @@ plant_height %>%
 
 ## Bivariate normal distribution  
 
-The bivariate normal distribution is the simplest example of a multivariate normal distribution where two random variables both have a normal distribution and their [joint probability distribution](https://en.wikipedia.org/wiki/Joint_probability_distribution) is also characterised by a normal distribution.    
+The bivariate normal distribution is the simplest example of a multivariate normal distribution where two random variables are both normally distributed and their [joint probability distribution](https://en.wikipedia.org/wiki/Joint_probability_distribution) is therefore also characterised by a normal distribution.    
 
 ```{r load bivariate norm dist figure, echo=FALSE, results = 'markup', fig.align='center', out.width='80%'} 
 # Knit st-basic_distributions-bivariate_normal_distribution.jpg ----------------   
-knitr::include_graphics("../../figures/st-basic_distributions-bivariate_normal_distribution.jpg")   
+knitr::include_graphics("../../figures/st-normal_distribution-bivariate_normal_distribution.jpg")   
 ```
-
 
 The probability density function of the bivariate normal distribution is represented by the following equation:  
 
-$f(x, y) = \frac{1}{2\pi|\Sigma|^{1/2}}e \begin{Bmatrix} \frac{-1}{2} \begin{pmatrix} x - u_1 \\ y - u_2 \end{pmatrix}^\intercal \Sigma^{-1} \begin{pmatrix} x - u_1 \\ y - u_2 \end{pmatrix}\end{Bmatrix}$      
+$f(x_1, x_2) = \frac{1}{2\pi|\Sigma|^{1/2}}e \begin{Bmatrix} \frac{-1}{2} \begin{pmatrix} x_1 - u_1 \\ x_2 - u_2 \end{pmatrix}^\intercal \Sigma^{-1} \begin{pmatrix} x_1 - u_1 \\ x_2 - u_2 \end{pmatrix}\end{Bmatrix}$      
 
-**Note:** Think of $y_1$ and $y_2$ as distinct random variables or model features, rather than different values from the same random variable. 
+**Note:** $x_1$ and $x_2$ should be thought of as two different column vectors of random values.     
 
 ```{r, results='markup', fig.width=6, fig.height=6}
 # Create a bivariate normal distribution ---------------------------------------
 # Create two independent variables ~ N(0,1)  
-x <- seq(-5, 5, length = 100L) 
-y <- seq(-5, 5, length = 100L)
+x1 <- seq(-5, 5, length = 100L) 
+x2 <- seq(-5, 5, length = 100L)
 
 mean <- c(0, 0) # Both variables have mean = 0  
 
@@ -228,26 +233,26 @@ var_cov <- matrix(c(1, 0, 0, 1), # Variables are not correlated with each other
                   byrow = TRUE)
 
 # Calculate joint probability density function ---------------------------------
-f_y <- function(x, y) dmnorm(cbind(x, y), mean, var_cov)
-z <- outer(x, y, f_y) # Value z represents the density at (x, y)  
+f_x <- function(x1, x2) dmnorm(cbind(x1, x2), mean, var_cov)
+z <- outer(x1, x2, f_x) # Value z represents the density at (x1, x2)  
 
 # Plot 2D contour plot of joint probability density function -------------------
-contour(x, y, z,
-        xlab = "X", ylab = "Y", 
+contour(x1, x2, z,
+        xlab = "X1", ylab = "X2", 
         main = "Joint probability density function (2D contour plot)")  
 
 # plot 3D curve of joint probability density function --------------------------
-persp(x, y, z, theta = 30, phi = 30, 
+persp(x1, x2, z, theta = 30, phi = 30, 
       ltheta = 15, shade = 0.1, col = "lavender", expand = 0.5, r = 1, ticktype = "detailed",
-      xlab = "X", ylab = "Y", zlab = "Probability density",
+      xlab = "X1", ylab = "X2", zlab = "Probability density",
       main = "Joint probability density function (3D curve)")
 ```
 
 ```{r, results='markup', fig.width=6, fig.height=6}
 # Create a bivariate normal distribution ---------------------------------------
 # Create two highly correlated variables ~ N(0,1)  
-x <- seq(-5, 5, length = 100L) 
-y <- seq(-5, 5, length = 100L)
+x1 <- seq(-5, 5, length = 100L) 
+x2 <- seq(-5, 5, length = 100L)
 
 mean <- c(0, 0) # Both variables have mean = 0  
 
@@ -256,66 +261,39 @@ var_cov <- matrix(c(1, 0.8, 0.8, 1), # Highly correlated variables i.e. r = 0.8
                   byrow = TRUE)
 
 # Calculate joint probability density function ---------------------------------
-f_y <- function(x, y) dmnorm(cbind(x, y), mean, var_cov)
-z <- outer(x, y, f_y) # Value z represents the density at (x, y)  
+f_x <- function(x1, x2) dmnorm(cbind(x1, x2), mean, var_cov)
+z <- outer(x1, x2, f_x) # Value z represents the density at (x1, x2)  
 
 # Plot 2D contour plot of joint probability density function -------------------
-contour(x, y, z,
-        xlab = "X", ylab = "Y", 
+contour(x1, x2, z,
+        xlab = "X1", ylab = "X2", 
         main = "Joint probability density function (2D contour plot)")  
 
 # plot 3D curve of joint probability density function --------------------------
-persp(x, y, z, theta = 30, phi = 30, 
+persp(x1, x2, z, theta = 30, phi = 30, 
       ltheta = 15, shade = 0.1, col = "lavender", expand = 0.5, r = 1, ticktype = "detailed",
-      xlab = "X", ylab = "Y", zlab = "Probability density",
+      xlab = "X1", ylab = "X2", zlab = "Probability density",
       main = "Joint probability density function (3D curve)")  
 ```
 
 
-Assuming $\boldsymbol{Y} = [Y_1, Y_2, ... Y_p]^\intercal$ represents a column vector of random variables, the following properties hold for bivariate and multivariate normal distributions:    
+## Multivariate normal distribution    
 
-+ If $\boldsymbol{Y} \sim N(\boldsymbol{\mu, \boldsymbol{\Sigma}})$, then $E(\boldsymbol{Y}) = \boldsymbol \mu$ and $Cov(\boldsymbol{Y}) = \boldsymbol{\Sigma}$.  
-+ If the correlation coefficient or covariance of $Y_1 \sim N(\mu, \sigma^2_1)$ and $Y_2 \sim N(\mu, \sigma^2_2)$ is 0, then $Y_1$ and $Y_2$ are independent.  
-+ For any constant matrix $\boldsymbol{A}^{k\times n}$ and constant vector $\boldsymbol{b}^{k\times 1}$, if $\boldsymbol{Y} \sim N(\boldsymbol{\mu, \boldsymbol{\Sigma}})$, then the following equation applies:  
-$\boldsymbol{AY} + \boldsymbol{b} \sim N(\boldsymbol{A \mu} + \boldsymbol{b}, \boldsymbol{A\Sigma A^\intercal})$  
+We assume that the response variable in a multiple linear regression model, commonly denoted as ${\boldsymbol{Y}}$, has a multivariate normal distribution where $E({\boldsymbol{Y}}) = [\mu_1, \mu_2, \cdots, \mu_n]^\intercal$ and is a $1 \times n$ column vector. The joint probability distribution of ${\boldsymbol{Y}}$ is therefore a function which spans the $n+1$ dimension space and describes the probability of any combination of $[Y_1, Y_2. \cdots, Y_n]^\intercal$ values in being observed.   
 
+If $\boldsymbol{Y} \sim N(\boldsymbol{\mu, \boldsymbol{\Sigma}})$, it contains the following properties:   
 
-# Chi-squared distribution    
++ $E(\boldsymbol{Y}) = \boldsymbol \mu = [\mu_1, \mu_2, \cdots, \mu_n]^\intercal$   
++ $Cov(\boldsymbol{Y}) = \boldsymbol{\Sigma} = \begin{matrix} \sigma_{11} &  \cdots & \sigma_{1n} \\ \vdots & \ddots & \vdots \\ \sigma_{n1} & \cdots & \sigma_{nn}  \end{matrix}$.        
++ If the  $Cov(Y_1, Y_2) = 0$ where $Y_1 \sim N(\mu, \sigma^2_1)$ and $Y_2 \sim N(\mu, \sigma^2_2)$, then $Y_1$ and $Y_2$ are independent. This inference only holds for normally distributed variables. In multiple linear regression, we assume that each observed values represent an independent observation.         
 
-+ What would the distribution of sample variance i.e. $s$ look like if 100 tomato plants were randomly measured from 1000 random fields?  
-
-```{r, results='markup'}
-# Simulate 100 samples from 1000 fields ----------------------------------------
-sample_sds <- vector("double", length = 1000L)
-for (i in 1:1000) {
-  plot <- rnorm(100, mean = 140, sd = 16)
-  sample_sds[[i]] <- sd(plot)    
-}
-
-# Plot distribution of 100 sample standard deviations --------------------------
-sample_sds %>%
-  tibble(height = .) %>% # Convert to tibble for plotting
-  ggplot(aes(x = height)) +
-  geom_histogram(binwidth = 1, fill = "tomato", colour = "black") +
-  labs(x = "Plant height standard deviation (cm)",
-       y = "Count") + 
-  theme_minimal() +
-  theme(panel.grid = element_blank(),
-        panel.border = element_rect(fill = NA, colour = "black"),
-        plot.title = element_text(hjust = 0.5))  
-```
-
-
-# T distribution   
-
-
-# F distribution     
+**Note:** For any constant matrix $\boldsymbol{A}^{n\times n}$ and constant vector $\boldsymbol{b}^{n\times 1}$, if $\boldsymbol{Y} \sim N(\boldsymbol{\mu, \boldsymbol{\Sigma}})$, then the following linear transformation is also normally distributed and $\boldsymbol{AY} + \boldsymbol{b} \sim N(\boldsymbol{A \mu} + \boldsymbol{b}, \boldsymbol{A\Sigma A^\intercal})$.    
 
 
 # Other resources  
 
-+ University of Sydney Mathematics Learning Centre [chapter](https://www.sydney.edu.au/content/dam/students/documents/mathematics-learning-centre/normal-distribution.pdf) on the normal distribution.     
++ A University of Sydney Mathematics Learning Centre [resource](https://www.sydney.edu.au/content/dam/students/documents/mathematics-learning-centre/normal-distribution.pdf) on the normal distribution.     
 + A jbstatistics [YouTube video](https://www.youtube.com/watch?v=iYiOVISWXS4) on the normal distribution.   
-+ A jbstatistics [YouTube video](https://www.youtube.com/watch?v=4R8xm19DmPM) on how to standard normally distributed variables.   
-+ A [statistical tutorial](https://ubc-mds.github.io/DSCI_551_stat-prob-dsci/lectures/noteworthy-distribution-families.html#multivariate-gaussiannormal-family-20-min-1) about the bivariate and multivariate normal distribution.   
-+ A [statistical tutorial](https://ubc-mds.github.io/DSCI_551_stat-prob-dsci/lectures/dependence.html) on how to visualise multidimensional functions.      
++ A jbstatistics [YouTube video](https://www.youtube.com/watch?v=4R8xm19DmPM) on how to standardise normally distributed variables to obtain the standard normal distribution.     
++ A University of British Columbia [statistics tutorial](https://ubc-mds.github.io/DSCI_551_stat-prob-dsci/lectures/noteworthy-distribution-families.html#multivariate-gaussiannormal-family-20-min-1) about the bivariate and multivariate normal distribution.   
++ A University of British Columbia [statistics tutorial](https://ubc-mds.github.io/DSCI_551_stat-prob-dsci/lectures/dependence.html) on how to visualise multidimensional functions.      

@@ -1,0 +1,59 @@
+---
+title: "Introduction to Chi-squared and F distributions"  
+author: "Erika Duan"
+date: "`r Sys.Date()`"
+output:
+  github_document:
+    toc: true
+    pandoc_args: --webtex   
+---
+
+```{r setup, include=FALSE}
+# Set up global environment ----------------------------------------------------
+knitr::opts_chunk$set(echo=TRUE, results='hide', fig.show='asis', fig.align='center')  
+```
+
+
+```{r load libraries, message=FALSE, warning=FALSE}  
+# Load required packages -------------------------------------------------------  
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(here,  
+               tidyverse,
+               patchwork,
+               mnormt)   
+```
+
+
+# Chi-squared distribution    
+
+The Chi-squared distribution describes the distribution of $Z^2$ values, where $Z$ represents a value from the standard normal distribution.  
+
+```{r plot Z dist, results='markup', fig.width=4, fig.height=3, out.width='50%'}
+# Calculate density for values in a standard normal distribution ---------------
+Z <- seq(-3, 3, length.out = 1000)
+density <- dnorm(Z, mean = 0, sd = 1)
+
+Z_dist <- tibble(values = Z,
+                 density)
+
+# Plot standard normal distribution --------------------------------------------
+Z_dist %>%
+  ggplot(aes(x = values, y = density)) +
+  geom_line() +
+  labs(x = "Z value",
+       y = "Probability density") + 
+  theme_minimal() +
+  theme(panel.grid = element_blank(),
+        panel.border = element_rect(fill = NA, colour = "black"),
+        plot.title = element_text(hjust = 0.5))  
+```
+
+
+# F distribution     
+
+
+# Other resources  
+
++ A jbstatistics [YouTube video](https://www.youtube.com/watch?v=hcDb12fsbBU) on the Chi-squared distribution.  
++ A zedstatistics [YouTube video](https://www.youtube.com/watch?v=80ffqpZdKiA) on the Chi-squared distribution.    
+     
