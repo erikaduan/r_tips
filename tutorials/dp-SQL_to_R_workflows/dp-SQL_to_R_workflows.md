@@ -1,7 +1,7 @@
 How to integrate SQL queries into an R project
 ================
 Erika Duan
-2021-08-26
+2021-12-25
 
 -   [Introduction](#introduction)
 -   [Set up BigQuery data warehouse](#set-up-bigquery-data-warehouse)
@@ -58,53 +58,53 @@ The steps are to:
 2.  Create a new Google Cloud Project and select this project in
     BigQuery.
 
-    <img src="../../figures/dp-SQL_to_R_workflows-create_BigQuery_project.jpg" width="60%" style="display: block; margin: auto;" />
+<img src="../../figures/dp-sql_to_r_workflows-create_bigquery_project.jpg" width="60%" style="display: block; margin: auto;" />
 
-3.  Create a new dataset inside your project. This is equivalent to
+1.  Create a new dataset inside your project. This is equivalent to
     creating a new database in a data warehouse.
 
-    <img src="../../figures/dp-SQL_to_R_workflows-create_dataset.jpg" width="80%" style="display: block; margin: auto;" />
+<img src="../../figures/dp-sql_to_r_workflows-create_dataset.jpg" width="80%" style="display: block; margin: auto;" />
 
-4.  Copy and paste the SQL query below to generate the `customers`
+1.  Copy and paste the SQL query below to generate the `customers`
     table.
 
-    ``` r
-    /* Create Customers table*/ 
-    SELECT
-        id AS customer_id,
-        first_name,
-        last_name
+``` r
+/* Create Customers table*/ 
+  SELECT
+id AS customer_id,
+first_name,
+last_name
 
-    FROM `dbt-tutorial`.jaffle_shop.customers
-    ```
+FROM `dbt-tutorial`.jaffle_shop.customers
+```
 
-5.  Run the query and save the results as a BigQuery table called
+1.  Run the query and save the results as a BigQuery table called
     `customers`.
 
-    <img src="../../figures/dp-SQL_to_R_workflows-create_customers_table.jpg" width="80%" style="display: block; margin: auto;" />
+<img src="../../figures/dp-sql_to_r_workflows-create_customers_table.jpg" width="80%" style="display: block; margin: auto;" />
 
-6.  Copy and paste the SQL query below to generate the `orders` table.
+1.  Copy and paste the SQL query below to generate the `orders` table.
     Run and save the results as a BigQuery table called `orders`.
 
-    ``` r
-    /* Create Orders table*/ 
-    SELECT
-        id AS order_id,
-        user_id AS customer_id,
-        order_date,
-        status
+``` r
+/* Create Orders table*/ 
+  SELECT
+id AS order_id,
+user_id AS customer_id,
+order_date,
+status
 
-    FROM `dbt-tutorial`.jaffle_shop.orders
-    ```
+FROM `dbt-tutorial`.jaffle_shop.orders
+```
 
-7.  Unfortunately, the `payments` table does not exist as a public
+1.  Unfortunately, the `payments` table does not exist as a public
     dataset on BigQuery. To circumvent this problem, you can download
     `raw_payments.csv` from the [jaffle shop GitHub
     repository](https://github.com/dbt-labs/jaffle_shop) and manually
     upload it as a new table in your project. This allows you to
     practice writing queries to join more than two tables together.
 
-    <img src="../../figures/dp-SQL_to_R_workflows-create_payments_table.jpg" width="80%" style="display: block; margin: auto;" />
+<img src="../../figures/dp-sql_to_r_workflows-create_payments_table.jpg" width="80%" style="display: block; margin: auto;" />
 
 Congratulations! You have now created a very small-scale cloud-hosted
 database to practice running SQL queries on.
@@ -232,16 +232,14 @@ customer_df %>%
 
 -   The [GitHub repository](https://github.com/dbt-labs/jaffle_shop) for
     the data build tool (DBT) jaffle shop project.  
-
 -   The jaffle shop DBT Google BigQuery project [set-up
     tutorial](https://docs.getdbt.com/tutorial/setting-up).  
-
 -   An RStudio
     [guide](https://db.rstudio.com/getting-started/connect-to-database/)
     on how to connect to an existing database using the `odbc` and `DBI`
     packages.  
-
 -   An Rstudio [guide](https://db.rstudio.com/databases/big-query/) on
-    how to connect to Google BigQuery using `odbc` or `bigrquery`.
-
--   <https://cran.r-project.org/web/packages/dbplyr/vignettes/dbplyr.html>
+    how to connect to Google BigQuery using `odbc` or `bigrquery`.  
+-   The official
+    [vignette](https://cran.r-project.org/web/packages/dbplyr/vignettes/dbplyr.html)
+    to using `dbplyr` for performing SQL queries via the tidyverse API.

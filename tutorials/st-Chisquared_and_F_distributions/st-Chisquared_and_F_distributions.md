@@ -1,7 +1,7 @@
 Introduction to Chi-squared and F distributions
 ================
 Erika Duan
-2021-09-19
+2021-12-25
 
 -   [Chi-squared distribution](#chi-squared-distribution)
     -   [1 degree of freedom](#1-degree-of-freedom)
@@ -59,7 +59,7 @@ Z_dist %>%
         plot.title = element_text(hjust = 0.5))   
 ```
 
-<img src="st-Chi_squared_and_F_distributions_files/figure-gfm/plot Z dist-1.png" width="50%" style="display: block; margin: auto;" />
+<img src="st-chisquared_and_f_distributions_files/figure-gfm/plot Z dist-1.png" width="50%" style="display: block; margin: auto;" />
 
 ``` r
 # Calculate and plot frequency of Z^2 values -----------------------------------
@@ -100,7 +100,7 @@ density_plot <- Chisq_dist %>%
 (freq_plot + density_plot)
 ```
 
-<img src="st-Chi_squared_and_F_distributions_files/figure-gfm/plot Chisq dist-1.png" style="display: block; margin: auto;" />
+<img src="st-chisquared_and_f_distributions_files/figure-gfm/plot Chisq dist-1.png" style="display: block; margin: auto;" />
 
 **Note:** The shape of this distribution can be explained by the
 observation that the majority of Z values are distributed around 0 and

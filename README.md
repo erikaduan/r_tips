@@ -1,6 +1,6 @@
 # R tips  
 
-This repository contains a series of **R programming tips** covering topics across **data cleaning**, **visualisation** and **machine learning**.  
+This repository contains a series of **R programming tips** covering topics across **data cleaning**, **data visualisation**, **machine learning**, **statistical theory** and **data productionisation**.  
 
 <p align="center">  
 <img src="https://github.com/erikaduan/R-tips/blob/master/figures/R-milestones.jpg" width="600"></center>  
@@ -13,10 +13,10 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 
 | Legend | Category |  
 |--------|----------|  
-| 📚 | Data wrangling |  
+| 📚 | Data cleaning |  
 | 🎨 | Data visualisation |  
 | 🔮 | Machine learning |  
-| 🔨 | Production |  
+| 🔨 | Productionisation |  
 | 🔢 | Statistics |  
 
 
@@ -24,15 +24,15 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 ## 🎨 Data visualisation 
 
 + [An introduction to `ggplot2` using volcano plots](https://github.com/erikaduan/R-tips/blob/master/tutorials/dv-volcano_plots_with_ggplot/dv-volcano_plots_with_ggplot.md)  
-+ [Using `DiagrammeR` to draw flow charts](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-06-06_using-DiagrammeR/2020-06-06_using-DiagrammeR-to-draw-flow-charts.md)  
++ [Using `DiagrammeR` to draw flow charts](https://github.com/erikaduan/R-tips/blob/master/tutorials/dv-using_diagrammer/dv-using_diagrammer.md)  
 
 ## 📚 Data cleaning
 
 + [Data cleaning using `data.table` and `tidyverse`](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-04-07_data-table-versus-dplyr/2020-04-07_data-table-versus-dplyr.md)  
-+ [Manipulating character strings using regular expressions](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-05-16_untangling-strings/2020-05-16_untangling-strings.md)     
++ [Manipulating character strings using regular expressions](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-05-16_untangling-strings/2020-05-16_untangling-strings.md)   
 
 ## 🔨 Data report productionisation  
-+ [Creating SQL <> R workflows](https://github.com/erikaduan/R-tips/blob/master/tutorials/dp-SQL_to_R_workflows/dp-SQL_to_R_workflows.md)  
++ [Creating SQL <> R workflows](https://github.com/erikaduan/R-tips/blob/master/tutorials/dp-sql_to_r_workflows/dp-sql_to_r_workflows.md)  
 + [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-08-30_automating-RMDs-1/2020-08-30_automating-RMDs-1.md)  
 + [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-09-10_automating-RMDs-2/2020-09-10_automating-RMDs-2.md)  
 
@@ -43,7 +43,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 + [Introduction to expectation and variance](https://github.com/erikaduan/R-tips/blob/master/tutorials/st-expectations_and_variance/st-expectation_and_variance.md)  
 + [Beyond expectations: centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md)  
 + [Introduction to the normal distribution](https://github.com/erikaduan/R-tips/blob/master/tutorials/st-normal_distribution/st-normal_distribution.md)  
-+ [Introduction to the Chi-squared and F distribution](https://github.com/erikaduan/R-tips/blob/master/tutorials/st-Chisquared_and_F_distributions/st-Chisquared_and_F_distributions.md)  
++ [Introduction to the Chi-squared and F distribution](https://github.com/erikaduan/R-tips/blob/master/tutorials/st-chisquared_and_f_distributions/st-chisquared_and_f_distributions.md)  
 + Introduction to the T distribution (TBC)  
 + [Introduction to binomial distributions](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-09-12_binomial_distribution/2020-09-12_binomial-distribution.md)  
 + [Introduction to hypergeometric, geometric, negative binomial and multinomial distributions](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-09-22_hypergeometric-and-other-discrete-distributions/2020-09-22_hypergeometric-and-other-discrete-distributions.md)  

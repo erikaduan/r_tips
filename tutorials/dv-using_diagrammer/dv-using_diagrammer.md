@@ -1,54 +1,76 @@
----
-title: "Using DiagrammeR to draw flow charts"
-author: Erika Duan
-date: "`r Sys.Date()`"
-output:
-  github_document:
-    toc: true
-always_allow_html: true
----
+Using DiagrammeR to draw flow charts
+================
+Erika Duan
+2021-12-25
 
-```{r, echo = TRUE, message = FALSE, warning = FALSE}  
-#-----load requisite R packages-----  
+-   [Introduction](#introduction)
+-   [Introduction to DiagrammeR](#introduction-to-diagrammer)
+-   [Using `create_graph()` to create a simple
+    graph](#using-create_graph-to-create-a-simple-graph)
+-   [Using `grVis()` to create a simple flow
+    chart](#using-grvis-to-create-a-simple-flow-chart)
+-   [Using `grVis()` to create more complex flow
+    charts](#using-grvis-to-create-more-complex-flow-charts)
+    -   [Workflow structure flow chart](#workflow-structure-flow-chart)
+    -   [Clinical trial progress flow
+        chart](#clinical-trial-progress-flow-chart)
+    -   [Multi-site clinical trial progress flow
+        chart](#multi-site-clinical-trial-progress-flow-chart)
+    -   [Entity relationship diagrams](#entity-relationship-diagrams)
+-   [Other resources](#other-resources)
+
+``` r
+# Load required R packages -----------------------------------------------------  
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,  
                tidyverse,
                DiagrammeR,
                DiagrammeRsvg,
-               rsvg) # for exporting graphs    
+               rsvg) # For exporting graphs into svgs      
 ```
 
+# Introduction
 
-# Introduction   
+Last year, I woke up at 6 am AEST to attend the [R Toronto data workshop
+series](https://www.youtube.com/user/RohanPAlexander/videos) co-founded
+by [Rohan Alexander](https://rohanalexander.com/) and [Kelly
+Lyons](individual.utoronto.ca/klyons/). During a talk by Marija
+Pejcinovska, Marija recommended using the package `DiagrammeR` to create
+flow charts in reports. As someone who has to create a lot of flow
+charts, I thought I’d give `DiagrammeR` a try.
 
-Each Friday, I have been waking up at 6 am AEST to attend the [R Toronto data workshop series](https://rohanalexander.com/toronto_data_workshop.html) co-founded by [Rohan Alexander](https://rohanalexander.com/) and [Kelly Lyons](individual.utoronto.ca/klyons/). This week, [Marija Pejcinovska](https://www.statistics.utoronto.ca/people/directories/graduate-students/marija-pejcinovska), a PhD student from the University of Toronto talked in part about using string distance algorithms to integrate data (global maternity rates) from multiple data sources. 
+# Introduction to DiagrammeR
 
-Marija's slides also contained some R package recommendations, such as using `DiagrammeR` to create flow charts. As someone who has to create a lot of flow charts, I thought to give `DiagrammeR` a try.       
+`DiagrammeR` depends on `igraph` and `visNetwork`, which are
+network/graphical visualisation packages. According to its comprehensive
+[package
+documentation](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html),
+`DiagrammeR` supports the expression and visualisation of a graph
+description language called the DOT language.
 
+    ## [1] "dplyr (>= 0.7.6), downloader (>= 0.4), glue (>= 1.3.0),\nhtmltools (>= 0.3.6), htmlwidgets (>= 1.2), igraph (>= 1.2.2),\ninfluenceR (>= 0.1.0), magrittr (>= 1.5), purrr (>= 0.2.5),\nRColorBrewer (>= 1.1-2), readr (>= 1.1.1), rlang (>= 0.2.2),\nrstudioapi (>= 0.7), scales (>= 1.0.0), stringr (>= 1.3.1),\ntibble (>= 1.4.2), tidyr (>= 0.8.1), viridis (>= 0.5.1),\nvisNetwork (>= 2.0.4)"
 
-# Introduction to DiagrammeR    
+As described in a great tutorial
+[here](https://cyberhelp.sesync.org/blog/visualization-with-diagrammeR.html),
+there are three different ways to create a graph:
 
-`DiagrammeR` depends on `igraph` and `visNetwork`, which are network/graphical visualisation packages. According to its comprehensive [package documentation](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html), `DiagrammeR` supports the expression and visualisation of a graph description language called the DOT language.  
+-   Using the functions `create_graph()` and `render_graph()` on a list
+    of nodes and edges.  
+-   Creating a valid diagram specification in DOT language and passing
+    this to the function `grViz()`.  
+-   Creating a valid diagram specification and passing this to the
+    function `mermaid()`.
 
-```{r}
-#-----examining DiagrammeR package dependencies----  
-packages <- installed.packages() 
-packages[packages[, "Package"] == "DiagrammeR", "Imports"] 
-```
+# Using `create_graph()` to create a simple graph
 
-As described in a great tutorial [here](https://cyberhelp.sesync.org/blog/visualization-with-diagrammeR.html
-), there are three different ways to create a graph:  
+The simplest way is to create a graph is to use `create_graph()` on a
+list of nodes and edges dataframes. This method is very powerful for
+drawing simple relationships between objects with numerical vector IDs
+or highlighting features within complex graphical networks . The full
+list of node and edge attributes can be found
+[here](https://rich-iannone.github.io/DiagrammeR/ndfs_edfs.html).
 
-+ Using the functions `create_graph()` and `render_graph()` on a list of nodes and edges.  
-+ Creating a valid diagram specification in DOT language and passing this to the function `grViz()`.  
-+ Creating a valid diagram specification and passing this to the function `mermaid()`.  
-
-
-# Using `create_graph()` to create a simple graph  
-
-The simplest way is to create a graph is to use `create_graph()` on a list of nodes and edges dataframes. This method is very powerful for drawing simple relationships between objects with numerical vector IDs or highlighting features within complex graphical networks . The full list of node and edge attributes can be found [here](https://rich-iannone.github.io/DiagrammeR/ndfs_edfs.html).       
-
-```{r, warning = FALSE}
+``` r
 #-----define graph edges and nodes-----  
 # 1 == "Photosynthesis"
 # 2 == "Aerobic respiration"  
@@ -75,27 +97,29 @@ my_graph <- create_graph(nodes_df = nodes, edges_df = edges)
 # render_graph(my_graph) does not work for rendering github documents  
 
 #-----export graph-----
-export_graph(my_graph, file_name = here("02_figures", "2020-06-06_simple-flowchart.svg"),
+export_graph(my_graph, file_name = here("figures", "dv-using_diagrammer-simple_flowchart.svg"),
              file_type = "svg")
 ```
 
-```{r, echo = FALSE, fig.align = 'center', fig.show = 'hold'} 
-knitr::include_graphics("../../02_figures/2020-06-06_simple-flowchart.svg")  
-```
+<img src="../../figures/dv-using_diagrammer-simple_flowchart.svg" style="display: block; margin: auto;" />
 
-There are several limitations to this approach when you want to create a flow chart instead of a graph, and your flow chart contains detailed specifications.     
+There are several limitations to this approach when you want to create a
+flow chart instead of a graph, and your flow chart contains detailed
+specifications.
 
-+ Edges must be coded as numerical vector IDs, and subsequently labelled by numerical vector ID order in nodes.  
-+ There is no easy way to specify node positions (it would make more sense to have Solar energy displayed as the top node).  
-+ There is no easy way to specify edge label positions.  
-+ The final graph is trimmed if the node labels are too long.  
+-   Edges must be coded as numerical vector IDs, and subsequently
+    labelled by numerical vector ID order in nodes.  
+-   There is no easy way to specify node positions (it would make more
+    sense to have Solar energy displayed as the top node).  
+-   There is no easy way to specify edge label positions.  
+-   The final graph is trimmed if the node labels are too long.
 
+# Using `grVis()` to create a simple flow chart
 
-# Using `grVis()` to create a simple flow chart     
+Instead, I would greatly recommend the `grVis()` approach for drawing
+customisable flow charts.
 
-Instead, I would greatly recommend the `grVis()` approach for drawing customisable flow charts.    
-
-```{r, warning = FALSE}
+``` r
 #-----create a simple flow chart using grViz-----  
 my_graphviz <- grViz("digraph {
          
@@ -125,32 +149,36 @@ my_graphviz <- grViz("digraph {
 my_graphviz %>% 
   export_svg %>%
   charToRaw %>%
-  rsvg_svg(here("02_figures", "2020-06-06_simple-flowchart-grVis.svg"))
+  rsvg_svg(here("figures", "dv-using_diagrammer-simple_flowchart_grVis.svg"))
 ```
 
-```{r, echo = FALSE, fig.align = 'center', fig.show = 'hold', out.width = '60%'} 
-knitr::include_graphics("../../02_figures/2020-06-06_simple-flowchart-grVis.svg")  
-```
+<img src="../../figures/dv-using_diagrammer-simple_flowchart_grVis.svg" width="60%" style="display: block; margin: auto;" />
 
-A few tricks I used above were:  
+A few tricks I used above were:
 
-+ To set global attributes for nodes and edges, and then override where required with local attributes.      
-+ To create additional layers of invisible edges, for lengthening the arrows between specific nodes as recommended [here](https://stackoverflow.com/questions/11283701/how-to-specify-the-length-of-an-edge-in-graphviz).       
-+ To create an edge label with an empty string, for lengthening a specific edge.       
+-   To set global attributes for nodes and edges, and then override
+    where required with local attributes.  
+-   To create additional layers of invisible edges, for lengthening the
+    arrows between specific nodes as recommended
+    [here](https://stackoverflow.com/questions/11283701/how-to-specify-the-length-of-an-edge-in-graphviz).  
+-   To create an edge label with an empty string, for lengthening a
+    specific edge.
 
+# Using `grVis()` to create more complex flow charts
 
-# Using `grVis()` to create more complex flow charts   
+You will quickly discover that `grVis` is an incredibly versatile tool.
 
-You will quickly discover that `grVis` is an incredibly versatile tool.     
+## Workflow structure flow chart
 
+In this example, I am interested in creating a flow chart of my machine
+learning workflow to share with another data science team (this example
+is heavily inspired by [an example from Michael Harper’s
+blog](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/)).
 
-## Workflow structure flow chart    
+Note that the different types of node shapes available are listed
+[here](https://www.graphviz.org/doc/info/shapes.html).
 
-In this example, I am interested in creating a flow chart of my machine learning workflow to share with another data science team (this example is heavily inspired by [an example from Michael Harper's blog](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/)).     
-
-Note that the different types of node shapes available are listed [here](https://www.graphviz.org/doc/info/shapes.html).            
- 
-```{r, warning = FALSE}  
+``` r
 #-----create a flow chart describing my ML workflow-----  
 my_ML_workflow <- grViz("digraph {
          
@@ -208,19 +236,19 @@ my_ML_workflow <- grViz("digraph {
 my_ML_workflow %>% 
   export_svg %>%
   charToRaw %>%
-  rsvg_svg(here("02_figures", "2020-06-06_simple-flowchart-ML-workflow.svg"))
+  rsvg_svg(here("figures", "dv-using_diagrammer-simple_flowchart_ML_workflow.svg"))
 ```
 
-```{r, echo = FALSE, fig.align = 'center', fig.show = 'hold', out.width = '30%'} 
-knitr::include_graphics("../../02_figures/2020-06-06_simple-flowchart-ML-workflow.svg")  
-```
+<img src="../../figures/dv-using_diagrammer-simple_flowchart_ML_workflow.svg" width="30%" style="display: block; margin: auto;" />
 
+## Clinical trial progress flow chart
 
-## Clinical trial progress flow chart  
+Another handy feature of `grVis()` is that values generated in R can be
+directly passed into flow charts.This is done by setting node labels as
+`@@n` within the graph and passing values to `[n]` in the footer of the
+plot.
 
-Another handy feature of `grVis()` is that values generated in R can be directly passed into flow charts.This is done by setting node labels as `@@n` within the graph and passing values to `[n]` in the footer of the plot.          
-
-```{r, warning = FALSE}
+``` r
 #-----create flow chart dependent on changing parameters-----  
 # store data inside a list
 set.seed(111)
@@ -269,25 +297,23 @@ simple_trial <- grViz("digraph {
 simple_trial %>% 
   export_svg %>%
   charToRaw %>%
-  rsvg_svg(here("02_figures", "2020-06-06_flowchart-clinical-single.svg"))
+  rsvg_svg(here("figures", "dv-using_diagrammer-flowchart_clinical_single.svg"))
 ```
 
-```{r, echo = FALSE, fig.align = 'center', fig.show = 'hold', out.width = '60%'} 
-knitr::include_graphics("../../02_figures/2020-06-06_flowchart-clinical-single.svg")  
-```
+<img src="../../figures/dv-using_diagrammer-flowchart_clinical_single.svg" width="60%" style="display: block; margin: auto;" />
 
+## Multi-site clinical trial progress flow chart
 
-## Multi-site clinical trial progress flow chart   
+Things get better as `grVis()` also allows visualisation of subgroups
+within a graph.
 
-Things get better as `grVis()` also allows visualisation of subgroups within a graph.   
+The process of adding subgroups involves:
 
-The process of adding subgroups involves:  
+1.  First defining each subcluster.  
+2.  Defining the nodes in each subcluster.  
+3.  Defining the edges as usual.
 
-1. First defining each subcluster.     
-2. Defining the nodes in each subcluster.   
-3. Defining the edges as usual.    
-
-```{r}
+``` r
 #-----create flow chart with subgroups that are dependent on changing parameters-----  
 # store data inside a list
 set.seed(111)
@@ -371,27 +397,43 @@ multi_trial <- grViz("digraph {
 multi_trial %>% 
   export_svg %>%
   charToRaw %>%
-  rsvg_svg(here("02_figures", "2020-06-06_flowchart-clinical-multiple.svg"))
+  rsvg_svg(here("figures", "dv-using_diagrammer-flowchart_clinical_multiple.svg"))
 ```
 
-```{r, echo = FALSE, results = 'markup', fig.align = 'center', fig.show = 'hold', out.width = '90%'} 
-knitr::include_graphics("../../02_figures/2020-06-06_flowchart-clinical-multiple.svg")  
-```
+<img src="../../figures/dv-using_diagrammer-flowchart_clinical_multiple.svg" width="90%" style="display: block; margin: auto;" />
 
+## Entity relationship diagrams
 
-## Entity relationship diagrams    
+[Entity relationship
+diagrams](https://en.wikipedia.org/wiki/Entity–relationship_model)
+(ERDs) are useful for visualising data warehouse data joins. In
+particular, the crow’s foot notation is useful for tracking table joins,
+especially if one-to-many or many-to-many table relationships exist.
 
-[Entity relationship diagrams](https://en.wikipedia.org/wiki/Entity–relationship_model) (ERDs) are useful for visualising data warehouse data joins. In particular, the crow's foot notation is useful for tracking table joins, especially if one-to-many or many-to-many table relationships exist.     
+<div class="figure" style="text-align: center">
 
-```{r, echo = FALSE, results = 'markup', fig.align = 'center', fig.show = 'hold', out.width = '50%', fig.cap = 'Image sourced from https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68'} 
-knitr::include_graphics("../../02_figures/2020-06-06_flowchart-crows-foot-notation.jpg")  
-```
+<img src="../../figures/dv-using_diagrammer-crows_foot_notation.jpg" alt="Image sourced from https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68" width="50%" />
+<p class="caption">
+Image sourced from
+<https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68>
+</p>
 
-A tip for creating ERDs using `DiagrammeR` is to set the edge direction to both `(dir = 'both')` combined with `arrowhead` and `arrowtail` arguments. This allows you to specify [different symbols](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html#arrow-shapes) for each side of an edge.  
+</div>
 
-**Note:** Crow's foot notation is currently not fully supported as arrow shape options in `DiagrammeR`, but setting the arrow shape to `tee` or `crow` overlaid with [Chen's notation](https://stackoverflow.com/questions/44745480/chen-notation-whats-the-different-between-n-and-m-when-marking-a-relations) as edge labels can still help convey whether data joins are one-to-one or one-to-many.    
+A tip for creating ERDs using `DiagrammeR` is to set the edge direction
+to both `(dir = 'both')` combined with `arrowhead` and `arrowtail`
+arguments. This allows you to specify [different
+symbols](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html#arrow-shapes)
+for each side of an edge.
 
-```{r}
+**Note:** Crow’s foot notation is currently not fully supported as arrow
+shape options in `DiagrammeR`, but setting the arrow shape to `tee` or
+`crow` overlaid with [Chen’s
+notation](https://stackoverflow.com/questions/44745480/chen-notation-whats-the-different-between-n-and-m-when-marking-a-relations)
+as edge labels can still help convey whether data joins are one-to-one
+or one-to-many.
+
+``` r
 #-----create an ERD via an grViz object-----  
 my_ERD <- grViz("digraph {
 
@@ -443,19 +485,23 @@ my_ERD <- grViz("digraph {
 my_ERD %>% 
   export_svg %>%
   charToRaw %>%
-  rsvg_svg(here("02_figures", "2020-06-06_flowchart-ERD.svg"))
+  rsvg_svg(here("figures", "dv-using_diagrammer-erd.svg"))
 ```
 
-```{r, echo = FALSE, results = 'markup', fig.align = 'center', fig.show = 'hold', out.width = '60%'} 
-knitr::include_graphics("../../02_figures/2020-06-06_flowchart-ERD.svg")   
-```
+<img src="../../figures/dv-using_diagrammer-erd.svg" width="60%" style="display: block; margin: auto;" />
 
-# Other resources   
+# Other resources
 
-+ DiagrammeR package and [package documentation](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html) by Richard Iannone.       
-
-+ DiagrammeR [vignette](https://cran.r-project.org/web/packages/DiagrammeR/vignettes/node-edge-data-frames.html) for creating node and edge data frames.    
-
-+ A great [blog post](https://cyberhelp.sesync.org/blog/visualization-with-diagrammeR.html) by Rachael Blake comparing the `create_graph()` and `grVis()` approach.    
-
-+ A great [blog post](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/) by Michael Harper on using `grVis()` to draw flow charts.       
+-   DiagrammeR package and [package
+    documentation](https://rich-iannone.github.io/DiagrammeR/graphviz_and_mermaid.html)
+    by Richard Iannone.  
+-   DiagrammeR
+    [vignette](https://cran.r-project.org/web/packages/DiagrammeR/vignettes/node-edge-data-frames.html)
+    for creating node and edge data frames.  
+-   A great [blog
+    post](https://cyberhelp.sesync.org/blog/visualization-with-diagrammeR.html)
+    by Rachael Blake comparing the `create_graph()` and `grVis()`
+    approach.  
+-   A great [blog
+    post](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/) by
+    Michael Harper on using `grVis()` to draw flow charts.
