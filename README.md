@@ -43,7 +43,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 + [Introduction to expectation and variance](https://github.com/erikaduan/R-tips/blob/master/tutorials/st-expectations_and_variance/st-expectation_and_variance.md)  
 + [Beyond expectations: centrality measures in statistics](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md)  
 + [Introduction to the normal distribution](https://github.com/erikaduan/R-tips/blob/master/tutorials/st-normal_distribution/st-normal_distribution.md)  
-+ [Introduction to the Chi-squared and F distribution](https://github.com/erikaduan/R-tips/blob/master/tutorials/st-chisquared_and_f_distributions/st-chisquared_and_f_distributions.md)  
++ [Introduction to the Chi-squared and F distribution](https://github.com/erikaduan/R-tips/blob/master/tutorials/st-chi_squared_and_f_distributions/st-chi_squared_and_f_distributions.md)  
 + Introduction to the T distribution (TBC)  
 + [Introduction to binomial distributions](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-09-12_binomial_distribution/2020-09-12_binomial-distribution.md)  
 + [Introduction to hypergeometric, geometric, negative binomial and multinomial distributions](https://github.com/erikaduan/R-tips/blob/master/tutorials/2020-09-22_hypergeometric-and-other-discrete-distributions/2020-09-22_hypergeometric-and-other-discrete-distributions.md)  
