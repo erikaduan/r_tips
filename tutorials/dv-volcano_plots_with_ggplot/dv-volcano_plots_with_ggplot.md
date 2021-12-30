@@ -1,7 +1,7 @@
 How to draw a volcano plot using ggplot2
 ================
 Erika Duan
-2021-07-31
+2021-12-30
 
 -   [Introduction](#introduction)
 -   [Import a test dataset](#import-a-test-dataset)
@@ -38,13 +38,13 @@ plots](https://en.wikipedia.org/wiki/Volcano_plot_(statistics)) are an
 obscure concept outside of bioinformatics, but their construction can be
 used to demonstrate the elegance and versatility of `ggplot2`.
 
-In the last two years, a number of handy new functions have been added
-to `dplyr` and `ggplot2`, which this post has been updated to reflect.
-The original coding logic should still be attributed to [Chuanxin
+Since 2020, a number of handy new functions have been added to `dplyr`
+and `ggplot2`, which this post has been updated to reflect. The original
+coding logic should be attributed to [Chuanxin
 Liu](https://github.com/codetrainee), my former PhD student. I also
 recommend the excellent [RStudio Cloud ggplot2
 tutorials](https://rstudio.cloud/learn/primers/3), which have taught me
-some new tricks.
+some new `ggplot` tricks.
 
 Let’s get started then.
 
@@ -119,16 +119,16 @@ large fold-change and small adjusted p-value.
 You can apply transformations directly inside `ggplot(data, aes(x, y))`.
 
 ``` r
-# Create a simple volcano plot -------------------------------------------------
+# Create a basic volcano plot -------------------------------------------------
 vol_plot <- samples %>%
   ggplot(aes(x = log_fc,
              y = -log10(adj_p_val))) + 
   geom_point() 
 
-vol_plot # Visualise a simple volcano plot
+vol_plot # Visualise ggplot output
 ```
 
-![](dv-volcano_plots_with_ggplot_files/figure-gfm/create%20simple%20vol_plot-1.png)<!-- -->
+![](dv-volcano_plots_with_ggplot_files/figure-gfm/create%20basic%20plot-1.png)<!-- -->
 
 Alternatively, you can visualise the original values along a transformed
 axis using `scale_x_continuous(trans = "...")` or `coord_trans(x, y)` to

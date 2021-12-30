@@ -29,7 +29,7 @@ pacman::p_load(here,
 
 In 2018, whilst still an R newbie, I participated in the [RLadies Melbourne community lightning talks](https://github.com/R-LadiesMelbourne/2018-10-16_How-R-You) and talked about how to visualise volcano plots in R. [Volcano plots](https://en.wikipedia.org/wiki/Volcano_plot_(statistics)) are an obscure concept outside of bioinformatics, but their construction can be used to demonstrate the elegance and versatility of `ggplot2`.         
 
-In the last two years, a number of handy new functions have been added to `dplyr` and `ggplot2`, which this post has been updated to reflect. The original coding logic should still be attributed to [Chuanxin Liu](https://github.com/codetrainee), my former PhD student. I also recommend the excellent [RStudio Cloud ggplot2 tutorials](https://rstudio.cloud/learn/primers/3), which have taught me some new tricks.           
+Since 2020, a number of handy new functions have been added to `dplyr` and `ggplot2`, which this post has been updated to reflect. The original coding logic should be attributed to [Chuanxin Liu](https://github.com/codetrainee), my former PhD student. I also recommend the excellent [RStudio Cloud ggplot2 tutorials](https://rstudio.cloud/learn/primers/3), which have taught me some new `ggplot` tricks.           
 
 Let's get started then. 
 
@@ -80,14 +80,14 @@ A volcano plot depicts:
 
 You can apply transformations directly inside `ggplot(data, aes(x, y))`.   
 
-```{r create simple vol_plot}
-# Create a simple volcano plot -------------------------------------------------
+```{r create basic plot}
+# Create a basic volcano plot -------------------------------------------------
 vol_plot <- samples %>%
   ggplot(aes(x = log_fc,
              y = -log10(adj_p_val))) + 
   geom_point() 
 
-vol_plot # Visualise a simple volcano plot
+vol_plot # Visualise ggplot output
 ```
 
 Alternatively, you can visualise the original values along a transformed axis using `scale_x_continuous(trans = "...")` or `coord_trans(x, y)` to transform the axis itself. A guide to creating your own transformation functions can be found on Stack Overflow [here](https://stackoverflow.com/questions/49248937/in-rs-scales-package-why-does-trans-new-use-the-inverse-argument).    
