@@ -21,7 +21,7 @@ pacman::p_load(here,
 
 # Introduction   
 
-Last year, I woke up at 6 am AEST to attend the [R Toronto data workshop series](https://www.youtube.com/user/RohanPAlexander/videos) co-founded by [Rohan Alexander](https://rohanalexander.com/) and [Kelly Lyons](individual.utoronto.ca/klyons/). During a talk by Marija Pejcinovska, Marija recommended using the package `DiagrammeR` to create flow charts in reports. As someone who has to create a lot of flow charts, I thought I'd give `DiagrammeR` a try.       
+Last year, I woke up at 6 am AESD to attend the [R Toronto data workshop series](https://www.youtube.com/user/RohanPAlexander/videos) co-founded by [Rohan Alexander](https://rohanalexander.com/) and [Kelly Lyons](individual.utoronto.ca/klyons/). During a talk by Marija Pejcinovska, Marija recommended using the package `DiagrammeR` to create flow charts in reports. As someone who has to create a lot of flow charts, I thought I'd give `DiagrammeR` a try.   
 
 
 # Introduction to DiagrammeR    

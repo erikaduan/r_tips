@@ -190,7 +190,7 @@ samples <- samples %>%
                                log_fc <= -1 & adj_p_val <= 0.05 ~ "down",
                                TRUE ~ "ns"))   
 
-#-----obtaining a summary of gene_type numbers-----           
+# Count gene_type categories ---------------------------------------------------           
 samples %>%
   count(gene_type) %>%
   knitr::kable()
@@ -204,7 +204,7 @@ samples %>%
 In `ggplot2`, you also have the option to visualise different groups by point colour, size, shape and transparency by modifying parameters via `scale_color_manual()` etc. A tidy way of doing this is to store each visual specifications in a separate vector.     
 
 ```{r add plot colours}
-# Check gene_type categories ---------------------------------------------------
+# Check gene_type category names -----------------------------------------------
 samples %>%
   distinct(gene_type) %>%
   pull()
@@ -417,6 +417,6 @@ final_plot +
 # Other resources   
 
 + The excellent and interactive [RStudio Cloud `ggplot2` tutorials](https://rstudio.cloud/learn/primers/3).      
-+ RStudio `ggplot2` [cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).      
++ The RStudio `ggplot2` [cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).  
 + STHDA [tutorial](http://www.sthda.com/english/wiki/ggplot2-axis-scales-and-transformations#axis-transformations) on ggplot2 axis transformations.    
 + An RStudio conference [presentation](https://www.danaseidel.com/rstudioconf2020#1) on how to use the `scales` package.     

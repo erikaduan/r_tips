@@ -248,7 +248,7 @@ samples <- samples %>%
                                log_fc <= -1 & adj_p_val <= 0.05 ~ "down",
                                TRUE ~ "ns"))   
 
-#-----obtaining a summary of gene_type numbers-----           
+# Count gene_type categories ---------------------------------------------------           
 samples %>%
   count(gene_type) %>%
   knitr::kable()
@@ -265,7 +265,7 @@ point colour, size, shape and transparency by modifying parameters via
 visual specifications in a separate vector.
 
 ``` r
-# Check gene_type categories ---------------------------------------------------
+# Check gene_type category names -----------------------------------------------
 samples %>%
   distinct(gene_type) %>%
   pull()
@@ -508,7 +508,7 @@ final_plot +
 
 -   The excellent and interactive [RStudio Cloud `ggplot2`
     tutorials](https://rstudio.cloud/learn/primers/3).  
--   RStudio `ggplot2`
+-   The RStudio `ggplot2`
     [cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf).  
 -   STHDA
     [tutorial](http://www.sthda.com/english/wiki/ggplot2-axis-scales-and-transformations#axis-transformations)
