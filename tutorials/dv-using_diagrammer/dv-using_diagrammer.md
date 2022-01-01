@@ -439,17 +439,11 @@ diagrams](https://en.wikipedia.org/wiki/Entity–relationship_model)
 (ERDs) are useful for visualising data warehouse data table
 relationships. In particular, the crow’s foot notation is useful for
 tracking table joins, especially if one-to-many or many-to-many table
-relationships exist.
+relationships exist. The following image of the crow’s foot notation is
+sourced from
+[here](https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68).
 
-<div class="figure" style="text-align: center">
-
-<img src="../../figures/dv-using_diagrammer-crows_foot_notation.jpg" alt="Image sourced from https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68" width="50%" />
-<p class="caption">
-Image sourced from
-<https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68>
-</p>
-
-</div>
+<img src="../../figures/dv-using_diagrammer-crows_foot_notation.jpg" width="40%" style="display: block; margin: auto;" />
 
 A tip for creating ERDs using `DiagrammeR` is to set the edge direction
 to both `(dir = 'both')` combined with `arrowhead` and `arrowtail`

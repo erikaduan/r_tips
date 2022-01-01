@@ -409,9 +409,9 @@ knitr::include_graphics("../../figures/dv-using_diagrammer-flowchart_clinical_mu
 
 ## Entity relationship diagrams    
 
-[Entity relationship diagrams](https://en.wikipedia.org/wiki/Entity–relationship_model) (ERDs) are useful for visualising data warehouse data table relationships. In particular, the crow's foot notation is useful for tracking table joins, especially if one-to-many or many-to-many table relationships exist.     
+[Entity relationship diagrams](https://en.wikipedia.org/wiki/Entity–relationship_model) (ERDs) are useful for visualising data warehouse data table relationships. In particular, the crow's foot notation is useful for tracking table joins, especially if one-to-many or many-to-many table relationships exist. The following image of the crow's foot notation is sourced from [here](https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68).      
 
-```{r, echo=FALSE, results='hold', out.width='50%', fig.cap='Image sourced from https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68'} 
+```{r, echo=FALSE, results='hold', out.width='40%'} 
 knitr::include_graphics("../../figures/dv-using_diagrammer-crows_foot_notation.jpg")  
 ```
 
