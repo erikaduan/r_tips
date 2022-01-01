@@ -170,7 +170,7 @@ class(simple_flowchart)
 simple_flowchart %>% 
   export_svg %>%
   charToRaw %>%
-  rsvg_svg(here("figures", "dv-using_diagrammer-simple_flowchart_grvis.svg"))
+  rsvg_svg(here("figures", "dv-using_diagrammer-simple_grvis.svg"))
 
 # Alternatively export graph as an svg without prior rendering via
 # simple_flowchart %>%
@@ -179,7 +179,7 @@ simple_flowchart %>%
 #  write_xml(here("figures", "dv-using_diagrammer-simple_flowchart_grvis.svg"))
 ```
 
-<img src="../../figures/dv-using_diagrammer-simple_flowchart_grvis.svg" width="60%" style="display: block; margin: auto;" />
+<img src="../../figures/dv-using_diagrammer-simple_grvis.svg" width="60%" style="display: block; margin: auto;" />
 
 A few tricks I used above were to:
 
