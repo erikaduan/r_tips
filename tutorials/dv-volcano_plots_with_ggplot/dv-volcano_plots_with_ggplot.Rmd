@@ -10,7 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 # Set up global environment ----------------------------------------------------
-knitr::opts_chunk$set(echo=TRUE, results='hide', fig.show='asis')  
+knitr::opts_chunk$set(echo=TRUE, results='hide', fig.show='hold')  
 options(scipen=999) # Suppress scientific notation   
 ```
 

@@ -65,7 +65,7 @@ A painful form of technical debt is inconsistent code style. This repository now
   + Each R chunk should be named with a short unique description written in the active voice e.g. `create basic plot` and `modify plot labels`    
   + Arguments inside code chunks should not contain white space and boolean argument options should be written in capitals e.g. `{r load libraries, message=FALSE, warning = FALSE}`   
   + To render the github document, results are generally suppressed using `results='hide'` and manually entered in a new line beneath the code.  
-  + To render the github document, figures are generally outputed using `fig.show='asis'` and figure outputs can then be suppressed at the local chunk level using `fig.show='hide'`  
+  + To render the github document, figures are generally outputed using `fig.show='hold'` and figure outputs can then be suppressed at the local chunk level using `fig.show='hide'`  
 + Set a margin of 80 characters length in RStudio through `Tools\Global options --> Code --> Display --> Show margin` and use this margin as the cut-off for code and comments length   
 
 # Citations  
