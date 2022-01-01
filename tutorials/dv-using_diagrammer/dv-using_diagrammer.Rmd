@@ -233,11 +233,11 @@ ml_workflow <- grViz(
 ml_workflow %>% 
   export_svg %>%
   charToRaw %>%
-  rsvg_svg(here("figures", "dv-using_diagrammer-simple_flowchart_ml_workflow.svg"))
+  rsvg_svg(here("figures", "dv-using_diagrammer-ml_workflow.svg"))
 ```
 
 ```{r plot ml_workflow, echo=FALSE, results='hold', out.width='30%'} 
-knitr::include_graphics("../../figures/dv-using_diagrammer-simple_flowchart_ml_workflow.svg")  
+knitr::include_graphics("../../figures/dv-using_diagrammer-ml_workflow.svg")  
 ```
 
 **Note:** a list of node shape types, or other node or edge attributes, can be found from the [official Graphviz documentation](https://www.graphviz.org/doc/info/shapes.html).   
