@@ -173,7 +173,7 @@ The function `grVis()` is extremely versatile and can be used to draw many diffe
 
 ## ML workflow flow chart  
 
-In this example, I want to create a (rather optimistic) flow chart of my machine learning workflow to share with another data science team. This example is heavily inspired [by Michael Harper's blog post](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/).       
+In this example, I want to create a (rather optimistic) flow chart of my machine learning workflow to share with another data science team. This example is heavily inspired by a [blog post](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/) by Michael Harper.       
 
 ```{r create ml_workflow, warning=FALSE}  
 # Create a flow chart to describe my ML workflow -------------------------------  
@@ -409,7 +409,7 @@ knitr::include_graphics("../../figures/dv-using_diagrammer-flowchart_clinical_mu
 
 ## Entity relationship diagrams    
 
-[Entity relationship diagrams](https://en.wikipedia.org/wiki/Entity–relationship_model) (ERDs) are useful for visualising data warehouse data table relationships. In particular, the crow's foot notation is useful for tracking table joins, especially if one-to-many or many-to-many table relationships exist. The following image of the crow's foot notation is sourced from [here](https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68).      
+[Entity relationship diagrams](https://en.wikipedia.org/wiki/Entity–relationship_model) (ERDs) are useful for visualising data warehouse data table relationships. In particular, the crow's foot notation is useful for tracking table joins, especially if one-to-many or many-to-many table relationships exist. The following image of the crow's foot notation is sourced from this [great blog post](https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68) about ERDs.      
 
 ```{r, echo=FALSE, results='hold', out.width='40%'} 
 knitr::include_graphics("../../figures/dv-using_diagrammer-crows_foot_notation.jpg")  

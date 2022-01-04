@@ -24,16 +24,16 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 # Tutorials  
 ## 🎨 Data visualisation  
 
-+ [An introduction to `ggplot2` using volcano plots](https://github.com/erikaduan/r_tips/blob/master/tutorials/dv-volcano_plots_with_ggplot/dv-volcano_plots_with_ggplot.md)  
-+ [Using `DiagrammeR` to draw flow charts](https://github.com/erikaduan/r_tips/blob/master/tutorials/dv-using_diagrammer/dv-using_diagrammer.md)  
++ [An introduction to `ggplot2` using volcano plots](https://github.com/erikaduan/r_tips/blob/master/tutorials/dv-volcano_plots_with_ggplot/dv-volcano_plots_with_ggplot.md) (Updated)  
++ [Using `DiagrammeR` to draw flow charts](https://github.com/erikaduan/r_tips/blob/master/tutorials/dv-using_diagrammer/dv-using_diagrammer.md) (Updated)  
 
 ## 📚 Data cleaning
 
-+ [Data cleaning using `data.table` and `tidyverse`](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-04-07_data-table-versus-dplyr/2020-04-07_data-table-versus-dplyr.md)  
-+ [Manipulating character strings using regular expressions](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-05-16_untangling-strings/2020-05-16_untangling-strings.md)   
++ [Data cleaning using `data.table` and `tidyverse`](https://github.com/erikaduan/r_tips/blob/master/tutorials/dc-data_table_vs_dplyr/dc-data_table_vs_dplyr.md)  
++ [Manipulating character strings using regular expressions](https://github.com/erikaduan/r_tips/blob/master/tutorials/dc-cleaning_strings/dc-cleaning_strings.md)   
 
-## 🔨 Data report productionisation  
-+ [Creating SQL <> R workflows](https://github.com/erikaduan/r_tips/blob/master/tutorials/dp-sql_to_r_workflows/dp-sql_to_r_workflows.md)  
+## 🔨 Productionisation  
++ [Creating SQL <> R workflows - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_1.md) (In progress)  
 + [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-08-30_automating-RMDs-1/2020-08-30_automating-RMDs-1.md)  
 + [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-09-10_automating-RMDs-2/2020-09-10_automating-RMDs-2.md)  
 

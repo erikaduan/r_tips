@@ -200,8 +200,9 @@ many different types of flow charts.
 
 In this example, I want to create a (rather optimistic) flow chart of my
 machine learning workflow to share with another data science team. This
-example is heavily inspired [by Michael Harper’s blog
-post](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/).
+example is heavily inspired by a [blog
+post](https://mikeyharper.uk/flowcharts-in-r-using-diagrammer/) by
+Michael Harper.
 
 ``` r
 # Create a flow chart to describe my ML workflow -------------------------------  
@@ -440,8 +441,9 @@ diagrams](https://en.wikipedia.org/wiki/Entity–relationship_model)
 relationships. In particular, the crow’s foot notation is useful for
 tracking table joins, especially if one-to-many or many-to-many table
 relationships exist. The following image of the crow’s foot notation is
-sourced from
-[here](https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68).
+sourced from this [great blog
+post](https://dev.to/helenanders26/entity-relationship-diagrams-explained-by-sonic-the-hedgehog-1m68)
+about ERDs.
 
 <img src="../../figures/dv-using_diagrammer-crows_foot_notation.jpg" width="40%" style="display: block; margin: auto;" />
 
