@@ -33,7 +33,8 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 + [Manipulating character strings using regular expressions](https://github.com/erikaduan/r_tips/blob/master/tutorials/dc-cleaning_strings/dc-cleaning_strings.md)   
 
 ## 🔨 Productionisation  
-+ [Creating SQL <> R workflows - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_1.md) (In progress)  
++ [Creating SQL <> R workflows - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_1.md) (Updated)  
++ [Creating SQL <> R workflows - Part 2](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_2.md) (To be written)  
 + [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-08-30_automating-RMDs-1/2020-08-30_automating-RMDs-1.md)  
 + [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-09-10_automating-RMDs-2/2020-09-10_automating-RMDs-2.md)  
 
