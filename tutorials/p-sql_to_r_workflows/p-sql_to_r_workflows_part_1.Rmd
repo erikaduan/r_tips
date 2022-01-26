@@ -36,13 +36,13 @@ Think about the following relational model.
 knitr::include_graphics("../../figures/p-sql_to_r_workflows-relational_model.svg")
 ```
 
-By storing individual (or atomic) records in separate tables, we can update information about student course enrollments in just the `enrollment` table. We can still do complex analysis on platform company market shares by joining records from the `enrollment`, `course` and `platform` tables.  
+By storing individual (or atomic) records in separate tables, we can update information about student course enrolments in just the `enrolment` table and minimise introducing data redundacies elsewhere.    
 
 The benefits of organising records using a relational model include:  
 + Records are separated by content type and easier to search for.  
-+ Prevents data duplication introduced by records with a one-to-many relationship.  
-+ Reduces data sparsity as separate tables contain compact fields.  
-+ Prevents extended record loss when individual records are deleted or updated in a single table.  
++ Data redundancy is minimised, especially for records with a one-to-many relationship.  
++ Data sparsity is minimised as tables are designed to contain compact fields.  
++ Information loss is minimised when individual records are deleted or updated in a single table.  
 
 This tutorial shows you how to run SQL queries using R for two different SQL databases, using T-SQL locally in Azure Data Studio and using MySQL on cloud in Google BigQuery.  
 
@@ -230,10 +230,10 @@ mysql_query <- bigrquery::dbSendQuery(
   bigquery_conn,
   "
   SELECT 
-  course_id,
-  course_name,
-  course_desc,
-  course_length,
+  c.course_id,
+  c.course_name,
+  c.course_desc,
+  c.course_length,
   c.platform_id
   
   FROM `sandpit-338210.education.course` AS c
@@ -274,7 +274,7 @@ max_length_course_details %>%
 ```
 
 
-# Run SQL queries using `dbplyr`      
+# Run SQL queries in R using `dbplyr`      
 
 I really recommend taking the time to learn SQL. However, if you know R and no SQL, the `dbplyr` API is a useful package to start running small to mid-sized SQL queries. As R code is translated into SQL and executed in the database on the remote server, using on the R to SQL conversion via `dbplyr` is much slower than directly writing and fetching an SQL query. This is why everyone, including `dbplyr` library creators, strongly recommend learning SQL.        
 
@@ -356,4 +356,4 @@ bigrquery::dbDisconnect(bigquery_conn)
 + An RStudio [guide](https://db.rstudio.com/getting-started/connect-to-database/) on how to connect to an existing database using the `odbc` and `DBI` packages.    
 + An Rstudio [guide](https://db.rstudio.com/databases/big-query/) on how to connect to Google BigQuery using `odbc` or `bigrquery`.   
 + The official [vignette](https://cran.r-project.org/web/packages/dbplyr/vignettes/dbplyr.html) to using `dbplyr` for performing SQL queries via the tidyverse API.      
-+ A great blog post featuring [part 1](https://sciencificity-blog.netlify.app/posts/2020-12-12-using-the-tidyverse-with-databases/) and [part 2](https://sciencificity-blog.netlify.app/posts/2020-12-20-using-the-tidyverse-with-dbs-partii/) of using `dbplyr` to query SQL databases in R by Vebash Naidoo.   
++ A great series of blog posts by Vebash Naidoo, with [part 1](https://sciencificity-blog.netlify.app/posts/2020-12-12-using-the-tidyverse-with-databases/), [part 2](https://sciencificity-blog.netlify.app/posts/2020-12-20-using-the-tidyverse-with-dbs-partii/) and [part 3](https://sciencificity-blog.netlify.app/posts/2020-12-31-using-tidyverse-with-dbs-partiii/) containing advanced tips for using `dbplyr` to query SQL databases in R .   

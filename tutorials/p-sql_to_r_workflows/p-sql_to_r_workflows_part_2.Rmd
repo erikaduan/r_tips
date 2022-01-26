@@ -10,7 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 # Set up global environment ----------------------------------------------------
-knitr::opts_chunk$set(echo=TRUE, results='hide', fig.show='asis')  
+knitr::opts_chunk$set(echo=TRUE, results='hide', fig.show='hold', fig.align='center')  
 ```
 
 ```{r load libraries, message=FALSE, warning=FALSE}  
@@ -24,15 +24,27 @@ pacman::p_load(here,
 ```
  
  
-# Introduction    
+# Introduction   
+
+The second part of my tutorial series about SQL to R workflows is mainly focused on breaking down differences between SQL and R syntax. It also contains a rehash of Emily Riederer's excellent [blog post](https://emilyriederer.netlify.app/post/sql-r-flow/) on flexible project workflows for integrating SQL with R data analysis.  
 
 
-# Understand SQL syntax
+# SQL syntax quirks   
+
+```{r display execution order, echo=FALSE, results='hold', out.width='80%'} 
+knitr::include_graphics("../../figures/p-sql_to_r_workflows-execution_order.svg")
+```
 
 
-# Productionise your SQL to R workflow  
+
+
+
+# Production friendly workflows  
 
 
 # Other resources  
++ Emily Riederer's excellent [blog post](https://emilyriederer.netlify.app/post/sql-r-flow/) containing ideas for creating flexible SQL <> R project workflows.   
++ Julia Evan's entertaining [programming zine](https://wizardzines.com/zines/sql/) explaining all things SQL. (Paywalled resource)    
+
 
     

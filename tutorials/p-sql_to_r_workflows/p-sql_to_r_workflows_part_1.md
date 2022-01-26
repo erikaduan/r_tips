@@ -1,7 +1,7 @@
 How to integrate SQL and R - Part 1
 ================
 Erika Duan
-2022-01-23
+2022-01-26
 
 -   [Introduction to the relational
     model](#introduction-to-the-relational-model)
@@ -12,7 +12,8 @@ Erika Duan
 -   [Connect to the database using
     `odbc`](#connect-to-the-database-using-odbc)
 -   [Run SQL queries directly](#run-sql-queries-directly)
--   [Run SQL queries using `dbplyr`](#run-sql-queries-using-dbplyr)
+-   [Run SQL queries in R using
+    `dbplyr`](#run-sql-queries-in-r-using-dbplyr)
 -   [Other resources](#other-resources)
 
 ``` r
@@ -40,17 +41,16 @@ Think about the following relational model.
 <img src="../../figures/p-sql_to_r_workflows-relational_model.svg" style="display: block; margin: auto;" />
 
 By storing individual (or atomic) records in separate tables, we can
-update information about student course enrollments in just the
-`enrollment` table. We can still do complex analysis on platform company
-market shares by joining records from the `enrollment`, `course` and
-`platform` tables.
+update information about student course enrolments in just the
+`enrolment` table and minimise introducing data redundacies elsewhere.
 
 The benefits of organising records using a relational model include:  
 + Records are separated by content type and easier to search for.  
-+ Prevents data duplication introduced by records with a one-to-many
-relationship.  
-+ Reduces data sparsity as separate tables contain compact fields.  
-+ Prevents extended record loss when individual records are deleted or
++ Data redundancy is minimised, especially for records with a
+one-to-many relationship.  
++ Data sparsity is minimised as tables are designed to contain compact
+fields.  
++ Information loss is minimised when individual records are deleted or
 updated in a single table.
 
 This tutorial shows you how to run SQL queries using R for two different
@@ -285,10 +285,10 @@ mysql_query <- bigrquery::dbSendQuery(
   bigquery_conn,
   "
   SELECT 
-  course_id,
-  course_name,
-  course_desc,
-  course_length,
+  c.course_id,
+  c.course_name,
+  c.course_desc,
+  c.course_length,
   c.platform_id
   
   FROM `sandpit-338210.education.course` AS c
@@ -334,7 +334,7 @@ max_length_course_details %>%
 | SB02       | Emergency dwarven bread           | Bake these goods to politely send unexpected guests off on their way again                  |             10 |            2 |
 | GG01       | Pity pathetic creatures           | Many that live deserve death. Some that die deserve life. Can you give it to them, hobbits? |              1 |            3 |
 
-# Run SQL queries using `dbplyr`
+# Run SQL queries in R using `dbplyr`
 
 I really recommend taking the time to learn SQL. However, if you know R
 and no SQL, the `dbplyr` API is a useful package to start running small
@@ -460,8 +460,11 @@ bigrquery::dbDisconnect(bigquery_conn)
     [vignette](https://cran.r-project.org/web/packages/dbplyr/vignettes/dbplyr.html)
     to using `dbplyr` for performing SQL queries via the tidyverse
     API.  
--   A great blog post featuring [part
-    1](https://sciencificity-blog.netlify.app/posts/2020-12-12-using-the-tidyverse-with-databases/)
-    and [part
+-   A great series of blog posts by Vebash Naidoo, with [part
+    1](https://sciencificity-blog.netlify.app/posts/2020-12-12-using-the-tidyverse-with-databases/),
+    [part
     2](https://sciencificity-blog.netlify.app/posts/2020-12-20-using-the-tidyverse-with-dbs-partii/)
-    of using `dbplyr` to query SQL databases in R by Vebash Naidoo.
+    and [part
+    3](https://sciencificity-blog.netlify.app/posts/2020-12-31-using-tidyverse-with-dbs-partiii/)
+    containing advanced tips for using `dbplyr` to query SQL databases
+    in R .
