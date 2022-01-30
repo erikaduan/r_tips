@@ -1,7 +1,7 @@
 How to integrate SQL and R - Part 1
 ================
 Erika Duan
-2022-01-26
+2022-01-30
 
 -   [Introduction to the relational
     model](#introduction-to-the-relational-model)
@@ -467,4 +467,4 @@ bigrquery::dbDisconnect(bigquery_conn)
     and [part
     3](https://sciencificity-blog.netlify.app/posts/2020-12-31-using-tidyverse-with-dbs-partiii/)
     containing advanced tips for using `dbplyr` to query SQL databases
-    in R .
+    in R.
