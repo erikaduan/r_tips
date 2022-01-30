@@ -200,7 +200,7 @@ odbc::dbSendQuery(
   knitr::kable()
 ```
 
-The equivalent R `dplyr` syntax uses `filter()` before and after `group_by()` and aggregations are performed inside `summarise()`. R also allows `mutate()` to be used following `group_by()` to create a new column that relies on group-based transformations outputted across all individual records.      
+The equivalent R `dplyr` syntax uses `filter()` before and after `group_by()` and aggregations are performed inside `summarise()`. 
 
 ```{r dbplyr group by query, results='hold'}
 # Perform group by and aggregate using R syntax --------------------------------
@@ -219,16 +219,171 @@ tbl(tsql_conn, in_schema("education", "course")) %>%
 ```
 
 
-## Writing SQL `WINDOW` functions
+## Writing SQL `WINDOW` functions   
+
+In SQL, `SELECT` statements can only reference columns in the same row as each other, i.e. referencing two columns to concatenate their contents together. `WINDOW` functions are used when we need to refer to a record that is in a different row to our selected record. `WINDOW` functions comprise of an operation `OVER` a window of records designated using a `PARTITION BY` statement.   
+
+```{r sql window over query, results='hold'}
+# Perform window over SQL query ------------------------------------------------
+odbc::dbSendQuery(
+  tsql_conn,
+  "
+  SELECT
+  student_id, 
+  start_date,
+  end_date, 
+  LAG(end_date) OVER(PARTITION BY student_id ORDER BY start_date ASC)
+    AS last_end_date, 
+  DATEDIFF(day,
+           LAG(end_date) OVER(PARTITION BY student_id ORDER BY start_date ASC),
+           start_date) 
+    AS days_since_last_course
+  
+  FROM education.enrolment
+  
+  WHERE student_id IN (1, 2) 
+  
+  -- filter to keep records where student_id = 1 or student_id = 2  
+  -- select student_id, start_date, the end_date lag calculated over a window
+  -- partitioned by student_id and sorted by ascending start_date and the date
+  -- difference (in days) between the start_date and end_date lag   
+  
+  "
+) %>%
+  odbc::dbFetch() %>%
+  knitr::kable()
+```
+
+In R, window functions are performed using `group_by()` and `arrange()` and followed by `mutate()` operations. These operations are not supported by the `dbplyr` API, but can be executed if you first collect the entire table as an R data frame and then apply transformations using `dplyr` functions.       
+
+```{r dbplyr window over query, results='hold'}
+# Perform window over in R syntax ----------------------------------------------
+# Using the dbplyr API generates an error message
+# tbl(tsql_conn, in_schema("education", "enrolment")) %>%
+#   filter(student_id %in% c(1, 2)) %>%
+#   group_by(student_id) %>%
+#   arrange(student_id, start_date) %>% 
+#   mutate(last_end_date = lag(end_date),
+#          days_since_last_course = difftime(start_date, last_end_date, "days")) %>%
+#   select(student_id, 
+#          start_date,
+#          end_date,
+#          last_end_date,
+#          days_since_last_course) %>%
+#   ungroup() %>% 
+#   collect()
+
+# Collect the SQL table as an R data frame and use dplyr functions -------------
+tbl(tsql_conn, in_schema("education", "enrolment")) %>%
+  collect %>% 
+  filter(student_id %in% c(1, 2)) %>%
+  group_by(student_id) %>%
+  arrange(student_id, start_date) %>% 
+  mutate(last_end_date = lag(end_date),
+         days_since_last_course = difftime(start_date, last_end_date, "days")) %>%
+  select(student_id, 
+         start_date,
+         end_date,
+         last_end_date,
+         days_since_last_course) %>%
+  ungroup() 
+```
+
+Regardless of whether you are using SQL or R, window operations are more computationally expensive than other operations, as a separate window of records needs to be generated and selected from for each record.  
 
 
-## Writing SQL subqueries  
+## Writing SQL subqueries and common table expressions  
+
+In R, we can create and store multiple data frames in memory and reference them for data analysis at any time. In SQL, we need to rely on subqueries or common table expressions to produce data outputs which cannot be answered using a single SQL query.   
+
+The code below will generate an error as enrolment records are stored inside tuples following `GROUP BY student_id` and therefore cannot be individually retrieved.    
+
+```{r why sql query}
+# Incorrect SQL query ----------------------------------------------------------
+# odbc::dbSendQuery(
+#   tsql_conn,
+#   "
+#   SELECT 
+#   student_id,
+#   enrolment_id,
+#   course_id,
+#   start_date,
+#   end_date
+#   
+#   FROM education.enrolment
+#   
+#   GROUP BY student_id
+#   HAVING min(start_date) > '2005-01-01'
+#   "
+# )
+```
+
+Instead, a subquery to first extract the `student_id` of students who enrolled in their first course after 2005-01-01 is then used to query individual enrolment records. 
+
+```{r sql subquery, results='hold'}
+# Perform SQL subquery ---------------------------------------------------------
+odbc::dbSendQuery(
+  tsql_conn,
+  "
+  SELECT 
+  student_id,
+  enrolment_id,
+  course_id,
+  start_date,
+  end_date
+  
+  FROM education.enrolment
+  
+  WHERE student_id IN (
+    SELECT 
+    student_id
+    FROM education.enrolment
+    GROUP BY student_id
+    HAVING min(start_date) > '2005-01-01'
+  )
+  "
+) %>%
+  odbc::dbFetch() %>%
+  knitr::kable()
+```
+
+Common table expressions (CTEs) allow you to rename individual subqueries and are a more readable alternative for integrating SQL subqueries.     
+
+```{r sql common table expression, results='hold'}
+# Rewrite SQL subquery as CTE --------------------------------------------------
+odbc::dbSendQuery(
+  tsql_conn,
+  "
+  WITH recent_students as (
+    SELECT 
+    student_id
+    FROM education.enrolment
+    GROUP BY student_id
+    HAVING min(start_date) > '2005-01-01'
+  )
+  
+  SELECT 
+  e.student_id,
+  e.enrolment_id,
+  e.course_id,
+  e.start_date,
+  e.end_date
+  
+  FROM education.enrolment AS e
+  INNER JOIN recent_students
+  ON e.student_id = recent_students.student_id
+  "
+) %>%
+  odbc::dbFetch() %>%
+  knitr::kable()
+```
 
 
-# Production friendly workflows  
+# Production friendly workflows   
 
 
 # Other resources  
+
 + A great series of blog posts by Vebash Naidoo, with [part 1](https://sciencificity-blog.netlify.app/posts/2020-12-12-using-the-tidyverse-with-databases/), [part 2](https://sciencificity-blog.netlify.app/posts/2020-12-20-using-the-tidyverse-with-dbs-partii/) and [part 3](https://sciencificity-blog.netlify.app/posts/2020-12-31-using-tidyverse-with-dbs-partiii/) containing advanced tips for using `dbplyr` to query SQL databases in R.     
 + Emily Riederer's excellent [blog post](https://emilyriederer.netlify.app/post/sql-r-flow/) containing ideas for creating flexible SQL <> R project workflows.   
 + Julia Evan's entertaining [programming zine](https://wizardzines.com/zines/sql/) explaining all things SQL. (Paywalled resource)    

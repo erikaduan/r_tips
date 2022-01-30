@@ -8,7 +8,8 @@ Erika Duan
     -   [Writing SQL `JOIN` queries](#writing-sql-join-queries)
     -   [Writing SQL `GROUP BY` queries](#writing-sql-group-by-queries)
     -   [Writing SQL `WINDOW` functions](#writing-sql-window-functions)
-    -   [Writing SQL subqueries](#writing-sql-subqueries)
+    -   [Writing SQL subqueries and common table
+        expressions](#writing-sql-subqueries-and-common-table-expressions)
 -   [Production friendly workflows](#production-friendly-workflows)
 -   [Other resources](#other-resources)
 
@@ -250,10 +251,7 @@ odbc::dbSendQuery(
 |            2 | Jolly Bakers    |              2 |                   5 |                   1 |                  10 |
 
 The equivalent R `dplyr` syntax uses `filter()` before and after
-`group_by()` and aggregations are performed inside `summarise()`. R also
-allows `mutate()` to be used following `group_by()` to create a new
-column that relies on group-based transformations outputted across all
-individual records.
+`group_by()` and aggregations are performed inside `summarise()`.
 
 ``` r
 # Perform group by and aggregate using R syntax --------------------------------
@@ -282,7 +280,216 @@ tbl(tsql_conn, in_schema("education", "course")) %>%
 
 ## Writing SQL `WINDOW` functions
 
-## Writing SQL subqueries
+In SQL, `SELECT` statements can only reference columns in the same row
+as each other, i.e. referencing two columns to concatenate their
+contents together. `WINDOW` functions are used when we need to refer to
+a record that is in a different row to our selected record. `WINDOW`
+functions comprise of an operation `OVER` a window of records designated
+using a `PARTITION BY` statement.
+
+``` r
+# Perform window over SQL query ------------------------------------------------
+odbc::dbSendQuery(
+  tsql_conn,
+  "
+  SELECT
+  student_id, 
+  start_date,
+  end_date, 
+  LAG(end_date) OVER(PARTITION BY student_id ORDER BY start_date ASC)
+    AS last_end_date, 
+  DATEDIFF(day,
+           LAG(end_date) OVER(PARTITION BY student_id ORDER BY start_date ASC),
+           start_date) 
+    AS days_since_last_course
+  
+  FROM education.enrolment
+  
+  WHERE student_id IN (1, 2) 
+  
+  -- filter to keep records where student_id = 1 or student_id = 2  
+  -- select student_id, start_date, the end_date lag calculated over a window
+  -- partitioned by student_id and sorted by ascending start_date and the date
+  -- difference (in days) between the start_date and end_date lag   
+  
+  "
+) %>%
+  odbc::dbFetch() %>%
+  knitr::kable()
+```
+
+| student\_id | start\_date | end\_date  | last\_end\_date | days\_since\_last\_course |
+|------------:|:------------|:-----------|:----------------|--------------------------:|
+|           1 | 2000-02-01  | 2000-04-10 | NA              |                        NA |
+|           1 | 2021-09-02  | 2021-09-03 | 2000-04-10      |                      7815 |
+|           2 | 1999-03-01  | 1998-07-30 | NA              |                        NA |
+|           2 | 1999-08-01  | 1999-08-02 | 1998-07-30      |                       367 |
+|           2 | 2000-02-01  | 2000-04-10 | 1999-08-02      |                       183 |
+|           2 | 2001-03-01  | 2001-07-30 | 2000-04-10      |                       325 |
+|           2 | 2005-03-01  | 2005-07-30 | 2001-07-30      |                      1310 |
+|           2 | 2010-03-01  | 2010-07-30 | 2005-07-30      |                      1675 |
+
+In R, window functions are performed using `group_by()` and `arrange()`
+and followed by `mutate()` operations. These operations are not
+supported by the `dbplyr` API, but can be executed if you first collect
+the entire table as an R data frame and then apply transformations using
+`dplyr` functions.
+
+``` r
+# Perform window over in R syntax ----------------------------------------------
+# Using the dbplyr API generates an error message
+# tbl(tsql_conn, in_schema("education", "enrolment")) %>%
+#   filter(student_id %in% c(1, 2)) %>%
+#   group_by(student_id) %>%
+#   arrange(student_id, start_date) %>% 
+#   mutate(last_end_date = lag(end_date),
+#          days_since_last_course = difftime(start_date, last_end_date, "days")) %>%
+#   select(student_id, 
+#          start_date,
+#          end_date,
+#          last_end_date,
+#          days_since_last_course) %>%
+#   ungroup() %>% 
+#   collect()
+
+# Collect the SQL table as an R data frame and use dplyr functions -------------
+tbl(tsql_conn, in_schema("education", "enrolment")) %>%
+  collect %>% 
+  filter(student_id %in% c(1, 2)) %>%
+  group_by(student_id) %>%
+  arrange(student_id, start_date) %>% 
+  mutate(last_end_date = lag(end_date),
+         days_since_last_course = difftime(start_date, last_end_date, "days")) %>%
+  select(student_id, 
+         start_date,
+         end_date,
+         last_end_date,
+         days_since_last_course) %>%
+  ungroup() 
+```
+
+    ## # A tibble: 8 x 5
+    ##   student_id start_date end_date   last_end_date days_since_last_course
+    ##        <int> <date>     <date>     <date>        <drtn>                
+    ## 1          1 2000-02-01 2000-04-10 NA              NA days             
+    ## 2          1 2021-09-02 2021-09-03 2000-04-10    7815 days             
+    ## 3          2 1999-03-01 1998-07-30 NA              NA days             
+    ## 4          2 1999-08-01 1999-08-02 1998-07-30     367 days             
+    ## 5          2 2000-02-01 2000-04-10 1999-08-02     183 days             
+    ## 6          2 2001-03-01 2001-07-30 2000-04-10     325 days             
+    ## 7          2 2005-03-01 2005-07-30 2001-07-30    1310 days             
+    ## 8          2 2010-03-01 2010-07-30 2005-07-30    1675 days
+
+Regardless of whether you are using SQL or R, window operations are more
+computationally expensive than other operations, as a separate window of
+records needs to be generated and selected from for each record.
+
+## Writing SQL subqueries and common table expressions
+
+In R, we can create and store multiple data frames in memory and
+reference them for data analysis at any time. In SQL, we need to rely on
+subqueries or common table expressions to produce data outputs which
+cannot be answered using a single SQL query.
+
+The code below will generate an error as enrolment records are stored
+inside tuples following `GROUP BY student_id` and therefore cannot be
+individually retrieved.
+
+``` r
+# Incorrect SQL query ----------------------------------------------------------
+# odbc::dbSendQuery(
+#   tsql_conn,
+#   "
+#   SELECT 
+#   student_id,
+#   enrolment_id,
+#   course_id,
+#   start_date,
+#   end_date
+#   
+#   FROM education.enrolment
+#   
+#   GROUP BY student_id
+#   HAVING min(start_date) > '2005-01-01'
+#   "
+# )
+```
+
+Instead, a subquery to first extract the `student_id` of students who
+enrolled in their first course after 2005-01-01 is then used to query
+individual enrolment records.
+
+``` r
+# Perform SQL subquery ---------------------------------------------------------
+odbc::dbSendQuery(
+  tsql_conn,
+  "
+  SELECT 
+  student_id,
+  enrolment_id,
+  course_id,
+  start_date,
+  end_date
+  
+  FROM education.enrolment
+  
+  WHERE student_id IN (
+    SELECT 
+    student_id
+    FROM education.enrolment
+    GROUP BY student_id
+    HAVING min(start_date) > '2005-01-01'
+  )
+  "
+) %>%
+  odbc::dbFetch() %>%
+  knitr::kable()
+```
+
+| student\_id | enrolment\_id | course\_id | start\_date | end\_date  |
+|------------:|--------------:|:-----------|:------------|:-----------|
+|           3 |             9 | SB01       | 2008-08-01  | 2008-08-02 |
+|           4 |            10 | SG01       | 2008-03-01  | 2008-03-03 |
+|           4 |            11 | MORDOR666  | 2022-07-13  | NA         |
+
+Common table expressions (CTEs) allow you to rename individual
+subqueries and are a more readable alternative for integrating SQL
+subqueries.
+
+``` r
+# Rewrite SQL subquery as CTE --------------------------------------------------
+odbc::dbSendQuery(
+  tsql_conn,
+  "
+  WITH recent_students as (
+    SELECT 
+    student_id
+    FROM education.enrolment
+    GROUP BY student_id
+    HAVING min(start_date) > '2005-01-01'
+  )
+  
+  SELECT 
+  e.student_id,
+  e.enrolment_id,
+  e.course_id,
+  e.start_date,
+  e.end_date
+  
+  FROM education.enrolment AS e
+  INNER JOIN recent_students
+  ON e.student_id = recent_students.student_id
+  "
+) %>%
+  odbc::dbFetch() %>%
+  knitr::kable()
+```
+
+| student\_id | enrolment\_id | course\_id | start\_date | end\_date  |
+|------------:|--------------:|:-----------|:------------|:-----------|
+|           3 |             9 | SB01       | 2008-08-01  | 2008-08-02 |
+|           4 |            10 | SG01       | 2008-03-01  | 2008-03-03 |
+|           4 |            11 | MORDOR666  | 2022-07-13  | NA         |
 
 # Production friendly workflows
 
