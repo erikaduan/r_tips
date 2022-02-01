@@ -1,7 +1,7 @@
 How to integrate SQL and R - Part 2
 ================
 Erika Duan
-2022-01-30
+2022-02-01
 
 -   [Introduction](#introduction)
 -   [SQL syntax quirks](#sql-syntax-quirks)
@@ -21,17 +21,18 @@ pacman::p_load(here,
                tidyverse,
                odbc,
                DBI,
-               Rcpp)   
+               Rcpp,
+               glue)   
 ```
 
 # Introduction
 
-The second part of my tutorial series about SQL to R workflows is mainly
+The second part of my tutorial series on SQL to R workflows is mainly
 focused on breaking down differences between SQL and R syntax. It also
 contains a rehash of Emily Riederer’s excellent [blog
 post](https://emilyriederer.netlify.app/post/sql-r-flow/) on designing
-flexible workflows for SQL to R projects. We will be using the SQL
-database(s) we set up in the [first
+flexible workflows for SQL to R projects. We will also be using the SQL
+database we set up in the [first
 tutorial](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_1.md)
 for the exercises below.
 
@@ -47,15 +48,15 @@ tsql_conn <- DBI::dbConnect(odbc::odbc(),
 # SQL syntax quirks
 
 In my opinion, the easiest way of learning SQL code is to remember the
-sequence of how SQL code is executed. In R, because we can chain
-multiple operations together, the sequence in which R code is written is
-usually identical to the sequence in which it is executed.
+sequence of SQL code execution. In R, because we can chain multiple
+operations together, the sequence in which R code is written is
+identical to the sequence in which it is executed.
 
 <img src="../../figures/p-sql_to_r_workflows-execution_order.svg" width="80%" style="display: block; margin: auto;" />
 
-In SQL, the sequence in which SQL code is written does not correspond to
-the sequence in which it is executed, which leads to common errors like
-the example below.
+In SQL, the sequence in which SQL code is written is not the sequence in
+which it is executed, which leads to simple errors like the example
+below.
 
 ``` r
 # Incorrect SQL query ----------------------------------------------------------
@@ -87,7 +88,7 @@ odbc::dbSendQuery(
   FROM education.student
   WHERE student_id <> 2
   
-  -- student_id is first filtered via WHERE and then renamed as hobbit_id via SELECT
+  -- student_id is first filtered via where and then renamed as hobbit_id via select
   "
 ) %>%
   odbc::dbFetch() %>%
@@ -102,11 +103,11 @@ odbc::dbSendQuery(
 
 ## Writing SQL `JOIN` queries
 
-The `dplyr` syntax for joining tables is very similar to its
-corresponding SQL syntax. The concept of left joins, right joins, inner
+The SQL syntax for joining tables is very similar to the R `dplyr`
+syntax for joining tables. The concept of left joins, right joins, inner
 joins and full joins are shared across both languages. In SQL, `JOIN` is
-executed directly after `FROM` and it is best practice to aliasing
-(rename via `AS`) table names to specify the records to join.
+executed directly after `FROM` and it is best practice to alias (rename
+via `AS`) table names to specify which columns to join on.
 
 **Note:** Always ensure that you are joining to at least one column
 containing unique Ids to prevent unexpected many-to-many joined results.
@@ -128,8 +129,9 @@ odbc::dbSendQuery(
   
   WHERE is_active = 1 OR is_active IS NULL
   
-  -- select course name and description and their corresponding platform and
-  -- company name for platforms that are active or NULL for is_active 
+  -- inner join course and platform tables by platform_id and filter for 
+  -- platforms that are active or null for is_active
+  -- select course name, description, platform name and company name   
   "
 ) %>%
   odbc::dbFetch() %>%
@@ -144,7 +146,7 @@ odbc::dbSendQuery(
 | Growing vegetable pie ingredients | All good hobbits should know that vegetable pies cannot be vegetarian      | Happy Gardeners | Shire School  |
 | Growing flowers                   | Hobbits should not just grow plants for eating!                            | Happy Gardeners | Shire School  |
 
-The equivalent R `dplyr` syntax follows the execution order, rather than
+The equivalent R `dplyr` syntax mirrors the execution order, but not
 written order, of the SQL join query.
 
 **Note:** When using `dbplyr`, the education schema needs to explicitly
@@ -175,9 +177,10 @@ tbl(tsql_conn, in_schema("education", "course")) %>%
 ## Writing SQL `GROUP BY` queries
 
 In SQL, grouping by column(s) causes individual records to be grouped
-together as record tuples. Because SQL queries return atomic records,
-this is why `SELECT` can only be performed on the group by column(s) and
-aggregations of other columns.
+together as record tuples. Because SQL queries can only return atomic
+records, `SELECT` can only be performed on the grouped column(s) and
+aggregations of other columns. This behaviour causes simple errors like
+the example below.
 
 ``` r
 # Incorrect SQL query ----------------------------------------------------------
@@ -185,9 +188,9 @@ aggregations of other columns.
 #   tsql_conn,
 #   "
 #   SELECT
+#   c.course_id
 #   p.platform_name,
 #   COUNT(course_id) as total_courses,
-#   c.course_id
 #   
 #   FROM education.course AS c
 #   INNER JOIN education.platform AS p
@@ -196,16 +199,16 @@ aggregations of other columns.
 #   GROUP BY p.platform_id, p.platform_name
 #   
 #   -- this query will generate an error as course_id is no longer an atomic 
-#   -- record once grouped by platform_id and platform_name 
+#   -- record once we group records by platform_id and platform_name 
 #   "
 # )
 ```
 
 In SQL, `WHERE` and `HAVING` are separate filtering methods as `WHERE`
-is executed first across individual records, before the `GROUP BY`
-statement. `HAVING` is executed after `GROUP BY` to enable filtering
-across individual grouped records and therefore requires an aggregation
-as its input.
+is always executed first across individual records, before the
+`GROUP BY` statement. `HAVING` is always executed after `GROUP BY` to
+enable filtering across individual grouped records and therefore
+requires an aggregation as its input.
 
 As `SELECT` is executed last, this also means that the `SELECT`
 statement can only refer to the column(s) being grouped and aggregations
@@ -219,7 +222,7 @@ odbc::dbSendQuery(
   SELECT
   p.platform_id, 
   p.platform_name,
-  COUNT(course_id) as total_courses,
+  COUNT(DISTINCT course_id) as total_courses,
   AVG(course_length) AS avg_course_length, 
   MIN(course_length) AS min_course_length,
   MAX(course_length) AS max_course_length
@@ -234,11 +237,11 @@ odbc::dbSendQuery(
   
   HAVING COUNT(course_id) > 1
   
-  -- join course and platform tables, filter out courses without a course length
-  -- and then group records by platform_id and platform_name 
-  -- filter to exclude platforms which only have one course
-  -- finally select plaform name, total course count, average course length, min
-  -- course length and max course length   
+  -- inner join course and platform tables on platform_id
+  -- filter out courses with a null course length and then group records by 
+  -- platform_id and platform_name and filter out platforms with one course
+  -- select plaform id, platform name, total course count, average course length, 
+  -- minimum course length and maximum course length   
   "
 ) %>%
   odbc::dbFetch() %>%
@@ -280,12 +283,11 @@ tbl(tsql_conn, in_schema("education", "course")) %>%
 
 ## Writing SQL `WINDOW` functions
 
-In SQL, `SELECT` statements can only reference columns in the same row
-as each other, i.e. referencing two columns to concatenate their
-contents together. `WINDOW` functions are used when we need to refer to
-a record that is in a different row to our selected record. `WINDOW`
-functions comprise of an operation `OVER` a window of records designated
-using a `PARTITION BY` statement.
+In SQL, by default, `SELECT` statements can only reference columns in
+the same row as each other. `WINDOW` functions are used when we need to
+reference a record that is in a different row to our selected record.
+`WINDOW` functions comprise of an operation `OVER` a window of records
+designated using a `PARTITION BY... ORDER BY` statement.
 
 ``` r
 # Perform window over SQL query ------------------------------------------------
@@ -311,7 +313,6 @@ odbc::dbSendQuery(
   -- select student_id, start_date, the end_date lag calculated over a window
   -- partitioned by student_id and sorted by ascending start_date and the date
   -- difference (in days) between the start_date and end_date lag   
-  
   "
 ) %>%
   odbc::dbFetch() %>%
@@ -329,11 +330,12 @@ odbc::dbSendQuery(
 |           2 | 2005-03-01  | 2005-07-30 | 2001-07-30      |                      1310 |
 |           2 | 2010-03-01  | 2010-07-30 | 2005-07-30      |                      1675 |
 
-In R, window functions are performed using `group_by()` and `arrange()`
-and followed by `mutate()` operations. These operations are not
-supported by the `dbplyr` API, but can be executed if you first collect
-the entire table as an R data frame and then apply transformations using
-`dplyr` functions.
+In R, the `PARTITION BY... ORDER BY` components of window functions are
+performed using `group_by()` and `arrange()` and then followed by
+`mutate()` operations. These operations are not supported by the
+`dbplyr` API, but can be executed if you first collect the entire table
+as an R data frame and then apply transformations using `dplyr`
+functions.
 
 ``` r
 # Perform window over in R syntax ----------------------------------------------
@@ -389,11 +391,12 @@ records needs to be generated and selected from for each record.
 In R, we can create and store multiple data frames in memory and
 reference them for data analysis at any time. In SQL, we need to rely on
 subqueries or common table expressions to produce data outputs which
-cannot be answered using a single SQL query.
+cannot be retrieved using a single SQL query.
 
-The code below will generate an error as enrolment records are stored
-inside tuples following `GROUP BY student_id` and therefore cannot be
-individually retrieved.
+The SQL query below will generate an error as we want to retrieve
+individual enrolment records, which are stored inside tuples following
+`GROUP BY student_id`. This is a common scenario where a subquery or
+common table expression is required.
 
 ``` r
 # Incorrect SQL query ----------------------------------------------------------
@@ -411,13 +414,18 @@ individually retrieved.
 #   
 #   GROUP BY student_id
 #   HAVING min(start_date) > '2005-01-01'
+
+#  -- this query will generate an error as enrolment_id, course_id, start_date 
+#  -- and end_date are stored as tuples grouped by student_id and cannot be 
+#  -- individually retrieved  
 #   "
 # )
 ```
 
-Instead, a subquery to first extract the `student_id` of students who
-enrolled in their first course after 2005-01-01 is then used to query
-individual enrolment records.
+Instead, a subquery is required to first extract the `student_id` of
+students who enrolled in their first course after 2005-01-01. We then
+use a second `SELECT... WHERE` statement to extract all course records
+of students with the same `student_id`.
 
 ``` r
 # Perform SQL subquery ---------------------------------------------------------
@@ -440,6 +448,10 @@ odbc::dbSendQuery(
     GROUP BY student_id
     HAVING min(start_date) > '2005-01-01'
   )
+  
+  -- create a subquery to first extract the student_id of students who enrolled
+  -- in their first course after 2005-01-01 and then select the enrolment records 
+  -- of all students with this student_id via where
   "
 ) %>%
   odbc::dbFetch() %>%
@@ -452,9 +464,9 @@ odbc::dbSendQuery(
 |           4 |            10 | SG01       | 2008-03-01  | 2008-03-03 |
 |           4 |            11 | MORDOR666  | 2022-07-13  | NA         |
 
-Common table expressions (CTEs) allow you to rename individual
-subqueries and are a more readable alternative for integrating SQL
-subqueries.
+Common table expressions (CTEs) perform the same function but also allow
+you to rename individual subqueries as a more readable alternative for
+integrating multiple SQL queries.
 
 ``` r
 # Rewrite SQL subquery as CTE --------------------------------------------------
@@ -479,6 +491,12 @@ odbc::dbSendQuery(
   FROM education.enrolment AS e
   INNER JOIN recent_students
   ON e.student_id = recent_students.student_id
+  
+  -- first create a table containing the student_id of students who enrolled in
+  -- their first course after 2005-01-01 and name this table as recent_students
+  -- then use an inner join between the enrolment table and recent_students table 
+  -- to retrieve enrolment records for students whose student_ids are in the 
+  -- recent_students table
   "
 ) %>%
   odbc::dbFetch() %>%
@@ -492,6 +510,159 @@ odbc::dbSendQuery(
 |           4 |            11 | MORDOR666  | 2022-07-13  | NA         |
 
 # Production friendly workflows
+
+As data scientists, we also want to develop the habit of creating
+flexible and manageable workflows. SQL queries can be bulky when
+embedded between chunks of R code. In Emily Riederer’s excellent [blog
+post](https://emilyriederer.netlify.app/post/sql-r-flow/) on SQL to R
+workflows, she recommends storing SQL queries as separate text files
+containing parameters which can be modified using the `glue` package.
+
+<img src="../../figures/p-sql_to_r_workflows-prod_workflow.svg" width="60%" style="display: block; margin: auto;" />
+
+Imagine we need to fetch variations of the SQL query below for reporting
+purposes.
+
+``` r
+# SQL query --------------------------------------------------------------------
+odbc::dbSendQuery(
+  tsql_conn,
+  "
+  SELECT 
+  s.student_id, 
+  CONCAT(s.first_name, ' ', s.last_name) AS student_name,
+  c.course_id,
+  c.course_name,
+  ROW_NUMBER() OVER (PARTITION BY s.student_id ORDER BY e.start_date) 
+    AS course_sequence,
+  e.start_date,
+  e.end_date
+  
+  FROM education.enrolment AS e
+  INNER JOIN education.student AS s
+  ON e.student_id = s.student_id
+  
+  INNER JOIN education.course as c
+  on e.course_id = c.course_id
+  
+  WHERE start_date <= '2005-01-01'
+  
+  ORDER BY student_id, start_date
+  
+  -- inner join the enrolment and student table to extract student details   
+  -- for each enrolment  
+  -- inner join the enrolment and course table to extract course details 
+  -- for each enrolment
+  -- filter to exclude records with an enrolment start date after 2005-01-01
+  -- select student_id, student_name as a concatenation of first_name and last_name,
+  -- course_id, course_name, course_sequence calculated over a window partitioned
+  -- by student_id and sorted by ascending course start_date, course start_date 
+  -- and course end_date
+  -- finally order records by student_id and enrolment start_date
+  "
+) 
+```
+
+To keep our R code short and manageable, we can save our SQL query as a
+separate text file in
+[./hobbit\_enrolments.sql](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/hobbit_enrolments.sql).
+We can then read our text file into R as a single string using
+`paste(readLines("text_file_path.sql"), collapse = "\n")`. This string
+is used as the `query` inside `dbSendQuery(conn, query)`.
+
+``` r
+# Call SQL query from text file ------------------------------------------------ 
+query <- paste(
+  readLines(here("tutorials", "p-sql_to_r_workflows", "hobbit_enrolments.sql")),
+  collapse = "\n")
+
+# Run SQL query ----------------------------------------------------------------
+# This code is flexible and can handle different text file inputs 
+odbc::dbSendQuery(tsql_conn, query) %>%
+  odbc::dbFetch() %>%
+  knitr::kable()
+```
+
+| student\_id | student\_name  | course\_id | course\_name                      | course\_sequence | start\_date | end\_date  |
+|------------:|:---------------|:-----------|:----------------------------------|-----------------:|:------------|:-----------|
+|           1 | Frodo Baggins  | SG02       | Growing flowers                   |                1 | 2000-02-01  | 2000-04-10 |
+|           2 | Samwise Gamgee | SG01       | Growing vegetable pie ingredients |                1 | 1999-03-01  | 1998-07-30 |
+|           2 | Samwise Gamgee | SB01       | Breakfast pies                    |                2 | 1999-08-01  | 1999-08-02 |
+|           2 | Samwise Gamgee | SG02       | Growing flowers                   |                3 | 2000-02-01  | 2000-04-10 |
+|           2 | Samwise Gamgee | SG01       | Growing vegetable pie ingredients |                4 | 2001-03-01  | 2001-07-30 |
+
+We can extend this workflow further using the package `glue` when we
+need to run variations of the same SQL query. Imagine that we need to
+generate enrolment records for all students before any date of interest.
+We could do this more flexibly by adding a parameter inside the `WHERE`
+statement and saving this parameterised query as a new text file in
+[./hobbit\_enrolments\_flex.sql](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/hobbit_enrolments_flex.sql).
+This prevents us from having to write a new SQL query when all we want
+to do is to modify an existing query parameter.
+
+**Note:** This parameterised solution only works in R and has a
+dependency on the `glue` package.
+
+``` r
+# Parameterised SQL query ------------------------------------------------------
+odbc::dbSendQuery(
+  tsql_conn,
+  "
+  SELECT 
+  s.student_id, 
+  CONCAT(s.first_name, ' ', s.last_name) AS student_name,
+  c.course_id,
+  c.course_name,
+  ROW_NUMBER() OVER (PARTITION BY s.student_id ORDER BY e.start_date) 
+    AS course_sequence,
+  e.start_date,
+  e.end_date
+  
+  FROM education.enrolment AS e
+  INNER JOIN education.student AS s
+  ON e.student_id = s.student_id
+  
+  INNER JOIN education.course as c
+  on e.course_id = c.course_id
+  
+  WHERE start_date <= {before_date}
+  
+  ORDER BY student_id, start_date
+  
+  -- WHERE start_date <= '2005-01-01' has been replaced with the parameter {before_date}
+  "
+) 
+```
+
+``` r
+# Call SQL query template from text file --------------------------------------- 
+query_template <- paste(
+  readLines(here("tutorials", "p-sql_to_r_workflows", "hobbit_enrolments_flex.sql")),
+  collapse = "\n")
+
+# Create query by inputting the parameter value using glue() -------------------  
+query <- glue(query_template,
+              before_date = "'2010-01-01'") # SQL string inputs need to be double-quoted
+
+# Run SQL query ----------------------------------------------------------------
+odbc::dbSendQuery(tsql_conn, query) %>%
+  odbc::dbFetch() %>%
+  knitr::kable()
+```
+
+| student\_id | student\_name    | course\_id | course\_name                      | course\_sequence | start\_date | end\_date  |
+|------------:|:-----------------|:-----------|:----------------------------------|-----------------:|:------------|:-----------|
+|           1 | Frodo Baggins    | SG02       | Growing flowers                   |                1 | 2000-02-01  | 2000-04-10 |
+|           2 | Samwise Gamgee   | SG01       | Growing vegetable pie ingredients |                1 | 1999-03-01  | 1998-07-30 |
+|           2 | Samwise Gamgee   | SB01       | Breakfast pies                    |                2 | 1999-08-01  | 1999-08-02 |
+|           2 | Samwise Gamgee   | SG02       | Growing flowers                   |                3 | 2000-02-01  | 2000-04-10 |
+|           2 | Samwise Gamgee   | SG01       | Growing vegetable pie ingredients |                4 | 2001-03-01  | 2001-07-30 |
+|           2 | Samwise Gamgee   | SG01       | Growing vegetable pie ingredients |                5 | 2005-03-01  | 2005-07-30 |
+|           3 | Merry Brandybuck | SB01       | Breakfast pies                    |                1 | 2008-08-01  | 2008-08-02 |
+|           4 | Peregrin Took    | SG01       | Growing vegetable pie ingredients |                1 | 2008-03-01  | 2008-03-03 |
+
+Well done! You can now fetch SQL queries flexibly using only a few lines
+of R code.
 
 # Other resources
 
