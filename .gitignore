@@ -1,6 +1,12 @@
-*.Rproj.user
+# History files
 .Rhistory
+
+# Session data files
 .RData
+
+# User-specific files
 .Ruserdata
-.Rproj.user
-*.json
+.Rproj.user/
+
+# Environment Variables
+.Renviron
