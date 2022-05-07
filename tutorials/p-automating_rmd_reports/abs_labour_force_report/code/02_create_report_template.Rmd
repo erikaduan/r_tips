@@ -1,0 +1,110 @@
+---
+title: "Labour force report for `r paste(params$sex, params$measure)` individuals" 
+output: html_document
+params:
+  sex: "all" 
+  measure: "part-time"    
+---
+
+```{r, include=FALSE}
+# Load required packages -------------------------------------------------------
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(here,
+               tidyverse,
+               clock, 
+               gt)  
+
+# Load labour_force_clean dataset ----------------------------------------------
+labour_force <- read_csv(here("tutorials",
+                              "p-automating_rmd_reports",
+                              "abs_labour_force_report",
+                              "data",
+                              "clean_data",
+                              "labour_force_clean.csv"))
+```
+
+
+### Graph of labour force changes since 2019  
+
+This report displays the adjusted monthly change in labour force numbers for `r paste(params$measure, params$sex)` individuals from `r min(labour_force$time_period) %>% str_extract("^[0-9]{4}-[0-9]{2}")` to `r max(labour_force$time_period) %>% str_extract("^[0-9]{4}-[0-9]{2}")`.  
+
+```{r, echo=FALSE}
+# Plot data --------------------------------------------------------------------
+# Fix y-axis between different reports 
+y_max <- max(labour_force$change_obs_value) 
+y_min <- min(labour_force$change_obs_value)   
+
+labour_force %>% 
+  filter(sex == params$sex, 
+         measure == params$measure) %>%
+  ggplot(aes(x = time_period, 
+             y = change_obs_value)) +
+  geom_line() + 
+  scale_y_continuous(limits = c(y_min, y_max)) +
+  geom_vline(xintercept = as.Date("2020-02-01"),
+             colour = "firebrick",
+             linetype = "dashed") +
+  annotate("label",
+           x = as.Date("2020-02-01"),
+           y = y_max - 10,
+           label = "COVID-19", color = "firebrick") +
+  labs(title = paste("Labour force change for", params$sex, params$measure, "individuals"), 
+       x = NULL,
+       y = "Individuals (1000s)") +
+  theme_bw() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_line(linetype = "dotted"),
+        panel.grid.minor.y = element_line(linetype = "dotted"),
+        plot.title = element_text(hjust = 0.5))
+```
+
+
+### Table of labour force numbers and changes in the last 12 months  
+
+This table displays the adjusted labour force numbers and adjusted change in labour force numbers for `r paste(params$measure, params$sex)` individuals for the last 12 months, from `r Sys.Date() %>% add_months(-12) %>% str_extract("^[0-9]{4}-[0-9]{2}")` to `r max(labour_force$time_period) %>% str_extract("^[0-9]{4}-[0-9]{2}")`.     
+
+```{r, echo=FALSE}
+# Display table ----------------------------------------------------------------
+# Create HTML decimal references for triangles
+up_arrow <- "<span style=\"color:steelblue\">&#9650;</span>"
+down_arrow <- "<span style=\"color:salmon\">&#9660;</span>"
+
+# Create filter to display only the last 6 months of records
+six_months_ago <- Sys.Date() %>% add_months(-12)
+
+# Specify table style
+labour_force %>% 
+  filter(sex == params$sex, 
+         measure == params$measure,
+         time_period >= six_months_ago) %>%
+  arrange(time_period) %>%
+  mutate(year =  get_year(time_period),
+         month = get_month(time_period)) %>% 
+  select(-c(sex, measure, time_period, last_obs_value)) %>% 
+  relocate(year, month) %>% 
+  rename(number = obs_value,
+         change = change_obs_value) %>%
+  gt(groupname_col = "year",
+     rowname_col = "month",) %>%
+   fmt_number(columns = c(number, change),
+              decimals = 3) %>% 
+    text_transform(locations = cells_body(columns = change, rows = change > 0),
+                   fn = function(x) paste(x, up_arrow)) %>%
+  text_transform(locations = cells_body(columns = change, rows = change < 0),
+                 fn = function(x) paste(x, down_arrow)) %>%  
+  tab_header(title = paste(params$sex,
+                           params$measure,
+                           "individuals") %>% str_to_sentence()) %>%
+  tab_footnote(footnote = "Units in 1000s",
+               cells_column_labels(columns = number)) %>%
+  opt_footnote_marks(marks = "letters") %>%
+  tab_footnote(footnote = "Units in 1000s",
+               cells_column_labels(columns = change)) %>%
+  opt_footnote_marks(marks = "letters") %>%
+   tab_options(table.font.size = "small")
+```
+
+
+***  
+Report last updated on `r Sys.Date()` from the [ABS labour force dataset](https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release)  

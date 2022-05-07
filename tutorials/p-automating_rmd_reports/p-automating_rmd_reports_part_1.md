@@ -240,7 +240,7 @@ palmerpenguins::penguins %>%
 
 Tabs can be created manually by adding the code `{.tabset}` next to an
 empty header one level higher than the header level that you want to
-contain within a tab. Make sure you add the code `{-}` next to an empty
+display as a tab. Make sure you add the code `{-}` next to a second
 higher level header to signal where tab creation ends.
 
 <img src="../../figures/p-automating_rmd_reports-manual_tabs_code.png" width="70%" style="display: block; margin: auto;" />
@@ -252,15 +252,15 @@ corresponding to individual header names.
 
 ## Creating tabs dynamically
 
-There will be circumstances when you do not want to or cannot manually
+There will be circumstances where you do not want to or cannot manually
 specify the number of tabs required. In these circumstances, dynamic
 tabs can be created through the following steps:
 
 1.  Create individual plots (using a function) and store them inside a
     list.  
 2.  Create a chunk of code in between a higher level header labelled
-    `{.tabset}` and a header labelled `{-}`.  
-3.  Set this chunk of code with `echo = FALSE` and `results = 'asis'`.
+    `{.tabset}` and another one labelled `{-}`.  
+3.  Set this chunk of code with `echo=FALSE` and `results='asis'`.
 
 ``` r
 # Create a list of plots -------------------------------------------------------
@@ -306,7 +306,7 @@ This will generate dynamically sized tabs as shown below.
 
 <img src="../../figures/p-automating_rmd_reports-dynamic_tabs.png" width="80%" style="display: block; margin: auto;" />
 
-**Note:** The option `results = 'asis'` allows R code to be printed as a
+**Note:** The option `results='asis'` allows R code to be printed as a
 raw output (i.e. code is not printed inside fenced code blocks). This is
 handy for writing for loops to automate aspects of R Markdown report
 generation.

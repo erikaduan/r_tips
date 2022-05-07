@@ -194,7 +194,7 @@ palmerpenguins::penguins %>%
 
 ## Creating tabs manually  
 
-Tabs can be created manually by adding the code `{.tabset}` next to an empty header one level higher than the header level that you want to contain within a tab. Make sure you add the code `{-}` next to an empty higher level header to signal where tab creation ends.   
+Tabs can be created manually by adding the code `{.tabset}` next to an empty header one level higher than the header level that you want to display as a tab. Make sure you add the code `{-}` next to a second higher level header to signal where tab creation ends.  
 
 ```{r, echo=FALSE, results='hold', out.width="70%"}
 knitr::include_graphics("../../figures/p-automating_rmd_reports-manual_tabs_code.png")
@@ -209,11 +209,11 @@ knitr::include_graphics("../../figures/p-automating_rmd_reports-manual_tabs.png"
 
 ## Creating tabs dynamically    
 
-There will be circumstances when you do not want to or cannot manually specify the number of tabs required. In these circumstances, dynamic tabs can be created through the following steps:    
+There will be circumstances where you do not want to or cannot manually specify the number of tabs required. In these circumstances, dynamic tabs can be created through the following steps:    
 
 1. Create individual plots (using a function) and store them inside a list.   
-2. Create a chunk of code in between a higher level header labelled `{.tabset}` and a header labelled `{-}`.   
-3. Set this chunk of code with `echo = FALSE` and `results = 'asis'`.     
+2. Create a chunk of code in between a higher level header labelled `{.tabset}` and another one labelled `{-}`.   
+3. Set this chunk of code with `echo=FALSE` and `results='asis'`.     
 
 ```{r, echo=TRUE, results='hide'}
 # Create a list of plots -------------------------------------------------------
@@ -261,7 +261,7 @@ This will generate dynamically sized tabs as shown below.
 knitr::include_graphics("../../figures/p-automating_rmd_reports-dynamic_tabs.png")    
 ```
 
-**Note:** The option `results = 'asis'` allows R code to be printed as a raw output (i.e. code is not printed inside fenced code blocks). This is handy for writing for loops to automate aspects of R Markdown report generation.       
+**Note:** The option `results='asis'` allows R code to be printed as a raw output (i.e. code is not printed inside fenced code blocks). This is handy for writing for loops to automate aspects of R Markdown report generation.       
 
 
 # Resources  
