@@ -1,7 +1,7 @@
 Automate R Markdown report generation - Part 2
 ================
 Erika Duan
-2022-05-07
+2022-05-22
 
 -   [Introduction](#introduction)
 -   [Step 1: Create a consistent project
@@ -41,19 +41,21 @@ Creating an automated reporting workflow requires the following setup:
 3.  An R Markdown template report that uses yaml parameters instead of
     hard coded variables.  
 4.  A report automation script for all parameters of interest.  
-5.  (Optional) A CI/CD pipeline i.e. using GitHub Actions.
+5.  (Optional) A CI/CD pipeline using GitHub Actions, which is packaged
+    inside a separate GitHub repository.
 
 # Step 1: Create a consistent project structure
 
 There is no best way to organise your project structure. I recommend
 starting with a simple naming structure that everyone easily
-understands. In this example, I have created a subdirectory named
-[`./abs_labour_force_report/`](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-automating_rmd_reports/abs_labour_force_report)
+understands. For this tutorial, I have created a separate GitHub
+repository named
+[`abs_labour_force_report`](https://github.com/erikaduan/abs_labour_force_report)
 which contains the folders `code` to store my R scripts and Rmd
 documents, `data` to store my data, and `output` to store my analytical
 outputs.
 
-<img src="../../figures/p-automating_rmd_reports-yaml_params.png" width="55%" style="display: block; margin: auto;" />
+<img src="../../figures/p-automating_rmd_reports-project_structure.png" width="60%" style="display: block; margin: auto;" />
 
 **Note:** The `data` folder contains subfolders `raw_data` and
 `clean_data` to maintain separation between the raw versus cleaned
@@ -71,7 +73,7 @@ We need to create a single R script that:
 This setup allows us to automate future data extractions, assuming that
 there are no changes to the data source (i.e. its URL or schema). We
 would use the code below and save it as
-`./abs_labour_force_report/code/01_extract_and_clean_data.R`.
+[`abs_labour_force_report/code/01_extract_and_clean_data.R`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/01_extract_and_clean_data.R).
 
 ``` r
 # Load required packages -------------------------------------------------------  
@@ -138,16 +140,14 @@ write_csv(labour_force, here("tutorials",
 The R Markdown template report contains the R code and any additional
 markdown or html code required for building the final report.
 
-<img src="../../figures/p-automating_rmd_reports-yaml_params.png" width="55%" style="display: block; margin: auto;" />
-
 The only difference between a standard R Markdown report and an R
 Markdown template report is the absence of hard coded variables and
 visible code chunks in the template report. The template report should
 contain the minimal code required to generate your report outputs
 (i.e. figures, tables and summary text).
 
-An example of a chunk of code found inside my [R Markdown template
-report](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-automating_rmd_reports/abs_labour_force_report/code/02_create_report_template.Rmd)
+Example code from the R Markdown template located in
+[`abs_labour_force_report/code/02_create_report_template.Rmd`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/02_create_report_template.Rmd)
 is shown below.
 
 ``` r
@@ -197,8 +197,8 @@ Finally, the R script for report automation is a for loop that contains:
 2.  The function `render`, which uses your R Markdown template report
     and list of parameters, to generate a series of output files.
 
-We would use the code below and save it as
-`./abs_labour_force_report/code/03_automate_reports.R`.
+This is shown in the code below, which is located in
+[`abs_labour_force_report/code/03_automate_reports.R`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/03_automate_reports.R).
 
 ``` r
 # Load required packages -------------------------------------------------------
@@ -242,6 +242,125 @@ want to render html reports.
 
 # Step 5: (Optional) Create a CI/CD pipeline using GitHub Actions
 
+The ability to perform continuous integration and continuous delivery
+(CI/CD) is a feature of all modern data platforms. CI/CD processes allow
+simple to complex data jobs to be processed in response to automatic or
+manual triggers.
+
+The important components inside a CI/CD pipeline are:
+
+-   Events: The condition which triggers a CI/CD pipeline to run
+    i.e. when a data source is updated or when new code is committed.  
+-   Jobs: The collection of tasks which are executed when an event is
+    triggered. Multiple jobs can run sequentially or in parallel with
+    each other.  
+-   Workflows: A workflow is the entire automation process, comprised of
+    individual or multiple jobs that are triggered by a specific event.
+    In GitHub Actions, workflows are defined using a YAML file inside
+    the `.github/workflows` directory.
+
+Since I know that the ABS updates its labour force data once a month, I
+am interested in creating a GitHub Actions workflow which reruns my code
+at the end of every month. Creating this workflow requires the following
+steps:
+
+1.  **Recommended:** Make sure your workflow is contained in a separate
+    GitHub repository. This allows you to create a separate `.Rproj`
+    file, `.github/workflows` directory and project local `renv` setup
+    specific to your workflow. My `abs_labour_force_report` GitHub
+    repository is found
+    [here](https://github.com/erikaduan/abs_labour_force_report).  
+2.  Once the code inside your workflow is stable, open your R project
+    file and use `renv::init()` to initialize a new project-local
+    environment with a private R library. Run your code and then use
+    `renv::snapshot()` to fix the versions of your required R packages.
+    This creates an `renv.lock` file listing the different package
+    versions used for your workflow.  
+3.  Create a YAML template named
+    `repository_name/.github/workflows/main.yml`. A quick way of doing
+    this is to navigate to the Actions tab in your GitHub repository and
+    to set up a basic workflow template yourself.
+
+<img src="../../figures/p-automating_rmd_reports-github_actions_tab.png" width="90%" style="display: block; margin: auto;" />
+
+4.  Create your GitHub Actions workflow by adapting your YAML file using
+    templates provided by
+    [`r-lib`](https://github.com/r-lib/actions/tree/master/setup-r). My
+    own YAML template is derived from this [tutorial
+    example](https://github.com/RMHogervorst/invertedushape/blob/main/.github/workflows/main.yml).
+
+    ``` r
+    # YAML workflow for abs_labour_force_report ------------------------------------
+    name: ABS_labour_force_report
+    on:
+      # Workflow scheduled to run at 00:00 UTC on the 1st of every month.
+      schedule:
+    - cron:  "0 0 1 * *"
+
+      # Workflow can also be run manually from the Actions tab
+      workflow_dispatch:
+
+    # Construct a job to load the runner, set up the R environment, run scripts and git commit
+    jobs:
+      run_report:
+    runs-on: ubuntu-latest
+
+    # Retrieve secrets from GitHub
+    env:
+        apikey: ${{ secrets.APIKEY}}
+        apisecretkey: ${{ secrets.APISECRETKEY}}
+        access_token: ${{ secrets.ACCESS_TOKEN}}
+        access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET}}
+        RENV_PATHS_ROOT: ~/.local/share/renv
+
+    steps:
+      # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      # Sets up pandoc which is required for knitting HTML reports  
+      - uses: r-lib/actions/setup-pandoc@v2
+        with:
+          pandoc-version: '2.17.1' 
+
+      # Set up R environment and install renv packages  
+      - name: setup-r
+        uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: '4.1.2'
+      - run: R -e 'install.packages("renv")'
+
+      # Set up packages cache for future report reloads 
+      - name: cache-packages
+        uses: actions/cache@v1
+        with:
+           path: ${{ env.RENV_PATHS_ROOT }}
+           key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+           restore-keys: |-
+              ${{ runner.os }}-renv-
+      - run: sudo apt-get install -y --no-install-recommends libcurl4-openssl-dev
+      # Use renv::restore() to install C++ dependencies and packages
+      - run: R -e 'renv::restore()'
+
+      # Execute R scripts
+      - run: Rscript code/01_extract_and_clean_data.R
+      - run: Rscript code/03_automate_reports.R  
+
+      # Commit newly rendered reports into the repository 
+      - name: commit-new-files
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add --all
+          git commit -am ":package: refresh and produce new report version"
+          git push 
+    ```
+
+5.  Commit your GitHub Actions YAML workflow into your repository.
+    Congratulations! You have now set up a simple CI/CD workflow using
+    GitHub actions.
+
+**Note:** Creating a cache for R packages is recommended as downloading
+packages takes a long time to execute in GitHub Actions.
+
 # Resources
 
 -   A great [blog post](https://ptds.samorso.ch/tutorials/workflow/)
@@ -256,4 +375,18 @@ want to render html reports.
     Gelfand.  
 -   A great [blog
     post](https://emilyriederer.netlify.app/post/rmddd-tech-appendix/)
-    by Emily Riederer on data analysis productionisation in R.
+    by Emily Riederer on data analysis productionisation in R.  
+-   A useful [blog
+    post](https://gabrieltanner.org/blog/an-introduction-to-github-actions)
+    that summarises the features of GitHub Actions for CI/CD.  
+-   A [blog
+    post](https://blog.rmhogervorst.nl/blog/2020/09/24/running-an-r-script-on-a-schedule-gh-actions/)
+    overview about using GitHub Actions to schedule the running of R
+    scripts.  
+-   A [YouTube tutorial](https://www.youtube.com/watch?v=NwUijrm2U2w) by
+    DVC on using GitHub Actions with R to automate data visualisation
+    tasks.  
+-   A useful (online resource\](<https://explainshell.com/>) for
+    explaining shell commands required to create components of the
+    GitHub Actions YAML workflow.  
+-   <https://amitlevinson.com/blog/automated-plot-with-github-actions/>
