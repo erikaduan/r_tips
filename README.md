@@ -36,7 +36,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 + [Creating SQL <> R workflows - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_1.md) (Updated)  
 + [Creating SQL <> R workflows - Part 2](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_2.md) (Updated)  
 + [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-automating_rmd_reports/p-automating_rmd_reports_part_1.md) (Updated)  
-+ [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-09-10_automating-RMDs-2/2020-09-10_automating-RMDs-2.md)  
++ [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-automating_rmd_reports/p-automating_rmd_reports_part_2.md) (updated)  
 
 ## 🔮 Machine learning   
 + [Working with dummy variables and factors](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-04-23_dummy-variables-and-factors/2020-04-23_dummy-variables-and-factors.md)  
