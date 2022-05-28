@@ -7,25 +7,27 @@ output:
     toc: true
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, results = 'hide', message = FALSE)   
+```{r setup, include=FALSE}
+# Set up global environment ----------------------------------------------------
+knitr::opts_chunk$set(echo=TRUE, results="hide", message=FALSE)   
 ```
 
-```{r, message = FALSE}
-#-----load required packages-----  
+```{r, message=FALSE}
+# Load required packages -------------------------------------------------------  
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,
-               ids, # for generating random ids
+               ids, # Generate random ids
                tidyverse,
                data.table,
-               compare, # compare between data frames
+               compare, # Compare between data frames
                microbenchmark)
 ```
 
 
 # Introduction   
 
-One of the great benefits of following Rstats conversations on Twitter is its access to user insights. I became curious about `data.table` after reading conversations about its superior performance yet decreased visibility compared to `tidyverse`.      
+I became curious about `data.table` after reading Twitter conversations about its superior performance yet decreased visibility compared to `tidyverse`. Because  
+
 
 Fast forward a few years and the [data processing efficiency](https://h2oai.github.io/db-benchmark/) of `data.table` has become extremely handy:  
 
@@ -960,6 +962,8 @@ In contrast, `data.table` is efficient because it contains a very fast ordering 
 
 # Other resources   
 
++ https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html
+
 + The definitive [stack overflow discussion](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly/27840349#27840349) about the best use cases for data.table versus dplyr (from tidyverse).   
 
 + A great side by side comparison of data.table versus dplyr operations by [Atrebas](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/).      
@@ -974,3 +978,7 @@ In contrast, `data.table` is efficient because it contains a very fast ordering 
 Robin Lovelace](https://csgillespie.github.io/efficientR/data-processing-with-data-table.html).      
 
 + A more detailed explanation of the usage of binary search based subset in `data.table` by [Arun Srinivasan](https://gist.github.com/arunsrinivasan/dacb9d1cac301de8d9ff).      
+
++ https://bookdown.org/rdpeng/rprogdatascience/parallel-computation.html
+
++ http://www.john-ros.com/Rcourse/parallel.html
