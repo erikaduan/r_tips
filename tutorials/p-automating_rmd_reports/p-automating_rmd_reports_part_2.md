@@ -4,8 +4,10 @@ Erika Duan
 2022-05-22
 
 -   [Introduction](#introduction)
--   [Step 1: Create a consistent project
-    structure](#step-1-create-a-consistent-project-structure)
+-   [Step 1: Create a project
+    environment](#step-1-create-a-project-environment)
+    -   [Use consistent names](#use-consistent-names)
+    -   [Environment reproducibility](#environment-reproducibility)
 -   [Step 2: Create data ingestion and data cleaning R
     script](#step-2-create-data-ingestion-and-data-cleaning-r-script)
 -   [Step 3: Create an R Markdown template
@@ -34,8 +36,8 @@ describing the preliminary steps towards automated reporting in R.
 
 Creating an automated reporting workflow requires the following setup:
 
-1.  A consistent file structure to store code, data and analytical
-    outputs.  
+1.  A consistently named and reproducible file structure to store code,
+    library dependencies, data and analytical outputs.  
 2.  A data ingestion and data cleaning script that can be automatically
     refreshed.  
 3.  An R Markdown template report that uses yaml parameters instead of
@@ -44,7 +46,9 @@ Creating an automated reporting workflow requires the following setup:
 5.  (Optional) A CI/CD pipeline using GitHub Actions, which is packaged
     inside a separate GitHub repository.
 
-# Step 1: Create a consistent project structure
+# Step 1: Create a project environment
+
+## Use consistent names
 
 There is no best way to organise your project structure. I recommend
 starting with a simple naming structure that everyone easily
@@ -58,8 +62,15 @@ outputs.
 <img src="../../figures/p-automating_rmd_reports-project_structure.png" width="60%" style="display: block; margin: auto;" />
 
 **Note:** The `data` folder contains subfolders `raw_data` and
-`clean_data` to maintain separation between the raw versus cleaned
-dataset used for further analysis.
+`clean_data` to maintain separation between the raw (read only) and
+clean dataset used for further analysis.
+
+## Environment reproducibility
+
+Besides your code, data inputs and outputs, a reproducible virtual
+environment also needs to be created to support your project workflow.
+In R, a simple way of managing project specific R package dependencies
+is to use the `renv` package.
 
 # Step 2: Create data ingestion and data cleaning R script
 

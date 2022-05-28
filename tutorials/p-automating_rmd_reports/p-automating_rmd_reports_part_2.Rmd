@@ -29,14 +29,16 @@ This tutorial follows from [an earlier one](https://github.com/erikaduan/r_tips/
 
 Creating an automated reporting workflow requires the following setup:    
 
-1. A consistent file structure to store code, data and analytical outputs.    
+1. A consistently named and reproducible file structure to store code, library dependencies, data and analytical outputs.    
 2. A data ingestion and data cleaning script that can be automatically refreshed.    
 3. An R Markdown template report that uses yaml parameters instead of hard coded variables.         
 4. A report automation script for all parameters of interest.  
 5. (Optional) A CI/CD pipeline using GitHub Actions, which is packaged inside a separate GitHub repository.     
 
 
-# Step 1: Create a consistent project structure  
+# Step 1: Create a project environment  
+
+## Use consistent names    
 
 There is no best way to organise your project structure. I recommend starting with a simple naming structure that everyone easily understands. For this tutorial, I have created a separate GitHub repository named [`abs_labour_force_report`](https://github.com/erikaduan/abs_labour_force_report) which contains the folders `code` to store my R scripts and Rmd documents, `data` to store my data, and `output` to store my analytical outputs.  
 
@@ -44,7 +46,11 @@ There is no best way to organise your project structure. I recommend starting wi
 knitr::include_graphics("../../figures/p-automating_rmd_reports-project_structure.png")
 ```
 
-**Note:** The `data` folder contains subfolders `raw_data` and `clean_data` to maintain separation between the raw versus cleaned dataset used for further analysis.  
+**Note:** The `data` folder contains subfolders `raw_data` and `clean_data` to maintain separation between the raw (read only) and clean dataset used for further analysis.  
+
+## Environment reproducibility  
+
+Besides your code, data inputs and outputs, a reproducible virtual environment also needs to be created to support your project workflow. In R, a simple way of managing project specific R package dependencies is to use the `renv` package.    
 
 
 # Step 2: Create data ingestion and data cleaning R script     
