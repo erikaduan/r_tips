@@ -314,3 +314,5 @@ jobs:
 + A [YouTube tutorial](https://www.youtube.com/watch?v=NwUijrm2U2w) by DVC on using GitHub Actions with R to automate data visualisation tasks.   
 + A useful (online resource](https://explainshell.com/) for explaining shell commands required to create components of the GitHub Actions YAML workflow.  
 + https://amitlevinson.com/blog/automated-plot-with-github-actions/  
++ https://rstats.wtf/index.html  
++ https://goodresearch.dev/pipelines.html  

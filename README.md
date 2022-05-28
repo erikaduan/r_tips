@@ -50,6 +50,12 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 + [Introduction to hypergeometric, geometric, negative binomial and multinomial distributions](https://github.com/erikaduan/R_tips/blob/master/tutorials/2020-09-22_hypergeometric-and-other-discrete-distributions/2020-09-22_hypergeometric-and-other-discrete-distributions.md)  
 
 
+# Other resources 
+These resources also cover a comprehensive range of practical R usage tutorials.  
+
++ [Statistical Computing](https://36-750.github.io/) by Alex Reinhart and Christopher Genovese  
++ [Data Science Toolkit](https://benkeser.github.io/info550/lectures/) by David Benkeser  
+
 # Tutorial style guide  
 
 A painful form of technical debt is inconsistent code style. This repository now contains the following file naming and code style rules.  
@@ -81,31 +87,7 @@ A painful form of technical debt is inconsistent code style. This repository now
   version 1.4.0.
    https://CRAN.R-project.org/package=stringr
 
-+ Max Kuhn. (2019). `caret`: Classification and Regression
-  Training. R package version 6.0-84. https://CRAN.R-project.org/package=caret  
-    + Contributions from Jed Wing, Steve Weston, Andre Williams, Chris Keefer, Allan Engelhardt, Tony
-  Cooper, Zachary Mayer, Brenton Kenkel, the R Core Team, Michael Benesty, Reynald Lescarbeau, Andrew Ziem,
-  Luca Scrucca, Yuan Tang, Can Candan and Tyler Hunt.  
-
-+ Jacob Kaplan (2020). `fastDummies`: Fast Creation of Dummy (Binary) Columns and Rows from Categorical
-  Variables. R package version 1.6.1. https://CRAN.R-project.org/package=fastDummies  
-
 + Kirill Müller (2017). `here`: A Simpler Way to Find Your Files. R package version 0.1.
   https://CRAN.R-project.org/package=here  
-
-+ Paul Murrell (2015). `compare`: Comparing Objects for Differences. R package version 0.2-6.
-  https://CRAN.R-project.org/package=compare  
-
-+ A. Liaw and M. Wiener (2002). Classification and Regression by `randomForest`. R News 2(3), 18--22.  
-
-+ Tianqi Chen, Tong He, Michael Benesty, Vadim Khotilovich, Yuan Tang, Hyunsu Cho, Kailong Chen, Rory
-  Mitchell, Ignacio Cano, Tianyi Zhou, Mu Li, Junyuan Xie, Min Lin, Yifeng Geng and Yutian Li (2020).
-  `xgboost`: Extreme Gradient Boosting. R package version 1.0.0.2. https://CRAN.R-project.org/package=xgboost  
-
-+ Alexandros Karatzoglou, Alex Smola, Kurt Hornik, Achim Zeileis (2004). `kernlab` - An S4 Package for Kernel
-  Methods in R. Journal of Statistical Software 11(9), 1-20. URL http://www.jstatsoft.org/v11/i09/  
-
-+ Microsoft Corporation and Steve Weston (2019). `doParallel`: Foreach Parallel Adaptor for the `parallel`
-  Package. R package version 1.0.15. https://CRAN.R-project.org/package=doParallel  
 
 + Richard Iannone (2020). `DiagrammeR`: Graph/Network Visualization. R package version 1.0.6.1.  https://CRAN.R-project.org/package=DiagrammeR  
