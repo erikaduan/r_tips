@@ -73,117 +73,141 @@ knitr::include_graphics("../../figures/p-automating_rmd_reports-project_structur
 **Note:** An additional `.gitignore` file is automatically generated inside `~/renv` to prevent project R packages and related `renv` files from being committed into your remote project repository.  
 
 
-#TODO
+# Step 2: Create data ingestion R script   
 
+When we are downloading new data extracts, we need to create a single R script that:  
 
-# Step 2: Create data ingestion R script     
+1. Downloads the first extract and saves this as the entire dataset.  
+2. Downloads subsequent data extracts and only saves the new or modified data records to the original dataset.  
+
+This task requires an if-else statement based on whether the file `labour_force_raw.csv` already exists in `./data/raw_data`. If not, the entire data extract is cleaned, a data ingestion date stamp stored in a new column and the raw datasheet saved as `./data/raw_data/labour_force_raw.csv`.   
+
+If `data/raw_data/labour_force_raw.csv` already exists, a temporary primary key is additionally created for the new and original data extracts and records only present in the new dataset (i.e. records with a new temporary primary key) are appended to the original dataset. The temporary primary key is then removed and the appended raw datasheet is saved as `./data/raw_data/labour_force_raw.csv`.     
+
+```{r, eval=FALSE}
+# Connect to Labour Force API --------------------------------------------------
+# Only extract adjusted time series (TSEST == 20)
+data_url <- "https://api.data.abs.gov.au/data/ABS,LF,1.0.0/M2+M1.2+1+3.1599.20.AUS.M?startPeriod=2019-01&dimensionAtObservation=AllDimensions"  
+
+# Obtain data as R data frame --------------------------------------------------
+if (!file.exists("data/raw_data/labour_force_raw.csv")) {
+  # If labour_force_raw.csv does not exist, proceed with the first raw data load 
+  raw_data <- rsdmx::readSDMX(data_url) |> 
+    as.data.frame() 
+  
+  # Remove redundant columns 
+  col_unique_values <- purrr::map_dbl(raw_data, ~length(unique(.x)))
+  raw_data <- raw_data[col_unique_values != 1]
+  
+  # Add updated_on column as a data ingestion time stamp
+  # Convert SEX into integer type or readr::write_csv() will coerce into double type  
+  raw_data <- raw_data %>%
+    dplyr::mutate(INGESTED_ON = Sys.Date(),
+                  SEX = as.integer(SEX))
+} else {
+  # If labour_force_raw.csv exists, return data API output as a new extract
+  new_extract <- rsdmx::readSDMX(data_url) |> 
+    as.data.frame() 
+  
+  col_unique_values <- purrr::map_dbl(new_extract, ~length(unique(.x)))
+  new_extract <- new_extract[col_unique_values != 1]
+  
+  # Add JOIN_ID to enable anti-joins against previous time series values 
+  new_extract <- new_extract |> 
+    dplyr::mutate(INGESTED_ON = Sys.Date(),
+                  SEX = as.integer(SEX),
+                  JOIN_ID = paste(TIME_PERIOD,
+                                  MEASURE,
+                                  SEX,
+                                  round(obsValue*1000),
+                                  sep = "-"))
+  
+  # Load previous data and add JOIN_ID
+  previous_data <- readr::read_csv("data/raw_data/labour_force_raw.csv")
+  previous_data <- dplyr::mutate(previous_data, 
+                                 JOIN_ID = paste(TIME_PERIOD,
+                                                 MEASURE,
+                                                 SEX,
+                                                 round(obsValue*1000),
+                                                 sep = "-"))
+  
+  # Extract records present in new_extract but not previous_data
+  new_records <- dplyr::anti_join(new_extract, previous_data, by = "JOIN_ID")
+  new_records$JOIN_ID <- NULL
+  previous_data$JOIN_ID <- NULL
+  
+  # Merge as raw data and save in data/raw_data as labour_force_raw.csv
+  # This dataset will contain multiple values for an observation if a value has 
+  # been retrospectively modified for a specific date.  
+  raw_data <- dplyr::bind_rows(new_records, previous_data) 
+}
+
+# Save in data/raw_data as labour_force_raw.csv --------------------------------
+readr::write_csv(raw_data, "data/raw_data/labour_force_raw.csv")
+```
+
+**Note:** Data version control can also be implemented following this step in the project workflow, to track the version of the dataset being used. A popular way to do this is by creating and committing data version pointers using the open-source software [`dvc`](https://dvc.org/blog/r-code-and-reproducible-model-development-with-dvc). Integrating `dvc` is currently beyond the scope of this tutorial.    
 
 
 # Step 3: Create data cleaning R script  
 
+Storing the data ingestion and data cleaning processes in separate scripts improves code readability and helps to separate data wrangling tasks into those required to ingest a traceable raw dataset versus those required to prepare the dataset for analysis and reporting.   
 
-
-## (Optional) Data version control   
-
-Data version control can also be implemented as a step in the project workflow, to track the version of data files being used. A popular way to do this is by creating and committing data version pointers using the open-source software [`dvc`](https://dvc.org/blog/r-code-and-reproducible-model-development-with-dvc).  
-
-This step is currently not covered by this tutorial.   
-
-
-
-We need to create a single R script that:  
-
-1. Downloads the raw dataset from its source location (i.e. from an URL or data API).    
-2. Saves the raw dataset.      
-3. Cleans the raw dataset and saves the clean dataset.      
-
-This setup allows us to automate future data extractions, assuming that there are no changes to the data source (i.e. its URL or schema). We would use the code below and save it as [`abs_labour_force_report/code/01_extract_and_clean_data.R`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/01_extract_and_clean_data.R).        
+Common data cleaning steps include tidying column names, converting character type column values into human-readable strings and creating new analytical variables. In the code below, I used `dplyr::lag()` to calculate the difference between current and previous labour force numbers per combination of `measure` and `sex`, and then stored this in a new column named `change_obs_value`.    
 
 ```{r, eval=FALSE}
-# Load required packages -------------------------------------------------------  
-# Input package names
-packages <- c("here",
-              "readr",
-              "stringr",
-              "janitor",
-              "rsdmx",
-              "clock",
-              "dplyr",
-              "magrittr") 
+# Load data/raw_data/labour_force_raw.csv --------------------------------------
+# This dataset will contain multiple values for an observation if a value has 
+# been retrospectively modified for a specific date.
+raw_data <- readr::read_csv("data/raw_data/labour_force_raw.csv")
 
-installed_packages <- packages %in% rownames(installed.packages())
+# Convert column names into snake case -----------------------------------------
+clean_data <- janitor::clean_names(raw_data)
 
-# Install new packages
-if (any(installed_packages == FALSE)) {
-  install.packages(packages[!installed_packages])
-}
+# Extract one observation per time period, measure and sex --------------------- 
+clean_data <- clean_data |> 
+  dplyr::arrange(desc(time_period),
+                 desc(ingested_on)) |>  
+  dplyr::group_by(time_period, measure, sex) |> 
+  dplyr::filter(dplyr::row_number() == 1)
 
-# Load new packages silently  
-invisible(lapply(packages, library, character.only = TRUE))
+# Clean measure and sex values to output report ready dataset ------------------  
+clean_data <- clean_data |> 
+  dplyr::mutate(measure = dplyr::case_when(measure == "M1" ~ "full-time",
+                                           measure == "M2" ~ "part-time"),
+                sex = dplyr::case_when(sex == "1" ~ "male",
+                                       sex == "2" ~ "female",
+                                       sex == "3" ~ "all"))
 
-# Connect to Labour Force API --------------------------------------------------
-data_url <- "https://api.data.abs.gov.au/data/ABS,LF,1.0.0/M2+M1.2+1+3.1599.20+30.AUS.M?startPeriod=2019-01&dimensionAtObservation=AllDimensions"  
+# Convert time_period into Date type and create a value change variable --------
+clean_data <- clean_data |>   
+  dplyr::group_by(measure, sex) |>    
+  dplyr::mutate(time_period = as.Date(paste0(time_period, "-01"), format = "%Y-%m-%d"),
+                last_obs_value = dplyr::lag(obs_value),
+                change_obs_value = dplyr::case_when(
+                  is.na(last_obs_value) ~ 0,
+                  TRUE ~ obs_value - last_obs_value)) |> 
+  dplyr::ungroup()
 
-# Obtain data as tibble data frame ---------------------------------------------
-labour_force <- readSDMX(data_url) %>%
-  as_tibble() 
-
-# Save raw data ----------------------------------------------------------------
-write_csv(labour_force, here("data",
-                             "raw_data",
-                             "labour_force_raw.csv"))
-
-# Clean data to produce YAML parameter friendly dataset ------------------------  
-labour_force <- labour_force %>%
-  clean_names() %>%
-  filter (tsest == 20) %>% # Extract seasonally adjusted values  
-  select(time_period,
-         measure,
-         sex,
-         obs_value) 
-
-# Rename measure and sex as strings   
-labour_force <- labour_force %>% 
-  mutate(measure = case_when(measure == "M1" ~ "full-time",
-                             measure == "M2" ~ "part-time"),
-         sex = case_when(sex == "1" ~ "male",
-                         sex == "2" ~ "female",
-                         sex == "3" ~ "all"))
-
-# Convert time_period into a Date format and create a change variable 
-labour_force <- labour_force %>% 
-  group_by(measure, sex) %>% # Analyse for all subcategories of measure and sex  
-  mutate(time_period = as.Date(paste0(time_period, "-01"), format = "%Y-%m-%d"),
-         last_obs_value = lag(obs_value),
-         change_obs_value = case_when(
-           is.na(last_obs_value) ~ 0,
-           TRUE ~ obs_value - last_obs_value)) %>%
-  ungroup()
-
-# Save clean data --------------------------------------------------------------
-write_csv(labour_force, here("data",
-                             "clean_data",
-                             "labour_force_clean.csv"))
+# Save in data/clean_data as labour_force_clean.csv ----------------------------
+readr::write_csv(clean_data, "data/clean_data/labour_force_clean.csv")
 ```
+   
 
+# Step 4: Create an R Markdown report template     
 
-# Step 3: Create an R Markdown report template     
+The R Markdown template contains the R code and any additional markdown or html code required for building the final report. The only difference between a standard `.Rmd` file and report template is the use of YAML parameter key-value pairs and invisible code chunks in the latter. The report template should contain the minimal code required to generate your report outputs (i.e. figures, tables and summary text).    
 
-The R Markdown template contains the R code and any additional markdown or html code required for building the final report.     
-
-The only difference between a standard R Markdown report versus report template is the absence of hard coded variables or visible code chunks in the template. The report template should contain the minimal code required to generate your report outputs (i.e. figures, tables and summary text).   
-
-Example code from the R Markdown template located in [`abs_labour_force_report/code/02_create_report_template.Rmd`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/02_create_report_template.Rmd) is shown below.    
+Example code from the R Markdown template located in [`abs_labour_force_report`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/labour_market_report_template.Rmd) is shown below.  
 
 ```{r, eval=FALSE}
 # Plot data --------------------------------------------------------------------
 # Fix y-axis between different reports 
 y_max <- max(labour_force$change_obs_value) 
 y_min <- min(labour_force$change_obs_value)   
-
-labour_force %>% 
+labour_force |>  
   filter(sex == params$sex, 
-         measure == params$measure) %>%
+         measure == params$measure) |> 
   ggplot(aes(x = time_period, 
              y = change_obs_value)) +
   geom_line() + 
@@ -206,87 +230,87 @@ labour_force %>%
         plot.title = element_text(hjust = 0.5))
 ```
 
-**Note:** Always use default reporting values inside your R Markdown YAML parameters i.e. `category: "all"`. This allows you to preview your default report when testing your template code using `knit`.   
+**Note:** The default YAML parameter values should contain your default or highest level cross-section of interest i.e. `category: "all"`. This allows you to preview default outputs when testing your report template using `rmarkdown::render()` or the `Knit` button in RStudio.       
 
 
-# Step 4: Create an R script for report automation    
+# Step 5: Create an R script for report automation    
 
 To generate reports for all parameters of interest, we need to create an R script with a for loop that performs the following actions:      
 
-1. Creates a data frame containing all parameters of interest, extracted from your clean dataset.      
-2. Runs `render`, which inputs the report template and list of parameters to generate the final set of output files.  
+1. Create a data frame containing all analytical parameters of interest, extracted from your clean dataset.      
+2. Run `rmarkdown::render()`, which inputs the report template and parameter list to generate the final set of output files.  
 
-This step is shown in the code below, which is located in  [`abs_labour_force_report/code/03_automate_reports.R`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/03_automate_reports.R).   
+This step is shown below and also located in  [`abs_labour_force_report`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/03_automate_reports.R).   
 
 ```{r, eval=FALSE}
-# Load required packages -------------------------------------------------------  
-# Input package names
-packages <- c("here",
-              "readr",
-              "stringr", 
-              "clock",
-              "dplyr",
-              "ggplot2",
-              "rmarkdown",
-              "magrittr") 
-
-installed_packages <- packages %in% rownames(installed.packages())
-
-# Install new packages
-if (any(installed_packages == FALSE)) {
-  install.packages(packages[!installed_packages])
-}
-
-# Load new packages silently  
-invisible(lapply(packages, library, character.only = TRUE))
+# Load packages required to render Rmd template
+library(ggplot2)
+library(dplyr)
 
 # Load clean data --------------------------------------------------------------  
-labour_force <- read_csv(here("data",
-                              "clean_data",
-                              "labour_force_clean.csv"))    
+labour_force <- readr::read_csv("data/clean_data/labour_force_clean.csv")    
+
+# Empty ~/output folder to recreate reports ------------------------------------
+fs::dir_delete(xfun::from_root("output"))
+fs::dir_create(xfun::from_root("output"))
 
 # Create for loop to automate report generation --------------------------------
-# Create data frame of the dot product of all parameter values 
+# Create data frame of the combination of all parameter values 
 params_df <- expand.grid(unique(labour_force$sex), unique(labour_force$measure),
                          stringsAsFactors = FALSE)  
 
-# Input template report and parameters to output all html reports
+# Input template report and parameters list to render Rmd reports 
 for (i in 1:nrow(params_df)) {
-  rmarkdown::render(
-    input = here("code",
-                 "02_create_report_template.Rmd"),
-    params = list(sex = params_df[i, 1],
-                  measure = params_df[i, 2]),
-    output_file = here("output",
-                       glue::glue("{params_df[i, 1]}_{params_df[i, 2]}_report.md"))
+  # Temporarily change wd to ~/code with xfun::in_dir() and render Rmd inside here
+  # Avoid using relative path names via here::here() for rmarkdown::render()
+  xfun::in_dir(
+    "code", 
+    rmarkdown::render(
+      input = "labour_market_report_template.Rmd",
+      output_format = rmarkdown::github_document(html_preview = FALSE), 
+      params = list(sex = params_df[i, 1],
+                    measure = params_df[i, 2]),
+      output_file = glue::glue("{params_df[i, 1]}_{params_df[i, 2]}_report.md")
+    )
   )
 }
+
+# Move output files from ~/code to ~/output ------------------------------------
+# Extract all files which do not end in .R or .Rmd in ~/code
+code_files <- fs::dir_ls(xfun::from_root("code"),
+                         regexp = "\\.R|(Rmd)$", 
+                         invert = TRUE)
+
+# Create location of output files in ~/output
+output_files <- gsub("code/", "output/", code_files)
+
+fs::file_move(code_files, output_files)
 ```
 
-**Note:** Remember to save your output files as `.html` files if you want to render html reports, and as `.Rmd` files if you want to render GitHub documents with an accompanying `.Rmd` output.    
+**Note:** Remember to save your output files as `.html` files if you want to render html reports and as `.md` files if you want to render GitHub documents.    
 
 
-# Step 5: Create a CI/CD pipeline using GitHub Actions 
+# Step 6: Create a CI/CD pipeline using GitHub Actions 
 
 The ability to perform continuous integration and continuous delivery (CI/CD) is a feature of all modern data platforms. CI/CD processes allow simple to complex data jobs to be processed in response to automatic or manual triggers.    
 
 The important components inside a CI/CD pipeline are:  
 
-+ Events: The condition which triggers a CI/CD pipeline to run i.e. when a data source is updated or when new code is committed.      
-+ Jobs: The collection of tasks which are executed when an event is triggered. Multiple jobs can run sequentially or in parallel with each other.   
-+ Workflows: A workflow is the entire automation process, comprised of individual or multiple jobs that are triggered by a specific event.  In GitHub Actions, workflows are defined using a YAML file inside the `.github/workflows` directory.   
++ Events: the condition which triggers a CI/CD pipeline to run i.e. when a data source is updated or when new code is committed.      
++ Jobs: the collection of tasks which are executed when an event is triggered. Multiple jobs can run sequentially or in parallel with each other.   
++ Workflows: a workflow is the entire automation process, comprised of individual or multiple jobs that are triggered by a specific event.  In GitHub Actions, workflows are defined using a YAML file inside the `.github/workflows` directory.   
 
-Since I know that the ABS updates its labour force data once a month, I am interested in creating a GitHub Actions workflow which reruns my code at the end of every month. Creating this workflow requires the following steps:   
+Since I know that the ABS updates its labour force data once a month, I am interested in creating a GitHub Actions workflow which reruns my code at the start of every month. Creating this workflow requires the following steps:   
 
-1. **Recommended:** Make sure your workflow is contained in a separate GitHub repository. This allows you to create a separate `.Rproj` file, `.github/workflows` directory and project local `renv` setup specific to your workflow. My `abs_labour_force_report` GitHub repository is found [here](https://github.com/erikaduan/abs_labour_force_report).     
-2. Once the code inside your workflow is stable, open your R project file and use `renv::init()` to initialize a new project-local environment with a private R library. Run your code and then use `renv::snapshot()` to fix the versions of your required R packages. This creates an `renv.lock` file listing the different package versions used for your workflow.    
-3. Create a YAML template named `repository_name/.github/workflows/main.yml`. A quick way of doing this is to navigate to the Actions tab in your GitHub repository and to set up a basic workflow template yourself.    
+1. **Strongly recommended:** Make sure your workflow is contained in a separate GitHub repository. This allows you to create a separate `.Rproj` file, `.github/workflows` directory and project local `renv` setup specific to your workflow. 
+2. After all R code is written, use `renv::init()` directly in the console to initialize a new project-local environment with a private R library. Use `renv::snapshot()` to fix the versions of R packages used. This creates an `renv.lock` file which your YAML pipeline can access whenever your code is rerun.    
+3. Create a YAML template named `./.github/workflows/main.yml`. A quick way to do this is to navigate to the Actions tab in your GitHub repository and click `set up a workflow yourself` to generate a basic YAML template.   
 
 ```{r, echo=FALSE, results='hold', out.width="90%"}
 knitr::include_graphics("../../figures/p-automating_rmd_reports-github_actions_tab.png")
 ```
 
-4. Create your GitHub Actions workflow by adapting your YAML file using templates provided by [`r-lib`](https://github.com/r-lib/actions/tree/master/setup-r). My own YAML template is derived from this [tutorial example](https://github.com/RMHogervorst/invertedushape/blob/main/.github/workflows/main.yml).      
+4. Create your GitHub Actions workflow by adapting your YAML file using templates provided by [`r-lib`](https://github.com/r-lib/actions/tree/master/setup-r) and other resources. My YAML pipeline caches R packages and is derived from this [example](https://github.com/RMHogervorst/invertedushape/blob/main/.github/workflows/main.yml) by Roel Hogervorst. 
 
     ```{r, eval=FALSE}
 # YAML workflow for abs_labour_force_report ------------------------------------
@@ -299,73 +323,80 @@ on:
   # Workflow can also be run manually from the Actions tab
   workflow_dispatch:
 
-# Construct a job to load the runner, set up the R environment, run scripts and git commit
+# Constructs a job to load the runner, set up the R environment, run scripts and git commit
 jobs:
   run_report:
     runs-on: ubuntu-latest
-  
-    # Retrieve secrets from GitHub
+    
+    # Retrieves secrets from GitHub and set renv root path
     env:
-        apikey: ${{ secrets.APIKEY}}
-        apisecretkey: ${{ secrets.APISECRETKEY}}
-        access_token: ${{ secrets.ACCESS_TOKEN}}
-        access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET}}
+        apikey: ${{ secrets.APIKEY }}
+        apisecretkey: ${{ secrets.APISECRETKEY }}
+        access_token: ${{ secrets.ACCESS_TOKEN }}
+        access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
         RENV_PATHS_ROOT: ~/.local/share/renv
 
     steps:
-      # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # Checks out your repository under $GITHUB_WORKSPACE so your job can access it
       - uses: actions/checkout@v2
+      
       # Sets up pandoc which is required for knitting HTML reports  
       - uses: r-lib/actions/setup-pandoc@v2
         with:
           pandoc-version: '2.17.1' 
 
-      # Set up R environment and install renv packages  
-      - name: setup-r
+      # Set up R environment 4.1.2
+      - name: Setup R version 4.1.2
         uses: r-lib/actions/setup-r@v1
         with:
           r-version: '4.1.2'
-      - run: R -e 'install.packages("renv")'
       
-      # Set up packages cache for future report reloads 
-      - name: cache-packages
+      # Set up R packages cache for workflow reruns  
+      - name: Cache R packages
         uses: actions/cache@v1
         with:
            path: ${{ env.RENV_PATHS_ROOT }}
            key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
            restore-keys: |-
               ${{ runner.os }}-renv-
+      # Install cURL to transfer data to virtual environment
       - run: sudo apt-get install -y --no-install-recommends libcurl4-openssl-dev
-      # Use renv::restore() to install C++ dependencies and packages
-      - run: R -e 'renv::restore()'
-      
-      # Execute R scripts
-      - run: Rscript code/01_extract_and_clean_data.R
-      - run: Rscript code/03_automate_reports.R  
-      
-      # Commit newly rendered reports into the repository 
-      - name: commit-new-files
+
+      # Install renv and project specific R packages
+      - name: Restore R packages
+        shell: Rscript {0}
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add --all
+          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+          renv::restore()
+      
+      # Executes R scripts
+      - name: Extract data from ABS labour force data API 
+        run: Rscript code/01_extract_data.R
+
+      - name: Clean raw labour force data
+        run: Rscript code/02_clean_data.R
+
+      - name: Render labour force reports
+        run: Rscript code/03_automate_reports.R  
+      
+      # Commits newly rendered reports into the repository 
+      - name: Commit new data and reports
+        run: |
+          git config --local user.email "erikaduan@github.com"
+          git config --local user.name "Erika Duan"
           git commit -am ":package: refresh and produce new report version"
           git push 
     ```
     
-5. Commit your GitHub Actions YAML workflow into your repository. Congratulations! You have now set up a simple CI/CD workflow using GitHub actions.     
+5. Commit your YAML pipeline into your GitHub repository. Congratulations! You have now set up a simple CI/CD workflow using GitHub actions.     
 
-**Note:** Creating a cache for R packages is recommended as downloading packages takes a long time to execute in GitHub Actions.   
+**Note:** Creating a cache for R packages is recommended as compiling R packages from source can take a long time to execute.   
 
 
 # Resources   
 
-+ A great [blog post](https://ptds.samorso.ch/tutorials/workflow/) containing useful advice for setting up a reproducible project workflow.  
-+ A great [presentation](bit.ly/marvelRMD) and companion [blog post](https://themockup.blog/posts/2020-07-25-meta-rmarkdown/) by Thomas Mock on advanced R Markdown features.   
++ Useful blog posts [here](https://ptds.samorso.ch/tutorials/workflow/) and [here](https://goodresearch.dev/pipelines.html ) with advice for creating reproducible project workflows.    
 + A useful [blog post](https://gabrieltanner.org/blog/an-introduction-to-github-actions) that summarises the features of GitHub Actions for CI/CD.   
 + Useful blog posts [here](https://blog.rmhogervorst.nl/blog/2020/09/24/running-an-r-script-on-a-schedule-gh-actions/) and [here](https://amitlevinson.com/blog/automated-plot-with-github-actions/), which describe how to use GitHub Actions to schedule R scripts.  
-+ A [YouTube tutorial](https://www.youtube.com/watch?v=NwUijrm2U2w) by DVC on using GitHub Actions with R to automate data visualisation tasks.   
 + A useful [online resource](https://explainshell.com/) for explaining shell commands required to create components of the GitHub Actions YAML workflow.  
-
-+ https://rpubs.com/glennwithtwons/reproducible-r-toolbox 
-+ https://goodresearch.dev/pipelines.html  
++ A useful [blog post](https://rpubs.com/glennwithtwons/reproducible-r-toolbox) explaining how to use `renv` and other R packages to maintain project reproducibility.  
