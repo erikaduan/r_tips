@@ -310,84 +310,8 @@ Since I know that the ABS updates its labour force data once a month, I am inter
 knitr::include_graphics("../../figures/p-automating_rmd_reports-github_actions_tab.png")
 ```
 
-4. Create your GitHub Actions workflow by adapting your YAML file using templates provided by [`r-lib`](https://github.com/r-lib/actions/tree/master/setup-r) and other resources. My YAML pipeline caches R packages and is derived from this [example](https://github.com/RMHogervorst/invertedushape/blob/main/.github/workflows/main.yml) by Roel Hogervorst. 
+4. Create your GitHub Actions workflow by adapting your YAML file using templates provided by [`r-lib`](https://github.com/r-lib/actions/tree/master/setup-r) and other resources. [My YAML pipeline](https://github.com/erikaduan/abs_labour_force_report/blob/main/.github/workflows/main.yml) caches R packages and is derived from this [example](https://github.com/RMHogervorst/invertedushape/blob/main/.github/workflows/main.yml) by Roel Hogervorst.  
 
-    ```{r, eval=FALSE}
-# YAML workflow for abs_labour_force_report ------------------------------------
-name: ABS_labour_force_report
-on:
-  # Workflow scheduled to run at 00:00 UTC on the 1st of every month.
-  schedule:
-    - cron:  "0 0 1 * *"
-
-  # Workflow can also be run manually from the Actions tab
-  workflow_dispatch:
-
-# Constructs a job to load the runner, set up the R environment, run scripts and git commit
-jobs:
-  run_report:
-    runs-on: ubuntu-latest
-    
-    # Retrieves secrets from GitHub and set renv root path
-    env:
-        apikey: ${{ secrets.APIKEY }}
-        apisecretkey: ${{ secrets.APISECRETKEY }}
-        access_token: ${{ secrets.ACCESS_TOKEN }}
-        access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET }}
-        RENV_PATHS_ROOT: ~/.local/share/renv
-
-    steps:
-      # Checks out your repository under $GITHUB_WORKSPACE so your job can access it
-      - uses: actions/checkout@v2
-      
-      # Sets up pandoc which is required for knitting HTML reports  
-      - uses: r-lib/actions/setup-pandoc@v2
-        with:
-          pandoc-version: '2.17.1' 
-
-      # Set up R environment 4.1.2
-      - name: Setup R version 4.1.2
-        uses: r-lib/actions/setup-r@v1
-        with:
-          r-version: '4.1.2'
-      
-      # Set up R packages cache for workflow reruns  
-      - name: Cache R packages
-        uses: actions/cache@v1
-        with:
-           path: ${{ env.RENV_PATHS_ROOT }}
-           key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
-           restore-keys: |-
-              ${{ runner.os }}-renv-
-      # Install cURL to transfer data to virtual environment
-      - run: sudo apt-get install -y --no-install-recommends libcurl4-openssl-dev
-
-      # Install renv and project specific R packages
-      - name: Restore R packages
-        shell: Rscript {0}
-        run: |
-          if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
-          renv::restore()
-      
-      # Executes R scripts
-      - name: Extract data from ABS labour force data API 
-        run: Rscript code/01_extract_data.R
-
-      - name: Clean raw labour force data
-        run: Rscript code/02_clean_data.R
-
-      - name: Render labour force reports
-        run: Rscript code/03_automate_reports.R  
-      
-      # Commits newly rendered reports into the repository 
-      - name: Commit new data and reports
-        run: |
-          git config --local user.email "erikaduan@github.com"
-          git config --local user.name "Erika Duan"
-          git commit -am ":package: refresh and produce new report version"
-          git push 
-    ```
-    
 5. Commit your YAML pipeline into your GitHub repository. Congratulations! You have now set up a simple CI/CD workflow using GitHub actions.     
 
 **Note:** Creating a cache for R packages is recommended as compiling R packages from source can take a long time to execute.   
