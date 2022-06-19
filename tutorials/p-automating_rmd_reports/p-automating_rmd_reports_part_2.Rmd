@@ -312,15 +312,15 @@ knitr::include_graphics("../../figures/p-automating_rmd_reports-github_actions_t
 
 4. Create your GitHub Actions workflow by adapting your YAML file using templates provided by [`r-lib`](https://github.com/r-lib/actions/tree/master/setup-r) and other resources. [My YAML pipeline](https://github.com/erikaduan/abs_labour_force_report/blob/main/.github/workflows/main.yml) caches R packages and is derived from this [example](https://github.com/RMHogervorst/invertedushape/blob/main/.github/workflows/main.yml) by Roel Hogervorst.  
 
-5. Commit your YAML pipeline into your GitHub repository. Congratulations! You have now set up a simple CI/CD workflow using GitHub actions.     
+5. Commit your YAML pipeline into your GitHub repository. Congratulations! You have now set up a simple CI/CD workflow using GitHub actions.  
 
-**Note:** Creating a cache for R packages is recommended as compiling R packages from source can take a long time to execute.   
+**Note:** Creating a cache for R packages is recommended as compiling R packages from source can take a long time to execute.  
 
 
 # Resources   
 
-+ Useful blog posts [here](https://ptds.samorso.ch/tutorials/workflow/) and [here](https://goodresearch.dev/pipelines.html ) with advice for creating reproducible project workflows.    
-+ A useful [blog post](https://gabrieltanner.org/blog/an-introduction-to-github-actions) that summarises the features of GitHub Actions for CI/CD.   
++ Useful blog posts [here](https://ptds.samorso.ch/tutorials/workflow/) and [here](https://goodresearch.dev/pipelines.html ) with advice for creating reproducible project workflows.   
++ A useful [blog post](https://gabrieltanner.org/blog/an-introduction-to-github-actions) that summarises the features of GitHub Actions for CI/CD.  
 + Useful blog posts [here](https://blog.rmhogervorst.nl/blog/2020/09/24/running-an-r-script-on-a-schedule-gh-actions/) and [here](https://amitlevinson.com/blog/automated-plot-with-github-actions/), which describe how to use GitHub Actions to schedule R scripts.  
 + A useful [online resource](https://explainshell.com/) for explaining shell commands required to create components of the GitHub Actions YAML workflow.  
 + A useful [blog post](https://rpubs.com/glennwithtwons/reproducible-r-toolbox) explaining how to use `renv` and other R packages to maintain project reproducibility.  
