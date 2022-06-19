@@ -1,7 +1,7 @@
 Automate R Markdown report generation - Part 1
 ================
 Erika Duan
-2022-05-22
+2022-06-19
 
 -   [Introduction](#introduction)
 -   [Using a public dataset](#using-a-public-dataset)
@@ -16,8 +16,7 @@ pacman::p_load(here,
                janitor,
                rsdmx,
                clock,
-               tidyverse,
-               palmerpenguins)  
+               tidyverse)  
 ```
 
 # Introduction
@@ -27,9 +26,9 @@ requests, which prevents them from developing productionisation skills.
 Productionisation can be thought of as the creation of automatable data
 analysis workflows, which output data products to business users.
 
-An automated workflow enables code sustainability and frees your time
-from performing repetitive manual processes. It is particularly useful
-when business areas require analyses on defined data sources.
+An automated workflow promotes code longevity and frees your time from
+performing repetitive manual processes. It is particularly useful when
+business areas require analyses on defined data sources.
 
 In this example, I will be using the monthly labour force data
 segregated by measure (employment status) and region from the Australian
@@ -110,8 +109,8 @@ slot(schema_labour_force, "concepts") %>%
 **Note:** Some metadata for the labour force dataset seems to be missing
 from `concepts`, i.e. M1 for employed full-time and M2 for employed
 part-time under Measure, and 1 for males, 2 for females and 3 for
-persons under Sex (nothing that a non-binary gender variable may be more
-relevant here).
+persons under Sex (NB: a non-binary gender variable would be useful to
+include).
 
 # Knitting reports with parameters
 

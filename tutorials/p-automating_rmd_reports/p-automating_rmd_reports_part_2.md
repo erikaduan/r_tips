@@ -1,21 +1,25 @@
 Automate R Markdown report generation - Part 2
 ================
 Erika Duan
-2022-05-22
+2022-06-19
 
 -   [Introduction](#introduction)
--   [Step 1: Create a project
-    environment](#step-1-create-a-project-environment)
+-   [Step 1: Establish a project
+    workflow](#step-1-establish-a-project-workflow)
     -   [Use consistent names](#use-consistent-names)
     -   [Environment reproducibility](#environment-reproducibility)
--   [Step 2: Create data ingestion and data cleaning R
-    script](#step-2-create-data-ingestion-and-data-cleaning-r-script)
--   [Step 3: Create an R Markdown template
-    report](#step-3-create-an-r-markdown-template-report)
+-   [Step 2: Create data ingestion R
+    script](#step-2-create-data-ingestion-r-script)
+-   [Step 3: Create data cleaning R
+    script](#step-3-create-data-cleaning-r-script)
+    -   [(Optional) Data version
+        control](#optional-data-version-control)
+-   [Step 3: Create an R Markdown report
+    template](#step-3-create-an-r-markdown-report-template)
 -   [Step 4: Create an R script for report
     automation](#step-4-create-an-r-script-for-report-automation)
--   [Step 5: (Optional) Create a CI/CD pipeline using GitHub
-    Actions](#step-5-optional-create-a-cicd-pipeline-using-github-actions)
+-   [Step 5: Create a CI/CD pipeline using GitHub
+    Actions](#step-5-create-a-cicd-pipeline-using-github-actions)
 -   [Resources](#resources)
 
 ``` r
@@ -25,54 +29,108 @@ pacman::p_load(here,
                janitor,
                rsdmx,
                clock,
-               tidyverse)  
+               tidyverse,
+               renv)  
 ```
 
 # Introduction
 
-This tutorial follows from [an earlier
-one](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-automating_rmd_reports/p-automating_rmd_reports_part_1.md)
-describing the preliminary steps towards automated reporting in R.
+This tutorial follows from [part
+1](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-automating_rmd_reports/p-automating_rmd_reports_part_1.md),
+which shows how to use parameter key-value pairs for automated reporting
+in R.
 
 Creating an automated reporting workflow requires the following setup:
 
-1.  A consistently named and reproducible file structure to store code,
-    library dependencies, data and analytical outputs.  
-2.  A data ingestion and data cleaning script that can be automatically
-    refreshed.  
-3.  An R Markdown template report that uses yaml parameters instead of
-    hard coded variables.  
-4.  A report automation script for all parameters of interest.  
-5.  (Optional) A CI/CD pipeline using GitHub Actions, which is packaged
-    inside a separate GitHub repository.
+1.  A place to store the code, data inputs and analytical outputs, as
+    well as information about the virtual environment and R packages
+    used.  
+2.  A data ingestion script. Data version control can also be integrated
+    immediately following this step.  
+3.  A data cleaning script.  
+4.  An R Markdown report template containing YAML parameter key-value
+    pairs.  
+5.  A report automation script which iterates across all analytical
+    parameters of interest.  
+6.  A YAML pipeline using GitHub Actions.
 
-# Step 1: Create a project environment
+For this tutorial, I have created a separate GitHub repository named
+[`abs_labour_force_report`](https://github.com/erikaduan/abs_labour_force_report)
+to host an automated R reporting workflow using open ABS labour force
+data. The rest of this tutorial will reference this GitHub repository.
+
+# Step 1: Establish a project workflow
 
 ## Use consistent names
 
-There is no best way to organise your project structure. I recommend
-starting with a simple naming structure that everyone easily
-understands. For this tutorial, I have created a separate GitHub
-repository named
+There is no universally best way to organise your project structure. I
+recommend starting with a simple naming structure that everyone easily
+understands. My
 [`abs_labour_force_report`](https://github.com/erikaduan/abs_labour_force_report)
-which contains the folders `code` to store my R scripts and Rmd
-documents, `data` to store my data, and `output` to store my analytical
-outputs.
+repository contains the folders `./code` to store my R scripts and Rmd
+documents, `./data` to store my data, and `./output` to store my
+analytical outputs.
 
-<img src="../../figures/p-automating_rmd_reports-project_structure.png" width="60%" style="display: block; margin: auto;" />
+<img src="../../figures/p-automating_rmd_reports-project_structure_basic.svg" width="60%" style="display: block; margin: auto;" />
 
-**Note:** The `data` folder contains subfolders `raw_data` and
-`clean_data` to maintain separation between the raw (read only) and
-clean dataset used for further analysis.
+**Note:** The `./data` folder contains subfolders `./data/raw_data` and
+`./data/clean_data` to maintain separation between the raw (read only)
+and clean dataset used for further analysis.
 
 ## Environment reproducibility
 
-Besides your code, data inputs and outputs, a reproducible virtual
-environment also needs to be created to support your project workflow.
-In R, a simple way of managing project specific R package dependencies
-is to use the `renv` package.
+Besides the `code`, `data` and `output` directories, a reproducible
+virtual environment also needs to be created to host the entire
+workflow. In this tutorial, I have chosen to host my
+[`abs_labour_force_report`](https://github.com/erikaduan/abs_labour_force_report)
+workflow using `GitHub Actions`, where code is triggered by a YAML
+pipeline stored in `./.github/workflows/main.yml`.
 
-# Step 2: Create data ingestion and data cleaning R script
+To execute my R code, I need to create a virtual environment which loads
+my project R package dependencies and R scripts in order. R package
+dependencies can be managed by the
+[`renv`](https://rstudio.github.io/renv/articles/renv.html) package.
+
+To do this, the following steps need to be implemented **after** you
+have written all your R scripts:
+
+1.  Install `renv` with `install.packages('renv')`.  
+2.  Run `renv::init()` directly in the R console to create a new
+    project-local environment with a private R library. This only needs
+    to be done once per project as `renv::init()` amends the
+    project-local `.Rprofile` with new code to load the private R
+    library when an R session is started.  
+3.  Use `install.packages("package")` and `remove.packages("package")`
+    to keep installing or removing packages as required.  
+4.  Run `renv::snapshot()` directly in the R console. This saves the
+    state of your project R package dependencies to a `renv.lock`
+    lockfile.  
+5.  Each time your workflow is rerun inside a new virtual environment,
+    the shell command `R -e 'renv::restore()'` needs to run in your YAML
+    pipeline to restore your project R package dependencies from your
+    `renv.lock` file.
+
+<img src="../../figures/p-automating_rmd_reports-project_structure_advanced.svg" width="90%" style="display: block; margin: auto;" />
+
+**Note:** An additional `.gitignore` file is automatically generated
+inside `~/renv` to prevent project R packages and related `renv` files
+from being committed into your remote project repository.
+
+\#TODO
+
+# Step 2: Create data ingestion R script
+
+# Step 3: Create data cleaning R script
+
+## (Optional) Data version control
+
+Data version control can also be implemented as a step in the project
+workflow, to track the version of data files being used. A popular way
+to do this is by creating and committing data version pointers using the
+open-source software
+[`dvc`](https://dvc.org/blog/r-code-and-reproducible-model-development-with-dvc).
+
+This step is currently not covered by this tutorial.
 
 We need to create a single R script that:
 
@@ -88,12 +146,25 @@ would use the code below and save it as
 
 ``` r
 # Load required packages -------------------------------------------------------  
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(here,
-               janitor,
-               rsdmx,
-               clock,
-               tidyverse)  
+# Input package names
+packages <- c("here",
+              "readr",
+              "stringr",
+              "janitor",
+              "rsdmx",
+              "clock",
+              "dplyr",
+              "magrittr") 
+
+installed_packages <- packages %in% rownames(installed.packages())
+
+# Install new packages
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Load new packages silently  
+invisible(lapply(packages, library, character.only = TRUE))
 
 # Connect to Labour Force API --------------------------------------------------
 data_url <- "https://api.data.abs.gov.au/data/ABS,LF,1.0.0/M2+M1.2+1+3.1599.20+30.AUS.M?startPeriod=2019-01&dimensionAtObservation=AllDimensions"  
@@ -103,10 +174,7 @@ labour_force <- readSDMX(data_url) %>%
   as_tibble() 
 
 # Save raw data ----------------------------------------------------------------
-write_csv(labour_force, here("tutorials",
-                             "p-automating_rmd_reports",
-                             "abs_labour_force_report",
-                             "data",
+write_csv(labour_force, here("data",
                              "raw_data",
                              "labour_force_raw.csv"))
 
@@ -138,24 +206,21 @@ labour_force <- labour_force %>%
   ungroup()
 
 # Save clean data --------------------------------------------------------------
-write_csv(labour_force, here("tutorials",
-                             "p-automating_rmd_reports",
-                             "abs_labour_force_report",
-                             "data",
+write_csv(labour_force, here("data",
                              "clean_data",
                              "labour_force_clean.csv"))
 ```
 
-# Step 3: Create an R Markdown template report
+# Step 3: Create an R Markdown report template
 
-The R Markdown template report contains the R code and any additional
-markdown or html code required for building the final report.
+The R Markdown template contains the R code and any additional markdown
+or html code required for building the final report.
 
-The only difference between a standard R Markdown report and an R
-Markdown template report is the absence of hard coded variables and
-visible code chunks in the template report. The template report should
-contain the minimal code required to generate your report outputs
-(i.e. figures, tables and summary text).
+The only difference between a standard R Markdown report versus report
+template is the absence of hard coded variables or visible code chunks
+in the template. The report template should contain the minimal code
+required to generate your report outputs (i.e. figures, tables and
+summary text).
 
 Example code from the R Markdown template located in
 [`abs_labour_force_report/code/02_create_report_template.Rmd`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/02_create_report_template.Rmd)
@@ -163,8 +228,6 @@ is shown below.
 
 ``` r
 # Plot data --------------------------------------------------------------------
-# Set echo=FALSE to hide the code chunk when knitting
-
 # Fix y-axis between different reports 
 y_max <- max(labour_force$change_obs_value) 
 y_min <- min(labour_force$change_obs_value)   
@@ -194,33 +257,47 @@ labour_force %>%
         plot.title = element_text(hjust = 0.5))
 ```
 
-**Note:** Always use YAML parameters to store default values
-i.e. `category: "all"` if this is what your report mainly reports on.
-This allows you to preview your default report when testing your
-template code using `knit`.
+**Note:** Always use default reporting values inside your R Markdown
+YAML parameters i.e. `category: "all"`. This allows you to preview your
+default report when testing your template code using `knit`.
 
 # Step 4: Create an R script for report automation
 
-Finally, the R script for report automation is a for loop that contains:
+To generate reports for all parameters of interest, we need to create an
+R script with a for loop that performs the following actions:
 
-1.  A data frame containing all parameters of interest, extracted from
-    your clean dataset.  
-2.  The function `render`, which uses your R Markdown template report
-    and list of parameters, to generate a series of output files.
+1.  Creates a data frame containing all parameters of interest,
+    extracted from your clean dataset.  
+2.  Runs `render`, which inputs the report template and list of
+    parameters to generate the final set of output files.
 
-This is shown in the code below, which is located in
+This step is shown in the code below, which is located in
 [`abs_labour_force_report/code/03_automate_reports.R`](https://github.com/erikaduan/abs_labour_force_report/blob/main/code/03_automate_reports.R).
 
 ``` r
-# Load required packages -------------------------------------------------------
-if (!require("pacman")) install.packages("pacman")
-pacman::p_load(here, purrr)  
+# Load required packages -------------------------------------------------------  
+# Input package names
+packages <- c("here",
+              "readr",
+              "stringr", 
+              "clock",
+              "dplyr",
+              "ggplot2",
+              "rmarkdown",
+              "magrittr") 
+
+installed_packages <- packages %in% rownames(installed.packages())
+
+# Install new packages
+if (any(installed_packages == FALSE)) {
+  install.packages(packages[!installed_packages])
+}
+
+# Load new packages silently  
+invisible(lapply(packages, library, character.only = TRUE))
 
 # Load clean data --------------------------------------------------------------  
-labour_force <- read_csv(here("tutorials",
-                              "p-automating_rmd_reports",
-                              "abs_labour_force_report",
-                              "data",
+labour_force <- read_csv(here("data",
                               "clean_data",
                               "labour_force_clean.csv"))    
 
@@ -232,26 +309,21 @@ params_df <- expand.grid(unique(labour_force$sex), unique(labour_force$measure),
 # Input template report and parameters to output all html reports
 for (i in 1:nrow(params_df)) {
   rmarkdown::render(
-    input = here("tutorials",
-                 "p-automating_rmd_reports",
-                 "abs_labour_force_report",
-                 "code",
+    input = here("code",
                  "02_create_report_template.Rmd"),
     params = list(sex = params_df[i, 1],
                   measure = params_df[i, 2]),
-    output_file = here("tutorials",
-                       "p-automating_rmd_reports",
-                       "abs_labour_force_report",
-                       "output",
-                       glue::glue("{params_list[[i]][[1]]}_{params_list[[i]][[2]]}_report.html"))
+    output_file = here("output",
+                       glue::glue("{params_df[i, 1]}_{params_df[i, 2]}_report.md"))
   )
 }
 ```
 
 **Note:** Remember to save your output files as `.html` files if you
-want to render html reports.
+want to render html reports, and as `.Rmd` files if you want to render
+GitHub documents with an accompanying `.Rmd` output.
 
-# Step 5: (Optional) Create a CI/CD pipeline using GitHub Actions
+# Step 5: Create a CI/CD pipeline using GitHub Actions
 
 The ability to perform continuous integration and continuous delivery
 (CI/CD) is a feature of all modern data platforms. CI/CD processes allow
@@ -377,27 +449,29 @@ packages takes a long time to execute in GitHub Actions.
 -   A great [blog post](https://ptds.samorso.ch/tutorials/workflow/)
     containing useful advice for setting up a reproducible project
     workflow.  
+
 -   A great [presentation](bit.ly/marvelRMD) and companion [blog
     post](https://themockup.blog/posts/2020-07-25-meta-rmarkdown/) by
     Thomas Mock on advanced R Markdown features.  
--   A great [blog
-    post](https://sharla.party/post/usethis-for-reporting/) on how to
-    turn your R data analysis into a reproducible R package by Sharla
-    Gelfand.  
--   A great [blog
-    post](https://emilyriederer.netlify.app/post/rmddd-tech-appendix/)
-    by Emily Riederer on data analysis productionisation in R.  
+
 -   A useful [blog
     post](https://gabrieltanner.org/blog/an-introduction-to-github-actions)
     that summarises the features of GitHub Actions for CI/CD.  
--   A [blog
-    post](https://blog.rmhogervorst.nl/blog/2020/09/24/running-an-r-script-on-a-schedule-gh-actions/)
-    overview about using GitHub Actions to schedule the running of R
-    scripts.  
+
+-   Useful blog posts
+    [here](https://blog.rmhogervorst.nl/blog/2020/09/24/running-an-r-script-on-a-schedule-gh-actions/)
+    and
+    [here](https://amitlevinson.com/blog/automated-plot-with-github-actions/),
+    which describe how to use GitHub Actions to schedule R scripts.  
+
 -   A [YouTube tutorial](https://www.youtube.com/watch?v=NwUijrm2U2w) by
     DVC on using GitHub Actions with R to automate data visualisation
     tasks.  
--   A useful (online resource\](<https://explainshell.com/>) for
-    explaining shell commands required to create components of the
-    GitHub Actions YAML workflow.  
--   <https://amitlevinson.com/blog/automated-plot-with-github-actions/>
+
+-   A useful [online resource](https://explainshell.com/) for explaining
+    shell commands required to create components of the GitHub Actions
+    YAML workflow.
+
+-   <https://rpubs.com/glennwithtwons/reproducible-r-toolbox>
+
+-   <https://goodresearch.dev/pipelines.html>

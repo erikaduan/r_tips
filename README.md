@@ -1,5 +1,7 @@
 # R tips  
 
+![](https://img.shields.io/badge/Language-R-blue) ![](https://img.shields.io/badge/Theory-Statistics-orange) 
+
 This repository contains R programming tips covering topics across data cleaning, data visualisation, machine learning, statistical theory and data productionisation.  
 
 <p align="center">  
@@ -51,10 +53,11 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 
 
 # Other resources 
-These resources also cover a comprehensive range of practical R usage tutorials.  
+The resources below also cover a comprehensive range of practical R tutorials.  
 
 + [Statistical Computing](https://36-750.github.io/) by Alex Reinhart and Christopher Genovese  
 + [Data Science Toolkit](https://benkeser.github.io/info550/lectures/) by David Benkeser  
++ [What They Forgot to Teach You About R](https://rstats.wtf/index.html) by Jennifer Bryan and Jim Hester
 
 # Tutorial style guide  
 
@@ -77,17 +80,12 @@ A painful form of technical debt is inconsistent code style. This repository now
 
 # Citations  
 
-+ Hadley Wickham (2017). `tidyverse`: Easily Install and Load the 'Tidyverse'. R package version 1.2.1.
-  https://CRAN.R-project.org/package=tidyverse  
+Citing packages is a good practice when you are publishing research papers. To do this, use `citations("package")` to print the relevant package publication. A non-exhaustive list of R packages used in this repository is found below.  
 
-+ Matt Dowle and Arun Srinivasan (2019). data.table: Extension of `data.frame`. R package version 1.12.6.
-  https://CRAN.R-project.org/package=data.table  
-
-+ Hadley Wickham (2019). `stringr`: Simple, Consistent Wrappers for Common String Operations. R package
-  version 1.4.0.
-   https://CRAN.R-project.org/package=stringr
-
-+ Kirill Müller (2017). `here`: A Simpler Way to Find Your Files. R package version 0.1.
-  https://CRAN.R-project.org/package=here  
-
-+ Richard Iannone (2020). `DiagrammeR`: Graph/Network Visualization. R package version 1.0.6.1.  https://CRAN.R-project.org/package=DiagrammeR  
++ R Core Team (2021). R: A language and environment for statistical computing. R Foundation for
+  Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
++ Wickham et al., (2019). Welcome to the `tidyverse`. Journal of Open Source Software, 4(43),
+  1686, https://doi.org/10.21105/joss.01686
++ H. Wickham. `ggplot2`: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
++ Matt Dowle and Arun Srinivasan (2021). `data.table`: Extension of `data.frame`. R package
+  version 1.14.2. https://CRAN.R-project.org/package=data.table
