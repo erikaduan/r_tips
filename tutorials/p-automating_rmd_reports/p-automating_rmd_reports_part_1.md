@@ -1,13 +1,15 @@
 Automate R Markdown report generation - Part 1
 ================
 Erika Duan
-2022-06-19
+2022-12-11
 
--   [Introduction](#introduction)
--   [Using a public dataset](#using-a-public-dataset)
--   [Knitting reports with
-    parameters](#knitting-reports-with-parameters)
--   [Resources](#resources)
+- <a href="#introduction" id="toc-introduction">Introduction</a>
+- <a href="#using-a-public-dataset" id="toc-using-a-public-dataset">Using
+  a public dataset</a>
+- <a href="#knitting-reports-with-parameters"
+  id="toc-knitting-reports-with-parameters">Knitting reports with
+  parameters</a>
+- <a href="#resources" id="toc-resources">Resources</a>
 
 ``` r
 # Load required packages -------------------------------------------------------  
@@ -34,6 +36,14 @@ In this example, I will be using the monthly labour force data
 segregated by measure (employment status) and region from the Australian
 Bureau of Statistics (ABS) to explore R report productionisation tips.
 
+**Note:** This tutorial uses the R base pipe `|>`, which can be accessed
+via **Tools/Global Options** for R version 4.1.0 and above. Using `|>`
+instead of `%>%` hypothetically reduces the number of R package
+dependencies for your automated report (a good workflow housekeeping
+practice).
+
+<img src="../../figures/general-base_pipe_instructions.png" width="50%" style="display: block; margin: auto;" />
+
 # Using a public dataset
 
 I am using the publicly available [ABS Labour Force
@@ -53,21 +63,21 @@ one for the metadata.
 data_url <- "https://api.data.abs.gov.au/data/ABS,LF,1.0.0/M2+M1.2+1+3.1599.20+30.AUS.M?startPeriod=2019-01&dimensionAtObservation=AllDimensions"
 
 # Obtain data as tibble data frame
-labour_force <- readSDMX(data_url) %>%
-  as_tibble() %>%
+labour_force <- readSDMX(data_url) |>
+  as_tibble() |>
   clean_names()
 
 # Preview labour force dataset 
-labour_force %>%
-  head(3) %>%
+labour_force |>
+  head(3) |>
   knitr::kable()
 ```
 
-| time_period | measure | sex | age  | tsest | region | freq | obs_value | unit_measure | unit_mult | obs_status | decimals |
-|:------------|:--------|:----|:-----|:------|:-------|:-----|----------:|:-------------|:----------|:-----------|:---------|
-| 2019-01     | M1      | 3   | 1599 | 30    | AUS    | M    |        NA | NUM          | 3         | s          | 1        |
-| 2019-02     | M1      | 3   | 1599 | 30    | AUS    | M    |        NA | NUM          | 3         | s          | 1        |
-| 2019-03     | M1      | 3   | 1599 | 30    | AUS    | M    |        NA | NUM          | 3         | s          | 1        |
+| time_period | measure | sex | age  | tsest | region | freq | obs_value | unit_measure | unit_mult | decimals | obs_comment |
+|:------------|:--------|:----|:-----|:------|:-------|:-----|----------:|:-------------|:----------|:---------|:------------|
+| 2019-01     | M1      | 3   | 1599 | 30    | AUS    | M    |  8734.379 | NUM          | 3         | 1        | NA          |
+| 2019-02     | M1      | 3   | 1599 | 30    | AUS    | M    |  8749.254 | NUM          | 3         | 1        | NA          |
+| 2019-03     | M1      | 3   | 1599 | 30    | AUS    | M    |  8765.281 | NUM          | 3         | 1        | NA          |
 
 ``` r
 # Obtain metadata as tibble data frame -----------------------------------------
@@ -91,9 +101,9 @@ map_chr(slot(codelists_labour_force, "codelists"), ~slot(.x, "id"))
 ``` r
 # Print metadata as tibble data frame -----------------------------------------
 # Obtain a data dictionary from the concepts attribute
-slot(schema_labour_force, "concepts") %>%
-  as_tibble() %>%
-  unite("Name", Name.en, en, na.rm = TRUE) %>%
+slot(schema_labour_force, "concepts") |>
+  as_tibble() |>
+  unite("Name", Name.en, en, na.rm = TRUE) |>
   knitr::kable()
 ```
 
@@ -126,21 +136,21 @@ interest.
 
 ``` r
 # Filter dataset by part-time females ------------------------------------------
-females_part_time <- labour_force %>% 
+females_part_time <- labour_force |> 
   filter(sex == 2, # 2 represents females
          measure == "M2", # M2 represents part-time employed 
-         tsest == 20) %>% # 20 represents seasonally adjusted  
+         tsest == 20) |> # 20 represents seasonally adjusted  
   mutate(time_period = as.Date(paste0(time_period, "-01"), format = "%Y-%m-%d"),
          last_obs_value = lag(obs_value),
          change_obs_value = case_when(
            is.na(last_obs_value) ~ 0,
-           TRUE ~ obs_value - last_obs_value)) %>%
+           TRUE ~ obs_value - last_obs_value)) |>
   select(time_period,
          obs_value,
          change_obs_value)
 
 # Plot time series -------------------------------------------------------------
-females_part_time %>%
+females_part_time |>
   ggplot(aes(x = time_period, 
              y = change_obs_value)) +
   geom_line() + 
@@ -171,21 +181,21 @@ these can also be printed in the plot title (unlike the example below).
 
 ``` r
 # Replace code with parameter keys ---------------------------------------------
-females_part_time <- labour_force %>% 
+females_part_time <- labour_force |> 
   filter(sex == params$sex, # 2 represents females
          measure == params$measure, # M2 represents part-time employed 
-         tsest == params$tsest) %>% # 20 represents seasonally adjusted  
+         tsest == params$tsest) |> # 20 represents seasonally adjusted  
   mutate(time_period = as.Date(paste0(time_period, "-01"), format = "%Y-%m-%d"),
          last_obs_value = lag(obs_value),
          change_obs_value = case_when(
            is.na(last_obs_value) ~ 0,
-           TRUE ~ obs_value - last_obs_value)) %>%
+           TRUE ~ obs_value - last_obs_value)) |>
   select(time_period,
          obs_value,
          change_obs_value)
 
 # Plot time series -------------------------------------------------------------
-females_part_time %>%
+females_part_time |>
   ggplot(aes(x = time_period, 
              y = change_obs_value)) +
   geom_line() + 
@@ -208,21 +218,21 @@ females_part_time %>%
         plot.title = element_text(hjust = 0.5))
 ```
 
-<img src="p-automating_rmd_reports_part_1_files/figure-gfm/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" />
+<img src="p-automating_rmd_reports_part_1_files/figure-gfm/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" />
 
 # Resources
 
--   A great
-    [presentation](https://docs.google.com/presentation/d/e/2PACX-1vRo1eXJtiwo6aTA8KZ2E-bUbv2GOonC2RIVk_5eWQ5y-ADXbRamBhHaa3w1vMW6BkEPOMJ13ZahSo8Q/embed?start=false&loop=true&delayms=30000&slide=id.p)
-    by Thomas Mock on advanced R Markdown features.  
--   A great [blog
-    post](https://emilyriederer.netlify.app/post/rmddd-tech-appendix/)
-    by Emily Riederer on data analysis productionisation in R.  
--   A great [blog
-    post](https://towardsdatascience.com/what-does-it-mean-to-productionize-data-science-82e2e78f044c)
-    by Schaun Wheeler on the importance of data science
-    productionisation.  
--   A
-    [guide](https://rstudio-pubs-static.s3.amazonaws.com/413203_eed4bd7e1eae47dcbce07096a887ed72.html)
-    on using the `rsdmx` package to consume SDMX formatted datasets via
-    an API call.
+- A great
+  [presentation](https://docs.google.com/presentation/d/e/2PACX-1vRo1eXJtiwo6aTA8KZ2E-bUbv2GOonC2RIVk_5eWQ5y-ADXbRamBhHaa3w1vMW6BkEPOMJ13ZahSo8Q/embed?start=false&loop=true&delayms=30000&slide=id.p)
+  by Thomas Mock on advanced R Markdown features.  
+- A great [blog
+  post](https://emilyriederer.netlify.app/post/rmddd-tech-appendix/) by
+  Emily Riederer on data analysis productionisation in R.  
+- A great [blog
+  post](https://towardsdatascience.com/what-does-it-mean-to-productionize-data-science-82e2e78f044c)
+  by Schaun Wheeler on the importance of data science
+  productionisation.  
+- A
+  [guide](https://rstudio-pubs-static.s3.amazonaws.com/413203_eed4bd7e1eae47dcbce07096a887ed72.html)
+  on using the `rsdmx` package to consume SDMX formatted datasets via an
+  API call.

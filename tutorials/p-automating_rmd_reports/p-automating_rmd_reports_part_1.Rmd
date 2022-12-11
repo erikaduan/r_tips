@@ -33,7 +33,13 @@ Data analysts can find themselves stuck in a cycle of ad hoc analytical requests
 
 An automated workflow promotes code longevity and frees your time from performing repetitive manual processes. It is particularly useful when business areas require analyses on defined data sources.  
 
-In this example, I will be using the monthly labour force data segregated by measure (employment status) and region from the Australian Bureau of Statistics (ABS) to explore R report productionisation tips.  
+In this example, I will be using the monthly labour force data segregated by measure (employment status) and region from the Australian Bureau of Statistics (ABS) to explore R report productionisation tips.   
+
+**Note:** This tutorial uses the R base pipe `|>`, which can be accessed via **Tools/Global Options** for R version 4.1.0 and above. Using `|>` instead of `%>%` hypothetically reduces the number of R package dependencies for your automated report (a good workflow housekeeping practice).    
+
+```{r, echo=FALSE, results='hold', out.width="50%"}
+knitr::include_graphics("../../figures/general-base_pipe_instructions.png")
+```
 
 
 # Using a public dataset
@@ -48,13 +54,13 @@ Datasets from the ABS Data Explorer API can be read as a [SDMX format](https://w
 data_url <- "https://api.data.abs.gov.au/data/ABS,LF,1.0.0/M2+M1.2+1+3.1599.20+30.AUS.M?startPeriod=2019-01&dimensionAtObservation=AllDimensions"
 
 # Obtain data as tibble data frame
-labour_force <- readSDMX(data_url) %>%
-  as_tibble() %>%
+labour_force <- readSDMX(data_url) |>
+  as_tibble() |>
   clean_names()
 
 # Preview labour force dataset 
-labour_force %>%
-  head(3) %>%
+labour_force |>
+  head(3) |>
   knitr::kable()
 ```
 
@@ -80,9 +86,9 @@ map_chr(slot(codelists_labour_force, "codelists"), ~slot(.x, "id"))
 ```{r, message=FALSE, warning=FALSE, results='hold'}
 # Print metadata as tibble data frame -----------------------------------------
 # Obtain a data dictionary from the concepts attribute
-slot(schema_labour_force, "concepts") %>%
-  as_tibble() %>%
-  unite("Name", Name.en, en, na.rm = TRUE) %>%
+slot(schema_labour_force, "concepts") |>
+  as_tibble() |>
+  unite("Name", Name.en, en, na.rm = TRUE) |>
   knitr::kable()
 ```
 
@@ -97,21 +103,21 @@ Imagine that we are interested in visualising the monthly change in the number o
 
 ```{r, fig.show='hide'}
 # Filter dataset by part-time females ------------------------------------------
-females_part_time <- labour_force %>% 
+females_part_time <- labour_force |> 
   filter(sex == 2, # 2 represents females
          measure == "M2", # M2 represents part-time employed 
-         tsest == 20) %>% # 20 represents seasonally adjusted  
+         tsest == 20) |> # 20 represents seasonally adjusted  
   mutate(time_period = as.Date(paste0(time_period, "-01"), format = "%Y-%m-%d"),
          last_obs_value = lag(obs_value),
          change_obs_value = case_when(
            is.na(last_obs_value) ~ 0,
-           TRUE ~ obs_value - last_obs_value)) %>%
+           TRUE ~ obs_value - last_obs_value)) |>
   select(time_period,
          obs_value,
          change_obs_value)
 
 # Plot time series -------------------------------------------------------------
-females_part_time %>%
+females_part_time |>
   ggplot(aes(x = time_period, 
              y = change_obs_value)) +
   geom_line() + 
@@ -141,21 +147,21 @@ We can then reference the parameter keys directly in our R code. I recommend cho
 
 ```{r, results='hold', fig.width=5, fig.height=4, out.width='50%'}
 # Replace code with parameter keys ---------------------------------------------
-females_part_time <- labour_force %>% 
+females_part_time <- labour_force |> 
   filter(sex == params$sex, # 2 represents females
          measure == params$measure, # M2 represents part-time employed 
-         tsest == params$tsest) %>% # 20 represents seasonally adjusted  
+         tsest == params$tsest) |> # 20 represents seasonally adjusted  
   mutate(time_period = as.Date(paste0(time_period, "-01"), format = "%Y-%m-%d"),
          last_obs_value = lag(obs_value),
          change_obs_value = case_when(
            is.na(last_obs_value) ~ 0,
-           TRUE ~ obs_value - last_obs_value)) %>%
+           TRUE ~ obs_value - last_obs_value)) |>
   select(time_period,
          obs_value,
          change_obs_value)
 
 # Plot time series -------------------------------------------------------------
-females_part_time %>%
+females_part_time |>
   ggplot(aes(x = time_period, 
              y = change_obs_value)) +
   geom_line() + 
