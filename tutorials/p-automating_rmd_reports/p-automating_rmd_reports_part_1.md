@@ -39,8 +39,8 @@ Bureau of Statistics (ABS) to explore R report productionisation tips.
 **Note:** This tutorial uses the R base pipe `|>`, which can be accessed
 via **Tools/Global Options** for R version 4.1.0 and above. Using `|>`
 instead of `%>%` hypothetically reduces the number of R package
-dependencies for your automated report (a good workflow housekeeping
-practice).
+dependencies for your automated report and this is a good housekeeping
+practice when creating CI/CD pipelines.
 
 <img src="../../figures/general-base_pipe_instructions.png" width="50%" style="display: block; margin: auto;" />
 

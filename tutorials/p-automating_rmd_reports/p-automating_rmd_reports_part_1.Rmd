@@ -35,7 +35,7 @@ An automated workflow promotes code longevity and frees your time from performin
 
 In this example, I will be using the monthly labour force data segregated by measure (employment status) and region from the Australian Bureau of Statistics (ABS) to explore R report productionisation tips.   
 
-**Note:** This tutorial uses the R base pipe `|>`, which can be accessed via **Tools/Global Options** for R version 4.1.0 and above. Using `|>` instead of `%>%` hypothetically reduces the number of R package dependencies for your automated report (a good workflow housekeeping practice).    
+**Note:** This tutorial uses the R base pipe `|>`, which can be accessed via **Tools/Global Options** for R version 4.1.0 and above. Using `|>` instead of `%>%` hypothetically reduces the number of R package dependencies for your automated report and this is a good housekeeping practice when creating CI/CD pipelines.      
 
 ```{r, echo=FALSE, results='hold', out.width="50%"}
 knitr::include_graphics("../../figures/general-base_pipe_instructions.png")
