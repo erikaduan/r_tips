@@ -1,783 +1,838 @@
-You can use data.table or tidyverse!
+You can use data.table or tidyverse (or Pandas)!
 ================
 Erika Duan
-2022-01-02
+2023-01-02
 
--   [Introduction](#introduction)
--   [Creating a test dataset](#creating-a-test-dataset)
--   [Basic `data.table` operations](#basic-datatable-operations)
-    -   [Filtering data](#filtering-data)
-    -   [Sorting data](#sorting-data)
-    -   [Selecting columns](#selecting-columns)
-    -   [Creating and transforming
-        columns](#creating-and-transforming-columns)
-    -   [Transforming multiple columns](#transforming-multiple-columns)
-    -   [Pipes versus chains](#pipes-versus-chains)
--   [Group by operations](#group-by-operations)
-    -   [Using group by with `.N`](#using-group-by-with-n)
-    -   [Grouping by multiple
-        variables](#grouping-by-multiple-variables)
-    -   [Using group by with row-wise
-        operations](#using-group-by-with-row-wise-operations)
-    -   [Using group by to extract the first or last
-        row](#using-group-by-to-extract-the-first-or-last-row)
-    -   [Using group by with `lead` or `lag`
-        operations](#using-group-by-with-lead-or-lag-operations)
-    -   [Group by using a numeric instead of character variable
-        type](#group-by-using-a-numeric-instead-of-character-variable-type)
--   [The magic behind the code](#the-magic-behind-the-code)
--   [Other resources](#other-resources)
+- <a href="#introduction" id="toc-introduction">Introduction</a>
+- <a href="#creating-a-test-dataset"
+  id="toc-creating-a-test-dataset">Creating a test dataset</a>
+- <a href="#data-frame-conversions" id="toc-data-frame-conversions">Data
+  frame conversions</a>
+- <a href="#code-syntax-differences" id="toc-code-syntax-differences">Code
+  syntax differences</a>
+- <a href="#filter-data" id="toc-filter-data">Filter data</a>
+  - <a href="#filter-by-a-single-condition"
+    id="toc-filter-by-a-single-condition">Filter by a single condition</a>
+  - <a href="#filter-by-multiple-conditions"
+    id="toc-filter-by-multiple-conditions">Filter by multiple conditions</a>
+  - <a href="#filter-using-regular-expressions"
+    id="toc-filter-using-regular-expressions">Filter using regular
+    expressions</a>
+  - <a href="#filter-across-multiple-columns"
+    id="toc-filter-across-multiple-columns">Filter across multiple
+    columns</a>
+  - <a href="#equivalent-pandas-code"
+    id="toc-equivalent-pandas-code">Equivalent Pandas code</a>
+  - <a href="#code-benchmarking" id="toc-code-benchmarking">Code
+    benchmarking</a>
+- <a href="#sort-data" id="toc-sort-data">Sort data</a>
+  - <a href="#equivalent-pandas-code-1"
+    id="toc-equivalent-pandas-code-1">Equivalent Pandas code</a>
+  - <a href="#code-benchmarking-1" id="toc-code-benchmarking-1">Code
+    benchmarking</a>
+- <a href="#select-columns" id="toc-select-columns">Select columns</a>
+  - <a href="#equivalent-pandas-code-2"
+    id="toc-equivalent-pandas-code-2">Equivalent Pandas code</a>
+  - <a href="#code-benchmarking-2" id="toc-code-benchmarking-2">Code
+    benchmarking</a>
+- <a href="#transform-columns" id="toc-transform-columns">Transform
+  columns</a>
+  - <a href="#transform-via-copy-on-modify-versus-modify-in-place"
+    id="toc-transform-via-copy-on-modify-versus-modify-in-place">Transform
+    via copy on modify versus modify in place</a>
+  - <a href="#transform-using-multiple-conditions"
+    id="toc-transform-using-multiple-conditions">Transform using multiple
+    conditions</a>
+  - <a href="#equivalent-pandas-code-3"
+    id="toc-equivalent-pandas-code-3">Equivalent Pandas code</a>
+  - <a href="#code-benchmarking-3" id="toc-code-benchmarking-3">Code
+    benchmarking</a>
+- <a href="#group-by-and-summarise-columns"
+  id="toc-group-by-and-summarise-columns">Group by and summarise
+  columns</a>
+  - <a href="#equivalent-pandas-code-4"
+    id="toc-equivalent-pandas-code-4">Equivalent Pandas code</a>
+  - <a href="#code-benchmarking-4" id="toc-code-benchmarking-4">Code
+    benchmarking</a>
+- <a href="#chain-code" id="toc-chain-code">Chain code</a>
+  - <a href="#equivalent-pandas-code-5"
+    id="toc-equivalent-pandas-code-5">Equivalent Pandas code</a>
+- <a href="#other-resources" id="toc-other-resources">Other resources</a>
 
 ``` r
-#-----load required packages-----  
+# Load required R packages -----------------------------------------------------
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,
-               ids, # for generating random ids
                tidyverse,
                data.table,
-               compare, # compare between data frames
-               microbenchmark)
+               compare, # Compare results between two data frames   
+               microbenchmark,
+               reticulate) # Required for the Python environment interface
+```
+
+``` r
+# Check Python configurations --------------------------------------------------
+# I first created & activated my Python virtual environment using venv [via terminal]
+# I then installed pandas inside my virtual environment using pip [via terminal]      
+
+# Force R to use my Python virtual environment
+use_virtualenv("C:/Windows/system32/py_396_data_science")
+
+# Use reticulate::py_discover_config() to check Python environment settings 
 ```
 
 # Introduction
 
-One of the great benefits of following Rstats conversations on Twitter
-is its access to user insights. I became curious about `data.table`
-after reading conversations about its superior performance yet decreased
-visibility compared to `tidyverse`.
+I started data analysis in `R` with the `tidyverse` suite of packages
+and `dplyr` still sparks the greatest joy compared to any other data
+wrangling packages that I use in R or Python. In R, a useful alternative
+to `dplyr` is `data.table`, when you need to perform lots of groupings
+on large datasets (datasets over 1 million rows).
 
-Fast forward a few years and the [data processing
-efficiency](https://h2oai.github.io/db-benchmark/) of `data.table` has
-become extremely handy:
+The pros and cons of using `tidyverse`, `data.table` and the popular
+Python data wrangling package `Pandas` are listed below, keeping in mind
+that some preferences are subjective.
 
--   When I have very large datasets (datasets over 0.5 million rows)
-    **and**  
--   I constantly need to use `group by` operations to extract new data
-    features.
+| Package           | `dplyr`                                                          | `data.table`                                                                                          | `Pandas`                                                                                            |
+|:------------------|:-----------------------------------------------------------------|:------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------|
+| Code readability  | Code is highly readable and integrates well with `\|>` and `%>%` | `data.table` code is often most concise, but suffers from decreased readability when using long names | `Pandas` allows chaining of methods but its methods syntax can feel less intuitive than `dplyr`     |
+| Speed: `group by` |                                                                  | Performance scales better as the number of groups increase (\> 100K groups)                           | Performs equivalently to `dplyr` according to [db-benchmark](https://h2oai.github.io/db-benchmark/) |
+| Speed: `sort`     |                                                                  | Faster `sort` method for large datasets (\> 1M rows)                                                  |                                                                                                     |
+| Memory usage      | Out of memory for group by operations on 50 GB datasets          | Can avoid memory allocation for intermediate data transformation steps                                | Out of memory for group by operations on 50 GB datasets                                             |
 
-Let me show you what I mean.
+Let’s test this out for ourselves.
 
 # Creating a test dataset
 
 Imagine you have a dataset describing how students are engaging with
 online courses:
 
--   Each student has a unique ID.  
--   There are 5 different online platforms (labelled platforms A, B, C
-    and D).
--   Students have the option of taking different courses within the same
-    platform or by switching to a different platform.  
--   Start dates are recorded when the student first signs up to a
-    platform and when the student first starts a course within a
-    platform.  
--   End dates are also recorded when the student finishes with an
-    individual course and individual provider.
+- Each student has a unique ID.  
+- There are 5 different online platforms labelled `A`, `B`, `C`, `D` and
+  `E`.  
+- Students can take multiple courses at any time.  
+- Students have the option of taking different courses within the same
+  platform or switching to a different course on a different platform.  
+- Platform start dates are recorded when the student first signs up to a
+  platform.  
+- Platform end dates are recorded when a student completes their last
+  course or switches to a new platform.
 
-**Note:** The code used to create the test dataset can be accessed from
-the `Rmd` file accompanying this tutorial.
+We can source the R script
+[`./dc-dataset_generation_script.R`](./dc-dataset_generation_script.R)
+to generate a mock dataset of 1M course enrollments, which is named
+`courses_df`.
 
 ``` r
-#-----using kable to quickly visualise the test dataset-----  
-student_courses %>%
-  head(10) %>%
-  knitr::kable()
+# Source R script to generate mock dataset -------------------------------------
+# Explicitly state that outputs are generated in the global R environment   
+source("dc-dataset_generation_script.R", local = knitr::knit_global())
 ```
 
-| student\_id | online\_platform | online\_course      | platform\_start\_date | platform\_end\_date |
-|:------------|:-----------------|:--------------------|:----------------------|:--------------------|
-| 00007f23    | E                | fitness\_training   | 2017-05-21            | 2017-06-29          |
-| 00007f23    | A                | UX\_design          | 2018-09-05            | 2018-10-21          |
-| 00007f23    | E                | website\_design     | 2016-06-23            | 2016-07-20          |
-| 00007f23    | C                | bread\_baking       | 2018-03-03            | 2018-04-07          |
-| 00007f23    | A                | metal\_welding      | 2017-11-29            | 2017-12-27          |
-| 00007f23    | D                | metal\_welding      | 2016-03-09            | 2016-04-08          |
-| 000080c8    | D                | contemporary\_dance | 2016-10-31            | 2016-11-09          |
-| 000080c8    | B                | fitness\_training   | 2018-12-04            | 2019-01-09          |
-| 0000ba9c    | D                | R\_beginner         | 2017-08-08            | 2017-09-08          |
-| 0000ba9c    | C                | website\_design     | 2018-09-22            | 2018-10-05          |
+**Note:** The script `dc-dataset_generation_script.R` may take several
+minutes to load whilst it generates 1 million synthetic records.
 
-# Basic `data.table` operations
+# Data frame conversions
 
-A data frame can be converted into a `data.table` using the `setDT`
-function. This function is handy as it assigns both `data.table` and
-`data.frame` classes to the original object.
+The [R script above](./dc-dataset_generation_script.R) generates a
+`data.table` object named `courses_df`. In R, the default data object is
+a `data.frame`. A `data.frame` is just a list of vectors (of the same
+length) with each column represented by a separate vector.
+
+The `tibble` data object is a modified version of the `data.frame` that
+prohibits column name and other data value conversions by default. You
+can read more about these differences in the Advanced R [chapter on
+tibbles](https://adv-r.hadley.nz/vectors-chap.html?q=tibble#tibble).
+
+The `data.table` package contains the function `setDT()`, which converts
+a `data.frame` or tibble into a `data.table` object by reference
+(without creating a second copy of the original object). As `courses_df`
+is already a `data.table` object, we can proceed directly with our data
+analysis.
 
 ``` r
-#-----converting a data frame into a data table-----  
-class(student_courses)
-#> [1] "tbl_df"     "tbl"        "data.frame"
+# Check data object type -------------------------------------------------------
+# Check the class of a data.table object  
+typeof(courses_df)
+#> [1] "list"  
 
-setDT(student_courses)  
+class(courses_df)
+#> [1] "data.table" "data.frame"   
 
-class(student_courses)
-#> [1] "data.table" "data.frame"  
+# Check the class of a default R data object created using as.data.frame()
+data.frame(id = 1:5, letter = letters[1:5]) |>
+  class()
+#> [1] "data.frame"  
+
+# Check the class of a tibble data object 
+data.frame(id = 1:5, letter = letters[1:5]) |>
+  as_tibble() %>%  
+  class()
+#> [1] "tbl_df"     "tbl"        "data.frame"  
 ```
 
-The general form of a `data.table` query is structured in the form
-`DT[i, j, by]` where:
+As this tutorial showcases equivalent Python `Pandas` code, we also need
+to import the `Pandas` package into our Python environment and create a
+copy of `course_df` in our Python environment.
 
--   Data subsetting (i.e. filtering rows) is performed using `i`.  
--   Data column selection or creation is performed using `j`.  
--   Grouping data by a variable is performed using `by`.
+``` python
+# Import Python packages for Python data transformations -----------------------
+import pandas as pd  
+import datetime as dt
+import numpy as np
 
-## Filtering data
+# Load courses_df into the Python environment as a Pandas data frame -----------
+courses_pf = r.courses_df
 
-The syntax for filtering data is very similar between `tidyverse` and
-`data.table`. In the absence of `group by` operations, the data
-processing speed is also similar when using large datasets.
+# Convert platform_start_date and platform_end_date to date type ---------------
+# Apply a vectorised datetime type conversion for each column containing "date" 
+date_cols = [col for col in courses_pf.columns if "date" in col]
 
-**Note:** Both `tidyverse` and `data.table` provide the `between`
-function for filtering from the left and the right of a numerical vector
-of values.
-
-``` r
-#-----filtering data using tidyverse-----
-t_platform_A_C_D <- student_courses %>%
-  filter(online_platform %in% c("A", "C", "D"))
-
-#-----filtering data using data.table-----
-dt_platform_A_C_D <- student_courses[online_platform %in% c("A", "C", "D")]  
-
-#-----filtering between dates using tidyverse-----
-t_platform_between_2018_2019 <- student_courses %>%
-  filter(between(platform_start_date, "2018-01-01", "2019-01-01"))
-
-#-----filtering between dates using data.table-----
-dt_platform_between_2018_2019 <- student_courses[platform_start_date %between% c("2018-01-01", "2019-01-01")]
-
-# date objects are stored as integers in R and can be manipulated like numeric vectors  
-```
-
-When we use `microbenchmark` to compare execution times (using the
-argument `times = 10`), `tidyverse` and `data.table` are comparable with
-each other. Filtering between a range of numerical vectors is slightly
-faster in `data.table`.
-
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" />
-
-## Sorting data
-
-Like subsetting and filtering, data sorting is also performed inside `i`
-of `DT[i, j, by]`.
-
-``` r
-#-----sorting data using tidyverse-----  
-t_sorted <- student_courses %>%
-  arrange(student_id,
-          online_platform,
-          online_course,
-          desc(platform_start_date))  
-
-# sort student_id, online_platform and online_courses alphabetically (ascending)
-# then sort platform_start_date by most recent date (descending) 
-
-#-----sorting data using data.table-----
-dt_sorted <- student_courses[order(student_id,
-                                   online_platform,
-                                   online_course,
-                                   -platform_start_date)]  
-```
-
-Here, the takeaway message is that sorting data by multiple variables
-(i.e. columns) is computationally expensive, with `data.table`
-outperforming `tidyverse`. A handy way to avoid redundant sorting
-operations is to sort your dataset once early in your data cleaning
-workflow, after you have loaded your raw data, renamed your columns and
-performed some basic cleaning.
-
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" />
-
-## Selecting columns
-
-In `data.table`, column selection is performed inside `j` of
-`DT[i, j, by]` and returns either a vector or another `data.table`. A
-`data.table` is only returned if the variable selection is wrapped
-inside a list.
-
-In `tidyverse`, performing data frame operations will always return
-another data frame, unless you explicitly use `pull` to extract a column
-as a vector.
-
-``` r
-#-----selecting a column using tidyverse-----    
-t_student_ids <- student_courses %>%
-  select(student_id) # produces a data frame by default 
-
-v_student_ids <- student_courses %>%
-  pull(student_id) # pulls out a vector
-
-t_student_course_info <- student_courses %>%
-  select(student_id,
-         online_platform,
-         online_course)
-
-class(t_student_ids)
-#> [1] "data.table" "data.frame" 
-
-class(v_student_ids)
-#> [1] "character"
-
-class(t_student_course_info)
-#> [1] "data.table" "data.frame"
-
-#-----selecting a column using data.table-----  
-v_student_ids <- student_courses[,
-                                 student_id] # produces a vector
-
-dt_student_ids <- student_courses[,
-                                  .(student_id)] # .() wraps the output as a list  
-
-dt_student_course_info <- student_courses[,
-                                          .(student_id,
-                                            online_platform,
-                                            online_course)]
-
-class(v_student_ids)
-#> [1] "character"
-
-class(dt_student_ids)
-#> [1] "data.table" "data.frame"
-
-class(dt_student_course_info)
-#> [1] "data.table" "data.frame"
-```
-
-We can see that `tidyverse` outperforms `data.table` when we need to
-subset columns inside a data frame.
-
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-12-1.png" width="70%" style="display: block; margin: auto;" />
-
-## Creating and transforming columns
-
-A feature of `data.table` is that only the operations performed inside
-`j` of `DT[i, j, by]` are stored in the new `data.table`. This contrasts
-with the `mutate` function from `tidyverse`, which always creates a new
-column or transforms an existing column inside the original data frame.
-
-In `data.table`, the use case `:=` also exists. This can only be used on
-a single operation per `data.table` but it retains all other columns
-from the original `data.table`.
-
-**Note:** Although `data.table` allows columns to be modified by
-reference (without re-assigning the result back to a variable),
-re-assigning results is always recommended for maintaining code
-readability.
-
-``` r
-#----creating a function to convert days into weeks-----
-convert_days_to_weeks <- function(day){
-  if (is.character(day) || is.logical(day)) {
-    stop("Please input a number i.e. number of days.")  
-  }
-  if (is.numeric(day)) {
-    return(day/7)
-  }
+for col in date_cols:
+  courses_pf[col] = pd.to_datetime(courses_pf[col], format = "%Y-%m-%d")
   
-  # for time intervals
-  day <- as.numeric(day)
-  day/7
-}
-
-#-----creating new platform_length columns using tidyverse-----
-t_platform_length <- student_courses %>%
-  mutate(platform_length_days = platform_end_date - platform_start_date,
-         platform_length_weeks = convert_days_to_weeks(platform_length_days))    
-
-colnames(t_platform_length) 
-#> [1] "df_index"              "student_id"            "online_platform"       "online_course"      
-#> [5] "platform_start_date"   "platform_end_date"     "platform_length_days" "platform_length_weeks"
-
-#-----creating new platform_length columns using data.table-----  
-# note the difference between using = and := 
-
-dt_platform_length <- student_courses[,
-                                      .(platform_length_days = platform_end_date - platform_start_date)]
-
-colnames(dt_platform_length)
-#> [1] "platform_length_days"  
-
-dt_platform_length <- student_courses[,
-                                      platform_length_days := platform_end_date - platform_start_date
-                                      ][, 
-                                        platform_length_weeks := convert_days_to_weeks(platform_length_days)]
-
-colnames(dt_platform_length)
-#> [1] "df_index"              "student_id"            "online_platform"       "online_course"        
-#> [5] "platform_start_date"   "platform_end_date"     "platform_length_days"  "platform_length_weeks"  
-
-# keeping operations inside {} allows suppression of intermediate outputs 
-
-dt_platform_length_weeks <- student_courses[,
-                                            {platform_length_days = platform_end_date - platform_start_date
-                                            platform_length_weeks = convert_days_to_weeks(platform_length_days)
-                                            .(platform_length_weeks = platform_length_weeks)}]  
-
-colnames(dt_platform_length_weeks)  
-#> [1] "platform_length_weeks"
+courses_pf.dtypes
 ```
 
-Performance is similar for `tidyverse` and `data.table` when creating
-new columns. Somewhat surprising, creating a `data.table` which only
-returns the variable(s) of interest i.e. `dt_platform_length_weeks` does
-not improve computational efficiency compared with `mutate`, which
-returns all variables in the data frame.
+# Code syntax differences
 
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" />
+Before we practice specific examples, it is worthwhile examining the
+syntax of `dplyr` and `data.table` functions. The `dplyr` syntax is more
+beginner friendly as it comprises a list of data transformation verbs,
+which can be chained together to create a new output.
 
-## Transforming multiple columns
+The `data.table` syntax is structured in the form `DT[i, j, by]` where:
 
-But what happens when we need to perform the same operation on multiple
-columns? In `tidyverse`, we can use `mutate_if`, `mutate_at` or
-`mutate_all` to select our columns of interest and apply a function
-across all selected columns. In `data.table`, this operation is
-facilitated by the symbols `.SD` and `.SDcols`. The symbol `.SD` stands
-for subset of data and represents a `data.table` which contains a
-defined set of columns or grouped columns.
+- Data selection (i.e. filtering or sorting rows) is performed in the
+  `i` placeholder.  
+- Data column selection or creation is performed in the `j`
+  placeholder.  
+- Grouping data is performed in the `by` placeholder.
 
-**Note:** The syntax of `mutate` has recently been
-[updated](https://www.tidyverse.org/blog/2020/04/dplyr-1-0-0-colwise/)
-so that the function `across` substitutes the need for separate
-`mutate_if`, `mutate_at` and `mutate_all` functions.
+<img src="../../figures/dc-code_syntax.svg" width="80%" />
+
+# Filter data
+
+## Filter by a single condition
+
+The code to filter data using `dplyr` or `data.table` is very similar
+and `data.table` objects can also be directly transformed using `dplyr`
+functions.
 
 ``` r
-#-----transforming multiple columns using tidyverse-----  
-t_all_upper <- student_courses %>%
-  mutate_at(c("student_id", "online_course"), # variables of interest
-            ~ toupper(.)) # function of interest
+# Filter by platform B and C using dplyr ---------------------------------------
+courses_df %>%
+  filter(platform %in% c("B", "C"))
 
-#-----transforming multiple columns using data.table-----    
-dt_all_upper <- student_courses[,
-                                lapply(.SD, toupper), # function of interest  
-                                .SDcols = c("student_id", "online_course")] # variables of interest  
-
-# note that dt_all_upper only contains the transformed columns     
+# Filter by platform B and C using data.table ----------------------------------
+# The data.table helper operator %chin% is equivalent to but faster than %in%
+courses_df[platform %chin% c("B", "C")]
 ```
 
-## Pipes versus chains
+``` python
+# Filter by platform A and B using Pandas in Python ----------------------------
+courses_pf[courses_pf.platform.isin(["B", "C"])]  
+```
 
-No data frame operation is an island. The `tidyverse` packages allow
-piping of functions via `%>%` to increase code readability. In
-`data.table`, the equivalent concept is called chaining via `[]` to link
-a series of operations together.
+## Filter by multiple conditions
+
+When filtering by multiple conditions, we use the symbol `|` to denote
+the expression `OR` and the symbol `&` to denote the expression `AND`.
+In `dplyr`, the comma is a shorthand for `AND`.
 
 ``` r
-#-----piping with tidyverse data frames-----  
-with_pipes <- student_courses %>%
-  filter(online_platform == "B") %>%
-  mutate(status = "special_cohort") %>%  
-  arrange(student_id,
-          desc(platform_start_date),
-          desc(platform_end_date)) %>%
-  select(student_id, online_platform, online_course, status)
+# Filter by platform B & platform start date >= 2018-09-01 using dplyr ---------
+courses_df %>%
+  filter(platform == "B",
+         platform_start_date >= "2018-09-01")
 
-#-----chaining with data.table----- 
-with_chaining <- student_courses[online_platform == "B"
-                                 ][, status := "special_cohort"
-                                   ][order(student_id, -platform_start_date, -platform_end_date)
-                                     ][, .(student_id, online_platform, online_course, status)]  
-
-compare(with_chaining, with_pipes, ignoreAttrs = T)
-#> TRUE
-
-# note that chaining allows a filtered data frame to first be subsetted and then transformed  
-# without chaining, the transformation is applied where relevant across the whole data table     
-
-no_chaining <- student_courses[online_platform == "B", status := "special_cohort"
-                               ][order(student_id, -platform_start_date, -platform_end_date)
-                                 ][, .(student_id, online_platform, online_course, status)]    
+# Filter by platform B & platform start date >= 2018-09-01 using data.table ----
+courses_df[platform == "B" & platform_start_date >= "2018-09-01"]
 ```
+
+``` python
+# Filter by platform B & platform start date >= 2018-09-01 using Pandas --------
+is_platform_B = (courses_pf["platform"] == "B")  
+starts_on_or_after_2018_09_01 = (courses_pf["platform_start_date"] >= "2018-09-01")  
+
+courses_pf[is_platform_B & starts_on_or_after_2018_09_01]  
+```
+
+## Filter using regular expressions
+
+We can also filter values using regular expressions via the `stringr`
+package or the `data.table` helper function `%like%`.
 
 ``` r
-head(with_chaining)
+# Filter by course starting with the letter R using dplyr ----------------------
+courses_df %>%
+  filter(str_detect(course, "^R"))
+
+# Filter by course starting with the letter R using data.table -----------------
+courses_df[course %like% "R"]
 ```
 
-    ##    student_id online_platform      online_course         status
-    ## 1:   000080c8               B   fitness_training special_cohort
-    ## 2:   00014b3f               B         R_advanced special_cohort
-    ## 3:   00041691               B     R_intermediate special_cohort
-    ## 4:   00041691               B contemporary_dance special_cohort
-    ## 5:   0004fdd2               B contemporary_dance special_cohort
-    ## 6:   00056ef2               B            pottery special_cohort
+## Filter across multiple columns
+
+With the release of [dplyr
+1.0.4](https://www.tidyverse.org/blog/2021/02/dplyr-1-0-4-if-any/), we
+can also filter by a condition across multiple columns using `if_all()`
+and `if_any()`. An equivalent shortcut does not currently exist for
+`data.table` or `Pandas`, so all the conditions still need to be listed
+manually.
 
 ``` r
-head(no_chaining)
+# Filter by platform start AND end date between dates using dplyr --------------
+courses_df %>%
+  filter(if_all(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) %>%
+  head(3) # View output
 ```
 
-    ##    student_id online_platform    online_course status
-    ## 1:   00007f23               A        UX_design   <NA>
-    ## 2:   00007f23               C     bread_baking   <NA>
-    ## 3:   00007f23               A    metal_welding   <NA>
-    ## 4:   00007f23               E fitness_training   <NA>
-    ## 5:   00007f23               E   website_design   <NA>
-    ## 6:   00007f23               D    metal_welding   <NA>
-
-# Group by operations
-
-## Using group by with `.N`
-
-Group by operations are important when you have multiple rows of data
-for each unit of interest, and you need to summarise those rows into a
-single property. A grouping is specified using the `group_by` function
-in `tidyverse` and inside `by` of `DT[i, j, by]`.
-
-For instance, let’s say that I am interested in the total number of
-online courses taken per student.
+    ##     student platform         course platform_start_date platform_end_date
+    ## 1: 00074144        A linear_algebra          2018-01-01        2018-03-01
+    ## 2: 00074144        A linear_algebra          2018-01-01        2018-03-01
+    ## 3: 0008c592        E linear_algebra          2018-02-20        2018-03-01
 
 ``` r
-#-----using group_by, summarise and n() from tidyverse-----  
-t_courses_per_student <- student_courses %>%
-  group_by(student_id) %>%
-  summarise(total_online_courses = n()) %>%
-  ungroup # always ungroup after using group_by      
-
-#-----using by and .N from data.table-----  
-dt_courses_per_student <- student_courses[,
-                                          .(total_online_courses = .N),
-                                          by = student_id]
+# Filter by platform start OR end date between dates using dplyr ---------------
+courses_df %>%
+  filter(if_any(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) %>%
+  head(3) # View output
 ```
 
-This is different to finding the total number of **unique** online
-courses taken per student (as it is possible for a student to have taken
-the same online course through a different platform, or repeated the
-same course through the same platform at a later date).
+    ##     student platform          course platform_start_date platform_end_date
+    ## 1: 000027f0        E         pottery          2018-03-23        2018-05-08
+    ## 2: 0001a247        C  R_intermediate          2017-12-11        2018-01-11
+    ## 3: 0001bda1        A Python_beginner          2017-11-25        2018-01-01
+
+## Equivalent Pandas code
+
+In `Pandas`, we can filter values using regular expressions using the
+[string
+methods](https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html#testing-for-strings-that-match-or-contain-a-pattern)
+`str.contains`, `str.match` or `str.fullmatch`. In this scenario, we
+would use `str.match` to match against the first characters of the
+string.
+
+``` python
+# Filter by course starting with the letter R using Pandas ---------------------
+courses_pf[courses_pf.course.str.match("R_", na = False)]
+
+# Alternatively set regex = True when using df.column.str.contains("pattern")  
+```
+
+## Code benchmarking
+
+The execution time for `dplyr` and `data.table` is roughly equivalent
+for filtering data.
+
+<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-14-1.png" width="60%" />
+
+# Sort data
+
+Sorting large data frames is computationally expensive, so we should
+minimise the number of times we need to sort a column. In `dplyr`, we
+sort columns using `arrange()`, which orders records in ascending order
+by default. To sort columns by descending order, we append `desc()`
+inside \`arrange().
+
+The `data.table` package uses an alternative faster sort method
+accessible via the `order()` function. To sort columns by descending
+order in `data.table`, we append `-` in front of the column name. We can
+also sort **by reference** using `setorder()`, which directly modifies
+the original data frame.
 
 ``` r
-#-----using group_by, summarise and n_distinct() from tidyverse-----  
-t_unique_courses_per_student <- student_courses %>%
-  group_by(student_id) %>%
-  summarise(total_online_courses = n_distinct(online_course)) %>%
-  ungroup      
+# Sort by ascending student id and descending platform name using dplyr --------
+courses_df %>%
+  arrange(student,
+          desc(platform))
 
-#-----using by and length(unique(.x)) from data.table-----  
-dt_unique_courses_per_student <- student_courses[,
-                                                 .(total_online_courses = length(unique(online_course))),
-                                                 by = student_id]
+# Sort by ascending student id and descending platform name using data.table ---
+courses_df[order(student,
+                 -platform)]
 
-# avoid using uniqueN as it is much slower than length(unique(.x))  
+# setorder() sorts by reference  
+# setorder(courses_df, 
+#          student,
+#          -platform)
 ```
 
-We can see that `data.table` performs faster than `tidyverse` once we
-need to group by variables. An exception to this trend is when we
-specifically use `length(unique(.x))` inside a grouped `data.table`.
+## Equivalent Pandas code
 
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-20-1.png" width="70%" style="display: block; margin: auto;" />
+In `Pandas`, we use the `.sort_values()` method to sort multiple
+columns. We can also assign missing values to appear in the first or
+last position via the argument `na_position = "first"`.
 
-## Grouping by multiple variables
+``` python
+# Sort by ascending student id and descending platform name using Pandas -------
+courses_pf.sort_values(by = ["student", "platform"],
+                       ascending = [True, False], 
+                       na_position = "first")
+```
 
-Does the difference in performance between `data.table` and `tidyverse`
-widen further when we need to group by multiple variables of interest?
+## Code benchmarking
 
-Let’s say that I am now interested in the total number of online courses
-taken per student per unique online platform.
+The `data.table` package uses a much faster sort method compared to
+`dplyr`.
 
-**Note:** Unlike `tidyverse`, `data.table` intentionally retains the
-original order of the groups that it encounters. Using `keyby` instead
-of `by` allows sorting by the grouped variables without significantly
-decreasing `data.table` performance.
+<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-17-1.png" width="60%" />
+
+# Select columns
+
+Using `dplyr`, single or multiple columns can be selected via `select()`
+and combined with regular expressions or column type queries wrapped
+inside [`where()`](https://tidyselect.r-lib.org/reference/where.html).
+As of `data.table` [version
+1.13.0](https://github.com/Rdatatable/data.table/blob/master/NEWS.md#datatable-v1130--24-jul-2020),
+complex column selections can be performed by inputting a function using
+`.SDcols`.
 
 ``` r
-#-----grouping by two variables using tidyverse-----  
-t_courses_per_student_per_platform <- student_courses %>%
-  group_by(student_id, online_platform) %>%
-  summarise(total_online_courses = n()) %>%
-  ungroup      
+# Select multiple columns by name using dplyr ----------------------------------
+courses_df %>%
+  select(student,
+         platform)
 
-head(t_courses_per_student_per_platform)
+# Select multiple columns by name using data.table -----------------------------
+# .() is a shorthand for list()  
+courses_df[,
+           .(student,
+             platform)]
 
-#-----grouping by two variables using data.table-----   
-dt_courses_per_student_per_platform <- student_courses[,
-                                                       .(total_online_courses = .N),
-                                                       by = .(student_id,
-                                                              online_platform)]  
+# Select columns ending with date using dplyr ----------------------------------
+courses_df %>%
+  select(ends_with("date"))
 
-head(dt_courses_per_student_per_platform)
+# Select columns ending with date using data.table -----------------------------
+courses_df[, 
+           grep("date$", colnames(courses_df), value = TRUE),
+           with = FALSE]
 
-# using keyby instead of by allows sorting by the variables in our grouping 
+# Using .SDcols syntax for functions to output columns via .SD
+courses_df[, 
+           .SD,
+           .SDcols = grep("date$", colnames(courses_df), value = TRUE)]
 
-dt_courses_per_student_per_platform <- student_courses[,
-                                                       .(total_online_courses = .N),
-                                                       keyby = .(student_id,
-                                                                 online_platform)] 
+# Select columns of date type using dplyr --------------------------------------
+# Apply class(col) across all columns in courses_df to identify column type 
+vapply(courses_df, class, character(1L))
 
-head(dt_courses_per_student_per_platform)
+courses_df %>%
+  select(where(~inherits(., "Date")))
+
+# Select columns of date type using data.table ---------------------------------
+# ~inherits(., "Date") is a dplyr shorthand for function(x) inherits(x, 'Date')
+courses_df[, 
+           .SD,
+           .SDcols = function(x) inherits(x, 'Date')]
 ```
 
-We can see that the addition of a second variable grouping does not
-greatly decrease `data.table` performance in contrast to `tidyverse`.
-
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-22-1.png" width="70%" style="display: block; margin: auto;" />
-
-## Using group by with row-wise operations
-
-Let’s say that I am now interested in understanding the minimum, maximum
-and mean length of time (in weeks) that a student spends on each online
-platform.
+For `dplyr`, extracting a single column using `select()` will always
+return another data frame, unless we explicitly use `pull()` to output a
+vector. For `data.table`, wrapping columns inside a list via `.()`
+returns another data frame.
 
 ``` r
-#----group by and row-wise operations using tidyverse-----
-t_time_per_student_per_platform <- student_courses %>%
-  group_by(student_id, online_platform) %>%
-  summarise(min_weeks = min(platform_length_weeks),
-            mean_weeks = mean(platform_length_weeks),
-            max_weeks = max(platform_length_weeks)) %>%
-  ungroup()
+# Output data frame with select() using dplyr ----------------------------------
+courses_df %>%
+  select(student) %>%
+  class()
+#> [1] "data.table" "data.frame"  
 
-#----group by and row-wise operations using data.table-----  
-dt_time_per_student_per_platform <- student_courses[,
-                                                    .(min_weeks = min(platform_length_weeks),
-                                                      mean_weeks = mean(platform_length_weeks),
-                                                      max_weeks = max(platform_length_weeks)),
-                                                    keyby = .(student_id, online_platform)]
+# Output vector with select() & pull using dplyr -------------------------------
+courses_df %>%
+  pull(student) %>%
+  class()
+#> [1] "character"
+
+# Output data frame following column selection using data.table ----------------
+courses_df[, .(student)] %>%
+  class()
+#> [1] "data.table" "data.frame"  
+
+# Output vector following column selection using data.table --------------------
+courses_df[, student] %>%
+  class() 
+#> [1] "character"
 ```
 
-Once again, `data.table` runs much faster than `tidyverse` when we need
-to perform row-wise operations on groups of variables.
+## Equivalent Pandas code
 
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-24-1.png" width="70%" style="display: block; margin: auto;" />
+In `Pandas`, the `.filter()` method can be used to select columns using
+regular expressions and the `.select_dtypes()` method is used to select
+columns by column type. `Pandas` data frames can be outputted as a data
+frame, series or NumPy array.
 
-## Using group by to extract the first or last row
+``` python
+# Select multiple columns by name using Pandas ---------------------------------
+courses_pf[["student", "platform"]]
 
-Let’s say that I am now interested in extracting information about the
-first and last online course per platform that each student has enrolled
-in. To do this, I might want to group by `student_id` and
-`online_platform`, and then separately extract the first and last row of
-data per student.
+# Select columns ending with date using Pandas ---------------------------------
+courses_pf.filter(regex = ("date$"))  
+
+# Select columns of date type using Pandas -------------------------------------
+# Access the data frame .dtypes attribute to identify column type
+courses_pf.dtypes
+#> student                        object
+#> platform                       object
+#> course                         object
+#> platform_start_date    datetime64[ns]
+#> platform_end_date      datetime64[ns]
+#> dtype: object
+
+courses_pf.select_dtypes(include=["datetime64"])
+```  
+
+``` python
+# Output data frame following column selection using Pandas --------------------
+type(courses_pf[["student"]])
+#> <class 'pandas.core.frame.DataFrame'>  
+
+# Output series or vector array following column selection using Pandas --------
+type(courses_pf["student"])
+#> <class 'pandas.core.series.Series'>  
+
+type(courses_pf["student"].values)
+#> <class 'numpy.ndarray'>
+```
+
+## Code benchmarking
+
+The execution time for `dplyr` and `data.table` is roughly equivalent
+for selecting columns, with `dplyr` exhibiting slightly faster code
+execution times.
+
+<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-21-1.png" width="60%" />
+
+# Transform columns
+
+## Transform via copy on modify versus modify in place
+
+Using `dplyr`, we can create new columns or overwrite existing columns
+in our original data frame using `mutate()`, or create or overwrite new
+columns and drop all other existing columns using `transmute()`.
 
 ``` r
-#-----group by and extracting row-wise data using tidyverse-----
-t_first_course_per_platform <- student_courses %>%
-  arrange(platform_start_date) %>%  
-  group_by(student_id, online_platform) %>%
-  filter(row_number() == 1L) %>%
-  ungroup()
+# Create column for platform dwell length using dplyr --------------------------
+courses_df %>% 
+  mutate(platform_dwell_length = platform_end_date - platform_start_date) %>%
+  head(3)  
 
-t_last_course_per_platform <- student_courses %>%
-  arrange(platform_start_date) %>%  
-  group_by(student_id, online_platform) %>%
-  filter(row_number() == n()) %>%
-  ungroup()
-
-#-----group by and extracting row-wise data using data.table-----  
-dt_first_course_per_platform <- student_courses[order(platform_start_date)
-                                                ][,
-                                                  .SD[1L],
-                                                  by = .(student_id, online_platform)] 
-
-dt_last_course_per_platform <- student_courses[order(platform_start_date)
-                                               ][,
-                                                 .SD[.N],
-                                                 by = .(student_id, online_platform)]
+courses_df %>% 
+  transmute(platform_dwell_length = platform_end_date - platform_start_date) %>%
+  head(3)  
 ```
 
-Interestingly, performing row extraction is significantly faster in
-`data.table` compared to `tidyverse`, except when an arbitary row number
-(i.e. the last row in a group) is called. In the latter scenario,
-`data.table` appears to perform much worse than `tidyverse`.
-
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-26-1.png" width="70%" style="display: block; margin: auto;" />
-
-## Using group by with `lead` or `lag` operations
-
-A problem exists, however, in the previous code as it groups together
-and summarises information about the same online platform regardless of
-event sequence. This does not actually reflect what is happening inside
-the data.
+In R, a second copy of an object is created by default whenever the
+original object is modified and this behaviour is called [copy on
+modify](https://adv-r.hadley.nz/names-values.html#copy-on-modify). This
+implies means that a shallow data.frame copy is created whenever a
+column is modified using `mutate()` with `dplyr`. We can trace this
+behaviour using `lobstr::ref()` according to [chapter
+2.3.4](https://adv-r.hadley.nz/names-values.html#df-modify) of the
+[Advanced R textbook](https://adv-r.hadley.nz/index.html).
 
 ``` r
-#-----examining the dataset using student_id == "00028486"-----
-student_courses %>%
-  filter(student_id == "00028486") %>%
-  arrange(platform_start_date) %>%
-  select(student_id,
-         online_platform,
-         online_course,
-         platform_start_date)
+# Check copy on modify behaviour following mutate() ----------------------------
+lobstr::ref(courses_df)
+#> o [1:0x1a043067b00] <dt[,5]> 
+#> +-student = [2:0x7ff450310010] <chr> 
+#> +-platform = [3:0x7ff44fb60010] <chr> 
+#> +-course = [4:0x7ff44f3b0010] <chr> 
+#> +-platform_start_date = [5:0x7ff44ec00010] <date> 
+#> \-platform_end_date = [6:0x7ff44e450010] <date> 
+
+# Modify the platform column and check data frame and column references --------
+courses_df <- courses_df %>%
+  mutate(platform = tolower(platform))  
+
+lobstr::ref(courses_df)
+#> o [1:0x1a043924e28] <dt[,5]> 
+#> +-student = [2:0x7ff450310010] <chr> 
+#> +-platform = [3:0x7ff45c2d0010] <chr> 
+#> +-course = [4:0x7ff44f3b0010] <chr> 
+#> +-platform_start_date = [5:0x7ff44ec00010] <date> 
+#> \-platform_end_date = [6:0x7ff44e450010] <date>    
+
+# A new copy of the courses_df data frame as well as the platform column is 
+# created and referenced.  
 ```
 
-If we closely examine the data, it is quite common for students to sign
-up to one online platform, then switch to another platform, before
-switching back to the first platform later on. If many scenarios, we
-would want to view this switch as a new subset of data about a separate
-online platform (for example, if we are interested in understanding
-whether the first course a student takes influences their likelihood of
-staying longer with the same online provider).
-
-How might we code each subsequent platform switch as a separate online
-platform experience? By making use of `lag` (i.e. previous) and `lead`
-(i.e. next) operations.
+Using `data.table`, we can directly modify or even remove columns in
+place using the `:=` operator inside the `j` placeholder of
+`DT[i, j, by]`. This is a special property of `data.table` and not
+`dplyr` or `Pandas`.
 
 ``` r
-#-----using lead, case_when and fill with tidyverse to create seq_online_platform-----  
-t_sep_online_platforms <- student_courses %>%
-  group_by(student_id) %>% 
-  arrange(student_id, platform_start_date) %>% 
-  mutate(lag_online_platform = lag(online_platform, 1L),
-         seq_online_platform = case_when(is.na(lag_online_platform) ~ row_number(),
-                                         online_platform != lag_online_platform ~ row_number())) %>%
-  fill(seq_online_platform, .direction = "down") %>%
-  ungroup()
+# Check modify in place behaviour following := assignment ----------------------
+lobstr::ref(courses_df)  
+#> o [1:0x1a043924e28] <dt[,5]> 
+#> +-student = [2:0x7ff450310010] <chr> 
+#> +-platform = [3:0x7ff45c2d0010] <chr> 
+#> +-course = [4:0x7ff44f3b0010] <chr> 
+#> +-platform_start_date = [5:0x7ff44ec00010] <date> 
+#> \-platform_end_date = [6:0x7ff44e450010] <date>  
 
-# lag_online_platform produces an NA in the first row of each subset as we have grouped by student_id
-# create a new column where the NA from lag_online_platform corresponds to its row number
-# ammend that column so a row number is also created where online_platform != lag_online_platform  
-# remaining NAs reflect situations where online_platform == lag_online_platform 
-# fill all remaining NAs (NAs are below the value to be filled)   
+# Modify the platform column and check data frame and column references --------
+courses_df[,
+           platform := toupper(platform)]
 
-#-----group by seq_online_platform and extract the first online course using tidyverse-----
-t_first_course_per_platform_seq <- t_sep_online_platforms %>%
-  group_by(student_id, seq_online_platform) %>%
-  filter(row_number() == 1L) %>%
-  ungroup()
+lobstr::ref(courses_df)
+#> o [1:0x1a043924e28] <dt[,5]> 
+#> +-student = [2:0x7ff450310010] <chr> 
+#> +-platform = [3:0x7ff459750010] <chr> 
+#> +-course = [4:0x7ff44f3b0010] <chr> 
+#> +-platform_start_date = [5:0x7ff44ec00010] <date> 
+#> \-platform_end_date = [6:0x7ff44e450010] <date> 
 
-#-----correct way of extracting the first course per platform-----
-t_first_course_per_platform_seq %>%
-  filter(student_id == "00028486") %>%
-  select(student_id,
-         online_platform,
-         online_course,
-         platform_start_date)
+# By modifying columns in place, we do not create a new copy of the courses_df 
+# data frame every time we modify a column. 
 
-#-----previously incorrect way of extracting the first course per platform-----
-t_first_course_per_platform  %>%
-  filter(student_id == "00028486") %>% 
-    select(student_id,
-         online_platform,
-         online_course,
-         platform_start_date)
+# Modify multiple columns using data.table -------------------------------------
+# To modify multiple columns in place, we move `:=` to the front expression    
+courses_df[,
+           `:=` (platform_dwell_length = platform_end_date - platform_start_date,
+                 platform_start_year = str_extract(platform_start_date, "^.{4}(?!//-)"))]
 ```
 
-Performing all these steps in `data.table` will be possible once
-`fcase`, its equivalent of `case_when`, is released in [data.table
-v1.12.9](https://stackoverflow.com/questions/53031140/data-table-alternative-for-dplyr-case-when).
+## Transform using multiple conditions
+
+We can create a column based on multiple conditions using `case_when()`
+or `f_case()` for `dplyr` and `data.table` respectively.
 
 ``` r
-#-----using lead and fill with data.table to create seq_online_platform in data.table-----  
-dt_sep_online_platforms <- student_courses[order(student_id, platform_start_date)
-                                           ][,
-                                             lag_online_platform := shift(online_platform, 1L, type = "lag"),
-                                             by = student_id] 
+# Create column based on multiple conditions using dplyr -----------------------
+courses_df %>%
+  mutate(studied_programming = case_when(
+    str_detect(course, "^R_") ~ "Studied R",
+    str_detect(course, "^Python_") ~ "Studied Python",
+    TRUE ~ "No"
+  ))
 
-# note that case_when is directly compatiable with data.table
+# Create column based on multiple conditions using data.table ------------------
+courses_df[,
+           studied_programming := fcase(
+             str_detect(course, "^R_"), "Studied R",
+             str_detect(course, "^Python_"), "Studied Python",
+             default = "No")]  
 
-dt_sep_online_platforms <- dt_sep_online_platforms[,
-                                                   seq_online_platform := case_when(is.na(lag_online_platform) ~ seq_len(.N),
-                                                                                    online_platform != lag_online_platform ~ seq_len(.N)),
-                                                   by = student_id] 
-
-setnafill(dt_sep_online_platforms, # data.table syntax for fill
-          type = "locf", # last observation carried forward
-          cols = "seq_online_platform")
-
-#-----group by and extracting row-wise data using data.table-----  
-dt_first_course_per_platform_seq <- dt_sep_online_platforms[,
-                                                            .SD[1L],
-                                                            by = .(student_id, seq_online_platform)] 
-
-compare(dt_first_course_per_platform$online_course, t_first_course_per_platform_seq$online_course)
-#> TRUE
+# Remove columns in place using data.table -------------------------------------
+# Columns can be removed in place by using := NULL column assignment  
+courses_df[,
+           c("platform_start_year",
+             "studied_programming") := NULL]
 ```
 
-We can also check how long it takes to run each segment of the code
-written above. Once again, `data.table` operations are faster than
-`tidyverse` operations when we need to group by variables. It will be
-interesting to see whether `fcase` can perform significantly faster than
-`case_when` in the future.
-
-## Group by using a numeric instead of character variable type
-
-There is an additional trick to improving the speed of group by
-operations regardless of using `tidyverse` or `data.table`. It is always
-much faster to perform operations on `numeric` compared to `character`
-vector types.
-
-If there is a character variable type that you need to group by
-repeatedly, it is more efficient to create an equivalent numeric
-variable type and group by that instead.
+Since `dplyr` [version
+1.0.0](https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/), we can use
+`mutate()` in combination with `across()` to apply the same
+transformation functions across multiple columns. In `data.table`, the
+equivalent solution is to specify columns of interest via `.SDcols` and
+then loop through each column using `lapply(function)`.
 
 ``` r
-#-----converting character ids into numeric ids using tidyverse-----
-student_courses <- student_courses %>%
-  mutate(student_id_num = factor(student_id, levels = unique(student_id)),
-         student_id_num = as.numeric(student_id_num))
+# Apply the same function across multiple columns using dplyr ------------------
+courses_df %>%
+  mutate(across(c(student, platform, course), tolower))
 
-# note that mutating a data table converts it into a tibble  
+# where() can be used inside across() for conditional column selections  
+courses_df %>%
+  mutate(across(where(is.character), toupper))
 
-#-----using group_by, summarise and n() on a character id from tidyverse-----  
-t_courses_per_student <- student_courses %>%
-  group_by(student_id) %>%
-  summarise(total_online_courses = n()) %>%
-  ungroup      
-
-#-----using group_by, summarise and n() on a numeric id from tidyverse-----  
-t_courses_per_student_num <- student_courses %>%
-  group_by(student_id_num) %>%
-  summarise(total_online_courses = n()) %>%
-  ungroup    
-
-#-----using group_by, summarise and n() on a character id from data.table-----  
-setDT(student_courses) # convert back to data.table format 
-
-dt_courses_per_student <- student_courses[,
-                                          .(total_online_courses = .N),
-                                          by = student_id] 
-
-#-----using group_by, summarise and n() on a character id from data.table-----  
-dt_courses_per_student <- student_courses[,
-                                          .(total_online_courses = .N),
-                                          by = student_id_num]  
+# Apply the same function across multiple columns using data.table -------------
+# data.table modifies all selected columns in place via :=
+cols <- c("student", "platform", "course")
+courses_df[,
+           (cols) := lapply(.SD, tolower),
+           .SDcols = cols]  
 ```
 
-You can see that grouping by a numeric variable type using `tidyverse`
-outperforms grouping by a character variable type using `data.table`! Of
-course, the fastest operation is to group by a numerical variable type
-using `data.table.`
+## Equivalent Pandas code
 
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-32-1.png" width="70%" style="display: block; margin: auto;" />
+In `Pandas`, we can transform columns directly by assignment or by using
+the `.apply()` method. The benefit of using `.apply()` is that it also
+handles bespoke functions. A [Stack Overflow
+post](https://stackoverflow.com/questions/19798153/difference-between-map-applymap-and-apply-methods-in-pandas)
+discussing the different uses of `.apply()` and `.applymap()`.
 
-# The magic behind the code
+``` python
+# Create column for platform dwell length using Pandas -------------------------
+courses_pf["platform_dwell_length"] = courses_pf["platform_end_date"] - courses_pf["platform_start_date"]
 
-So why are `data.table` operations more efficient than `tidyverse` when
-variable group bys are required? Detailed explanations exist
-[here](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-keys-fast-subset.html),
-[here](https://jangorecki.gitlab.io/data.cube/library/data.table/html/datatable-optimize.html)
-and
-[here](https://stackoverflow.com/questions/61322864/is-there-a-visual-explanation-of-why-data-table-operations-are-faster-than-tidyv).
+# Create column based on multiple conditions using Pandas ----------------------
+# Use np.select() rather than .apply() to apply a vectorised transformation
+courses_pf["studied_programming"] = np.select(
+  [courses_pf["course"].str.match("R_", na = False), 
+   courses_pf["course"].str.match("Python_", na = False)],
+  ["Studied R",
+   "Studied Python"],
+  default = "No"
+)
 
-`Tidyverse` operations use a vector scan approach to generate logical
-vectors (with `TRUE` or `FALSE` values) of size `nrow(dataset)`.
-Intermediate outputs are also stored as logical vectors and the last
-step involves returning all rows where the expression evaluates to
-`TRUE`.
+# Apply the same function across multiple columns using Pandas -----------------
+# Applying a vector operation looped over a list of columns is faster than 
+# transforming columns element-wise using .apply().  
+object_cols = [col for col, dt in courses_pf.dtypes.items() if dt == "object"]
 
-In contrast, `data.table` is efficient because it contains a very fast
-ordering method **and** enables fast subsetting of data by indexing the
-data frame on the first run (i.e. it performs binary search based
-subsetting instead of vector scanning).
+for col in object_cols: 
+  courses_pf[col] = courses_pf[col].str.lower()
+
+# Avoid .apply() unless you need to apply a function element-wise across a column
+# For example, the code below runs significantly slower than the code above 
+# courses_pf[object_cols] = courses_pf[object_cols].apply(lambda col: col.str.upper())
+
+# Remove columns using Pandas --------------------------------------------------
+courses_pf = courses_pf.drop(columns=["studied_programming"])
+```
+
+## Code benchmarking
+
+The execution time for `dplyr` and `data.table` is roughly equivalent
+for transforming columns, with `data.table` exhibiting slightly faster
+code execution times.
+
+<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-28-1.png" width="60%" />
+
+# Group by and summarise columns
+
+Summarising data across \>100K subgroups is where `data.table` greatly
+outperforms `dplyr` in terms of code execution speed. In `dplyr`, a
+grouping convention is specified using the `group_by()` function and
+summary outputs then created using the `summarise()` function.
+
+``` r
+# Summarise by course and platform using dplyr ---------------------------------
+courses_df %>%
+  group_by(platform, course) %>%
+  summarise(mean_length = mean(platform_dwell_length),
+            total_courses = n()) 
+
+# dplyr cannot group by student as it has >200K subgroups whereas data.table can 
+
+# Summarise by course and platform using data.table ----------------------------
+courses_df[,
+           .(mean_length = mean(platform_dwell_length),
+             total_courses = .N),
+           by = .(platform, course)] 
+```
+
+Since `dplyr` [version
+1.0.0](https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/), we can use
+`summarise()` in combination with `across()` to apply the same
+aggregation across multiple columns.
+
+## Equivalent Pandas code
+
+In `Pandas`, we can summarise data across subgroups using the method
+`.groupby()` followed by the method `.agg()`.
+
+``` python
+# Summarise by course and platform using Pandas --------------------------------
+courses_pf.groupby(["platform", "course"]).agg(mean_length = ("platform_dwell_length", "mean"),
+                                               total_course = ("platform_dwell_length", "count"))
+```
+
+## Code benchmarking
+
+The execution time for `dplyr` and `data.table` is roughly equivalent
+for transforming columns, with `data.table` exhibiting slightly faster
+code execution times.
+
+<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-31-1.png" width="60%" />
+
+# Chain code
+
+In data analysis, we frequently need to perform a sequence of operations
+to generate a new named data output. In R, we can chain `dplyr` and
+`data.table` operations using `%>%` or `|>` pipes or `data.table` `[]`
+chains. I personally prefer using `%>%` for chaining R operations when I
+don’t care about minimising package dependencies.
+
+``` r
+# Chain dplyr operations using %>% and |> pipes --------------------------------
+# Output a data frame containing the earliest platform start date for all 
+# courses per platform  
+courses_df %>%
+  select(-c(student, platform_dwell_length, platform_end_date)) %>%
+  arrange(platform, course, platform_start_date) %>%
+  group_by(platform, course) %>%
+  filter(row_number() == 1L) 
+
+# You can also use the base R pipe |> for R version >= 4.1.0
+courses_df |>
+  select(-c(student, platform_dwell_length, platform_end_date)) |>
+  arrange(platform, course, platform_start_date) |>
+  group_by(platform, course) |>
+  filter(row_number() == 1L) 
+
+# Chain data.table operations using %>% ----------------------------------------
+courses_df[,
+           -c("student",
+              "platform_dwell_length",
+              "platform_end_date",
+              "studied_programming")] %>% 
+  .[order(platform, course, platform_start_date)] %>%
+  .[,
+    .SD[1L],
+    by = .(platform, course)]
+
+# A base R pipe solution currently does not exist for data.table  
+
+# Chain data.table operations using [] -----------------------------------------
+courses_df[,
+           -c("student",
+              "platform_dwell_length",
+              "platform_end_date",
+              "studied_programming")
+][
+  order(platform,
+        course,
+        platform_start_date)
+][
+  ,
+  .SD[1L],
+  by = .(platform, course)]
+```
+
+## Equivalent Pandas code
+
+In Python, we can also chain Pandas methods inside `()`. Note that this
+practice currently only works on Pandas methods and is therefore a lot
+less flexible than using pipes in R.
+
+``` python
+# Chain Pandas operations using () ---------------------------------------------
+# Multiple Pandas methods can be chained inside a single bracket 
+(
+  courses_pf
+  .sort_values(by = ["platform", "course", "platform_start_date"])
+  .groupby(["platform", "course"])
+  .first()
+  .drop(columns=["student", "platform_dwell_length", "platform_end_date"])
+)
+```
 
 # Other resources
 
--   The definitive [stack overflow
-    discussion](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly/27840349#27840349)
-    about the best use cases for data.table versus dplyr (from
-    tidyverse).
-
--   A great side by side comparison of data.table versus dplyr
-    operations by
-    [Atrebas](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/).
-
--   A list of advanced `data.table` operations and tricks by [Andrew
-    Brooks](http://brooksandrew.github.io/simpleblog/articles/advanced-data-table/).
-
--   Datacamp’s `data.table`
-    [cheatsheet](https://s3.amazonaws.com/assets.datacamp.com/blog_assets/datatable_Cheat_Sheet_R.pdf).
-
--   An explanation of how `data.table` modifies by reference by [Tyson
-    Barrett](https://tysonbarrett.com//jekyll/update/2019/07/12/datatable/).
-
--   A section explaining `data.table` efficiency in [Efficient R
-    programming by Colin Gillespie and Robin
-    Lovelace](https://csgillespie.github.io/efficientR/data-processing-with-data-table.html).
-
--   A more detailed explanation of the usage of binary search based
-    subset in `data.table` by [Arun
-    Srinivasan](https://gist.github.com/arunsrinivasan/dacb9d1cac301de8d9ff).
+- The official `data.table`
+  [vignnette](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).  
+- A comprehensive [stack overflow
+  discussion](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly/27840349#27840349)
+  about the advantages of using `data.table` versus `dplyr`.  
+- A [blog
+  post](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/) with
+  side by side comparison of data.table versus dplyr operations by
+  Atrebas.  
+- My [blog
+  post](https://erikaduan.github.io/posts/2021-02-16-data-table-part-2/)
+  on how to chain multiple `data.table` operations for complex data
+  analysis.  
+- An
+  [explanation](https://tysonbarrett.com//jekyll/update/2019/07/12/datatable/)
+  of how `data.table` modifies by reference by Tyson Barrett.  
+- A [detailed
+  explanation](https://gist.github.com/arunsrinivasan/dacb9d1cac301de8d9ff)
+  of binary search based subsets in `data.table` by Arun Srinivasan.  
+- The Advanced R [chapter](https://adv-r.hadley.nz/perf-measure.html) on
+  measuring code performance by Hadley Wickham.
