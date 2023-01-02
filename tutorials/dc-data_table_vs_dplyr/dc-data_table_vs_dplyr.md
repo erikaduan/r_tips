@@ -93,12 +93,12 @@ The pros and cons of using `tidyverse`, `data.table` and the popular
 Python data wrangling package `Pandas` are listed below, keeping in mind
 that some preferences are subjective.
 
-| Package           | `dplyr`                                                          | `data.table`                                                                                          | `Pandas`                                                                                            |
-|:------------------|:-----------------------------------------------------------------|:------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------|
-| Code readability  | Code is highly readable and integrates well with `\|>` and `%>%` | `data.table` code is often most concise, but suffers from decreased readability when using long names | `Pandas` allows chaining of methods but its methods syntax can feel less intuitive than `dplyr`     |
-| Speed: `group by` |                                                                  | Performance scales better as the number of groups increase (\> 100K groups)                           | Performs equivalently to `dplyr` according to [db-benchmark](https://h2oai.github.io/db-benchmark/) |
-| Speed: `sort`     |                                                                  | Faster `sort` method for large datasets (\> 1M rows)                                                  |                                                                                                     |
-| Memory usage      | Out of memory for group by operations on 50 GB datasets          | Can avoid memory allocation for intermediate data transformation steps                                | Out of memory for group by operations on 50 GB datasets                                             |
+| Package           | `dplyr`                                                                                      | `data.table`                                                                                          | `Pandas`                                                                                            |
+|:------------------|:---------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------|
+| Code readability  | Code is highly readable and integrates well with `\|>` and `%>%`                             | `data.table` code is often most concise, but suffers from decreased readability when using long names | `Pandas` allows chaining of methods but its methods syntax can feel less intuitive than `dplyr`     |
+| Speed: `group by` | Performance worsens and can take \>10 mins to execute as the number of groups exceeds \>100K | Performance scales better as the number of groups increase (\>100K groups)                            | Performs equivalently to `dplyr` according to [db-benchmark](https://h2oai.github.io/db-benchmark/) |
+| Speed: `sort`     | \-                                                                                           | Faster alternative `sort` method to `dplyr` for large datasets (\>1M rows)                            | \-                                                                                                  |
+| Memory usage      | Is copy on modify, which is default R behaviour                                              | Allows modify by reference for some operations, which decreases memory allocation needs               | \-                                                                                                  |
 
 Let’s test this out for ourselves.
 
@@ -229,11 +229,6 @@ courses_df %>%
 courses_df[platform %chin% c("B", "C")]
 ```
 
-``` python
-# Filter by platform A and B using Pandas in Python ----------------------------
-courses_pf[courses_pf.platform.isin(["B", "C"])]  
-```
-
 ## Filter by multiple conditions
 
 When filtering by multiple conditions, we use the symbol `|` to denote
@@ -248,14 +243,6 @@ courses_df %>%
 
 # Filter by platform B & platform start date >= 2018-09-01 using data.table ----
 courses_df[platform == "B" & platform_start_date >= "2018-09-01"]
-```
-
-``` python
-# Filter by platform B & platform start date >= 2018-09-01 using Pandas --------
-is_platform_B = (courses_pf["platform"] == "B")  
-starts_on_or_after_2018_09_01 = (courses_pf["platform_start_date"] >= "2018-09-01")  
-
-courses_pf[is_platform_B & starts_on_or_after_2018_09_01]  
 ```
 
 ## Filter using regular expressions
@@ -307,6 +294,17 @@ courses_df %>%
 
 ## Equivalent Pandas code
 
+``` python
+# Filter by platform A and B using Pandas in Python ----------------------------
+courses_pf[courses_pf.platform.isin(["B", "C"])]  
+
+# Filter by platform B & platform start date >= 2018-09-01 using Pandas --------
+is_platform_B = (courses_pf["platform"] == "B")  
+starts_on_or_after_2018_09_01 = (courses_pf["platform_start_date"] >= "2018-09-01")  
+
+courses_pf[is_platform_B & starts_on_or_after_2018_09_01]  
+```
+
 In `Pandas`, we can filter values using regular expressions using the
 [string
 methods](https://pandas.pydata.org/pandas-docs/stable/user_guide/text.html#testing-for-strings-that-match-or-contain-a-pattern)
@@ -326,7 +324,7 @@ courses_pf[courses_pf.course.str.match("R_", na = False)]
 The execution time for `dplyr` and `data.table` is roughly equivalent
 for filtering data.
 
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-14-1.png" width="60%" />
+<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-13-1.png" width="60%" />
 
 # Sort data
 
@@ -376,7 +374,7 @@ courses_pf.sort_values(by = ["student", "platform"],
 The `data.table` package uses a much faster sort method compared to
 `dplyr`.
 
-<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-17-1.png" width="60%" />
+<img src="dc-data_table_vs_dplyr_files/figure-gfm/unnamed-chunk-16-1.png" width="60%" />
 
 # Select columns
 
@@ -482,7 +480,7 @@ courses_pf.dtypes
 #> dtype: object
 
 courses_pf.select_dtypes(include=["datetime64"])
-```  
+```
 
 ``` python
 # Output data frame following column selection using Pandas --------------------
