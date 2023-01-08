@@ -1,0 +1,45 @@
+---
+title: "Introduction to linear regression"
+author: Erika Duan
+date: "`r Sys.Date()`"
+output:
+  github_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+# Set up global environment ----------------------------------------------------
+knitr::opts_chunk$set(echo=TRUE, results="hide", message=FALSE, warning=FALSE)  
+```
+
+```{r}
+# Load required R packages -----------------------------------------------------
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(here,
+               tidyverse,
+               tidymodels) 
+```
+
+
+# What do we want from linear regression?  
+
+
+# Some mathmathical intuition    
+
+
+# Building a linear regression model  
+
+
+# Interpreting a linear regression model 
+
+
+# Easy modelling workflows with tidymodels  
+
+
+# Other resources     
+
++ https://andrewproctor.github.io/rcourse/module5.html#regression_basics  
++ https://andrewproctor.github.io/rcourse/assets/module5.pdf 
+https://github.com/WinVector/vtreat  
++ https://www.andrew.cmu.edu/user/achoulde/94842/lectures/lecture09/lecture09-94842.html
++ https://www.andrew.cmu.edu/user/achoulde/94842/lectures/lecture11/lecture11-94842-2020.html 
