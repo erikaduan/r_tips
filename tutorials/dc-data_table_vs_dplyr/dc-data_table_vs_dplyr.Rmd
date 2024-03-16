@@ -118,7 +118,7 @@ import pandas as pd
 import datetime as dt
 import numpy as np
 
-pd.options.display.max_rows = 3
+pd.options.display.max_rows = 5
 
 # Load courses_df into the Python environment as a Pandas data frame -----------
 # Creates a copy of courses_df from the R environment in the Python environment 

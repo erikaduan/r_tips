@@ -174,7 +174,7 @@ import pandas as pd
 import datetime as dt
 import numpy as np
 
-pd.options.display.max_rows = 3
+pd.options.display.max_rows = 5
 
 # Load courses_df into the Python environment as a Pandas data frame -----------
 # Creates a copy of courses_df from the R environment in the Python environment 
@@ -194,10 +194,12 @@ for col in date_cols:
 courses_pf.dtypes
 ```
 
-    ## student                      object
-    ##                           ...      
-    ## platform_end_date    datetime64[ns]
-    ## Length: 5, dtype: object
+    ## student                        object
+    ## platform                       object
+    ## course                         object
+    ## platform_start_date    datetime64[ns]
+    ## platform_end_date      datetime64[ns]
+    ## dtype: object
 
 # Code syntax differences
 
@@ -324,10 +326,10 @@ courses_pf[courses_pf.platform.isin(["B", "C"])]
 
     ##          student platform  ... platform_start_date platform_end_date
     ## 18      0001a247        C  ...          2017-12-11        2018-01-11
+    ## 25      00023d66        C  ...          2018-11-04        2018-11-20
     ## ...          ...      ...  ...                 ...               ...
+    ## 999942  fffaf28d        C  ...          2017-10-15        2017-10-27
     ## 999966  fffc8648        C  ...          2016-08-26        2016-10-01
-    ## 
-    ## [39968 rows x 5 columns]
 
 ``` python
 # Filter by platform B & platform start date >= 2018-09-01 using Pandas --------
@@ -337,12 +339,12 @@ starts_on_or_after_2018_09_01 = (courses_pf["platform_start_date"] >= "2018-09-0
 courses_pf[is_platform_B & starts_on_or_after_2018_09_01]  
 ```
 
-    ##          student platform      course platform_start_date platform_end_date
-    ## 4396    01243dd1        B  R_advanced          2018-09-02        2018-09-11
-    ## ...          ...      ...         ...                 ...               ...
-    ## 998763  ffb0a677        B     pottery          2018-11-09        2018-12-03
-    ## 
-    ## [1101 rows x 5 columns]
+    ##          student platform  ... platform_start_date platform_end_date
+    ## 4396    01243dd1        B  ...          2018-09-02        2018-09-11
+    ## 5442    016df220        B  ...          2018-11-03        2018-11-14
+    ## ...          ...      ...  ...                 ...               ...
+    ## 998737  ffae892d        B  ...          2018-12-30        2019-01-20
+    ## 998763  ffb0a677        B  ...          2018-11-09        2018-12-03
 
 In `Pandas`, we can filter values using regular expressions using the
 [string
@@ -357,12 +359,12 @@ the string.
 courses_pf[courses_pf.course.str.match("R_", na = False)]
 ```
 
-    ##          student platform      course platform_start_date platform_end_date
-    ## 12      00019f4c        A  R_advanced          2016-01-09        2016-01-18
-    ## ...          ...      ...         ...                 ...               ...
-    ## 999995  ffff846d        A  R_beginner          2017-04-27        2017-06-13
-    ## 
-    ## [176587 rows x 5 columns]
+    ##          student platform          course platform_start_date platform_end_date
+    ## 12      00019f4c        A      R_advanced          2016-01-09        2016-01-18
+    ## 14      00019f4c        A  R_intermediate          2016-01-09        2016-01-18
+    ## ...          ...      ...             ...                 ...               ...
+    ## 999990  fffe1f47        A      R_advanced          2018-05-31        2018-06-09
+    ## 999995  ffff846d        A      R_beginner          2017-04-27        2017-06-13
 
 ## Code benchmarking
 
@@ -422,12 +424,12 @@ courses_pf.sort_values(by = ["student", "platform"],
                        na_position = "first")
 ```
 
-    ##          student platform     course platform_start_date platform_end_date
-    ## 2       000027f0        E    pottery          2018-03-23        2018-05-08
-    ## ...          ...      ...        ...                 ...               ...
-    ## 999999  ffff846d        A  carpentry          2017-04-27        2017-06-13
-    ## 
-    ## [1000000 rows x 5 columns]
+    ##          student platform       course platform_start_date platform_end_date
+    ## 2       000027f0        E      pottery          2018-03-23        2018-05-08
+    ## 0       000027f0        A   statistics          2016-08-11        2016-09-19
+    ## ...          ...      ...          ...                 ...               ...
+    ## 999998  ffff846d        A  data_mining          2017-04-27        2017-06-13
+    ## 999999  ffff846d        A    carpentry          2017-04-27        2017-06-13
 
 ## Code benchmarking
 
@@ -551,10 +553,10 @@ courses_pf[["student", "platform"]]
 
     ##          student platform
     ## 0       000027f0        A
+    ## 1       000027f0        A
     ## ...          ...      ...
+    ## 999998  ffff846d        A
     ## 999999  ffff846d        A
-    ## 
-    ## [1000000 rows x 2 columns]
 
 ``` python
 # Select columns ending with date using Pandas ---------------------------------
@@ -563,10 +565,10 @@ courses_pf.filter(regex = ("date$"))
 
     ##        platform_start_date platform_end_date
     ## 0               2016-08-11        2016-09-19
+    ## 1               2017-02-14        2017-03-13
     ## ...                    ...               ...
+    ## 999998          2017-04-27        2017-06-13
     ## 999999          2017-04-27        2017-06-13
-    ## 
-    ## [1000000 rows x 2 columns]
 
 ``` python
 # Select columns of date type using Pandas -------------------------------------
@@ -577,10 +579,10 @@ courses_pf.select_dtypes(include=["datetime64"])
 
     ##        platform_start_date platform_end_date
     ## 0               2016-08-11        2016-09-19
+    ## 1               2017-02-14        2017-03-13
     ## ...                    ...               ...
+    ## 999998          2017-04-27        2017-06-13
     ## 999999          2017-04-27        2017-06-13
-    ## 
-    ## [1000000 rows x 2 columns]
 
 ``` python
 # Output data frame following column selection using Pandas --------------------
@@ -842,10 +844,10 @@ courses_pf["platform_dwell_length"] = courses_pf["platform_end_date"] - courses_
 
     ##          student platform  ... platform_end_date platform_dwell_length
     ## 0       000027f0        A  ...        2016-09-19               39 days
+    ## 1       000027f0        A  ...        2017-03-13               27 days
     ## ...          ...      ...  ...               ...                   ...
+    ## 999998  ffff846d        A  ...        2017-06-13               47 days
     ## 999999  ffff846d        A  ...        2017-06-13               47 days
-    ## 
-    ## [1000000 rows x 6 columns]
 
 ``` python
 # Create column based on multiple conditions using Pandas ----------------------
@@ -861,10 +863,10 @@ courses_pf["studied_programming"] = np.select(
 
     ##          student platform  ... platform_dwell_length studied_programming
     ## 0       000027f0        A  ...               39 days                  No
+    ## 1       000027f0        A  ...               27 days                  No
     ## ...          ...      ...  ...                   ...                 ...
+    ## 999998  ffff846d        A  ...               47 days                  No
     ## 999999  ffff846d        A  ...               47 days                  No
-    ## 
-    ## [1000000 rows x 7 columns]
 
 ``` python
 # Apply the same function across multiple columns using Pandas -----------------
@@ -883,10 +885,10 @@ for col in object_cols:
 
     ##          student platform  ... platform_dwell_length studied_programming
     ## 0       000027f0        a  ...               39 days                  no
+    ## 1       000027f0        a  ...               27 days                  no
     ## ...          ...      ...  ...                   ...                 ...
+    ## 999998  ffff846d        a  ...               47 days                  no
     ## 999999  ffff846d        a  ...               47 days                  no
-    ## 
-    ## [1000000 rows x 7 columns]
 
 ``` python
 # Remove columns using Pandas --------------------------------------------------
@@ -950,10 +952,10 @@ courses_pf.groupby(["platform", "course"]).agg(mean_length = ("platform_dwell_le
     ##                                        mean_length  total_course
     ## platform course                                                 
     ## a        bread_baking   34 days 01:34:25.299806576         41360
+    ##          carpentry      33 days 22:34:50.910862153         41060
     ## ...                                            ...           ...
-    ## e        website_design 34 days 06:07:13.660828705         11705
-    ## 
-    ## [85 rows x 2 columns]
+    ## e        ux_design      33 days 22:01:42.149350097         11771
+    ##          website_design 34 days 06:07:13.660828705         11705
 
 ## Code benchmarking
 
