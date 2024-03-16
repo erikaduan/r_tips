@@ -32,7 +32,7 @@ Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD s
 ## 📚 Data cleaning
 
 + [Data cleaning using `data.table` or `tidyverse` (or Python `Pandas`)](https://github.com/erikaduan/r_tips/blob/master/tutorials/dc-data_table_vs_dplyr/dc-data_table_vs_dplyr.md) (Updated)    
-+ [Manipulating character strings using regular expressions](https://github.com/erikaduan/r_tips/blob/master/tutorials/dc-cleaning_strings/dc-cleaning_strings.md) (Updated)          
++ [Cleaning strings using regular expressions](https://github.com/erikaduan/r_tips/blob/master/tutorials/dc-cleaning_strings/dc-cleaning_strings.md) (Updated)          
 
 ## 🔨 Productionisation  
 + [Creating SQL <> R workflows - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_1.md) (Updated)  

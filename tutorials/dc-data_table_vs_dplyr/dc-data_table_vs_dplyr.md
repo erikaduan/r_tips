@@ -174,6 +174,8 @@ import pandas as pd
 import datetime as dt
 import numpy as np
 
+pd.options.display.max_rows = 3
+
 # Load courses_df into the Python environment as a Pandas data frame -----------
 # Creates a copy of courses_df from the R environment in the Python environment 
 courses_pf = r.courses_df
@@ -192,12 +194,10 @@ for col in date_cols:
 courses_pf.dtypes
 ```
 
-    ## student                        object
-    ## platform                       object
-    ## course                         object
-    ## platform_start_date    datetime64[ns]
-    ## platform_end_date      datetime64[ns]
-    ## dtype: object
+    ## student                      object
+    ##                           ...      
+    ## platform_end_date    datetime64[ns]
+    ## Length: 5, dtype: object
 
 # Code syntax differences
 
@@ -324,15 +324,7 @@ courses_pf[courses_pf.platform.isin(["B", "C"])]
 
     ##          student platform  ... platform_start_date platform_end_date
     ## 18      0001a247        C  ...          2017-12-11        2018-01-11
-    ## 25      00023d66        C  ...          2018-11-04        2018-11-20
-    ## 53      000644e7        B  ...          2016-04-08        2016-04-22
-    ## 74      00073521        C  ...          2017-08-18        2017-09-28
-    ## 99      0007e24b        C  ...          2017-11-22        2017-12-14
     ## ...          ...      ...  ...                 ...               ...
-    ## 999817  fff2978e        C  ...          2017-10-14        2017-11-15
-    ## 999872  fff63de8        C  ...          2017-08-24        2017-09-24
-    ## 999920  fff8ffae        C  ...          2018-03-21        2018-05-18
-    ## 999942  fffaf28d        C  ...          2017-10-15        2017-10-27
     ## 999966  fffc8648        C  ...          2016-08-26        2016-10-01
     ## 
     ## [39968 rows x 5 columns]
@@ -345,18 +337,10 @@ starts_on_or_after_2018_09_01 = (courses_pf["platform_start_date"] >= "2018-09-0
 courses_pf[is_platform_B & starts_on_or_after_2018_09_01]  
 ```
 
-    ##          student platform  ... platform_start_date platform_end_date
-    ## 4396    01243dd1        B  ...          2018-09-02        2018-09-11
-    ## 5442    016df220        B  ...          2018-11-03        2018-11-14
-    ## 5717    017ed65a        B  ...          2018-12-03        2019-01-17
-    ## 6074    01967a76        B  ...          2018-12-21        2019-01-10
-    ## 7789    02054f08        B  ...          2018-12-19        2019-01-07
-    ## ...          ...      ...  ...                 ...               ...
-    ## 995421  fedbbcc7        B  ...          2018-12-03        2018-12-31
-    ## 996874  ff39b58b        B  ...          2018-11-17        2018-12-18
-    ## 997195  ff509b2a        B  ...          2018-10-16        2018-10-29
-    ## 998737  ffae892d        B  ...          2018-12-30        2019-01-20
-    ## 998763  ffb0a677        B  ...          2018-11-09        2018-12-03
+    ##          student platform      course platform_start_date platform_end_date
+    ## 4396    01243dd1        B  R_advanced          2018-09-02        2018-09-11
+    ## ...          ...      ...         ...                 ...               ...
+    ## 998763  ffb0a677        B     pottery          2018-11-09        2018-12-03
     ## 
     ## [1101 rows x 5 columns]
 
@@ -373,18 +357,10 @@ the string.
 courses_pf[courses_pf.course.str.match("R_", na = False)]
 ```
 
-    ##          student platform          course platform_start_date platform_end_date
-    ## 12      00019f4c        A      R_advanced          2016-01-09        2016-01-18
-    ## 14      00019f4c        A  R_intermediate          2016-01-09        2016-01-18
-    ## 15      00019f4c        A      R_advanced          2016-01-09        2016-01-18
-    ## 18      0001a247        C  R_intermediate          2017-12-11        2018-01-11
-    ## 21      00021de1        A      R_beginner          2017-09-13        2017-09-25
-    ## ...          ...      ...             ...                 ...               ...
-    ## 999963  fffc7136        A  R_intermediate          2016-03-23        2016-05-01
-    ## 999976  fffce55e        E      R_advanced          2018-04-01        2018-04-29
-    ## 999979  fffd1b29        A      R_advanced          2018-05-11        2018-06-10
-    ## 999990  fffe1f47        A      R_advanced          2018-05-31        2018-06-09
-    ## 999995  ffff846d        A      R_beginner          2017-04-27        2017-06-13
+    ##          student platform      course platform_start_date platform_end_date
+    ## 12      00019f4c        A  R_advanced          2016-01-09        2016-01-18
+    ## ...          ...      ...         ...                 ...               ...
+    ## 999995  ffff846d        A  R_beginner          2017-04-27        2017-06-13
     ## 
     ## [176587 rows x 5 columns]
 
@@ -446,18 +422,10 @@ courses_pf.sort_values(by = ["student", "platform"],
                        na_position = "first")
 ```
 
-    ##          student platform  ... platform_start_date platform_end_date
-    ## 2       000027f0        E  ...          2018-03-23        2018-05-08
-    ## 0       000027f0        A  ...          2016-08-11        2016-09-19
-    ## 1       000027f0        A  ...          2017-02-14        2017-03-13
-    ## 3       000094e9        A  ...          2018-11-15        2018-12-20
-    ## 4       000094e9        A  ...          2018-11-15        2018-12-20
-    ## ...          ...      ...  ...                 ...               ...
-    ## 999995  ffff846d        A  ...          2017-04-27        2017-06-13
-    ## 999996  ffff846d        A  ...          2017-04-27        2017-06-13
-    ## 999997  ffff846d        A  ...          2017-04-27        2017-06-13
-    ## 999998  ffff846d        A  ...          2017-04-27        2017-06-13
-    ## 999999  ffff846d        A  ...          2017-04-27        2017-06-13
+    ##          student platform     course platform_start_date platform_end_date
+    ## 2       000027f0        E    pottery          2018-03-23        2018-05-08
+    ## ...          ...      ...        ...                 ...               ...
+    ## 999999  ffff846d        A  carpentry          2017-04-27        2017-06-13
     ## 
     ## [1000000 rows x 5 columns]
 
@@ -583,15 +551,7 @@ courses_pf[["student", "platform"]]
 
     ##          student platform
     ## 0       000027f0        A
-    ## 1       000027f0        A
-    ## 2       000027f0        E
-    ## 3       000094e9        A
-    ## 4       000094e9        A
     ## ...          ...      ...
-    ## 999995  ffff846d        A
-    ## 999996  ffff846d        A
-    ## 999997  ffff846d        A
-    ## 999998  ffff846d        A
     ## 999999  ffff846d        A
     ## 
     ## [1000000 rows x 2 columns]
@@ -603,15 +563,7 @@ courses_pf.filter(regex = ("date$"))
 
     ##        platform_start_date platform_end_date
     ## 0               2016-08-11        2016-09-19
-    ## 1               2017-02-14        2017-03-13
-    ## 2               2018-03-23        2018-05-08
-    ## 3               2018-11-15        2018-12-20
-    ## 4               2018-11-15        2018-12-20
     ## ...                    ...               ...
-    ## 999995          2017-04-27        2017-06-13
-    ## 999996          2017-04-27        2017-06-13
-    ## 999997          2017-04-27        2017-06-13
-    ## 999998          2017-04-27        2017-06-13
     ## 999999          2017-04-27        2017-06-13
     ## 
     ## [1000000 rows x 2 columns]
@@ -625,15 +577,7 @@ courses_pf.select_dtypes(include=["datetime64"])
 
     ##        platform_start_date platform_end_date
     ## 0               2016-08-11        2016-09-19
-    ## 1               2017-02-14        2017-03-13
-    ## 2               2018-03-23        2018-05-08
-    ## 3               2018-11-15        2018-12-20
-    ## 4               2018-11-15        2018-12-20
     ## ...                    ...               ...
-    ## 999995          2017-04-27        2017-06-13
-    ## 999996          2017-04-27        2017-06-13
-    ## 999997          2017-04-27        2017-06-13
-    ## 999998          2017-04-27        2017-06-13
     ## 999999          2017-04-27        2017-06-13
     ## 
     ## [1000000 rows x 2 columns]
@@ -641,22 +585,13 @@ courses_pf.select_dtypes(include=["datetime64"])
 ``` python
 # Output data frame following column selection using Pandas --------------------
 type(courses_pf[["student"]])
-```
-
-``` python
 #> <class 'pandas.core.frame.DataFrame'>  
 
 # Output series or vector array following column selection using Pandas --------
 type(courses_pf["student"])
-```
-
-``` python
 #> <class 'pandas.core.series.Series'>  
 
 type(courses_pf["student"].values)
-```
-
-``` python
 #> <class 'numpy.ndarray'>
 ```
 
@@ -907,15 +842,7 @@ courses_pf["platform_dwell_length"] = courses_pf["platform_end_date"] - courses_
 
     ##          student platform  ... platform_end_date platform_dwell_length
     ## 0       000027f0        A  ...        2016-09-19               39 days
-    ## 1       000027f0        A  ...        2017-03-13               27 days
-    ## 2       000027f0        E  ...        2018-05-08               46 days
-    ## 3       000094e9        A  ...        2018-12-20               35 days
-    ## 4       000094e9        A  ...        2018-12-20               35 days
     ## ...          ...      ...  ...               ...                   ...
-    ## 999995  ffff846d        A  ...        2017-06-13               47 days
-    ## 999996  ffff846d        A  ...        2017-06-13               47 days
-    ## 999997  ffff846d        A  ...        2017-06-13               47 days
-    ## 999998  ffff846d        A  ...        2017-06-13               47 days
     ## 999999  ffff846d        A  ...        2017-06-13               47 days
     ## 
     ## [1000000 rows x 6 columns]
@@ -934,15 +861,7 @@ courses_pf["studied_programming"] = np.select(
 
     ##          student platform  ... platform_dwell_length studied_programming
     ## 0       000027f0        A  ...               39 days                  No
-    ## 1       000027f0        A  ...               27 days                  No
-    ## 2       000027f0        E  ...               46 days                  No
-    ## 3       000094e9        A  ...               35 days                  No
-    ## 4       000094e9        A  ...               35 days                  No
     ## ...          ...      ...  ...                   ...                 ...
-    ## 999995  ffff846d        A  ...               47 days           Studied R
-    ## 999996  ffff846d        A  ...               47 days                  No
-    ## 999997  ffff846d        A  ...               47 days      Studied Python
-    ## 999998  ffff846d        A  ...               47 days                  No
     ## 999999  ffff846d        A  ...               47 days                  No
     ## 
     ## [1000000 rows x 7 columns]
@@ -964,15 +883,7 @@ for col in object_cols:
 
     ##          student platform  ... platform_dwell_length studied_programming
     ## 0       000027f0        a  ...               39 days                  no
-    ## 1       000027f0        a  ...               27 days                  no
-    ## 2       000027f0        e  ...               46 days                  no
-    ## 3       000094e9        a  ...               35 days                  no
-    ## 4       000094e9        a  ...               35 days                  no
     ## ...          ...      ...  ...                   ...                 ...
-    ## 999995  ffff846d        a  ...               47 days           studied r
-    ## 999996  ffff846d        a  ...               47 days                  no
-    ## 999997  ffff846d        a  ...               47 days      studied python
-    ## 999998  ffff846d        a  ...               47 days                  no
     ## 999999  ffff846d        a  ...               47 days                  no
     ## 
     ## [1000000 rows x 7 columns]
@@ -1036,19 +947,11 @@ courses_pf.groupby(["platform", "course"]).agg(mean_length = ("platform_dwell_le
                                                total_course = ("platform_dwell_length", "count"))
 ```
 
-    ##                                            mean_length  total_course
-    ## platform course                                                     
-    ## a        bread_baking       34 days 01:34:25.299806576         41360
-    ##          carpentry          33 days 22:34:50.910862153         41060
-    ##          contemporary_dance 34 days 00:11:18.495177796         40749
-    ##          data_mining        33 days 23:38:12.340208439         41163
-    ##          linear_algebra     33 days 22:43:01.835956594         40916
-    ## ...                                                ...           ...
-    ## e        r_intermediate     33 days 20:18:35.596330275         11772
-    ##          statistics         34 days 00:59:00.983606557         11956
-    ##          travel_writing     33 days 22:36:42.272135981         11531
-    ##          ux_design          33 days 22:01:42.149350097         11771
-    ##          website_design     34 days 06:07:13.660828705         11705
+    ##                                        mean_length  total_course
+    ## platform course                                                 
+    ## a        bread_baking   34 days 01:34:25.299806576         41360
+    ## ...                                            ...           ...
+    ## e        website_design 34 days 06:07:13.660828705         11705
     ## 
     ## [85 rows x 2 columns]
 
