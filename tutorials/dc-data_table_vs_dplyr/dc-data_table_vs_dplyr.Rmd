@@ -37,16 +37,16 @@ use_virtualenv("C:/Windows/system32/py_396_data_science")
 
 # Introduction   
 
-I started data analysis in `R` with the `tidyverse` suite of packages and `dplyr` still sparks the greatest joy out of all R and Python data wrangling packages. In R, a useful alternative to `dplyr` is `data.table` when you need to perform lots of groupings on large datasets (datasets over 1 million rows).     
+I started data analysis in `R` with the `tidyverse` suite of packages and `dplyr` still sparks the greatest joy out of all R and Python data wrangling packages. In R, a useful alternative to `dplyr` is `data.table` when you need to perform groupings on large datasets (datasets over 1 million rows).     
 
 The pros and cons of using `tidyverse`, `data.table` and the popular Python data wrangling package `Pandas` are listed below, keeping in mind that some preferences are subjective.      
 
 | Package  | `dplyr` | `data.table` | `Pandas` |   
 |:---------|:--------|:-------------|:---------|   
-| Code readability | Code is highly readable and integrates well with `\|>` and `%>%` pipes | `data.table` code is more concise, but suffers from decreased readability especially when using long names | `Pandas` allows chaining of methods but its methods syntax can feel less intuitive than `dplyr` |    
+| Code readability | Code is highly readable and integrates well with `%>%` and `\|>` pipes | `data.table` code is more concise, but suffers from decreased readability especially when using long names | `Pandas` allows chaining of methods but its methods syntax can feel less intuitive than `dplyr` |    
 | Speed: `group by` | Code fails to execute when doing analysis on groups with ~300K values | Performance remains consistent as the number of groups increase (>300K groups) | Performs equivalently to `dplyr` according to [db-benchmark](https://h2oai.github.io/db-benchmark/) |    
 | Speed: `sort` | - | Faster alternative `sort` method to `dplyr` on large datasets (>1M rows) | - |    
-| Memory usage | Is copy on modify, which is default R behaviour | Allows modify by reference for some operations, which decreases memory allocation needs | - |      
+| Memory usage | Is copy on modify, which is default R behaviour | Allows modify by reference for some operations, which decreases memory allocation needs | Copy on modify behaviour is enabled for `Pandas` 2.0+ |      
 
 Let's test this out for ourselves.    
 
@@ -62,27 +62,28 @@ Imagine you have a dataset describing how students are engaging with online cour
 + Platform start dates are recorded when the student first signs up to a platform.    
 + Platform end dates are recorded when a student completes their last course or switches to a new platform.   
 
-We can source the R script [`./dc-dataset_generation_script.R`](./dc-dataset_generation_script.R) to generate a mock dataset of 1M course enrollments, which is named `courses_df`.    
+We can source the R script [`./dc-data_table_vs_dplyr-dataset_generation_script.R`](./dc-data_table_vs_dplyr-dataset_generation_script.R) to generate a mock dataset of 1M course enrollments, which is named `courses_df`.    
 
 ```{r}
 # Source R script to generate mock dataset -------------------------------------
-# Explicitly state that outputs are generated in the global R environment   
-source("dc-dataset_generation_script.R", local = knitr::knit_global())
+# Explicitly states that outputs are generated in the global R environment   
+source("dc-data_table_vs_dplyr-dataset_generation_script.R",
+       local = knitr::knit_global())
 ```
 
-```{r}
+```{r, results='markup'}
 # Preview mock dataset ---------------------------------------------------------
 head(courses_df, 5)
 ```
 
-**Note:** The script `dc-dataset_generation_script.R` may take several minutes to load whilst it generates 1M synthetic records.   
+**Note:** The script `dc-data_table_vs_dplyr-dataset_generation_script.R` may take several minutes to load as it generates 1M synthetic records.   
 
 
 # Data frame conversions    
 
-The [R script above](./dc-dataset_generation_script.R) generates a `data.table` object named `courses_df`. In R, the default data object is a `data.frame`. A `data.frame` is just a list of vectors (of the same length) with each column represented by a separate vector.      
+The [R script above](./dc-data_table_vs_dplyr-dataset_generation_script.R) generates a `data.table` object named `courses_df`. In R, the default data object is a `data.frame`. A `data.frame` is just a list of vectors (of the same length) with each column represented by a separate vector.      
 
-The `tibble` data object from `dplyr` is a modified version of the `data.frame` that prohibits some column name and type conversions. You can read more about `tibble` design choices in the Advanced R [chapter on tibbles](https://adv-r.hadley.nz/vectors-chap.html?q=tibble#tibble).     
+The `tibble` data object from `dplyr` is a modified version of the `data.frame` that prohibits some column name and type conversions. You can read more about `tibble` design choices in the [Advanced R chapter on tibbles](https://adv-r.hadley.nz/vectors-chap.html?q=tibble#tibble).     
 
 The `data.table` package contains the function `setDT()`, which converts a `data.frame` or tibble into a `data.table` object by reference (without creating a second copy of the original object). 
 
@@ -104,14 +105,14 @@ data.frame(id = 1:5, letter = letters[1:5]) |>
 
 # Check the class of a tibble data object 
 data.frame(id = 1:5, letter = letters[1:5]) |>
-  as_tibble() %>%  
+  as_tibble() |>  
   class()
 #> [1] "tbl_df"     "tbl"        "data.frame"  
 ```
 
-As this tutorial showcases equivalent Python `Pandas` code, we will also import the `Pandas` package into our Python environment and create a copy of `course_df` in our Python environment.  
+To showcase equivalent Python `Pandas` code, we will also import the `Pandas` package into our Python environment and create a copy of `course_df` in our Python environment.  
 
-```{python} 
+```{python, results='markup'} 
 # Import Python packages for Python data transformations -----------------------
 import pandas as pd  
 import datetime as dt
@@ -131,16 +132,17 @@ date_cols = [col for col in courses_pf.columns if "date" in col]
 for col in date_cols:
   courses_pf[col] = pd.to_datetime(courses_pf[col], format = "%Y-%m-%d")
   
+# Check that the columns are the expected type
 courses_pf.dtypes
 ```
 
 
 # Code syntax differences   
 
-Before we cover specific examples, it is useful to understand the syntax of `dplyr` and `data.table` functions. The `dplyr` syntax is more beginner friendly as it comprises a list of data transformation verbs, which can be chained together to create a new output.   
+Before we cover specific examples, let us examine the syntax of `dplyr` and `data.table` functions. The `dplyr` syntax is more beginner friendly as it uses data transformation verbs, which can be chained together to create a new output.   
 
 ```{r, echo=FALSE, results="hold", out.width="80%"}
-knitr::include_graphics("../../figures/dc-code_syntax.svg")
+knitr::include_graphics("../../figures/dc-data_table_vs_dplyr-code_syntax.svg")
 ```
 
 In contrast, the `data.table` syntax is structured in the form `DT[i, j, by]` where:   
@@ -158,7 +160,7 @@ The code to filter data using `dplyr` or `data.table` is very similar and `data.
 
 ```{r}
 # Filter by platform B and C using dplyr ---------------------------------------
-courses_df %>%
+courses_df |>
   filter(platform %in% c("B", "C"))
 
 # Filter by platform B and C using data.table ----------------------------------
@@ -168,7 +170,7 @@ courses_df[platform %chin% c("B", "C")]
 
 ```{r, echo=FALSE, results='markup'}
 # Silently print code results --------------------------------------------------
-courses_df[platform %chin% c("B", "C")] %>% head(3)
+courses_df[platform %chin% c("B", "C")] |> head(3)
 ```
 
 ## Filter by multiple conditions   
@@ -177,7 +179,7 @@ When filtering by multiple conditions, we use the symbol `|` to denote the expre
 
 ```{r}
 # Filter by platform B & platform start date >= 2018-09-01 using dplyr ---------
-courses_df %>%
+courses_df |>
   filter(platform == "B",
          platform_start_date >= "2018-09-01")
 
@@ -187,7 +189,7 @@ courses_df[platform == "B" & platform_start_date >= "2018-09-01"]
 
 ```{r, echo=FALSE, results='markup'}
 # Silently print code results --------------------------------------------------
-courses_df[platform == "B" & platform_start_date >= "2018-09-01"] %>% head(3)
+courses_df[platform == "B" & platform_start_date >= "2018-09-01"] |> head(3)
 ```
 
 ## Filter using regular expressions   
@@ -196,7 +198,7 @@ We can also filter values using regular expressions via the `stringr` package or
 
 ```{r}
 # Filter by course starting with the letter R using dplyr ----------------------
-courses_df %>%
+courses_df |>
   filter(str_detect(course, "^R"))
 
 # Filter by course starting with the letter R using data.table -----------------
@@ -205,7 +207,7 @@ courses_df[course %like% "R"]
 
 ```{r, echo=FALSE, results='markup'}
 # Silently print code results --------------------------------------------------
-courses_df[course %like% "R"] %>% head(3)  
+courses_df[course %like% "R"] |> head(3)  
 ```
 
 ## Filter across multiple columns  
@@ -214,13 +216,13 @@ With the release of [dplyr 1.0.4](https://www.tidyverse.org/blog/2021/02/dplyr-1
 
 ```{r, results="markup"}
 # Filter by platform start AND end date between dates using dplyr --------------
-courses_df %>%
-  filter(if_all(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) %>%
+courses_df |>
+  filter(if_all(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) |>
   head(3) # View output
 
 # Filter by platform start OR end date between dates using dplyr ---------------
-courses_df %>%
-  filter(if_any(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) %>%
+courses_df |>
+  filter(if_any(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) |>
   head(3) # View output
 ```
 
@@ -255,16 +257,16 @@ The execution time for `dplyr` and `data.table` is roughly equivalent for filter
 # Compare filter examples using dplyr vs data.table ----------------------------
 # Perform and plot R code benchmarks 
 microbenchmark(
-  dplyr_platform_B_start_2018_09_01 = courses_df %>%
+  dplyr_platform_B_start_2018_09_01 = courses_df |>
     filter(platform == "B",
            platform_start_date >= "2018-09-01"),
   dt_platform_B_start_2018_09_01 = courses_df[platform == "B" & 
                                                 platform_start_date >= "2018-09-01"],
-  dplyr_course_starts_with_R = courses_df %>%
+  dplyr_course_starts_with_R = courses_df |>
     filter(str_detect(course, "^R")),
   dt_course_starts_with_R = courses_df[course %like% "R"],
   times = 15L
-) %>%
+) |>
   autoplot()
 ```
  
@@ -279,7 +281,7 @@ The `data.table` package uses an alternative faster sort method accessible via t
 
 ```{r}
 # Sort by ascending student id and descending platform name using dplyr --------
-courses_df %>%
+courses_df |>
   arrange(student,
           desc(platform))
 
@@ -296,7 +298,7 @@ courses_df[order(student,
 ```{r, echo=FALSE, results='markup'}
 # Silently print code results --------------------------------------------------
 courses_df[order(student,
-                 -platform)] %>% head(4)
+                 -platform)] |> head(4)
 ```
 
 ## Equivalent Pandas code     
@@ -319,11 +321,11 @@ The `data.table` package uses a much faster sort method compared to `dplyr`.
 # Sort by ascending student id and descending platform name   
 # Perform and plot R code benchmarks 
 microbenchmark(
-  dplyr_sort_student_platform = courses_df %>%
+  dplyr_sort_student_platform = courses_df |>
     arrange(student, desc(platform)),
   dt_sort_student_platform = courses_df[order(student, -platform)],
   times = 5L
-) %>%
+) |>
   autoplot()
 ```
 
@@ -334,7 +336,7 @@ Using `dplyr`, single or multiple columns can be selected via `select()` and com
 
 ```{r}
 # Select multiple columns by name using dplyr ----------------------------------
-courses_df %>%
+courses_df |>
   select(student,
          platform)
 
@@ -349,12 +351,12 @@ courses_df[,
 # Silently print code results --------------------------------------------------
 courses_df[,
            .(student,
-             platform)] %>% head(3)
+             platform)] |> head(3)
 ```
 
 ```{r}
 # Select columns ending with date using dplyr ----------------------------------
-courses_df %>%
+courses_df |>
   select(ends_with("date"))
 
 # Select columns ending with date using data.table -----------------------------
@@ -372,7 +374,7 @@ courses_df[,
 # Silently print code results --------------------------------------------------
 courses_df[, 
            grep("date$", colnames(courses_df), value = TRUE),
-           with = FALSE] %>% head(3)
+           with = FALSE] |> head(3)
 ```
 
 ```{r}
@@ -383,7 +385,7 @@ vapply(courses_df, class, character(1L))
 #>   "character"   "character"   "character"   "Date"                 "Date"
 
 # Selects columns where the column type inherits the Date class  
-courses_df %>%
+courses_df |>
   select(where(~inherits(., "Date")))
 
 # Select columns of date type using data.table ---------------------------------
@@ -397,31 +399,31 @@ courses_df[,
 # Silently print code results --------------------------------------------------
 courses_df[, 
            .SD,
-           .SDcols = function(x) inherits(x, 'Date')] %>% head(3)
+           .SDcols = function(x) inherits(x, 'Date')] |> head(3)
 ```
 
 For `dplyr`, extracting a single column using `select()` will always return another data frame, unless we explicitly use `pull()` to output a vector. For `data.table`, wrapping columns inside a list via `.()` returns another data frame.  
 
 ```{r}
 # Output data frame with select() using dplyr ----------------------------------
-courses_df %>%
-  select(student) %>%
+courses_df |>
+  select(student) |>
   class()
 #> [1] "data.table" "data.frame"  
 
 # Output vector with select() & pull using dplyr -------------------------------
-courses_df %>%
-  pull(student) %>%
+courses_df |>
+  pull(student) |>
   class()
 #> [1] "character"
 
 # Output data frame following column selection using data.table ----------------
-courses_df[, .(student)] %>%
+courses_df[, .(student)] |>
   class()
 #> [1] "data.table" "data.frame"  
 
 # Output vector following column selection using data.table --------------------
-courses_df[, student] %>%
+courses_df[, student] |>
   class() 
 #> [1] "character"
 ```
@@ -468,18 +470,18 @@ The execution time for `dplyr` and `data.table` is roughly equivalent for select
 # Compare column selection examples using dplyr vs data.table ------------------
 # Perform and plot R code benchmarks 
 microbenchmark(
-  dplyr_select_two_cols = courses_df %>%
+  dplyr_select_two_cols = courses_df |>
     select(student,
            platform),
   dt_select_two_cols = courses_df[,
                                   .(student, platform)],
-  dplyr_select_date_type = courses_df %>%
+  dplyr_select_date_type = courses_df |>
     select(where(~inherits(., "Date"))),
   dt_select_date_type = courses_df[, 
                                    .SD,
                                    .SDcols = function(x) inherits(x, 'Date')],
   times = 15L
-) %>%
+) |>
   autoplot()
 ```
 
@@ -492,12 +494,12 @@ Using `dplyr`, we can create new columns or overwrite existing columns in our or
 
 ```{r, results='markup'}
 # Create column for platform dwell length using dplyr --------------------------
-courses_df %>% 
-  mutate(platform_dwell_length = platform_end_date - platform_start_date) %>%
+courses_df |> 
+  mutate(platform_dwell_length = platform_end_date - platform_start_date) |>
   head(3)  
 
-courses_df %>% 
-  transmute(platform_dwell_length = platform_end_date - platform_start_date) %>%
+courses_df |> 
+  transmute(platform_dwell_length = platform_end_date - platform_start_date) |>
   head(3)  
 ```
 
@@ -514,7 +516,7 @@ lobstr::ref(courses_df)
 #> \-platform_end_date = [6:0x7ff44e450010] <date> 
 
 # Modify the platform column and check data frame and column references --------
-courses_df <- courses_df %>%
+courses_df <- courses_df |>
   mutate(platform = tolower(platform))  
 
 lobstr::ref(courses_df)
@@ -581,7 +583,7 @@ We can create a column based on multiple conditions using `case_when()` or `f_ca
 
 ```{r}
 # Create column based on multiple conditions using dplyr -----------------------
-courses_df %>%
+courses_df |>
   mutate(studied_programming = case_when(
     str_detect(course, "^R_") ~ "Studied R",
     str_detect(course, "^Python_") ~ "Studied Python",
@@ -620,26 +622,26 @@ Since `dplyr` [version 1.0.0](https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0
 
 ```{r}
 # Apply the same function across multiple columns using dplyr ------------------
-courses_df %>%
+courses_df |>
   mutate(across(c(student, platform, course), tolower))
 ```
 
 ```{r, echo=FALSE, results='markup'}
 # Silently print code results --------------------------------------------------
-courses_df %>%
-  mutate(across(c(student, platform, course), tolower)) %>% head(3)
+courses_df |>
+  mutate(across(c(student, platform, course), tolower)) |> head(3)
 ```
 
 ```{r}
 # where() can be used inside across() for conditional column selections  
-courses_df %>%
+courses_df |>
   mutate(across(where(is.character), toupper))
 ```
 
 ```{r, echo=FALSE, results='markup'}
 # Silently print code results --------------------------------------------------
-courses_df %>%
-  mutate(across(where(is.character), toupper)) %>% head(3)
+courses_df |>
+  mutate(across(where(is.character), toupper)) |> head(3)
 ```
 
 ```{r}
@@ -722,11 +724,11 @@ The execution time for `dplyr` and `data.table` is roughly equivalent for transf
 # Compare transformation examples using dplyr vs data.table --------------------
 # Perform and plot R code benchmarks 
 microbenchmark(
-  dplyr_create_platform_dlength = courses_df %>% 
+  dplyr_create_platform_dlength = courses_df |> 
     mutate(platform_dwell_length = platform_end_date - platform_start_date),
   dt_create_platform_dlength = courses_df[,
                                           platform_dwell_length := platform_end_date - platform_start_date],
-  dplyr_case_when = courses_df %>%
+  dplyr_case_when = courses_df |>
     mutate(studied_programming = case_when(
       str_detect(course, "^R_") ~ "Studied R",
       str_detect(course, "^Python_") ~ "Studied Python",
@@ -737,7 +739,7 @@ microbenchmark(
                           str_detect(course, "^Python_"), "Studied Python",
                           default = "No")],
   times = 5L
-) %>%
+) |>
   autoplot()
 ```
 
@@ -747,8 +749,8 @@ Summarising data across >100K subgroups is where `data.table` greatly outperform
 
 ```{r}
 # Summarise by course and platform using dplyr ---------------------------------
-courses_df %>%
-  group_by(platform, course) %>%
+courses_df |>
+  group_by(platform, course) |>
   summarise(mean_length = mean(platform_dwell_length),
             total_courses = n()) 
 
@@ -766,7 +768,7 @@ courses_df[,
 courses_df[,
            .(mean_length = mean(platform_dwell_length),
              total_courses = .N),
-           by = .(platform, course)] %>% head(3)
+           by = .(platform, course)] |> head(3)
 ```
 
 Since `dplyr` [version 1.0.0](https://www.tidyverse.org/blog/2020/06/dplyr-1-0-0/), we can use `summarise()` in combination with `across()` to apply the same aggregation across multiple columns. A comprehensive [blog post] on `across()` examples can be found [here](https://willhipson.netlify.app/post/dplyr_across/dplyr_across/).      
@@ -789,8 +791,8 @@ The execution time for `dplyr` and `data.table` is roughly equivalent for transf
 # Compare group aggregation examples using dplyr vs data.table -----------------
 # Perform and plot R code benchmarks 
 microbenchmark(
-  dplyr_summarise_by_platform_and_course = courses_df %>%
-    group_by(platform, course) %>%
+  dplyr_summarise_by_platform_and_course = courses_df |>
+    group_by(platform, course) |>
     summarise(mean_length = mean(platform_dwell_length),
               total_courses = n()),
   dt_summarise_by_platform_and_course = courses_df[,
@@ -798,22 +800,22 @@ microbenchmark(
                                                      total_courses = .N),
                                                    by = .(platform, course)],
   times = 5L
-) %>%
+) |>
   autoplot()
 ```
 
 # Chain code    
 
-In data analysis, we frequently need to perform a sequence of operations to generate a new named data output. In R, we can chain `dplyr` and `data.table` operations using `%>%` or `|>` pipes or `data.table` `[]` chains. I personally prefer using `%>%` for chaining R operations when I don't care about minimising package dependencies.     
+In data analysis, we frequently need to perform a sequence of operations to generate a new named data output. In R, we can chain `dplyr` and `data.table` operations using `%>%` or `|>` pipes or `data.table` `[]` chains. I personally prefer using `|>` for chaining R operations when I don't care about minimising package dependencies.     
 
 ```{r}
-# Chain dplyr operations using %>% and |> pipes --------------------------------
+# Chain dplyr operations using |> and |> pipes --------------------------------
 # Output a data frame containing the earliest platform start date for all 
 # courses per platform  
-courses_df %>%
-  select(-c(student, platform_dwell_length, platform_end_date)) %>%
-  arrange(platform, course, platform_start_date) %>%
-  group_by(platform, course) %>%
+courses_df |>
+  select(-c(student, platform_dwell_length, platform_end_date)) |>
+  arrange(platform, course, platform_start_date) |>
+  group_by(platform, course) |>
   filter(row_number() == 1L) 
 
 # You can also use the base R pipe |> for R version >= 4.1.0
@@ -824,6 +826,7 @@ courses_df |>
   filter(row_number() == 1L) 
 
 # Chain data.table operations using %>% ----------------------------------------
+# The native R pipe |> does not work on the code below
 courses_df[,
            -c("student",
               "platform_dwell_length",

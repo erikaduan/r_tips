@@ -1,63 +1,40 @@
 You can use data.table or tidyverse (or Pandas)!
 ================
 Erika Duan
-2023-01-08
+2024-03-16
 
-- <a href="#introduction" id="toc-introduction">Introduction</a>
-- <a href="#creating-a-test-dataset"
-  id="toc-creating-a-test-dataset">Creating a test dataset</a>
-- <a href="#data-frame-conversions" id="toc-data-frame-conversions">Data
-  frame conversions</a>
-- <a href="#code-syntax-differences" id="toc-code-syntax-differences">Code
-  syntax differences</a>
-- <a href="#filter-data" id="toc-filter-data">Filter data</a>
-  - <a href="#filter-by-a-single-condition"
-    id="toc-filter-by-a-single-condition">Filter by a single condition</a>
-  - <a href="#filter-by-multiple-conditions"
-    id="toc-filter-by-multiple-conditions">Filter by multiple conditions</a>
-  - <a href="#filter-using-regular-expressions"
-    id="toc-filter-using-regular-expressions">Filter using regular
-    expressions</a>
-  - <a href="#filter-across-multiple-columns"
-    id="toc-filter-across-multiple-columns">Filter across multiple
-    columns</a>
-  - <a href="#equivalent-pandas-code"
-    id="toc-equivalent-pandas-code">Equivalent Pandas code</a>
-  - <a href="#code-benchmarking" id="toc-code-benchmarking">Code
-    benchmarking</a>
-- <a href="#sort-data" id="toc-sort-data">Sort data</a>
-  - <a href="#equivalent-pandas-code-1"
-    id="toc-equivalent-pandas-code-1">Equivalent Pandas code</a>
-  - <a href="#code-benchmarking-1" id="toc-code-benchmarking-1">Code
-    benchmarking</a>
-- <a href="#select-columns" id="toc-select-columns">Select columns</a>
-  - <a href="#equivalent-pandas-code-2"
-    id="toc-equivalent-pandas-code-2">Equivalent Pandas code</a>
-  - <a href="#code-benchmarking-2" id="toc-code-benchmarking-2">Code
-    benchmarking</a>
-- <a href="#transform-columns" id="toc-transform-columns">Transform
-  columns</a>
-  - <a href="#transform-via-copy-on-modify-versus-modify-in-place"
-    id="toc-transform-via-copy-on-modify-versus-modify-in-place">Transform
-    via copy on modify versus modify in place</a>
-  - <a href="#transform-using-multiple-conditions"
-    id="toc-transform-using-multiple-conditions">Transform using multiple
-    conditions</a>
-  - <a href="#equivalent-pandas-code-3"
-    id="toc-equivalent-pandas-code-3">Equivalent Pandas code</a>
-  - <a href="#code-benchmarking-3" id="toc-code-benchmarking-3">Code
-    benchmarking</a>
-- <a href="#group-by-and-summarise-columns"
-  id="toc-group-by-and-summarise-columns">Group by and summarise
-  columns</a>
-  - <a href="#equivalent-pandas-code-4"
-    id="toc-equivalent-pandas-code-4">Equivalent Pandas code</a>
-  - <a href="#code-benchmarking-4" id="toc-code-benchmarking-4">Code
-    benchmarking</a>
-- <a href="#chain-code" id="toc-chain-code">Chain code</a>
-  - <a href="#equivalent-pandas-code-5"
-    id="toc-equivalent-pandas-code-5">Equivalent Pandas code</a>
-- <a href="#other-resources" id="toc-other-resources">Other resources</a>
+-   [Introduction](#introduction)
+-   [Creating a test dataset](#creating-a-test-dataset)
+-   [Data frame conversions](#data-frame-conversions)
+-   [Code syntax differences](#code-syntax-differences)
+-   [Filter data](#filter-data)
+    -   [Filter by a single condition](#filter-by-a-single-condition)
+    -   [Filter by multiple conditions](#filter-by-multiple-conditions)
+    -   [Filter using regular
+        expressions](#filter-using-regular-expressions)
+    -   [Filter across multiple
+        columns](#filter-across-multiple-columns)
+    -   [Equivalent Pandas code](#equivalent-pandas-code)
+    -   [Code benchmarking](#code-benchmarking)
+-   [Sort data](#sort-data)
+    -   [Equivalent Pandas code](#equivalent-pandas-code-1)
+    -   [Code benchmarking](#code-benchmarking-1)
+-   [Select columns](#select-columns)
+    -   [Equivalent Pandas code](#equivalent-pandas-code-2)
+    -   [Code benchmarking](#code-benchmarking-2)
+-   [Transform columns](#transform-columns)
+    -   [Transform via copy on modify versus modify in
+        place](#transform-via-copy-on-modify-versus-modify-in-place)
+    -   [Transform using multiple
+        conditions](#transform-using-multiple-conditions)
+    -   [Equivalent Pandas code](#equivalent-pandas-code-3)
+    -   [Code benchmarking](#code-benchmarking-3)
+-   [Group by and summarise columns](#group-by-and-summarise-columns)
+    -   [Equivalent Pandas code](#equivalent-pandas-code-4)
+    -   [Code benchmarking](#code-benchmarking-4)
+-   [Chain code](#chain-code)
+    -   [Equivalent Pandas code](#equivalent-pandas-code-5)
+-   [Other resources](#other-resources)
 
 ``` r
 # Load required R packages -----------------------------------------------------
@@ -86,8 +63,8 @@ use_virtualenv("C:/Windows/system32/py_396_data_science")
 I started data analysis in `R` with the `tidyverse` suite of packages
 and `dplyr` still sparks the greatest joy out of all R and Python data
 wrangling packages. In R, a useful alternative to `dplyr` is
-`data.table` when you need to perform lots of groupings on large
-datasets (datasets over 1 million rows).
+`data.table` when you need to perform groupings on large datasets
+(datasets over 1 million rows).
 
 The pros and cons of using `tidyverse`, `data.table` and the popular
 Python data wrangling package `Pandas` are listed below, keeping in mind
@@ -95,10 +72,10 @@ that some preferences are subjective.
 
 | Package           | `dplyr`                                                                | `data.table`                                                                                               | `Pandas`                                                                                            |
 |:------------------|:-----------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------|
-| Code readability  | Code is highly readable and integrates well with `\|>` and `%>%` pipes | `data.table` code is more concise, but suffers from decreased readability especially when using long names | `Pandas` allows chaining of methods but its methods syntax can feel less intuitive than `dplyr`     |
-| Speed: `group by` | Code fails to execute when doing analysis on groups with \~300K values | Performance remains consistent as the number of groups increase (\>300K groups)                            | Performs equivalently to `dplyr` according to [db-benchmark](https://h2oai.github.io/db-benchmark/) |
-| Speed: `sort`     | \-                                                                     | Faster alternative `sort` method to `dplyr` on large datasets (\>1M rows)                                  | \-                                                                                                  |
-| Memory usage      | Is copy on modify, which is default R behaviour                        | Allows modify by reference for some operations, which decreases memory allocation needs                    | \-                                                                                                  |
+| Code readability  | Code is highly readable and integrates well with `%>%` and `\|>` pipes | `data.table` code is more concise, but suffers from decreased readability especially when using long names | `Pandas` allows chaining of methods but its methods syntax can feel less intuitive than `dplyr`     |
+| Speed: `group by` | Code fails to execute when doing analysis on groups with \~300K values | Performance remains consistent as the number of groups increase (>300K groups)                             | Performs equivalently to `dplyr` according to [db-benchmark](https://h2oai.github.io/db-benchmark/) |
+| Speed: `sort`     | \-                                                                     | Faster alternative `sort` method to `dplyr` on large datasets (>1M rows)                                   | \-                                                                                                  |
+| Memory usage      | Is copy on modify, which is default R behaviour                        | Allows modify by reference for some operations, which decreases memory allocation needs                    | Copy on modify behaviour is enabled for `Pandas` 2.0+                                               |
 
 Let’s test this out for ourselves.
 
@@ -107,26 +84,28 @@ Let’s test this out for ourselves.
 Imagine you have a dataset describing how students are engaging with
 online courses:
 
-- Each student has a unique ID.  
-- There are 5 different online platforms labelled `A`, `B`, `C`, `D` and
-  `E`.  
-- Students can take multiple courses at any time.  
-- Students have the option of taking different courses within the same
-  platform or switching to a different course on a different platform.  
-- Platform start dates are recorded when the student first signs up to a
-  platform.  
-- Platform end dates are recorded when a student completes their last
-  course or switches to a new platform.
+-   Each student has a unique ID.  
+-   There are 5 different online platforms labelled `A`, `B`, `C`, `D`
+    and `E`.  
+-   Students can take multiple courses at any time.  
+-   Students have the option of taking different courses within the same
+    platform or switching to a different course on a different
+    platform.  
+-   Platform start dates are recorded when the student first signs up to
+    a platform.  
+-   Platform end dates are recorded when a student completes their last
+    course or switches to a new platform.
 
 We can source the R script
-[`./dc-dataset_generation_script.R`](./dc-dataset_generation_script.R)
+[`./dc-data_table_vs_dplyr-dataset_generation_script.R`](./dc-data_table_vs_dplyr-dataset_generation_script.R)
 to generate a mock dataset of 1M course enrollments, which is named
 `courses_df`.
 
 ``` r
 # Source R script to generate mock dataset -------------------------------------
-# Explicitly state that outputs are generated in the global R environment   
-source("dc-dataset_generation_script.R", local = knitr::knit_global())
+# Explicitly states that outputs are generated in the global R environment   
+source("dc-data_table_vs_dplyr-dataset_generation_script.R",
+       local = knitr::knit_global())
 ```
 
 ``` r
@@ -134,19 +113,28 @@ source("dc-dataset_generation_script.R", local = knitr::knit_global())
 head(courses_df, 5)
 ```
 
-**Note:** The script `dc-dataset_generation_script.R` may take several
-minutes to load whilst it generates 1M synthetic records.
+    ##     student platform         course platform_start_date platform_end_date
+    ## 1: 000027f0        A     statistics          2016-08-11        2016-09-19
+    ## 2: 000027f0        A linear_algebra          2017-02-14        2017-03-13
+    ## 3: 000027f0        E        pottery          2018-03-23        2018-05-08
+    ## 4: 000094e9        A travel_writing          2018-11-15        2018-12-20
+    ## 5: 000094e9        A linear_algebra          2018-11-15        2018-12-20
+
+**Note:** The script
+`dc-data_table_vs_dplyr-dataset_generation_script.R` may take several
+minutes to load as it generates 1M synthetic records.
 
 # Data frame conversions
 
-The [R script above](./dc-dataset_generation_script.R) generates a
+The [R script
+above](./dc-data_table_vs_dplyr-dataset_generation_script.R) generates a
 `data.table` object named `courses_df`. In R, the default data object is
 a `data.frame`. A `data.frame` is just a list of vectors (of the same
 length) with each column represented by a separate vector.
 
 The `tibble` data object from `dplyr` is a modified version of the
 `data.frame` that prohibits some column name and type conversions. You
-can read more about `tibble` design choices in the Advanced R [chapter
+can read more about `tibble` design choices in the [Advanced R chapter
 on tibbles](https://adv-r.hadley.nz/vectors-chap.html?q=tibble#tibble).
 
 The `data.table` package contains the function `setDT()`, which converts
@@ -171,14 +159,14 @@ data.frame(id = 1:5, letter = letters[1:5]) |>
 
 # Check the class of a tibble data object 
 data.frame(id = 1:5, letter = letters[1:5]) |>
-  as_tibble() %>%  
+  as_tibble() |>  
   class()
 #> [1] "tbl_df"     "tbl"        "data.frame"  
 ```
 
-As this tutorial showcases equivalent Python `Pandas` code, we will also
-import the `Pandas` package into our Python environment and create a
-copy of `course_df` in our Python environment.
+To showcase equivalent Python `Pandas` code, we will also import the
+`Pandas` package into our Python environment and create a copy of
+`course_df` in our Python environment.
 
 ``` python
 # Import Python packages for Python data transformations -----------------------
@@ -200,27 +188,35 @@ date_cols = [col for col in courses_pf.columns if "date" in col]
 for col in date_cols:
   courses_pf[col] = pd.to_datetime(courses_pf[col], format = "%Y-%m-%d")
   
+# Check that the columns are the expected type
 courses_pf.dtypes
 ```
 
+    ## student                        object
+    ## platform                       object
+    ## course                         object
+    ## platform_start_date    datetime64[ns]
+    ## platform_end_date      datetime64[ns]
+    ## dtype: object
+
 # Code syntax differences
 
-Before we cover specific examples, it is useful to understand the syntax
-of `dplyr` and `data.table` functions. The `dplyr` syntax is more
-beginner friendly as it comprises a list of data transformation verbs,
-which can be chained together to create a new output.
+Before we cover specific examples, let us examine the syntax of `dplyr`
+and `data.table` functions. The `dplyr` syntax is more beginner friendly
+as it uses data transformation verbs, which can be chained together to
+create a new output.
 
-<img src="../../figures/dc-code_syntax.svg" width="80%" />
+<img src="../../figures/dc-data_table_vs_dplyr-code_syntax.svg" width="80%" />
 
 In contrast, the `data.table` syntax is structured in the form
 `DT[i, j, by]` where:
 
-- Data selection (filtering or sorting rows) is performed in the `i`
-  placeholder.  
-- Data column selection, transformation and deletion are performed in
-  the `j` placeholder.  
-- Grouping data is performed in the `by` placeholder, with aggregation
-  functions specified in the `j` placeholder.
+-   Data selection (filtering or sorting rows) is performed in the `i`
+    placeholder.  
+-   Data column selection, transformation and deletion are performed in
+    the `j` placeholder.  
+-   Grouping data is performed in the `by` placeholder, with aggregation
+    functions specified in the `j` placeholder.
 
 # Filter data
 
@@ -232,7 +228,7 @@ functions.
 
 ``` r
 # Filter by platform B and C using dplyr ---------------------------------------
-courses_df %>%
+courses_df |>
   filter(platform %in% c("B", "C"))
 
 # Filter by platform B and C using data.table ----------------------------------
@@ -254,7 +250,7 @@ conditions). In `dplyr`, the comma is a shorthand for `AND`.
 
 ``` r
 # Filter by platform B & platform start date >= 2018-09-01 using dplyr ---------
-courses_df %>%
+courses_df |>
   filter(platform == "B",
          platform_start_date >= "2018-09-01")
 
@@ -274,7 +270,7 @@ package or the `data.table` helper function `%like%`.
 
 ``` r
 # Filter by course starting with the letter R using dplyr ----------------------
-courses_df %>%
+courses_df |>
   filter(str_detect(course, "^R"))
 
 # Filter by course starting with the letter R using data.table -----------------
@@ -297,8 +293,8 @@ listed manually.
 
 ``` r
 # Filter by platform start AND end date between dates using dplyr --------------
-courses_df %>%
-  filter(if_all(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) %>%
+courses_df |>
+  filter(if_all(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) |>
   head(3) # View output
 ```
 
@@ -309,8 +305,8 @@ courses_df %>%
 
 ``` r
 # Filter by platform start OR end date between dates using dplyr ---------------
-courses_df %>%
-  filter(if_any(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) %>%
+courses_df |>
+  filter(if_any(ends_with("_date"), ~between(., "2018-01-01", "2018-03-31"))) |>
   head(3) # View output
 ```
 
@@ -417,7 +413,7 @@ data frame.
 
 ``` r
 # Sort by ascending student id and descending platform name using dplyr --------
-courses_df %>%
+courses_df |>
   arrange(student,
           desc(platform))
 
@@ -484,7 +480,7 @@ complex column selections can be performed by inputting a function using
 
 ``` r
 # Select multiple columns by name using dplyr ----------------------------------
-courses_df %>%
+courses_df |>
   select(student,
          platform)
 
@@ -502,7 +498,7 @@ courses_df[,
 
 ``` r
 # Select columns ending with date using dplyr ----------------------------------
-courses_df %>%
+courses_df |>
   select(ends_with("date"))
 
 # Select columns ending with date using data.table -----------------------------
@@ -529,7 +525,7 @@ vapply(courses_df, class, character(1L))
 #>   "character"   "character"   "character"   "Date"                 "Date"
 
 # Selects columns where the column type inherits the Date class  
-courses_df %>%
+courses_df |>
   select(where(~inherits(., "Date")))
 
 # Select columns of date type using data.table ---------------------------------
@@ -551,24 +547,24 @@ returns another data frame.
 
 ``` r
 # Output data frame with select() using dplyr ----------------------------------
-courses_df %>%
-  select(student) %>%
+courses_df |>
+  select(student) |>
   class()
 #> [1] "data.table" "data.frame"  
 
 # Output vector with select() & pull using dplyr -------------------------------
-courses_df %>%
-  pull(student) %>%
+courses_df |>
+  pull(student) |>
   class()
 #> [1] "character"
 
 # Output data frame following column selection using data.table ----------------
-courses_df[, .(student)] %>%
+courses_df[, .(student)] |>
   class()
 #> [1] "data.table" "data.frame"  
 
 # Output vector following column selection using data.table --------------------
-courses_df[, student] %>%
+courses_df[, student] |>
   class() 
 #> [1] "character"
 ```
@@ -645,13 +641,22 @@ courses_pf.select_dtypes(include=["datetime64"])
 ``` python
 # Output data frame following column selection using Pandas --------------------
 type(courses_pf[["student"]])
+```
+
+``` python
 #> <class 'pandas.core.frame.DataFrame'>  
 
 # Output series or vector array following column selection using Pandas --------
 type(courses_pf["student"])
+```
+
+``` python
 #> <class 'pandas.core.series.Series'>  
 
 type(courses_pf["student"].values)
+```
+
+``` python
 #> <class 'numpy.ndarray'>
 ```
 
@@ -673,8 +678,8 @@ columns and drop all other existing columns using `transmute()`.
 
 ``` r
 # Create column for platform dwell length using dplyr --------------------------
-courses_df %>% 
-  mutate(platform_dwell_length = platform_end_date - platform_start_date) %>%
+courses_df |> 
+  mutate(platform_dwell_length = platform_end_date - platform_start_date) |>
   head(3)  
 ```
 
@@ -688,8 +693,8 @@ courses_df %>%
     ## 3:               46 days
 
 ``` r
-courses_df %>% 
-  transmute(platform_dwell_length = platform_end_date - platform_start_date) %>%
+courses_df |> 
+  transmute(platform_dwell_length = platform_end_date - platform_start_date) |>
   head(3)  
 ```
 
@@ -718,7 +723,7 @@ lobstr::ref(courses_df)
 #> \-platform_end_date = [6:0x7ff44e450010] <date> 
 
 # Modify the platform column and check data frame and column references --------
-courses_df <- courses_df %>%
+courses_df <- courses_df |>
   mutate(platform = tolower(platform))  
 
 lobstr::ref(courses_df)
@@ -791,7 +796,7 @@ or `f_case()` for `dplyr` and `data.table` respectively.
 
 ``` r
 # Create column based on multiple conditions using dplyr -----------------------
-courses_df %>%
+courses_df |>
   mutate(studied_programming = case_when(
     str_detect(course, "^R_") ~ "Studied R",
     str_detect(course, "^Python_") ~ "Studied Python",
@@ -841,7 +846,7 @@ then loop through each column using `lapply(function)`.
 
 ``` r
 # Apply the same function across multiple columns using dplyr ------------------
-courses_df %>%
+courses_df |>
   mutate(across(c(student, platform, course), tolower))
 ```
 
@@ -856,7 +861,7 @@ courses_df %>%
 
 ``` r
 # where() can be used inside across() for conditional column selections  
-courses_df %>%
+courses_df |>
   mutate(across(where(is.character), toupper))
 ```
 
@@ -994,8 +999,8 @@ summary outputs then created using the `summarise()` function.
 
 ``` r
 # Summarise by course and platform using dplyr ---------------------------------
-courses_df %>%
-  group_by(platform, course) %>%
+courses_df |>
+  group_by(platform, course) |>
   summarise(mean_length = mean(platform_dwell_length),
             total_courses = n()) 
 
@@ -1060,17 +1065,17 @@ code execution times.
 In data analysis, we frequently need to perform a sequence of operations
 to generate a new named data output. In R, we can chain `dplyr` and
 `data.table` operations using `%>%` or `|>` pipes or `data.table` `[]`
-chains. I personally prefer using `%>%` for chaining R operations when I
+chains. I personally prefer using `|>` for chaining R operations when I
 don’t care about minimising package dependencies.
 
 ``` r
-# Chain dplyr operations using %>% and |> pipes --------------------------------
+# Chain dplyr operations using |> and |> pipes --------------------------------
 # Output a data frame containing the earliest platform start date for all 
 # courses per platform  
-courses_df %>%
-  select(-c(student, platform_dwell_length, platform_end_date)) %>%
-  arrange(platform, course, platform_start_date) %>%
-  group_by(platform, course) %>%
+courses_df |>
+  select(-c(student, platform_dwell_length, platform_end_date)) |>
+  arrange(platform, course, platform_start_date) |>
+  group_by(platform, course) |>
   filter(row_number() == 1L) 
 
 # You can also use the base R pipe |> for R version >= 4.1.0
@@ -1081,6 +1086,7 @@ courses_df |>
   filter(row_number() == 1L) 
 
 # Chain data.table operations using %>% ----------------------------------------
+# The native R pipe |> does not work on the code below
 courses_df[,
            -c("student",
               "platform_dwell_length",
@@ -1129,24 +1135,24 @@ less flexible than using pipes in R.
 
 # Other resources
 
-- The official `data.table`
-  [vignnette](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).  
-- A comprehensive [stack overflow
-  discussion](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly/27840349#27840349)
-  about the advantages of using `data.table` versus `dplyr`.  
-- A [blog
-  post](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/) with
-  side by side comparison of data.table versus dplyr operations by
-  Atrebas.  
-- My [blog
-  post](https://erikaduan.github.io/posts/2021-02-16-data-table-part-2/)
-  on how to chain multiple `data.table` operations for complex data
-  analysis.  
-- An
-  [explanation](https://tysonbarrett.com//jekyll/update/2019/07/12/datatable/)
-  of how `data.table` modifies by reference by Tyson Barrett.  
-- A [detailed
-  explanation](https://gist.github.com/arunsrinivasan/dacb9d1cac301de8d9ff)
-  of binary search based subsets in `data.table` by Arun Srinivasan.  
-- The Advanced R [chapter](https://adv-r.hadley.nz/perf-measure.html) on
-  measuring code performance by Hadley Wickham.
+-   The official `data.table`
+    [vignnette](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).  
+-   A comprehensive [stack overflow
+    discussion](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly/27840349#27840349)
+    about the advantages of using `data.table` versus `dplyr`.  
+-   A [blog
+    post](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/)
+    with side by side comparison of data.table versus dplyr operations
+    by Atrebas.  
+-   My [blog
+    post](https://erikaduan.github.io/posts/2021-02-16-data-table-part-2/)
+    on how to chain multiple `data.table` operations for complex data
+    analysis.  
+-   An
+    [explanation](https://tysonbarrett.com//jekyll/update/2019/07/12/datatable/)
+    of how `data.table` modifies by reference by Tyson Barrett.  
+-   A [detailed
+    explanation](https://gist.github.com/arunsrinivasan/dacb9d1cac301de8d9ff)
+    of binary search based subsets in `data.table` by Arun Srinivasan.  
+-   The Advanced R [chapter](https://adv-r.hadley.nz/perf-measure.html)
+    on measuring code performance by Hadley Wickham.

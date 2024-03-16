@@ -1,19 +1,18 @@
 ---
-title: "Untangling strings (#@%*!!)"
+title: "Cleaning strings (#@%*!!)"
 author: Erika Duan
 date: "`r Sys.Date()`"
 output:
   github_document:
     toc: true
-always_allow_html: true
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, results = 'hide', message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo=TRUE, results ="hide", message=FALSE, warning=FALSE)
 ```
 
 ```{r, echo = FALSE}  
-#-----load required packages-----  
+# Load required R packages -----------------------------------------------------
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,  
                tidyverse,  
@@ -23,7 +22,7 @@ pacman::p_load(here,
 
 # Introduction   
 
-Comment fields sit somewhere in between tidy tabular data entries and large text files (i.e. documents) in terms of wrangling effort. They require human naunce to decode and the quality and completeness of comments vary between individual entries.     
+Comment fields sit somewhere in between tidy tabular data entries and large text files (i.e. documents) in terms of wrangling effort. They require human nuance to decode and the quality and completeness of comments vary between individual entries.     
 
 This makes it hard to gauge whether cleaning comment fields is a worthwhile endeavour (especially when you have multiple other data sources that need examining). Luckily, some knowledge of string manipulations and regular expressions can help simplify this process.        
 
