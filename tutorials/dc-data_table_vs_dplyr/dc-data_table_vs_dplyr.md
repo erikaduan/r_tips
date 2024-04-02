@@ -1041,7 +1041,7 @@ less flexible than using pipes in R.
 # Other resources
 
 -   The official `data.table`
-    [vignnette](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).  
+    [vignette](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html).  
 -   A comprehensive [stack overflow
     discussion](https://stackoverflow.com/questions/21435339/data-table-vs-dplyr-can-one-do-something-well-the-other-cant-or-does-poorly/27840349#27840349)
     about the advantages of using `data.table` versus `dplyr`.  
@@ -1049,10 +1049,6 @@ less flexible than using pipes in R.
     post](https://atrebas.github.io/post/2019-03-03-datatable-dplyr/)
     with side by side comparison of data.table versus dplyr operations
     by Atrebas.  
--   My [blog
-    post](https://erikaduan.github.io/posts/2021-02-16-data-table-part-2/)
-    on how to chain multiple `data.table` operations for complex data
-    analysis.  
 -   An
     [explanation](https://tysonbarrett.com//jekyll/update/2019/07/12/datatable/)
     of how `data.table` modifies by reference by Tyson Barrett.  
