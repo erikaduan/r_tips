@@ -1,4 +1,4 @@
-# R tips  
+# R programming tips  
  
 ## 🎨 Data visualisation  
 + [An introduction to `ggplot2` using volcano plots](https://github.com/erikaduan/r_tips/blob/master/tutorials/dv-volcano_plots_with_ggplot/dv-volcano_plots_with_ggplot.md) (Updated)  

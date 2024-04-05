@@ -1,167 +1,210 @@
-Cleaning strings (#@%\*!!)
+Cleaning strings with regular expressions using base R or stringr
 ================
 Erika Duan
-2024-03-16
+2024-04-05
 
 -   [Introduction](#introduction)
--   [Creating a test dataset](#creating-a-test-dataset)
--   [Introduction to regular
-    expressions](#introduction-to-regular-expressions)
-    -   [Match characters](#match-characters)
+-   [Using regex with `stringr`](#using-regex-with-stringr)
+    -   [Matching characters](#matching-characters)
     -   [Character anchors](#character-anchors)
     -   [Character classes and
         groupings](#character-classes-and-groupings)
     -   [Greedy versus lazy matches](#greedy-versus-lazy-matches)
     -   [Look arounds](#look-arounds)
--   [Improving comment field
-    readability](#improving-comment-field-readability)
--   [Extracting topics of interest](#extracting-topics-of-interest)
--   [Extracting a machine learning friendly
-    dataset](#extracting-a-machine-learning-friendly-dataset)
--   [Differences between base R and `stringr`
-    functions](#differences-between-base-r-and-stringr-functions)
+-   [Using base R versus `stringr`
+    functions](#using-base-r-versus-stringr-functions)
+-   [Cleaning free text fields using
+    `stringr`](#cleaning-free-text-fields-using-stringr)
 -   [Other resources](#other-resources)
 
 # Introduction
 
-Comment fields sit somewhere in between tidy tabular data entries and
-large text files (i.e. documents) in terms of wrangling effort. They
-require human nuance to decode and the quality and completeness of
-comments vary between individual entries.
+When you have short free text fields to analyse, it can be useful to
+perform data cleaning using regular expressions instead of advanced
+natural language processing (NLP) models first.
 
-This makes it hard to gauge whether cleaning comment fields is a
-worthwhile endeavour (especially when you have multiple other data
-sources that need examining). Luckily, some knowledge of string
-manipulations and regular expressions can help simplify this process.
-
-# Creating a test dataset
-
-Let’s imagine that my local chocolate company, [Haighs
-Chocolates](https://www.haighschocolates.com.au), wants to understand
-what food critics versus Haighs fans think about their newest product.
-They send out a bag of free samples with a link to an online survey that
-asks individuals to rate their chocolates (on a scale of 1 to 10) and
-provide additional comments.
-
-**Note:** The code used to create this dataset can be accessed from the
-`Rmd` file accompanying this tutorial.
+Regular expressions, or regex, is a separate syntax for identifying any
+pattern inside a string. In R, regex can be directly enclosed inside
+quotes like character strings or explicitly referenced inside `regex()`.
+The former approach is more convenient but the latter approach can help
+increase code readability.
 
 ``` r
-#-----quickly visualise the test dataset-----  
-survey %>%
-  head(10) # fields containing html flags are not properly rendered by kable 
-```
-
-# Introduction to regular expressions
-
-Regular expressions, or regex, can be thought of as a separate syntax
-for handling patterns in strings. In R, regular expressions can be
-directly enclosed inside quotes like character strings or explicitly
-referenced inside `regex()`. For convenience, I prefer the former
-approach but the latter approach can help increase code readability.
-
-``` r
-#-----call regular expressions in R-----
+# Call regular expressions in R directly using "" ------------------------------
 many_apples <- c("Apple", "apple", "APPLE", "apples")
 
 str_extract(many_apples, 
             "apples?")  
 #> [1] NA       "apple"  NA       "apples"
 
-#-----call regular expressions in R using regex()-----
-# regex() provides additional arguments
-
+# Call regular expressions in R using regex() ----------------------------------
+# regex() provides additional arguments with ignore_case = FALSE as default
 str_extract(many_apples, 
-            regex("apples?", ignore_case = T))  
+            regex("apples?", ignore_case = TRUE))  
 #> [1] "Apple"  "apple"  "APPLE"  "apples"
 
-# regex() also allows comments to improve regex readability  
-
+# regex() allows comments to improve code readability  
 str_extract(many_apples, 
             regex("
                   apple  # contains the word apple
                   s?  # contains zero or one of the letter s
-                  " , comments = T))
+                  ", 
+                  comments = T))
 #> [1] NA       "apple"  NA       "apples"    
 ```
 
-## Match characters
+# Using regex with `stringr`
 
-Some sequences of characters have specific meanings. For example, `s`
-refers to the letter `"s"` but `\s` refers to any type of white space.
-To call whitespace in R, a second backslash `\` is required to escape
-special character behaviour i.e. `\\s`.
+The `stringr` package is built on top of the fast `stringi` R package
+and provides more consistent function names. For example,
+`str_extract()` extracts the matching pattern whereas `str_detect()`
+returns the boolean variable `TRUE` if the regex matches.
 
 ``` r
-#-----examples of special character sequences-----  
+# Compare different stringr str_*() functions ----------------------------------
+many_apples <- c("Apple", "apple", "APPLE", "apples")
+
+str_extract(many_apples, 
+            "a|e")  
+#> [1] "e" "a" NA  "a"
+
+str_detect(many_apples, 
+           "a|e")   
+#> [1]  TRUE  TRUE FALSE  TRUE
+
+str_replace(many_apples, 
+           "a|e", # detect a or e
+           "o") # replace with o
+#> [1] "Applo"  "opple"  "APPLE"  "opples"  
+
+str_replace_all(many_apples, 
+                "a|e", 
+                "o") 
+#> [1] "Applo"  "opplo"  "APPLE"  "opplos"
+```
+
+## Matching characters
+
+In regex, the meaning of a pattern changes depending on whether it is
+preceded by `\`. For example, `s` matches the letter `"s"` but `\s` is
+used to match any type of white space.
+
+In R, some regex syntax differences exist:
+
+-   A second backslash `\` is required to escape special character
+    behaviour i.e. `\\s` instead of `\s` matches any type of white
+    space.  
+-   Punctuation marks must be referenced by a preceding `\`. For
+    example, only the regex `\?` matches the pattern `?`.  
+-   A consequence of these two behaviours is that the punctuation mark
+    `\` is represented by the regex `\\\\` in R.
+
+``` r
+# Extract white space(s) in R --------------------------------------------------  
 words_and_spaces <- c("a cat",
                       "acat",
                       "a   cat",
                       "a\ncat",
                       "a\\ncat")
 
-# "a\\s+cat" calls variations of a...cat separated by one or more whitespaces 
-# note that the string "a\ncat" also counts because \n refers to a new line
+# "a\\s+cat" calls variations of "a...cat" separated by one or more white spaces 
+# "a\ncat" is a match because "\n" refers to a new line in R
 
 str_extract(words_and_spaces, "a\\s+cat")  
 #> [1] "a cat"   NA        "a   cat" "a\ncat"  NA      
 
-# "\\S+" refers to everything that is not white space (starting from left to right)  
+# "\\S+" refers to everything that is not white space   
 
 str_extract(words_and_spaces, "\\S+")  
 #> [1] "a"       "acat"    "a"       "a"       "a\\ncat"
+
+str_extract_all(words_and_spaces, "\\S+")
+#> [[1]]
+#> [1] "a"   "cat"
+
+#> [[2]]
+#> [1] "acat"
+
+#> [[3]]
+#> [1] "a"   "cat"
+
+#> [[4]]
+#> [1] "a"   "cat"
+
+#> [[5]]
+#> [1] "a\\ncat"
+
+# str_extract_all() returns a list of one or more character vectors. Each 
+# list element contains all matches identified for each pattern of interest. 
 ```
 
-**Note:** The special characters `\s` versus `\S`, `\d` versus `\D` and
-`\w` versus `\W` are handy as they allow the extraction of opposite
-pattern types. For example, `\w` refers to any word character whilst
+In regex, the special characters like `\s` versus `\S`, `\d` versus `\D`
+and `\w` versus `\W` allow the extraction of opposite pattern types. For
+example, `\w` refers to any word character (including digits) whilst
 `\W` and `[^\w]` both refer to anything that is not a word character.
+
+``` r
+# Extract opposite pattern types using regex ----------------------------------- 
+character_jumble <- c("meow",
+                      "me0w!",
+                      "mew mew",
+                      "me\new")
+
+str_extract(character_jumble, "\\w+")
+#> [1] "meow" "me0w" "mew"  "me"  
+
+str_extract(character_jumble, "\\W+")
+#> [1] NA   "!"  " "  "\n"
+
+str_extract(character_jumble, "[^\\w]")
+#> [1] NA   "!"  " "  "\n"
+```
 
 ## Character anchors
 
-I feel that the goal of writing good regex is to be as specific as
-possible. This is why character anchors can be useful (i.e. using `^`
-and `$` to denote the start and end of your string respectively).
-
-If we revisit the example above, we can see that the presence or absence
-of character anchors produces very different outputs.
+Character anchors are useful for capturing patterns at the start or end
+of a string. Use `^` and `$` to denote the start and end of the string
+respectively. The presence or absence of character anchors can produce
+very different outputs.
 
 ``` r
-#-----impact of character anchors-----    
-words_and_spaces <- c(" a cat",
-                      "acat",
-                      "a   cat",
-                      "a\ncat",
-                      "a\\ncat")
+# Character anchors can alter the regex pattern --------------------------------    
+more_words_and_spaces <- c("a cat",
+                           " a cat",
+                           "acat",
+                           "a   cat",
+                           "a\ncat",
+                           "a\\ncat")
 
-# "\\S+" refers to everything that is not white space (from left to right unless specified)  
+# "\\S+" refers to 1+ non-white spaces 
 
-str_extract(words_and_spaces, "\\S+")  
-#> [1] "a"       "acat"    "a"       "a"       "a\\ncat"  
+# Extract the first 1+ non-white spaces present in a pattern
+str_extract(more_words_and_spaces, "\\S+")  
+#> [1] "a"       "a"       "acat"    "a"       "a"       "a\\ncat" 
 
-str_extract(words_and_spaces, "^\\S+")  
-#> [1] NA       "acat"    "a"       "a"       "a\\ncat"   
+# Only extract 1+ non-white spaces that exist at the start of a pattern
+str_extract(more_words_and_spaces, "^\\S+")  
+#> [1] "a"       NA        "acat"    "a"       "a"       "a\\ncat"
 
-str_extract(words_and_spaces, "\\S+$") 
-#> [1] "cat"     "acat"    "cat"     "cat"     "a\\ncat"     
+# Only extract 1+ non-white spaces that exist at the end of a pattern
+str_extract(more_words_and_spaces, "\\S+$") 
+#> [1] "cat"     "cat"     "acat"    "cat"     "cat"     "a\\ncat"      
 ```
 
 ## Character classes and groupings
 
-Character classes and groupings are handy for extracting specific letter
-and/or digit combinations. Some special characters found inside
-character classes and groupings are:
+Character classes are enclosed by `[]` and represent a single character
+of interest. Groupings are enclosed by `()` and used to denote 2+
+characters of interest.
+
+Special characters can be used inside character classes and groupings:
 
 -   The operation `or` is represented by `|` i.e `[a|c]`  
 -   The operation `range` is represented by `-` i.e. `[a-z]`  
 -   The operation `excludes` is represented by `^` i.e. `[^a-c]`
 
-**Note:** Representation of a single character is denoted by `[]` and
-representation of a grouping i.e. combination of characters is denoted
-by `()`.
-
 ``` r
-#-----extract patterns using character classes i.e. []-----    
+# Extract patterns using character classes -------------------------------------    
 strange_fruits <- c("apple1",
                     "bapple2",
                     "capple3",
@@ -175,49 +218,55 @@ str_extract(strange_fruits, "[a-d]")
 str_extract(strange_fruits, "[a-d][^p]")
 #> [1] NA   "ba" "ca" "da" NA   "ag"   
 
-# [a-d][^p] refers to one character between a and d followed by one character that is not p  
+# The regex [a-d][^p] refers to one character that is a, b, c or d followed by 
+# one character that is not p.  
 
 str_extract(strange_fruits, "[0|4-9]")
 #> [1] NA  NA  NA  "4" "5" "0"   
 
-# [0|4-9] refers to one number that is zero or a number from 4 to 9    
+# The regex [0|4-9] refers to one number that is 0 or 4 to 9    
 ```
 
 ``` r
-#-----extract character using groupings i.e. ()-----     
-strange_fruits <- c("apple1",
-                    "bapple2",
-                    "capple3",
+# Extract patterns using groupings ---------------------------------------------     
+stranger_fruits <- c("applepp1",
+                    "bapplegg2",
+                    "cagglegg3",
                     "dapple4",
                     "epple5",
-                    "aggle1")  
+                    "apgle0")  
 
-str_extract(strange_fruits, "a(pp|gg)le")
-#> [1] "apple" "apple" "apple" "apple" NA      "aggle"    
+str_extract(stranger_fruits, "a(pp|gg)le")
+#> [1] "apple" "apple" "aggle" "apple" NA      NA    
 
-# groups can be referenced by their order of appearance i.e. \\1 = first group   
+# Groups can be referenced by their order of appearance i.e. \\1 is first group   
 
-str_extract(strange_fruits, "(a)(p|g)\\2")
-#> [1] "app" "app" "app" "app" NA    "agg"   
+str_extract(stranger_fruits, "a(pp|gg).+\\1")
+#> [1] "applepp" NA        "agglegg" NA        NA        NA      
 
-# (a) is group 1 and can be called using \\1    
-# (p|g) is group 2 and can be called using \\2     
+str_extract(stranger_fruits, "a(p|g)\\1")
+#> [1] "app" "app" "agg" "app" NA    NA     
+
+# When OR is used inside a grouping and the group is referenced again, 
+# the latter reference is identical to the first. For example, "a(p|g)\\1" 
+# extracts "app" and "agg" but not "apg" or "agp". 
 ```
 
 ## Greedy versus lazy matches
 
-In R, regular expression parsing is non-greedy by default. This means
-that we need to add quantifiers `*` and `+` to greedily extract zero or
-more and one or more characters respectively.
+In R, regex parsing is non-greedy by default (the search stops at the
+shortest first result). Using a non-greedy match allows you to only
+extract the first characters before a white space or punctuation mark,
+which is useful for trimming strings or extracting file and object
+names.
 
-In contrast, using a non-greedy match allows you to extract just the
-first characters before a white space or punctuation mark. This is
-useful for trimming strings or extracting file or object names.
+This also means that we need to explicitly use quantifiers like `*` and
+`+` to greedily extract subsequent characters of interest.
 
 <img src="../../figures/dc-cleaning_strings-greedy_matches.jpg" title="Taken from the RStudio stringr cheatsheet" alt="Taken from the RStudio stringr cheatsheet" width="80%" style="display: block; margin: auto;" />
 
 ``` r
-#-----use cases for greedy matches-----   
+# Extract patterns using quantifiers -------------------------------------------   
 messy_dates <- c("Thursday 24th May",
                  "Thursday  24th May  ",
                  " May",
@@ -226,297 +275,77 @@ messy_dates <- c("Thursday 24th May",
 str_extract(messy_dates, "^\\w")      
 #> [1] "T" "T" NA  "M"   
 
-# greedily extract the first word in the string    
-
+# Greedily extract the first word in the string    
 str_extract(messy_dates, "^\\w+")   
 #> [1] "Thursday" "Thursday" NA      "May"   
 
-str_extract(messy_dates, "^\\w{1,}") # the quantifier + and {1,} are equivalent    
+# The quantifiers + and {1,} are equivalent
+str_extract(messy_dates, "^\\w{1,}")     
 #> [1] "Thursday" "Thursday" NA      "May"    
 
-str_extract(messy_dates, "^(\\S+)")  
-#> [1] "Thursday" "Thursday" NA      "May"    
+# Differences between str_* and str_*_all --------------------------------------
+# str_replace() replaces the first match only i.e. non-greedy replacement
+str_replace(messy_dates, "\\s" , "-") 
+#> [1] "Thursday-24th May"    "Thursday- 24th May  " "-May"                 "May-   "       
 
-#-----use cases for non-greedy matches----- 
-str_replace_all(messy_dates, "\\s" , "-") # replaces each individual whitespace
-#> [1] "Thursday-24th-May"    "Thursday--24th-May--" "-May"                  "May----"       
+# str_replace_all() replaces every match 
+str_replace_all(messy_dates, "\\s" , "-") 
+#> [1] "Thursday-24th-May"    "Thursday--24th-May--" "-May"                 "May----"  
 
 str_replace_all(messy_dates, "\\s{1,2}" , "-") 
 #> [1] "Thursday-24th-May"  "Thursday-24th-May-" "-May"                "May--"         
-
-# use look arounds (next topic) to replace the whitespace(s) after the first word     
-
-str_replace_all(messy_dates, "(?<=^\\w{1,100})\\s{1,2}" , "-") 
-#> [1] "Thursday-24th May"   "Thursday-24th May  " " May"                 "May-  "     
 ```
-
-**Note:** For further details explaining the regex syntax for the last
-example, read [this stack overflow
-post](https://stackoverflow.com/questions/52431841/how-to-find-the-first-space-in-a-sentence-with-regular-expressions-within-r).
 
 ## Look arounds
 
-Look around operations are useful when you are unsure of the pattern
-itself, but you know exactly what its preceding or following pattern is.
-I’ve found that the clearest explanation of look around operations comes
-from the [RStudio
-cheetsheet](https://github.com/rstudio/cheatsheets/blob/master/strings.pdf)
-on `string_r`, as depicted below.
+Look around operations are useful when you are unsure of the pattern of
+interest but you know what appears before or after it.
 
 <img src="../../figures/dc-cleaning_strings-look_arounds.jpg" title="Taken from the RStudio stringr cheatsheet" alt="Taken from the RStudio stringr cheatsheet" width="80%" style="display: block; margin: auto;" />
 
 ``` r
-#-----use cases for different types of look arounds-----  
+# Extract patterns using look arounds ------------------------------------------  
 recipes <- c("crossiant recipes",
              "apple pie recipe",
-             "chocolate cake  recipe", # extra space
-             "cookie receipe",  # deliberate typo
+             "chocolate cake  recipe", # Extra white space
+             "cookie receipe",  # Typo
              "secret KFC-recipe", 
-             "very secret  McDonalds soft-serve recipe") # extra space  
+             "very secret  McDonalds soft-serve recipe") # Extra white space  
 
-# use positive look-ahead (?=...) to extract the preceding word
+# Use positive look-aheads (?=...) to extract the word before the pattern ------
+# Extract all non white space characters before " recipes"
+str_extract(recipes, "\\S+(?=\\srecipes?)")   
+#> [1] "crossiant"  "pie"        NA           NA           NA           "soft-serve"   
 
+# Extract all non white space characters before "recipes" preceded by zero or 
+# more white spaces. 
 str_extract(recipes, "\\S+(?=\\s*recipes?)")   
-#> [1] "crossiant"  "pie"        "cake"       NA           "KFC-"       "soft-serve"   
+#> [1] "crossiant"  "pie"        "cake"       NA           "KFC-"       "soft-serve"
 
-# use positive look-behind (?<=) on "secret" to identify the secret recipes   
+# Use positive look-behinds (?<=) to extract the word after the pattern --------   
+str_extract(recipes, "(?<=secret\\s{1,2})\\S+")   
+# [1] NA           NA           NA           NA           "KFC-recipe" "McDonalds" 
 
-str_extract(recipes, "(?<=secret\\s{1,10})\\S+.+")   
-#> [1] NA                            NA                            NA                           
-#> [4] NA                            "KFC-recipe"                  "McDonalds soft-serve recipe"   
+str_extract(recipes, "(?<=secret\\s{1,2}).+")  
+#> [1] NA          NA           NA           NA                            
+#> [5] "KFC-recipe"                   " McDonalds soft-serve recipe"  
 ```
 
-**Note:** Positive look-behinds require defined boundary specifications
-i.e. the operation `+` needs to be converted into `{1,1000}`.
+**Note:** Positive look-behinds require defined boundaries
+i.e. use`{1,100}` instead of the operation `+`.
 
-# Improving comment field readability
+# Using base R versus `stringr` functions
 
-With regex revised, let us return to the Haighs chocolate survey. The
-first thing we can see is that html tags have been retained inside the
-comment field and that this field is very long (i.e. difficult to read).
+The advantages of using `stringr` are its consistent function names and
+reasonably fast execution speed. To minimise R package dependencies,
+however, base R can also be used for the same operations.
 
-We can improve the readability of the survey by:
-
--   Removing all html tags using regex.  
--   Separating phrases into individual fields i.e. columns using
-    [`separate()`](https://tidyr.tidyverse.org/reference/separate.html).
+The key difference between base R and `stringr` functions is the order
+that the string and pattern are specified. In base R, the pattern is
+specified first, which is not a pipe friendly argument order.
 
 ``` r
-#-----examine survey data-----
-survey %>%
-  head(5)   
-
-#-----remove html tags-----
-remove_html_tags <- regex("
-                          <  # starts with <
-                          [^>]+  # contains one or more of all characters excepting > 
-                          >  # ends with >
-                          ", comments = T)
-
-remove_more_html <- regex("
-                          \\& # starts with &
-                          \\w+ # contains one or more word characters
-                          \\; # ends with ;
-                          ", comments = T) 
-
-survey <- survey %>%
-  mutate(comment_field = str_replace_all(comment_field, remove_html_tags, ""),
-         comment_field = str_replace_all(comment_field, remove_more_html, ""))
-
-#-----examine comment field-----  
-survey %>%
-  select(comment_field) %>%
-  head(5) %>%
-  knitr::kable()
-```
-
-We can then split the single long comment field into multiple smaller
-columns. Many R functions require R regex classes to be wrapped in a
-second set of square brackets, e.g. `[[:punct:]]`.
-
-``` r
-#-----separate comment field into an unknown number of columns of phrases-----    
-nmax <- max(str_count(survey$comment_field, "[[:punct:]]|and|with|against")) + 1
-
-survey <- survey %>%   
-  separate(comment_field,
-           into = paste0("Field", seq_len(nmax)),
-           sep = "[[:punct:]]|and|with|against", # separate on punctuation or conjunctions  
-           remove = F,
-  extra = "warn",
-  fill = "right") 
-
-#-----examine comment field-----  
-survey %>%
-  select(-c(respondee, rating, comment_field)) %>%
-  head(5) %>%
-  knitr::kable()
-```
-
-# Extracting topics of interest
-
-After separating the comment field into individual phrases, I can see
-that there are references to:
-
--   the cocoa bean grade  
--   presence of caramel or vanilla flavour  
--   chocolate smoothness  
--   how well the chocolate melts  
--   sugar content/ sweetness level  
--   malt filling  
--   chocolate coating
-
-Information about cocoa bean grade is highly structured. This means that
-extracting the letter following the word “Grade” is sufficient. A
-similar logic can be applied to extract whether caramel or vanilla
-flavour or chocolate smoothness was mentioned.
-
-``` r
-#-----extract information about cocoa bean grade, flavour and smoothness-----
-tidy_survey <- survey %>%
-  select(respondee,
-         comment_field) %>% 
-  mutate(cocoa_grade = str_extract(comment_field, "(?<=[G|g]rade\\s{0,2})[A-C]"),
-         is_caramel = case_when(str_detect(comment_field, "[C|c]aramel") ~ "yes",
-                                TRUE ~ "NA"), 
-         is_vanilla = case_when(str_detect(comment_field, "[V|v]anilla") ~ "yes",
-                                TRUE ~ "NA"),
-         is_smooth = case_when(str_detect(comment_field, "[S|s]mooth") ~ "yes",
-                               TRUE ~ "NA")) 
-
-# note that when using case_when, TRUE cannot be converted into a logical vector  
-
-tidy_survey <- tidy_survey %>%
-  mutate_at(vars(cocoa_grade), ~ replace_na(., "NA"))
-
-# replace NA in cocoa_grade with the character "NA" for consistency    
-```
-
-For more descriptive fields such as whether the chocolate melts, I find
-it easier to first extract a matrix of fields containing the topic of
-interest.
-
-``` r
-#-----extract information about chocolate texture-----
-melt_matrix <- survey %>%
-  select_at(vars(respondee,
-                 starts_with("Field"))) %>% 
-  mutate_at(vars(starts_with("Field")),
-            ~ replace(., !(str_detect(., ".*\\b[M|m]elt.*\\b.*")), NA)) 
-
-# convert fields which do not contain "melt" into NA and unite all fields     
-
-melt_cols <- str_which(colnames(melt_matrix), "^Field.+")
-
-melt_status <- melt_matrix %>%
-  unite("is_melty", # new column 
-        melt_cols, # unite these columns  
-        sep = "",
-        remove = T,
-        na.rm = T) # make sure to remove NAs  
-
-#-----convert responses into factors and recode factor levels-----  
-melt_status$is_melty <- factor(melt_status$is_melty)
-
-levels(melt_status$is_melty) 
-#> [1] ""                     " Easily melts"        " Melts easily"        " melts in your mouth" " Melts well"         
-
-melt_status <- melt_status %>%
-  mutate(is_melty = fct_collapse(is_melty,
-                                 "yes" = c(" Easily melts",
-                                           " Melts well",
-                                           " Melts easily",
-                                           " melts in your mouth"),
-                                 "NA" = ""))
-
-#-----left join tidy_survey to melt_status-----  
-tidy_survey <- tidy_survey %>%
-  left_join(melt_status,
-            by = "respondee")
-```
-
-This process is repeated for chocolate sweetness.
-
-``` r
-#-----extract information about chocolate sweetness-----  
-sweetness_matrix <- survey %>%
-  select_at(vars(respondee,
-                 starts_with("Field"))) %>% 
-  mutate_at(vars(starts_with("Field")),
-            ~ replace(., !(str_detect(., ".*\\b[S|s](weet)|(ugar).*\\b.*")), NA)) 
-
-# convert fields which do not contain "sweet" or "sugar" into NA and unite all fields     
-
-sweetness_cols <- str_which(colnames(sweetness_matrix), "^Field.+")
-
-sweetness_status <- sweetness_matrix %>%
-  unite("is_sweet", # new column 
-        sweetness_cols, # unite these columns  
-        sep = "",
-        remove = T,
-        na.rm = T) # make sure to remove NAs  
-
-#-----convert responses into factors and recode factor levels-----  
-sweetness_status$is_sweet <- factor(sweetness_status$is_sweet)
-
-levels(sweetness_status$is_sweet) 
-#> [1] ""                                      " low sugar content "                   " not so sweet  I enjoyed this"        
-#> [4] "filled core may be too sweet for some"
-
-sweetness_status <- sweetness_status %>%
-  mutate(is_sweet = fct_collapse(is_sweet,
-                                 "yes" = c("filled core may be too sweet for some"),
-                                 "no" = c(" low sugar content ",
-                                          " not so sweet  I enjoyed this"),
-                                 "NA" = ""))
-
-#-----left join tidy_survey to melt_status-----  
-tidy_survey <- tidy_survey %>%
-  left_join(sweetness_status,
-            by = "respondee")
-```
-
-**Note:** This method of converting topics into tabular variables works
-well when we are not dealing with too many factors (i.e. when recoding
-factors is not too cumbersome).
-
-# Extracting a machine learning friendly dataset
-
-A reason why we might be interested in converting unstructured comment
-fields into structured variables is to generate data features for
-machine learning (i.e. predictive) purposes. For instance, we might be
-interested in whether there is a relationship between the topic
-commented on, whether the comment comes from a critic or chocolate fan,
-and the chocolate rating.
-
-``` r
-#-----create final tidy_survey-----
-survey_rating <- survey %>%
-  select(respondee,
-         rating) # extract rating  
-
-tidy_survey <- tidy_survey %>%
-  select(-comment_field) %>%
-  left_join(survey_rating,
-            by = "respondee") %>%
-  mutate(respondee = str_extract(respondee, ".+(?=\\_[0-9]+)"))
-
-set.seed(123) # sample reproducibly  
-tidy_survey %>%
-  sample_n(5) %>%
-  knitr::kable() # machine learning friendly format  
-```
-
-# Differences between base R and `stringr` functions
-
-In R, string manipulation can be performed using either base R functions
-or functions from the `stringr` library. A key difference between base R
-and `stringr` functions is the order that the string and pattern are
-specified. The pattern, not the string, is specified first inside base R
-functions, which is not a pipe friendly argument order.
-
-``` {r'}
-#-----use cases for grep()-----  
+# Extract the position of the matching string using grep() or str_which() ------ 
 desserts <- c("chocolate",
               "chocolate cake",
               "chocolate tart",
@@ -532,7 +361,10 @@ grep(".*\\bchocolate\\b.*", desserts, value = F) # default is value = FALSE
 
 str_which(desserts, ".*\\bchocolate\\b.*")  
 #> [1] 1 2 3 4 5 6  
+```
 
+``` r
+# Extract the matching original string using grep() or str_subset() ------------
 grep(".*\\bchocolate\\b.*", desserts, value = T) 
 #> [1] "chocolate"            "chocolate cake"       "chocolate tart"       "chocolate icecream"  
 #> [5] "chocolate cookies"    "dark chocolate fudge"  
@@ -541,21 +373,11 @@ str_subset(desserts, ".*\\bchocolate\\b.*")
 #> [1] "chocolate"            "chocolate cake"       "chocolate tart"       "chocolate icecream"  
 #> [5] "chocolate cookies"    "dark chocolate fudge"  
 
-# str_subset() is a wrapper around x[str_detect(x, pattern)]   
+# str_subset() is a wrapper around x[str_detect(x, pattern)]  
 ```
 
 ``` r
-#-----use cases for grepl()-----  
-desserts <- c("chocolate",
-              "chocolate cake",
-              "chocolate tart",
-              "chocolate icecream",
-              "chocolate cookies",
-              "dark chocolate fudge", 
-              "fruit",
-              "fruit tart",
-              "fruit sorbet")
-
+# Extract a boolean variable using grepl() or str_detect() ---------------------  
 grepl(".*\\bchocolate\\b.*", desserts) 
 #> [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE  
 
@@ -564,40 +386,169 @@ str_detect(desserts, ".*\\bchocolate\\b.*")
 ```
 
 ``` r
-#-----use cases for gsub()-----   
-desserts <- c("chocolate",
-              "chocolate cake",
-              "chocolate tart",
-              "chocolate icecream",
-              "chocolate cookies",
-              "dark chocolate fudge", 
-              "fruit",
-              "fruit tart",
-              "fruit sorbet")
+# Replace a pattern using gsub() or str_replace() ------------------------------    
+more_desserts <- c("chocolate chocolate",
+                   "chocolate cake",
+                   "chocolate tart",
+                   "chocolate icecream",
+                   "chocolate cookies",
+                   "dark chocolate fudge", 
+                   "fruit",
+                   "fruit tart",
+                   "fruit sorbet")
 
-gsub("chocolate", "vanilla", desserts) 
-#> [1] "vanilla"            "vanilla cake"       "vanilla tart"       "vanilla icecream"   "vanilla cookies"   
-#> [6] "dark vanilla fudge" "fruit"              "fruit tart"         "fruit sorbet"  
+gsub("chocolate", "vanilla", more_desserts) 
+#> [1] "vanilla vanilla"    "vanilla cake"       "vanilla tart"       "vanilla icecream"   
+#> [5] "vanilla cookies"    "dark vanilla fudge" "fruit"              "fruit tart"         "fruit sorbet"  
 
-str_replace_all(desserts, "chocolate", "vanilla") 
-#> [1] "vanilla"            "vanilla cake"       "vanilla tart"       "vanilla icecream"   "vanilla cookies"   
-#> [6] "dark vanilla fudge" "fruit"              "fruit tart"         "fruit sorbet"    
+str_replace(more_desserts, "chocolate", "vanilla")
+#> [1] "vanilla chocolate"  "vanilla cake"       "vanilla tart"       "vanilla icecream"   
+#> [5] "vanilla cookies"    "dark vanilla fudge" "fruit"              "fruit tart"         "fruit sorbet"  
+
+str_replace_all(more_desserts, "chocolate", "vanilla") 
+#> [1] "vanilla vanilla"    "vanilla cake"       "vanilla tart"       "vanilla icecream"   
+   
+# gsub() behaves similarly to str_replace_all() not str_replace()
 ```
 
-<img src="dc-cleaning_strings_files/figure-gfm/unnamed-chunk-21-1.png" width="70%" style="display: block; margin: auto;" />
+We can benchmark equivalent base R versus `stringr` operations to
+compare their execution speeds. Most `stringr` functions are slightly
+faster than their base R equivalents.
 
-**Note:** Base R functions are significantly faster than their `stringr`
-equivalents.
+<img src="dc-cleaning_strings_files/figure-gfm/unnamed-chunk-17-1.png" width="70%" style="display: block; margin: auto;" />
+
+# Cleaning free text fields using `stringr`
+
+Imagine that my favourite chocolate company, [Haighs
+Chocolates](https://www.haighschocolates.com.au), wants to understand
+what food critics versus past consumers think about their newest
+product. They send out a bag of free samples with a link to an online
+survey that asks individuals to rate their chocolates (on a scale of 1
+to 10) and provide additional comments.
+
+We can source the R script
+[./dc-cleaning_strings-dataset_generation_script.R](./dc-cleaning_strings-dataset_generation_script.R)
+to generate mock survey results.
+
+``` r
+# Source R script to generate mock survey results ------------------------------
+# Explicitly states that outputs are generated in the global R environment   
+source("dc-cleaning_strings-dataset_generation_script.R",
+       local = knitr::knit_global())
+```
+
+``` r
+# Preview mock survey results --------------------------------------------------  
+survey %>%
+  head()  
+```
+
+    ## # A tibble: 6 x 3
+    ##   respondee rating comment_field                                                
+    ##   <chr>     <chr>  <chr>                                                        
+    ## 1 expert_1  8      "<textarea name=\"comment\" form=\"1\"> &lt;Grade a beans.&g~
+    ## 2 expert_2  7      "<textarea name=\"comment\" form=\"1\"> &lt;Grade A beans wi~
+    ## 3 expert_3  8      "<textarea name=\"comment\" form=\"1\"> &lt;Grade A beans.&g~
+    ## 4 expert_4  10     "<textarea name=\"comment\" form=\"1\"> &lt;Grade A cocoa be~
+    ## 5 expert_5  7      "<textarea name=\"comment\" form=\"1\"> &lt;Grade A beans,&g~
+    ## 6 fan_1     9      "<textarea name=\"comment\" form=\"1\"> Delicious and melts ~
+
+We can improve the readability of the comment fields by removing all
+HTML tags. Cleaning the comment fields also enables us to perform more
+advanced NLP tasks using text analysis packages.
+
+``` r
+# Remove HTML tags using regex -------------------------------------------------
+remove_html_tags <- regex("
+                          <  # Starts with <
+                          [^>]+  # Contains one or more of all characters except > 
+                          >  # Ends with >
+                          ", comments = T)
+
+remove_more_html <- regex("
+                          \\& # Starts with &
+                          \\w+ # Contains one or more word characters
+                          \\; # Ends with ;
+                          ", comments = T) 
+
+remove_newlines <- regex("\n")
+
+survey <- survey %>%
+  mutate(comment_field = str_replace_all(comment_field, remove_html_tags, ""),
+         comment_field = str_replace_all(comment_field, remove_more_html, ""),
+         comment_field = str_replace_all(comment_field, remove_newlines, ""))
+
+# Examine comment fields -------------------------------------------------------  
+survey %>%
+  select(comment_field) %>%
+  head() 
+```
+
+    ## # A tibble: 6 x 1
+    ##   comment_field                                                                 
+    ##   <chr>                                                                         
+    ## 1 " Grade a beans. Easily melts.     Smooth chocolate shell, with a crunchy mal~
+    ## 2 " Grade A beans with subtle caramel     hints. Melts well. Smooth exterior. G~
+    ## 3 " Grade A beans.  Caramel and     vanilla undertones complement the bitter da~
+    ## 4 " Grade A cocoa beans. Melts     easily. Smooth dark chocolate contrasts nice~
+    ## 5 " Grade A beans, likely of Ecuador    origin. Smooth dark chocolate coating. ~
+    ## 6 " Delicious and melts in your mouth. The     malt crunch is a nice touch  Wou~
+
+From the comment fields, we can see that information about the cocoa
+bean grade is highly structured. Using regex is sufficient for
+extracting this information.
+
+``` r
+# Extract cocoa bean grade using regex -----------------------------------------
+extract_cocoa_grade <- regex("(?<= # Extract the pattern preceding...
+                          [G|g]rade # Grade or grade...
+                          \\W{0,2}) # followed by 0 to 2 non-characters 
+                          [A-E|a-e] # The pattern must be A, B, C, D or E
+                          ", comments = T)  
+
+tidy_survey <- survey %>%
+  mutate(cocoa_grade = str_extract(comment_field, extract_cocoa_grade),
+         cocoa_grade = str_to_upper(cocoa_grade)) 
+
+# Examine tidy_survey ----------------------------------------------------------  
+tidy_survey %>%
+  head()  
+```
+
+    ## # A tibble: 6 x 4
+    ##   respondee rating comment_field                                     cocoa_grade
+    ##   <chr>     <chr>  <chr>                                             <chr>      
+    ## 1 expert_1  8      " Grade a beans. Easily melts.     Smooth chocol~ A          
+    ## 2 expert_2  7      " Grade A beans with subtle caramel     hints. M~ A          
+    ## 3 expert_3  8      " Grade A beans.  Caramel and     vanilla undert~ A          
+    ## 4 expert_4  10     " Grade A cocoa beans. Melts     easily. Smooth ~ A          
+    ## 5 expert_5  7      " Grade A beans, likely of Ecuador    origin. Sm~ A          
+    ## 6 fan_1     9      " Delicious and melts in your mouth. The     mal~ <NA>
+
+This then allows us to perform simple analysis on the mention of cocoa
+bean grade by survey respondee type.
+
+``` r
+# Summarise relationship between cocoa bean grade and respondee type -----------
+tidy_survey %>% 
+  mutate(respondee_type = str_extract(respondee, "\\w+(?=_)")) %>%
+  count(cocoa_grade, respondee_type) 
+```
+
+    ## # A tibble: 3 x 3
+    ##   cocoa_grade respondee_type     n
+    ##   <chr>       <chr>          <int>
+    ## 1 A           expert             5
+    ## 2 A           fan                1
+    ## 3 <NA>        fan                5
 
 # Other resources
 
--   Tips on regular expression usage are based on the excellent [regular
-    expressions
+-   Tutorial examples are based on the excellent [regex
     vignette](https://cran.r-project.org/web/packages/stringr/vignettes/regular-expressions.html)
     from `stringr`.  
 -   [Strings chapter](https://r4ds.had.co.nz/strings.html) from R4DS by
     Garrett Grolemund and Hadley Wickham.  
--   The Rstudio [`stringr`
+-   The RStudio [`stringr`
     cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/strings.pdf).  
--   Sites for testing your own regular expressions:
-    -   <https://regex101.com/>
+-   Regex testing [site](https://regex101.com/)

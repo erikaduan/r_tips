@@ -16,7 +16,9 @@ knitr::opts_chunk$set(echo=TRUE, results ="hide", message=FALSE, warning=FALSE)
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,  
                dplyr,  
-               stringr) 
+               stringr,
+               ggplot2,
+               microbenchmark) 
 ```
 
 
@@ -312,15 +314,15 @@ str_extract(recipes, "(?<=secret\\s{1,2}).+")
 
 **Note:** Positive look-behinds require defined boundaries i.e. use`{1,100}` instead of the operation `+`.    
 
-#TODO
 
+# Using base R versus `stringr` functions    
 
-# Differences between base R and `stringr` functions    
+The advantages of using `stringr` are its consistent function names and reasonably fast execution speed. To minimise R package dependencies, however, base R can also be used for the same operations. 
 
-In R, string manipulation can be performed using either base R functions or functions from the `stringr` library. A key difference between base R and `stringr` functions is the order that the string and pattern are specified. The pattern, not the string, is specified first inside base R functions, which is not a pipe friendly argument order.          
+The key difference between base R and `stringr` functions is the order that the string and pattern are specified. In base R, the pattern is specified first, which is not a pipe friendly argument order.          
 
-```{r'} 
-#-----use cases for grep()-----  
+```{r} 
+# Extract the position of the matching string using grep() or str_which() ------ 
 desserts <- c("chocolate",
               "chocolate cake",
               "chocolate tart",
@@ -336,7 +338,10 @@ grep(".*\\bchocolate\\b.*", desserts, value = F) # default is value = FALSE
 
 str_which(desserts, ".*\\bchocolate\\b.*")  
 #> [1] 1 2 3 4 5 6  
+```
 
+```{r}
+# Extract the matching original string using grep() or str_subset() ------------
 grep(".*\\bchocolate\\b.*", desserts, value = T) 
 #> [1] "chocolate"            "chocolate cake"       "chocolate tart"       "chocolate icecream"  
 #> [5] "chocolate cookies"    "dark chocolate fudge"  
@@ -345,21 +350,11 @@ str_subset(desserts, ".*\\bchocolate\\b.*")
 #> [1] "chocolate"            "chocolate cake"       "chocolate tart"       "chocolate icecream"  
 #> [5] "chocolate cookies"    "dark chocolate fudge"  
 
-# str_subset() is a wrapper around x[str_detect(x, pattern)]   
+# str_subset() is a wrapper around x[str_detect(x, pattern)]  
 ```
 
 ```{r}
-#-----use cases for grepl()-----  
-desserts <- c("chocolate",
-              "chocolate cake",
-              "chocolate tart",
-              "chocolate icecream",
-              "chocolate cookies",
-              "dark chocolate fudge", 
-              "fruit",
-              "fruit tart",
-              "fruit sorbet")
-
+# Extract a boolean variable using grepl() or str_detect() ---------------------  
 grepl(".*\\bchocolate\\b.*", desserts) 
 #> [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE  
 
@@ -368,256 +363,124 @@ str_detect(desserts, ".*\\bchocolate\\b.*")
 ```
 
 ```{r}
-#-----use cases for gsub()-----   
-desserts <- c("chocolate",
-              "chocolate cake",
-              "chocolate tart",
-              "chocolate icecream",
-              "chocolate cookies",
-              "dark chocolate fudge", 
-              "fruit",
-              "fruit tart",
-              "fruit sorbet")
+# Replace a pattern using gsub() or str_replace() ------------------------------    
+more_desserts <- c("chocolate chocolate",
+                   "chocolate cake",
+                   "chocolate tart",
+                   "chocolate icecream",
+                   "chocolate cookies",
+                   "dark chocolate fudge", 
+                   "fruit",
+                   "fruit tart",
+                   "fruit sorbet")
 
-gsub("chocolate", "vanilla", desserts) 
-#> [1] "vanilla"            "vanilla cake"       "vanilla tart"       "vanilla icecream"   "vanilla cookies"   
-#> [6] "dark vanilla fudge" "fruit"              "fruit tart"         "fruit sorbet"  
+gsub("chocolate", "vanilla", more_desserts) 
+#> [1] "vanilla vanilla"    "vanilla cake"       "vanilla tart"       "vanilla icecream"   
+#> [5] "vanilla cookies"    "dark vanilla fudge" "fruit"              "fruit tart"         "fruit sorbet"  
 
-str_replace_all(desserts, "chocolate", "vanilla") 
-#> [1] "vanilla"            "vanilla cake"       "vanilla tart"       "vanilla icecream"   "vanilla cookies"   
-#> [6] "dark vanilla fudge" "fruit"              "fruit tart"         "fruit sorbet"    
+str_replace(more_desserts, "chocolate", "vanilla")
+#> [1] "vanilla chocolate"  "vanilla cake"       "vanilla tart"       "vanilla icecream"   
+#> [5] "vanilla cookies"    "dark vanilla fudge" "fruit"              "fruit tart"         "fruit sorbet"  
+
+str_replace_all(more_desserts, "chocolate", "vanilla") 
+#> [1] "vanilla vanilla"    "vanilla cake"       "vanilla tart"       "vanilla icecream"   
+   
+# gsub() behaves similarly to str_replace_all() not str_replace()
 ```
 
-```{r, echo = FALSE, message = FALSE, fig.align = "center", out.width = '70%'}
-baser_vs_stringr <- microbenchmark(grep = grep(".*\\bchocolate\\b.*", desserts, value = F),
-                                   str_which = str_which(desserts, ".*\\bchocolate\\b.*"),
-                                   gsub = gsub("chocolate", "vanilla", desserts),
-                                   str_replace_all = str_replace_all(desserts, "chocolate", "vanilla"),
-                                   grepl = grepl(".*\\bchocolate\\b.*", desserts),
-                                   str_detect = str_detect(desserts, ".*\\bchocolate\\b.*"),  
-                             times = 1000)
+We can benchmark equivalent base R versus `stringr` operations to compare their execution speeds. Most `stringr` functions are slightly faster than their base R equivalents.    
 
-autoplot(baser_vs_stringr)  
-graphics.off()
+```{r, echo=FALSE, message=FALSE, fig.align="center", out.width='70%'}
+baser_vs_stringr <- microbenchmark(
+  str_replace_all = str_replace_all(desserts, "chocolate", "vanilla"),
+  gsub = gsub("chocolate", "vanilla", desserts),
+  str_detect = str_detect(desserts, ".*\\bchocolate\\b.*"),  
+  grepl = grepl(".*\\bchocolate\\b.*", desserts),
+  str_subset = str_subset(desserts, ".*\\bchocolate\\b.*"),
+  grep_value_true = grep(".*\\bchocolate\\b.*", desserts, value = TRUE),
+  str_which = str_which(desserts, ".*\\bchocolate\\b.*"),
+  grep_value_false = grep(".*\\bchocolate\\b.*", desserts, value = FALSE),
+  times = 1000
+)
+
+autoplot(baser_vs_stringr)
 ```
 
-**Note:** Base R functions are significantly faster than their `stringr` equivalents.         
 
+# Cleaning free text fields using `stringr`       
 
-# Improving comment field readability  
+Imagine that my favourite chocolate company, [Haighs Chocolates](https://www.haighschocolates.com.au), wants to understand what food critics versus past consumers think about their newest product. They send out a bag of free samples with a link to an online survey that asks individuals to rate their chocolates (on a scale of 1 to 10) and provide additional comments.    
 
-# Creating a test dataset   
-
-Let's imagine that my local chocolate company, [Haighs Chocolates](https://www.haighschocolates.com.au), wants to understand what food critics versus Haighs fans think about their newest product. They send out a bag of free samples with a link to an online survey that asks individuals to rate their chocolates (on a scale of 1 to 10) and provide additional comments.    
-
-**Note:** The code used to create this dataset can be accessed from the `Rmd` file accompanying this tutorial.    
+We can source the R script [./dc-cleaning_strings-dataset_generation_script.R](./dc-cleaning_strings-dataset_generation_script.R) to generate mock survey results.   
 
 ```{r}
-#-----quickly visualise the test dataset-----  
-survey %>%
-  head(10) # fields containing html flags are not properly rendered by kable 
+# Source R script to generate mock survey results ------------------------------
+# Explicitly states that outputs are generated in the global R environment   
+source("dc-cleaning_strings-dataset_generation_script.R",
+       local = knitr::knit_global())
 ```
 
-
-
-With regex revised, let us return to the Haighs chocolate survey. The first thing we can see is that html tags have been retained inside the comment field and that this field is very long (i.e. difficult to read).   
-
-We can improve the readability of the survey by:  
-
-+ Removing all html tags using regex.    
-+ Separating phrases into individual fields i.e. columns using [`separate()`](https://tidyr.tidyverse.org/reference/separate.html).     
-
-```{r}
-#-----examine survey data-----
+```{r, results='markup'}
+# Preview mock survey results --------------------------------------------------  
 survey %>%
-  head(5)   
+  head()  
+```
 
-#-----remove html tags-----
+We can improve the readability of the comment fields by removing all HTML tags. Cleaning the comment fields also enables us to perform more advanced NLP tasks using text analysis packages.  
+
+```{r, results='markup'}
+# Remove HTML tags using regex -------------------------------------------------
 remove_html_tags <- regex("
-                          <  # starts with <
-                          [^>]+  # contains one or more of all characters excepting > 
-                          >  # ends with >
+                          <  # Starts with <
+                          [^>]+  # Contains one or more of all characters except > 
+                          >  # Ends with >
                           ", comments = T)
 
 remove_more_html <- regex("
-                          \\& # starts with &
-                          \\w+ # contains one or more word characters
-                          \\; # ends with ;
+                          \\& # Starts with &
+                          \\w+ # Contains one or more word characters
+                          \\; # Ends with ;
                           ", comments = T) 
+
+remove_newlines <- regex("\n")
 
 survey <- survey %>%
   mutate(comment_field = str_replace_all(comment_field, remove_html_tags, ""),
-         comment_field = str_replace_all(comment_field, remove_more_html, ""))
+         comment_field = str_replace_all(comment_field, remove_more_html, ""),
+         comment_field = str_replace_all(comment_field, remove_newlines, ""))
 
-#-----examine comment field-----  
+# Examine comment fields -------------------------------------------------------  
 survey %>%
   select(comment_field) %>%
-  head(5) %>%
-  knitr::kable()
+  head() 
 ```
 
-We can then split the single long comment field into multiple smaller columns. Many R functions require R regex classes to be wrapped in a second set of square brackets, e.g. `[[:punct:]]`.          
+From the comment fields, we can see that information about the cocoa bean grade is highly structured. Using regex is sufficient for extracting this information. 
 
-```{r}
-#-----separate comment field into an unknown number of columns of phrases-----    
-nmax <- max(str_count(survey$comment_field, "[[:punct:]]|and|with|against")) + 1
+```{r, results='markup'}
+# Extract cocoa bean grade using regex -----------------------------------------
+extract_cocoa_grade <- regex("(?<= # Extract the pattern preceding...
+                          [G|g]rade # Grade or grade...
+                          \\W{0,2}) # followed by 0 to 2 non-characters 
+                          [A-E|a-e] # The pattern must be A, B, C, D or E
+                          ", comments = T)  
 
-survey <- survey %>%   
-  separate(comment_field,
-           into = paste0("Field", seq_len(nmax)),
-           sep = "[[:punct:]]|and|with|against", # separate on punctuation or conjunctions  
-           remove = F,
-  extra = "warn",
-  fill = "right") 
-
-#-----examine comment field-----  
-survey %>%
-  select(-c(respondee, rating, comment_field)) %>%
-  head(5) %>%
-  knitr::kable()
-```
-
-
-# Extracting topics of interest      
-
-After separating the comment field into individual phrases, I can see that there are references to:  
-
-+ the cocoa bean grade  
-+ presence of caramel or vanilla flavour     
-+ chocolate smoothness    
-+ how well the chocolate melts   
-+ sugar content/ sweetness level  
-+ malt filling   
-+ chocolate coating     
-
-Information about cocoa bean grade is highly structured. This means that extracting the letter following the word "Grade" is sufficient. A similar logic can be applied to extract whether caramel or vanilla flavour or chocolate smoothness was mentioned.          
-
-```{r}
-#-----extract information about cocoa bean grade, flavour and smoothness-----
 tidy_survey <- survey %>%
-  select(respondee,
-         comment_field) %>% 
-  mutate(cocoa_grade = str_extract(comment_field, "(?<=[G|g]rade\\s{0,2})[A-C]"),
-         is_caramel = case_when(str_detect(comment_field, "[C|c]aramel") ~ "yes",
-                                TRUE ~ "NA"), 
-         is_vanilla = case_when(str_detect(comment_field, "[V|v]anilla") ~ "yes",
-                                TRUE ~ "NA"),
-         is_smooth = case_when(str_detect(comment_field, "[S|s]mooth") ~ "yes",
-                               TRUE ~ "NA")) 
+  mutate(cocoa_grade = str_extract(comment_field, extract_cocoa_grade),
+         cocoa_grade = str_to_upper(cocoa_grade)) 
 
-# note that when using case_when, TRUE cannot be converted into a logical vector  
-
-tidy_survey <- tidy_survey %>%
-  mutate_at(vars(cocoa_grade), ~ replace_na(., "NA"))
-
-# replace NA in cocoa_grade with the character "NA" for consistency    
-```
-
-For more descriptive fields such as whether the chocolate melts, I find it easier to first extract a matrix of fields containing the topic of interest.      
-
-```{r} 
-#-----extract information about chocolate texture-----
-melt_matrix <- survey %>%
-  select_at(vars(respondee,
-                 starts_with("Field"))) %>% 
-  mutate_at(vars(starts_with("Field")),
-            ~ replace(., !(str_detect(., ".*\\b[M|m]elt.*\\b.*")), NA)) 
-
-# convert fields which do not contain "melt" into NA and unite all fields     
-
-melt_cols <- str_which(colnames(melt_matrix), "^Field.+")
-
-melt_status <- melt_matrix %>%
-  unite("is_melty", # new column 
-        melt_cols, # unite these columns  
-        sep = "",
-        remove = T,
-        na.rm = T) # make sure to remove NAs  
-
-#-----convert responses into factors and recode factor levels-----  
-melt_status$is_melty <- factor(melt_status$is_melty)
-
-levels(melt_status$is_melty) 
-#> [1] ""                     " Easily melts"        " Melts easily"        " melts in your mouth" " Melts well"         
-
-melt_status <- melt_status %>%
-  mutate(is_melty = fct_collapse(is_melty,
-                                 "yes" = c(" Easily melts",
-                                           " Melts well",
-                                           " Melts easily",
-                                           " melts in your mouth"),
-                                 "NA" = ""))
-
-#-----left join tidy_survey to melt_status-----  
-tidy_survey <- tidy_survey %>%
-  left_join(melt_status,
-            by = "respondee")
-```
-
-This process is repeated for chocolate sweetness.   
-
-```{r}
-#-----extract information about chocolate sweetness-----  
-sweetness_matrix <- survey %>%
-  select_at(vars(respondee,
-                 starts_with("Field"))) %>% 
-  mutate_at(vars(starts_with("Field")),
-            ~ replace(., !(str_detect(., ".*\\b[S|s](weet)|(ugar).*\\b.*")), NA)) 
-
-# convert fields which do not contain "sweet" or "sugar" into NA and unite all fields     
-
-sweetness_cols <- str_which(colnames(sweetness_matrix), "^Field.+")
-
-sweetness_status <- sweetness_matrix %>%
-  unite("is_sweet", # new column 
-        sweetness_cols, # unite these columns  
-        sep = "",
-        remove = T,
-        na.rm = T) # make sure to remove NAs  
-
-#-----convert responses into factors and recode factor levels-----  
-sweetness_status$is_sweet <- factor(sweetness_status$is_sweet)
-
-levels(sweetness_status$is_sweet) 
-#> [1] ""                                      " low sugar content "                   " not so sweet  I enjoyed this"        
-#> [4] "filled core may be too sweet for some"
-
-sweetness_status <- sweetness_status %>%
-  mutate(is_sweet = fct_collapse(is_sweet,
-                                 "yes" = c("filled core may be too sweet for some"),
-                                 "no" = c(" low sugar content ",
-                                          " not so sweet  I enjoyed this"),
-                                 "NA" = ""))
-
-#-----left join tidy_survey to melt_status-----  
-tidy_survey <- tidy_survey %>%
-  left_join(sweetness_status,
-            by = "respondee")
-```
-
-**Note:** This method of converting topics into tabular variables works well when we are not dealing with too many factors (i.e. when recoding factors is not too cumbersome).    
-
-
-# Extracting a machine learning friendly dataset    
-
-A reason why we might be interested in converting unstructured comment fields into structured variables is to generate data features for machine learning (i.e. predictive) purposes. For instance, we might be interested in whether there is a relationship between the topic commented on, whether the comment comes from a critic or chocolate fan, and the chocolate rating.       
-
-```{r}
-#-----create final tidy_survey-----
-survey_rating <- survey %>%
-  select(respondee,
-         rating) # extract rating  
-
-tidy_survey <- tidy_survey %>%
-  select(-comment_field) %>%
-  left_join(survey_rating,
-            by = "respondee") %>%
-  mutate(respondee = str_extract(respondee, ".+(?=\\_[0-9]+)"))
-
-set.seed(123) # sample reproducibly  
+# Examine tidy_survey ----------------------------------------------------------  
 tidy_survey %>%
-  sample_n(5) %>%
-  knitr::kable() # machine learning friendly format  
+  head()  
+```
+
+This then allows us to perform simple analysis on the mention of cocoa bean grade by survey respondee type. 
+
+```{r, results='markup'}
+# Summarise relationship between cocoa bean grade and respondee type -----------
+tidy_survey %>% 
+  mutate(respondee_type = str_extract(respondee, "\\w+(?=_)")) %>%
+  count(cocoa_grade, respondee_type) 
 ```
 
 

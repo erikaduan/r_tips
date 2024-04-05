@@ -8,7 +8,7 @@ pacman::p_load(dplyr,
 survey_list <- list(
   expert_1 = c(
     8,
-    '<textarea name="comment" form="1"> &lt;Grade A beans.&gt; Easily melts. 
+    '<textarea name="comment" form="1"> &lt;Grade a beans.&gt; Easily melts. 
     Smooth chocolate shell, with a crunchy malty filling, and not so sweet <p> I
     enjoyed this. </textarea>'
     ), 
