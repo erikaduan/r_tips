@@ -1,7 +1,7 @@
 Cleaning strings with regular expressions using base R or stringr
 ================
 Erika Duan
-2024-04-05
+2024-04-06
 
 -   [Introduction](#introduction)
 -   [Using regex with `stringr`](#using-regex-with-stringr)
@@ -530,8 +530,12 @@ bean grade by survey respondee type.
 
 ``` r
 # Summarise relationship between cocoa bean grade and respondee type -----------
+extract_respondee_type <- regex("\\w+ # One or more word characters
+                                (?=_) # which occur before _
+                                ", comments = T)
+
 tidy_survey %>% 
-  mutate(respondee_type = str_extract(respondee, "\\w+(?=_)")) %>%
+  mutate(respondee_type = str_extract(respondee, extract_respondee_type)) %>%
   count(cocoa_grade, respondee_type) 
 ```
 

@@ -478,8 +478,12 @@ This then allows us to perform simple analysis on the mention of cocoa bean grad
 
 ```{r, results='markup'}
 # Summarise relationship between cocoa bean grade and respondee type -----------
+extract_respondee_type <- regex("\\w+ # One or more word characters
+                                (?=_) # which occur before _
+                                ", comments = T)
+
 tidy_survey %>% 
-  mutate(respondee_type = str_extract(respondee, "\\w+(?=_)")) %>%
+  mutate(respondee_type = str_extract(respondee, extract_respondee_type)) %>%
   count(cocoa_grade, respondee_type) 
 ```
 
