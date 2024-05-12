@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo=TRUE, results ="hide", message=FALSE, warning=FALSE)
+knitr::opts_chunk$set(echo=TRUE, results="hide", message=FALSE, warning=FALSE)
 ```
 
 ```{r, echo = FALSE}  
@@ -434,13 +434,15 @@ remove_html_tags <- regex("
                           <  # Starts with <
                           [^>]+  # Contains one or more of all characters except > 
                           >  # Ends with >
-                          ", comments = T)
+                          ", 
+                          comments = T)
 
 remove_more_html <- regex("
                           \\& # Starts with &
                           \\w+ # Contains one or more word characters
                           \\; # Ends with ;
-                          ", comments = T) 
+                          ", 
+                          comments = T) 
 
 remove_newlines <- regex("\n")
 
@@ -459,11 +461,13 @@ From the comment fields, we can see that information about the cocoa bean grade 
 
 ```{r, results='markup'}
 # Extract cocoa bean grade using regex -----------------------------------------
-extract_cocoa_grade <- regex("(?<= # Extract the pattern preceding...
-                          [G|g]rade # Grade or grade...
-                          \\W{0,2}) # followed by 0 to 2 non-characters 
-                          [A-E|a-e] # The pattern must be A, B, C, D or E
-                          ", comments = T)  
+extract_cocoa_grade <- regex("
+                             (?<= # Extract the pattern preceding...
+                             [G|g]rade # Grade or grade...
+                             \\W{0,2}) # followed by 0 to 2 non-characters 
+                             [A-E|a-e] # The pattern must be A, B, C, D or E
+                             ", 
+                             comments = T)  
 
 tidy_survey <- survey %>%
   mutate(cocoa_grade = str_extract(comment_field, extract_cocoa_grade),
@@ -478,13 +482,15 @@ This then allows us to perform simple analysis on the mention of cocoa bean grad
 
 ```{r, results='markup'}
 # Summarise relationship between cocoa bean grade and respondee type -----------
-extract_respondee_type <- regex("\\w+ # One or more word characters
+extract_respondee_type <- regex("
+                                \\w+ # One or more word characters
                                 (?=_) # which occur before _
-                                ", comments = T)
+                                ", 
+                                comments = T)
 
 tidy_survey %>% 
   mutate(respondee_type = str_extract(respondee, extract_respondee_type)) %>%
-  count(cocoa_grade, respondee_type) 
+  count(respondee_type, cocoa_grade) 
 ```
 
 

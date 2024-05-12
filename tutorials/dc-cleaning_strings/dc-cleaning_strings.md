@@ -1,7 +1,7 @@
 Cleaning strings with regular expressions using base R or stringr
 ================
 Erika Duan
-2024-04-06
+2024-05-12
 
 -   [Introduction](#introduction)
 -   [Using regex with `stringr`](#using-regex-with-stringr)
@@ -463,13 +463,15 @@ remove_html_tags <- regex("
                           <  # Starts with <
                           [^>]+  # Contains one or more of all characters except > 
                           >  # Ends with >
-                          ", comments = T)
+                          ", 
+                          comments = T)
 
 remove_more_html <- regex("
                           \\& # Starts with &
                           \\w+ # Contains one or more word characters
                           \\; # Ends with ;
-                          ", comments = T) 
+                          ", 
+                          comments = T) 
 
 remove_newlines <- regex("\n")
 
@@ -500,11 +502,13 @@ extracting this information.
 
 ``` r
 # Extract cocoa bean grade using regex -----------------------------------------
-extract_cocoa_grade <- regex("(?<= # Extract the pattern preceding...
-                          [G|g]rade # Grade or grade...
-                          \\W{0,2}) # followed by 0 to 2 non-characters 
-                          [A-E|a-e] # The pattern must be A, B, C, D or E
-                          ", comments = T)  
+extract_cocoa_grade <- regex("
+                             (?<= # Extract the pattern preceding...
+                             [G|g]rade # Grade or grade...
+                             \\W{0,2}) # followed by 0 to 2 non-characters 
+                             [A-E|a-e] # The pattern must be A, B, C, D or E
+                             ", 
+                             comments = T)  
 
 tidy_survey <- survey %>%
   mutate(cocoa_grade = str_extract(comment_field, extract_cocoa_grade),
@@ -530,21 +534,23 @@ bean grade by survey respondee type.
 
 ``` r
 # Summarise relationship between cocoa bean grade and respondee type -----------
-extract_respondee_type <- regex("\\w+ # One or more word characters
+extract_respondee_type <- regex("
+                                \\w+ # One or more word characters
                                 (?=_) # which occur before _
-                                ", comments = T)
+                                ", 
+                                comments = T)
 
 tidy_survey %>% 
   mutate(respondee_type = str_extract(respondee, extract_respondee_type)) %>%
-  count(cocoa_grade, respondee_type) 
+  count(respondee_type, cocoa_grade) 
 ```
 
     ## # A tibble: 3 x 3
-    ##   cocoa_grade respondee_type     n
-    ##   <chr>       <chr>          <int>
-    ## 1 A           expert             5
-    ## 2 A           fan                1
-    ## 3 <NA>        fan                5
+    ##   respondee_type cocoa_grade     n
+    ##   <chr>          <chr>       <int>
+    ## 1 expert         A               5
+    ## 2 fan            A               1
+    ## 3 fan            <NA>            5
 
 # Other resources
 

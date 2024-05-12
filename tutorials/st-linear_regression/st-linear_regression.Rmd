@@ -21,7 +21,7 @@ pacman::p_load(here,
 ```
 
 
-# What do we want from linear regression?  
+# What can we do using linear regression?  
 
 
 # Some mathmathical intuition    
@@ -38,8 +38,7 @@ pacman::p_load(here,
 
 # Other resources     
 
-+ https://andrewproctor.github.io/rcourse/module5.html#regression_basics  
-+ https://andrewproctor.github.io/rcourse/assets/module5.pdf 
-https://github.com/WinVector/vtreat  
-+ https://www.andrew.cmu.edu/user/achoulde/94842/lectures/lecture09/lecture09-94842.html
-+ https://www.andrew.cmu.edu/user/achoulde/94842/lectures/lecture11/lecture11-94842-2020.html 
++ https://andrewproctor.github.io/rcourse/module5.html#regression_basics    
++ https://andrewproctor.github.io/rcourse/assets/module5.pdf   
++ https://www.andrew.cmu.edu/user/achoulde/94842/lectures/lecture09/lecture09-94842.html    
++ https://www.andrew.cmu.edu/user/achoulde/94842/lectures/lecture11/lecture11-94842-2020.html    
