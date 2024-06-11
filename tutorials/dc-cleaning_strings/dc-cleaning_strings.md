@@ -1,7 +1,7 @@
 Cleaning strings with regular expressions using base R or stringr
 ================
 Erika Duan
-2024-05-12
+2024-06-11
 
 -   [Introduction](#introduction)
 -   [Using regex with `stringr`](#using-regex-with-stringr)
@@ -16,6 +16,16 @@ Erika Duan
 -   [Cleaning free text fields using
     `stringr`](#cleaning-free-text-fields-using-stringr)
 -   [Other resources](#other-resources)
+
+``` r
+# Load required R packages -----------------------------------------------------
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(here,  
+               dplyr,  
+               stringr,
+               ggplot2,
+               microbenchmark) 
+```
 
 # Introduction
 

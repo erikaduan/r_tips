@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo=TRUE, results="hide", message=FALSE, warning=FALSE)
 ```
 
-```{r, echo = FALSE}  
+```{r}  
 # Load required R packages -----------------------------------------------------
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,  
