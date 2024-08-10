@@ -230,7 +230,8 @@ of ![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") is
 ![E(Y_i)](https://latex.codecogs.com/svg.latex?E%28Y_i%29 "E(Y_i)") is
 the unknown straight line that we want to estimate.
 
-![](../../figures/st-linear_regression-y_normal_distribution.svg)
+<img src="../../figures/st-linear_regression-y_normal_distribution.svg"
+style="width:70.0%" />
 
 We want to use our training data set to find the best point estimates of
 ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0") and
@@ -377,7 +378,8 @@ modelplot(mlr_model,
                                           linetype = "dotted"))
 ```
 
-![](st-linear_regression_files/figure-gfm/unnamed-chunk-8-1.png)
+<img src="st-linear_regression_files/figure-gfm/unnamed-chunk-8-1.png"
+style="width:60.0%" />
 
 \#TODO But how do we know if a model is good enough? We need to examine
 the model evaluation metrics.

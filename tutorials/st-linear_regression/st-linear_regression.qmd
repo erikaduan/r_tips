@@ -162,7 +162,7 @@ We first assume that there is a **true model** which precisely predicts our outc
 
 Because there is always error due to natural variation, we view each observation of $Y_i$ as being drawn from a normal distribution of many possible values. After making some assumptions about how $\epsilon_i$ behaves, we can claim that the **mean** of the probability distribution of $Y_i$ is $E(Y_i) = \beta_0 + \beta_1X_1$. $E(Y_i)$ is the unknown straight line that we want to estimate.      
 
-![](../../figures/st-linear_regression-y_normal_distribution.svg)
+![](../../figures/st-linear_regression-y_normal_distribution.svg){width=70%}
 
 We want to use our training data set to find the best point estimates of $\beta_0$ and $\beta_1$. This means finding the line that travels closest through all the training data set observations. This line is our **best estimated model**, which has the form $\hat Y_i = b_0 + b_1X_i$. It has a y-intercept of $b_0$ and slope of $b_1$.   
 
@@ -215,6 +215,7 @@ confint(mlr_model)
 
 ```{r}
 #| output: true
+#| out-width: 60%
 
 # Plot 95% confidence intervals for model coefficients -------------------------
 # Set p-value cut-off at p < 0.001 
