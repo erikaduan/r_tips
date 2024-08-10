@@ -25,8 +25,9 @@ Erika Duan
 # Load required R packages -----------------------------------------------------
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(here,
-               tidymodels,
-               broom) 
+               tidymodels, 
+               broom, # Provides model outputs as a tidy table
+               modelsummary) # Plots model properties  
 ```
 
 # Why linear regression?
@@ -69,7 +70,7 @@ Imagine that the amount of money a pet influencer earns per month is
 influenced by the following variables:
 
 -   A baseline monthly income  
--   Whether the pet is a cat or a dog or another animal species  
+-   Whether the pet is a dog or another animal species  
 -   The number of photos their owner posts every month  
 -   The number of videos their owner posts every month
 
@@ -80,7 +81,7 @@ another variable.
 ``` mermaid
 flowchart LR  
   A(Baseline income) --> B(Monthly income)     
-  C(Pet species) --> B 
+  C(Is dog) --> B 
   D(Photos per month) --> B
   E(Videos per month) --> B
   
@@ -111,7 +112,7 @@ videos <- rpois(N, lambda = 2)
 
 # Simulate monthly income from a normal distribution 
 income <- rnorm(N,
-                mean = (is_dog * 60 + is_cat * 10 + photos * 6 + videos * 18) + 20,
+                mean = (is_dog * 60 + photos * 6 + videos * 18) + 20,
                 sd = 5)
 
 # Ensure that income is a non-negative integer
@@ -177,15 +178,15 @@ summary(mlr_model)
                  Estimate Std. Error t value Pr(>|t|)    
     (Intercept)   21.5191     1.1122  19.349   <2e-16 ***
     train$is_dog  58.9384     0.9578  61.532   <2e-16 ***
-    train$is_cat   8.9727     1.0042   8.935   <2e-16 ***
+    train$is_cat  -1.0273     1.0042  -1.023    0.307    
     train$photos   5.9010     0.1050  56.180   <2e-16 ***
     train$videos  17.9448     0.1734 103.467   <2e-16 ***
     ---
     Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
     Residual standard error: 4.849 on 370 degrees of freedom
-    Multiple R-squared:  0.9859,    Adjusted R-squared:  0.9858 
-    F-statistic:  6487 on 4 and 370 DF,  p-value: < 2.2e-16
+    Multiple R-squared:  0.9876,    Adjusted R-squared:  0.9874 
+    F-statistic:  7341 on 4 and 370 DF,  p-value: < 2.2e-16
 
 This looks very complicated! Let us interpret the key results above by
 learning about the mathematical structure of a linear regression model.
@@ -194,6 +195,7 @@ learning about the mathematical structure of a linear regression model.
 
 The simplest linear regression model has the form
 ![\hat {Y_i} = \beta_0 + \beta_1X_i](https://latex.codecogs.com/svg.latex?%5Chat%20%7BY_i%7D%20%3D%20%5Cbeta_0%20%2B%20%5Cbeta_1X_i "\hat {Y_i} = \beta_0 + \beta_1X_i").
+
 Graphically, this is a line of best fit through the 2D Cartesian plane.
 To construct this model, we only need to estimate the two parameters of
 an unknown straight line:
@@ -215,8 +217,7 @@ where
 represents error due to natural variation, because objects do not behave
 like perfect clones of each other in the real world.
 
-![](../../figures/st-linear_regression-true_model_structure.gif){width =
-80%}
+![](../../figures/st-linear_regression-true_model_structure.gif)
 
 Because there is always error due to natural variation, we view each
 observation of ![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") as
@@ -229,10 +230,9 @@ of ![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") is
 ![E(Y_i)](https://latex.codecogs.com/svg.latex?E%28Y_i%29 "E(Y_i)") is
 the unknown straight line that we want to estimate.
 
-![](../../figures/st-linear_regression-y_normal_distribution.svg){width
-= 80%}
+![](../../figures/st-linear_regression-y_normal_distribution.svg)
 
-We want to use our training data set to find the best estimates of
+We want to use our training data set to find the best point estimates of
 ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0") and
 ![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1").
 This means finding the line that travels closest through all the
@@ -243,17 +243,17 @@ It has a y-intercept of
 ![b_0](https://latex.codecogs.com/svg.latex?b_0 "b_0") and slope of
 ![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1").
 
-![](../../figures/st-linear_regression-estimated_model_structure.gif){width
-= 80%}
+![](../../figures/st-linear_regression-estimated_model_structure.gif)
 
-The simple linear regression model coefficients
+The model coefficients
 ![b_0](https://latex.codecogs.com/svg.latex?b_0 "b_0") and
 ![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") are our best
-estimates of the unknown
+point estimates of the unknown
 ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0") and
-![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1").
-The values for ![b_0](https://latex.codecogs.com/svg.latex?b_0 "b_0")
-and ![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") may also be
+![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1")
+parameters. The values for
+![b_0](https://latex.codecogs.com/svg.latex?b_0 "b_0") and
+![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") are usually
 slightly different depending on which observations are present in our
 training data set.
 
@@ -261,30 +261,41 @@ In this tutorial, we hypothesised that our multiple regression model had
 the form `lm(income ~ is_dog + is_cat + photos + videos)`. This means
 that we think that the mean monthly pet influencer income is the sum of:
 
--   A potential baseline income
-    (![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0"))  
--   An additional amount of money if the pet is a dog
-    (![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1"))  
--   An additional amount of money if the pet is a cat
-    (![\beta_2](https://latex.codecogs.com/svg.latex?%5Cbeta_2 "\beta_2"))  
--   An additional amount of money for each photo posted per month
-    (![\beta_3](https://latex.codecogs.com/svg.latex?%5Cbeta_3 "\beta_3"))  
--   An additional amount of money for each video posted per month
-    (![\beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_4 "\beta_4"))
+-   A potential baseline income (a non-zero
+    ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0")
+    value)  
+-   An additional amount of money if the pet is a dog (a non-zero
+    ![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1")
+    value)  
+-   An additional amount of money if the pet is a cat (a non-zero
+    ![\beta_2](https://latex.codecogs.com/svg.latex?%5Cbeta_2 "\beta_2")
+    value)  
+-   An additional amount of money for each photo posted per month (a
+    non-zero
+    ![\beta_3](https://latex.codecogs.com/svg.latex?%5Cbeta_3 "\beta_3")
+    value)  
+-   An additional amount of money for each video posted per month (a
+    non-zero
+    ![\beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_4 "\beta_4")
+    value)
 
-Mathematically, our estimated model has the following form.
+Mathematically, our best estimated model has the following form, where
+![b_0, \cdots, b_4](https://latex.codecogs.com/svg.latex?b_0%2C%20%5Ccdots%2C%20b_4 "b_0, \cdots, b_4")
+are the point estimates for
+![\beta_0, \cdots, \beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_0%2C%20%5Ccdots%2C%20%5Cbeta_4 "\beta_0, \cdots, \beta_4")
+respectively.
 
-![](../../figures/st-linear_regression-tutorial_model_structure.svg){width
-= 80%}
+![](../../figures/st-linear_regression-tutorial_model_structure.svg)
 
-Knowing this, let us examine the coefficients of our multiple linear
-regression model. We can output them into a tabular format from our
-model by using the `tidy()` function from the
+Let us examine the values for
+![b_0, \cdots, b_4](https://latex.codecogs.com/svg.latex?b_0%2C%20%5Ccdots%2C%20b_4 "b_0, \cdots, b_4")
+(also known as the coefficients) of our model. We can output them into a
+tabular format using the `tidy()` function from the
 [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html)
 package.
 
 ``` r
-# Extract model coefficients in 
+# Extract model coefficients and output as a tidy table ------------------------
 mlr_model |> tidy()
 ```
 
@@ -293,25 +304,83 @@ mlr_model |> tidy()
       <chr>           <dbl>     <dbl>     <dbl>     <dbl>
     1 (Intercept)     21.5      1.11      19.3  4.00e- 58
     2 train$is_dog    58.9      0.958     61.5  1.98e-196
-    3 train$is_cat     8.97     1.00       8.94 1.95e- 17
+    3 train$is_cat    -1.03     1.00      -1.02 3.07e-  1
     4 train$photos     5.90     0.105     56.2  3.22e-183
     5 train$videos    17.9      0.173    103.   3.43e-275
 
-The model coefficients claim that the following associations exist (if
-our modelling assumptions are reasonable):
+After examining the **point estimates**, **standard errors** and
+**p-values** of our model coefficients, we can claim that the following
+associations exist, provided that our modelling assumptions are
+reasonable:
 
--   There is a non-zero intercept of \~51.5. Our best estimated model
-    states that a monthly baseline income of \~51.5 dollars exist i.e. a
-    pet influencer who posts 0 photos and videos and is neither a dog or
-    cat earns an average of 51.5 dollars per month.  
+-   A monthly baseline income of \~21.5 dollars exists. A pet influencer
+    who posts 0 photos and videos and is not a dog earns an average of
+    \~21.5 dollars per month.  
+-   If the pet is a dog, the monthly income additionally increases by
+    \~58.9 dollars.  
+-   There is no additional monthly income increase if the pet is a
+    cat.  
+-   For each additional photo posted, the monthly income increases by
+    \~5.9 dollars.  
+-   For each additional video posted, the monthly income increases by
+    \~17.9 dollars.
 
--   XX
+The standard error and p-value are actually more important than the
+precise value of the point estimate. The standard error estimates the
+range of values that our true model parameters may fall within. The
+p-value is used as a yardstick to conclude if our true model parameter
+is non-zero.
 
--   XX
+We can output and plot the 95% confidence intervals for our model
+coefficients to aid the interpretation of our model.
 
--   95% CI
+``` r
+# Output 95% confidence intervals for model coefficients -----------------------
+confint(mlr_model)
+```
 
--   Joint 95% CI
+                     2.5 %     97.5 %
+    (Intercept)  19.332135 23.7061121
+    train$is_dog 57.054881 60.8218933
+    train$is_cat -3.001889  0.9473509
+    train$photos  5.694441  6.1075318
+    train$videos 17.603735 18.2858186
+
+``` r
+# We can also output confidence intervals as a tidy table using broom::tidy()
+# mlr_model |> tidy(conf.int = TRUE, conf.level = 0.95)
+```
+
+``` r
+# Plot 95% confidence intervals for model coefficients -------------------------
+# Set p-value cut-off at p < 0.001 
+
+coef_names <- c(
+  "(Intercept)" = "Intercept",
+  "train$is_dog" = "Is a dog",
+  "train$is_cat" = "Is a cat",
+  "train$photos" = "Photos",
+  "train$videos" = "Videos"
+)
+
+modelplot(mlr_model,
+          coef_map = coef_names) +
+  geom_vline(xintercept = 0, 
+             colour = "firebrick",
+             linetype = "dotted") +
+  aes(colour = ifelse(p.value < 0.001, "Significant", "Not significant")) +
+  scale_colour_manual(values = c("grey", "black")) + 
+  labs(x = "Coefficients",
+       colour = NULL) +
+    theme_classic() +
+  theme(panel.grid.major.x = element_line(colour = "grey70",
+                                          linetype = "dotted"))
+```
+
+![](st-linear_regression_files/figure-gfm/unnamed-chunk-8-1.png)
+
+\#TODO But how do we know if a model is good enough? We need to examine
+the model evaluation metrics.
 
 # Evaluate a linear regression model
 
