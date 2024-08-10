@@ -79,7 +79,7 @@ another variable.
 
 ``` mermaid
 flowchart LR  
-  A(Baseline income) --> B(monthly income)     
+  A(Baseline income) --> B(Monthly income)     
   C(Pet species) --> B 
   D(Photos per month) --> B
   E(Videos per month) --> B
@@ -92,7 +92,7 @@ We can then simulate some income data to use for modelling.
 ``` r
 # Simulate pet influencer income dataset ---------------------------------------
 set.seed(111)
-N <- 500  
+N <- 500 # Simulate 500 observations 
 
 # Simulate whether pet is dog, cat or other from a multinomial distribution  
 species <- rmultinom(N, 
@@ -192,17 +192,19 @@ learning about the mathematical structure of a linear regression model.
 
 # The mathemathical intuition
 
-The simplest linear regression model is a line of best fit through the
-2D Cartesian plane. To construct this model, we only need to estimate
-the two parameters of an unknown straight line:
+The simplest linear regression model has the form
+![\hat {Y_i} = \beta_0 + \beta_1X_i](https://latex.codecogs.com/svg.latex?%5Chat%20%7BY_i%7D%20%3D%20%5Cbeta_0%20%2B%20%5Cbeta_1X_i "\hat {Y_i} = \beta_0 + \beta_1X_i").
+Graphically, this is a line of best fit through the 2D Cartesian plane.
+To construct this model, we only need to estimate the two parameters of
+an unknown straight line:
 
 -   The y-intercept, which we refer to as
     ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0").  
 -   The slope, which we refer to as
     ![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1")
 
-We assume that there is a **true model** that precisely predicts our
-outcome of interest
+We first assume that there is a **true model** which precisely predicts
+our outcome of interest
 ![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") based on our
 independent variable of interest
 ![X_i](https://latex.codecogs.com/svg.latex?X_i "X_i"). The true model
@@ -213,37 +215,47 @@ where
 represents error due to natural variation, because objects do not behave
 like perfect clones of each other in the real world.
 
+![](../../figures/st-linear_regression-true_model_structure.gif){width =
+80%}
+
 Because there is always error due to natural variation, we view each
 observation of ![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") as
-being drawn from a normal distribution of many possible values. By
-making some assumptions about
-![\epsilon_i](https://latex.codecogs.com/svg.latex?%5Cepsilon_i "\epsilon_i"),
-we can claim that the **mean** of the probability distribution of
-![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") is
+being drawn from a normal distribution of many possible values. After
+making some assumptions about how
+![\epsilon_i](https://latex.codecogs.com/svg.latex?%5Cepsilon_i "\epsilon_i")
+behaves, we can claim that the **mean** of the probability distribution
+of ![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") is
 ![E(Y_i) = \beta_0 + \beta_1X_1](https://latex.codecogs.com/svg.latex?E%28Y_i%29%20%3D%20%5Cbeta_0%20%2B%20%5Cbeta_1X_1 "E(Y_i) = \beta_0 + \beta_1X_1").
-This is the unknown straight line that we want to estimate.
+![E(Y_i)](https://latex.codecogs.com/svg.latex?E%28Y_i%29 "E(Y_i)") is
+the unknown straight line that we want to estimate.
+
+![](../../figures/st-linear_regression-y_normal_distribution.svg){width
+= 80%}
 
 We want to use our training data set to find the best estimates of
 ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0") and
 ![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1").
 This means finding the line that travels closest through all the
-training data set observations. This line represents our **best
-estimated model**, which has the form
+training data set observations. This line is our **best estimated
+model**, which has the form
 ![\hat Y_i = b_0 + b_1X_i](https://latex.codecogs.com/svg.latex?%5Chat%20Y_i%20%3D%20b_0%20%2B%20b_1X_i "\hat Y_i = b_0 + b_1X_i").
 It has a y-intercept of
 ![b_0](https://latex.codecogs.com/svg.latex?b_0 "b_0") and slope of
 ![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1").
 
+![](../../figures/st-linear_regression-estimated_model_structure.gif){width
+= 80%}
+
 The simple linear regression model coefficients
 ![b_0](https://latex.codecogs.com/svg.latex?b_0 "b_0") and
-![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") are therefore our
-best estimates of the unknown
+![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") are our best
+estimates of the unknown
 ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0") and
 ![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1").
 The values for ![b_0](https://latex.codecogs.com/svg.latex?b_0 "b_0")
-and ![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") may be
-different depending on which observations are included in our training
-data set.
+and ![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") may also be
+slightly different depending on which observations are present in our
+training data set.
 
 In this tutorial, we hypothesised that our multiple regression model had
 the form `lm(income ~ is_dog + is_cat + photos + videos)`. This means
@@ -260,8 +272,10 @@ that we think that the mean monthly pet influencer income is the sum of:
 -   An additional amount of money for each video posted per month
     (![\beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_4 "\beta_4"))
 
-In mathematical terms, we think our true unknown model and best
-estimated model have the following forms.
+Mathematically, our estimated model has the following form.
+
+![](../../figures/st-linear_regression-tutorial_model_structure.svg){width
+= 80%}
 
 Knowing this, let us examine the coefficients of our multiple linear
 regression model. We can output them into a tabular format from our

@@ -58,7 +58,7 @@ To simplify things, we state that there are no confounds between these variables
 
 ```{mermaid}
 flowchart LR  
-  A(Baseline income) --> B(monthly income)     
+  A(Baseline income) --> B(Monthly income)     
   C(Pet species) --> B 
   D(Photos per month) --> B
   E(Videos per month) --> B
@@ -71,7 +71,7 @@ We can then simulate some income data to use for modelling.
 ```{r}
 # Simulate pet influencer income dataset ---------------------------------------
 set.seed(111)
-N <- 500  
+N <- 500 # Simulate 500 observations 
 
 # Simulate whether pet is dog, cat or other from a multinomial distribution  
 species <- rmultinom(N, 
@@ -146,26 +146,24 @@ This looks very complicated! Let us interpret the key results above by learning 
 
 # The mathemathical intuition   
 
-The simplest linear regression model is a line of best fit through the 2D Cartesian plane. To construct this model, we only need to estimate the two parameters of an unknown straight line:  
+The simplest linear regression model has the form $\hat {Y_i} = \beta_0 + \beta_1X_i$. Graphically, this is a line of best fit through the 2D Cartesian plane. To construct this model, we only need to estimate the two parameters of an unknown straight line:  
 
 + The y-intercept, which we refer to as $\beta_0$.  
 + The slope, which we refer to as $\beta_1$   
 
-We assume that there is a **true model** that precisely predicts our outcome of interest $Y_i$ based on our independent variable of interest $X_i$. The true model has the form $Y_i = \beta_0 + \beta_1X_1 + \epsilon_i$, where $\epsilon_i$ represents error due to natural variation, because objects do not behave like perfect clones of each other in the real world.    
+We first assume that there is a **true model** which precisely predicts our outcome of interest $Y_i$ based on our independent variable of interest $X_i$. The true model has the form $Y_i = \beta_0 + \beta_1X_1 + \epsilon_i$, where $\epsilon_i$ represents error due to natural variation, because objects do not behave like perfect clones of each other in the real world.    
 
-```{r, echo=FALSE, results='markup', fig.align='center', out.width='80%'} 
-knitr::include_graphics("../../figures/st-linear_regression-true_model.gif")      
-``` 
+![](../../figures/st-linear_regression-true_model_structure.gif){width = 80%}      
 
-Because there is always error due to natural variation, we view each observation of $Y_i$ as being drawn from a normal distribution of many possible values. By making some assumptions about $\epsilon_i$, we can claim that the **mean** of the probability distribution of $Y_i$ is $E(Y_i) = \beta_0 + \beta_1X_1$. This is the unknown straight line that we want to estimate.      
+Because there is always error due to natural variation, we view each observation of $Y_i$ as being drawn from a normal distribution of many possible values. After making some assumptions about how $\epsilon_i$ behaves, we can claim that the **mean** of the probability distribution of $Y_i$ is $E(Y_i) = \beta_0 + \beta_1X_1$. $E(Y_i)$ is the unknown straight line that we want to estimate.      
 
-```{r, echo=FALSE, results='markup', fig.align='center', out.width='80%'} 
-knitr::include_graphics("../../figures/st-linear_regression-simple_model_structure.gif")      
-``` 
+![](../../figures/st-linear_regression-y_normal_distribution.svg){width = 80%}  
 
-We want to use our training data set to find the best estimates of $\beta_0$ and $\beta_1$. This means finding the line that travels closest through all the training data set observations. This line represents our **best estimated model**, which has the form $\hat Y_i = b_0 + b_1X_i$. It has a y-intercept of $b_0$ and slope of $b_1$. 
+We want to use our training data set to find the best estimates of $\beta_0$ and $\beta_1$. This means finding the line that travels closest through all the training data set observations. This line is our **best estimated model**, which has the form $\hat Y_i = b_0 + b_1X_i$. It has a y-intercept of $b_0$ and slope of $b_1$.   
 
-The simple linear regression model coefficients $b_0$ and $b_1$ are therefore our best estimates of the unknown $\beta_0$ and $\beta_1$. The values for $b_0$ and $b_1$ may be different depending on which observations are included in our training data set.        
+![](../../figures/st-linear_regression-estimated_model_structure.gif){width = 80%}   
+
+The simple linear regression model coefficients $b_0$ and $b_1$ are our best estimates of the unknown $\beta_0$ and $\beta_1$. The values for $b_0$ and $b_1$ may also be slightly different depending on which observations are present in our training data set.        
 
 In this tutorial, we hypothesised that our multiple regression model had the form `lm(income ~ is_dog + is_cat + photos + videos)`. This means that we think that the mean monthly pet influencer income is the sum of:    
 
@@ -175,11 +173,9 @@ In this tutorial, we hypothesised that our multiple regression model had the for
 + An additional amount of money for each photo posted per month ($\beta_3$)  
 + An additional amount of money for each video posted per month ($\beta_4$)  
 
-In mathematical terms, we think our true unknown model and best estimated model have the following forms.    
+Mathematically, our estimated model has the following form.    
 
-```{r, echo=FALSE, results='markup', fig.align='center', out.width='80%'} 
-knitr::include_graphics("../../figures/st-linear_regression-tutorial_model_structure.svg")      
-``` 
+![](../../figures/st-linear_regression-tutorial_model_structure.svg){width = 80%} 
 
 Knowing this, let us examine the coefficients of our multiple linear regression model. We can output them into a tabular format from our model by using the `tidy()` function from the [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) package.      
 
