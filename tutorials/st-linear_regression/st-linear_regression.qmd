@@ -180,7 +180,7 @@ In this tutorial, we hypothesised that our multiple regression model had the for
 
 Mathematically, our best estimated model has the following structure, where $b_0, \cdots, b_4$ are the point estimates for $\beta_0, \cdots, \beta_4$ respectively.    
 
-![](../../figures/st-linear_regression-tutorial_model_form.svg)
+![](../../figures/st-linear_regression-tutorial_model_structure.svg)
 
 Let us examine the coefficients of our model. We can output them into a tabular format using the `tidy()` function from the [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) package.      
 
