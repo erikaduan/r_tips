@@ -290,7 +290,7 @@ are the point estimates for
 ![\beta_0, \cdots, \beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_0%2C%20%5Ccdots%2C%20%5Cbeta_4 "\beta_0, \cdots, \beta_4")
 respectively.
 
-![](../../figures/st-linear_regression-tutorial_model_form.svg)
+![](../../figures/st-linear_regression-tutorial_model_structure.svg)
 
 Let us examine the coefficients of our model. We can output them into a
 tabular format using the `tidy()` function from the
