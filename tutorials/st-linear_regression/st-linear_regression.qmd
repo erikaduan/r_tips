@@ -162,13 +162,13 @@ We first assume that there is a **true model** which precisely predicts our outc
 
 Because there is always error due to natural variation, we view each observation of $Y_i$ as being drawn from a normal distribution of many possible values. After making some assumptions about how $\epsilon_i$ behaves, we can claim that the **mean** of the probability distribution of $Y_i$ is $E(Y_i) = \beta_0 + \beta_1X_1$. $E(Y_i)$ is the unknown straight line that we want to estimate.      
 
-![](../../figures/st-linear_regression-y_normal_distribution.svg){fig-width=3}
+![](../../figures/st-linear_regression-y_normal_distribution.svg)
 
 We want to use our training data set to find the best point estimates of $\beta_0$ and $\beta_1$. This means finding the line that travels closest through all the training data set observations. This line is our **best estimated model**, which has the form $\hat Y_i = b_0 + b_1X_i$. It has a y-intercept of $b_0$ and slope of $b_1$.   
 
 ![](../../figures/st-linear_regression-estimated_model_structure.gif) 
 
-The model coefficients $b_0$ and $b_1$ are our best point estimates of the unknown $\beta_0$ and $\beta_1$ parameters. The values for $b_0$ and $b_1$ are usually slightly different depending on which observations are present in our training data set.        
+The model coefficients $b_0$ and $b_1$ are our best point estimates of the unknown $\beta_0$ and $\beta_1$ parameters. The point estimates for $b_0$ and $b_1$ are slightly different depending on which observations are present in our training data set.        
 
 In this tutorial, we hypothesised that our multiple regression model had the form `lm(income ~ is_dog + is_cat + photos + videos)`. This means that we think that the mean monthly pet influencer income is the sum of:    
 
@@ -178,11 +178,11 @@ In this tutorial, we hypothesised that our multiple regression model had the for
 + An additional amount of money for each photo posted per month (a non-zero $\beta_3$ value)  
 + An additional amount of money for each video posted per month (a non-zero $\beta_4$ value)  
 
-Mathematically, our best estimated model has the following form, where $b_0, \cdots, b_4$ are the point estimates for $\beta_0, \cdots, \beta_4$ respectively.    
+Mathematically, our best estimated model has the following structure, where $b_0, \cdots, b_4$ are the point estimates for $\beta_0, \cdots, \beta_4$ respectively.    
 
-![](../../figures/st-linear_regression-tutorial_model_structure.svg)
+![](../../figures/st-linear_regression-tutorial_model_form.svg)
 
-Let us examine the values for $b_0, \cdots, b_4$ (also known as the coefficients) of our model. We can output them into a tabular format using the `tidy()` function from the [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) package.      
+Let us examine the coefficients of our model. We can output them into a tabular format using the `tidy()` function from the [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) package.      
 
 ```{r}
 #| output: true
@@ -191,7 +191,11 @@ Let us examine the values for $b_0, \cdots, b_4$ (also known as the coefficients
 mlr_model |> tidy()
 ```
 
-After examining the **point estimates**, **standard errors** and **p-values** of our model coefficients, we can claim that the following associations exist, provided that our modelling assumptions are reasonable:   
+The **point estimates** of the model coefficients are used to construct our best estimated model, which has the following form.   
+
+![](../../figures/st-linear_regression-tutorial_best_estimated_model.svg)  
+
+After examining the **point estimates**, **standard errors** and **p-values** of our model coefficients, we can also claim that the following associations exist, provided that our modelling assumptions are reasonable:   
 
 + A monthly baseline income of ~21.5 dollars exists. A pet influencer who posts 0 photos and videos and is not a dog earns an average of ~21.5 dollars per month.            
 + If the pet is a dog, the monthly income additionally increases by ~58.9 dollars.   
@@ -199,23 +203,24 @@ After examining the **point estimates**, **standard errors** and **p-values** of
 + For each additional photo posted, the monthly income increases by ~5.9 dollars.   
 + For each additional video posted, the monthly income increases by ~17.9 dollars.  
 
-The standard error and p-value are actually more important than the precise value of the point estimate. The standard error estimates the range of values that our true model parameters may fall within. The p-value is used as a yardstick to conclude if our true model parameter is non-zero.    
+Inspecting the standard errors and p-values are important. The standard error helps to estimate the range of values that our true model parameter is likely to fall within. The p-value is used as a yardstick to conclude if our true model parameter is indeed non-zero.    
 
-We can output and plot the 95% confidence intervals for our model coefficients to aid the interpretation of our model.  
+We can extract and plot 95% confidence intervals for our model coefficients. The 95% confidence interval is actually a random interval that is expected to contain the true model parameter i.e. $\beta_0, \cdots, \beta_4$ 95% of the time. A narrow and non-zero confidence interval indicates a convincing association between an independent variable and the outcome.    
 
 ```{r}
 #| output: true
 
 # Output 95% confidence intervals for model coefficients -----------------------
-confint(mlr_model)
-
 # We can also output confidence intervals as a tidy table using broom::tidy()
 # mlr_model |> tidy(conf.int = TRUE, conf.level = 0.95)
+
+confint(mlr_model)
 ```
+
+The plot below clearly illustrates that being a cat is the only independent variable that is not predictive of monthly pet influencer income.  
 
 ```{r}
 #| output: true
-#| fig-width: 3
 
 # Plot 95% confidence intervals for model coefficients -------------------------
 # Set p-value cut-off at p < 0.001 
@@ -235,15 +240,15 @@ modelplot(mlr_model,
              linetype = "dotted") +
   aes(colour = ifelse(p.value < 0.001, "Significant", "Not significant")) +
   scale_colour_manual(values = c("grey", "black")) + 
-  labs(x = "Coefficients",
+  labs(title = "95% CI for linear regression model coefficients",
+         x = "Coefficients",
        colour = NULL) +
     theme_classic() +
   theme(panel.grid.major.x = element_line(colour = "grey70",
                                           linetype = "dotted"))
 ```
-
-#TODO 
-But how do we know if a model is good enough? We need to examine the model evaluation metrics.  
+  
+Although model coefficients tell us how our model makes a prediction and which independent variables are predictive of the outcome, we cannot use them to evaluate whether our model is a good or poor one. To evaluate our model, we need to examine some different metrics.  
 
 
 # Evaluate a linear regression model   
@@ -265,14 +270,13 @@ We can examine the model metrics of our model using the `tidy()` function
 
 ```
 
-- MSE 
-- r^2 and adjusted r^2  
-- residual plots
+## MSE   
+## r^2 and adjusted r^2   
+## residual plots    
 
 
 # Linear regression with `tidymodels`   
 
-
 ```{r}
 # Build model
 # Make a new prediction
@@ -280,12 +284,10 @@ We can examine the model metrics of our model using the `tidy()` function
 
 
 ```
-
 
 
 # Linear regression with `mlr3`   
 
-
 ```{r}
 # Build model
 # Make a new prediction
@@ -293,7 +295,6 @@ We can examine the model metrics of our model using the `tidy()` function
 
 
 ```
-
 
 
 # Other resources     

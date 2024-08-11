@@ -1,7 +1,7 @@
 Build a linear regression model
 ================
 Erika Duan
-8/10/24
+8/11/24
 
 -   <a href="#why-linear-regression" id="toc-why-linear-regression">Why
     linear regression?</a>
@@ -13,6 +13,10 @@ Erika Duan
 -   <a href="#evaluate-a-linear-regression-model"
     id="toc-evaluate-a-linear-regression-model">Evaluate a linear regression
     model</a>
+    -   <a href="#mse" id="toc-mse">MSE</a>
+    -   <a href="#r2-and-adjusted-r2" id="toc-r2-and-adjusted-r2">r^2 and
+        adjusted r^2</a>
+    -   <a href="#residual-plots" id="toc-residual-plots">residual plots</a>
 -   <a href="#linear-regression-with-tidymodels"
     id="toc-linear-regression-with-tidymodels">Linear regression with
     <code>tidymodels</code></a>
@@ -230,8 +234,7 @@ of ![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") is
 ![E(Y_i)](https://latex.codecogs.com/svg.latex?E%28Y_i%29 "E(Y_i)") is
 the unknown straight line that we want to estimate.
 
-<img src="../../figures/st-linear_regression-y_normal_distribution.svg"
-data-fig-width="3" />
+![](../../figures/st-linear_regression-y_normal_distribution.svg)
 
 We want to use our training data set to find the best point estimates of
 ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0") and
@@ -252,11 +255,11 @@ The model coefficients
 point estimates of the unknown
 ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0") and
 ![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1")
-parameters. The values for
+parameters. The point estimates for
 ![b_0](https://latex.codecogs.com/svg.latex?b_0 "b_0") and
-![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") are usually
-slightly different depending on which observations are present in our
-training data set.
+![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") are slightly
+different depending on which observations are present in our training
+data set.
 
 In this tutorial, we hypothesised that our multiple regression model had
 the form `lm(income ~ is_dog + is_cat + photos + videos)`. This means
@@ -280,17 +283,16 @@ that we think that the mean monthly pet influencer income is the sum of:
     ![\beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_4 "\beta_4")
     value)
 
-Mathematically, our best estimated model has the following form, where
+Mathematically, our best estimated model has the following structure,
+where
 ![b_0, \cdots, b_4](https://latex.codecogs.com/svg.latex?b_0%2C%20%5Ccdots%2C%20b_4 "b_0, \cdots, b_4")
 are the point estimates for
 ![\beta_0, \cdots, \beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_0%2C%20%5Ccdots%2C%20%5Cbeta_4 "\beta_0, \cdots, \beta_4")
 respectively.
 
-![](../../figures/st-linear_regression-tutorial_model_structure.svg)
+![](../../figures/st-linear_regression-tutorial_model_form.svg)
 
-Let us examine the values for
-![b_0, \cdots, b_4](https://latex.codecogs.com/svg.latex?b_0%2C%20%5Ccdots%2C%20b_4 "b_0, \cdots, b_4")
-(also known as the coefficients) of our model. We can output them into a
+Let us examine the coefficients of our model. We can output them into a
 tabular format using the `tidy()` function from the
 [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html)
 package.
@@ -309,10 +311,15 @@ mlr_model |> tidy()
     4 train$photos     5.90     0.105     56.2  3.22e-183
     5 train$videos    17.9      0.173    103.   3.43e-275
 
+The **point estimates** of the model coefficients are used to construct
+our best estimated model, which has the following form.
+
+![](../../figures/st-linear_regression-tutorial_best_estimated_model.svg)
+
 After examining the **point estimates**, **standard errors** and
-**p-values** of our model coefficients, we can claim that the following
-associations exist, provided that our modelling assumptions are
-reasonable:
+**p-values** of our model coefficients, we can also claim that the
+following associations exist, provided that our modelling assumptions
+are reasonable:
 
 -   A monthly baseline income of \~21.5 dollars exists. A pet influencer
     who posts 0 photos and videos and is not a dog earns an average of
@@ -326,17 +333,23 @@ reasonable:
 -   For each additional video posted, the monthly income increases by
     \~17.9 dollars.
 
-The standard error and p-value are actually more important than the
-precise value of the point estimate. The standard error estimates the
-range of values that our true model parameters may fall within. The
-p-value is used as a yardstick to conclude if our true model parameter
-is non-zero.
+Inspecting the standard errors and p-values are important. The standard
+error helps to estimate the range of values that our true model
+parameter is likely to fall within. The p-value is used as a yardstick
+to conclude if our true model parameter is indeed non-zero.
 
-We can output and plot the 95% confidence intervals for our model
-coefficients to aid the interpretation of our model.
+We can extract and plot 95% confidence intervals for our model
+coefficients. The 95% confidence interval is actually a random interval
+that is expected to contain the true model parameter
+i.e. ![\beta_0, \cdots, \beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_0%2C%20%5Ccdots%2C%20%5Cbeta_4 "\beta_0, \cdots, \beta_4")
+95% of the time. A narrow and non-zero confidence interval indicates a
+convincing association between an independent variable and the outcome.
 
 ``` r
 # Output 95% confidence intervals for model coefficients -----------------------
+# We can also output confidence intervals as a tidy table using broom::tidy()
+# mlr_model |> tidy(conf.int = TRUE, conf.level = 0.95)
+
 confint(mlr_model)
 ```
 
@@ -347,10 +360,9 @@ confint(mlr_model)
     train$photos  5.694441  6.1075318
     train$videos 17.603735 18.2858186
 
-``` r
-# We can also output confidence intervals as a tidy table using broom::tidy()
-# mlr_model |> tidy(conf.int = TRUE, conf.level = 0.95)
-```
+The plot below clearly illustrates that being a cat is the only
+independent variable that is not predictive of monthly pet influencer
+income.
 
 ``` r
 # Plot 95% confidence intervals for model coefficients -------------------------
@@ -371,7 +383,8 @@ modelplot(mlr_model,
              linetype = "dotted") +
   aes(colour = ifelse(p.value < 0.001, "Significant", "Not significant")) +
   scale_colour_manual(values = c("grey", "black")) + 
-  labs(x = "Coefficients",
+  labs(title = "95% CI for linear regression model coefficients",
+         x = "Coefficients",
        colour = NULL) +
     theme_classic() +
   theme(panel.grid.major.x = element_line(colour = "grey70",
@@ -380,8 +393,10 @@ modelplot(mlr_model,
 
 ![](st-linear_regression_files/figure-gfm/unnamed-chunk-8-1.png)
 
-\#TODO But how do we know if a model is good enough? We need to examine
-the model evaluation metrics.
+Although model coefficients tell us how our model makes a prediction and
+which independent variables are predictive of the outcome, we cannot use
+them to evaluate whether our model is a good or poor one. To evaluate
+our model, we need to examine some different metrics.
 
 # Evaluate a linear regression model
 
@@ -399,9 +414,11 @@ useful for model evaluation. A summary of the key metrics are below.
 We can examine the model metrics of our model using the `tidy()`
 function
 
--   MSE
--   r^2 and adjusted r^2  
--   residual plots
+## MSE
+
+## r^2 and adjusted r^2
+
+## residual plots
 
 # Linear regression with `tidymodels`
 
