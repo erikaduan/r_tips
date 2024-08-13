@@ -1,7 +1,7 @@
 Build a linear regression model
 ================
 Erika Duan
-8/11/24
+8/13/24
 
 -   <a href="#why-linear-regression" id="toc-why-linear-regression">Why
     linear regression?</a>
@@ -115,8 +115,11 @@ photos <- rpois(N, lambda = 6)
 videos <- rpois(N, lambda = 2)
 
 # Simulate monthly income from a normal distribution 
+# Mean monthly income has an intercept of 20 and is only determined by the 
+# variables is_dog, photos and videos
+
 income <- rnorm(N,
-                mean = (is_dog * 60 + photos * 6 + videos * 18) + 20,
+                mean = 20 + is_dog * 60 + photos * 6 + videos * 18,
                 sd = 5)
 
 # Ensure that income is a non-negative integer
@@ -395,8 +398,8 @@ modelplot(mlr_model,
 
 Although model coefficients tell us how our model makes a prediction and
 which independent variables are predictive of the outcome, we cannot use
-them to evaluate whether our model is a good or poor one. To evaluate
-our model, we need to examine some different metrics.
+them to evaluate whether our model is actually a good or poor one. To
+evaluate our model, we need to examine some different metrics.
 
 # Evaluate a linear regression model
 
