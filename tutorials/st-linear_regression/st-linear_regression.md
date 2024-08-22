@@ -1,7 +1,7 @@
 Build a linear regression model
 ================
 Erika Duan
-8/13/24
+8/22/24
 
 -   <a href="#why-linear-regression" id="toc-why-linear-regression">Why
     linear regression?</a>
@@ -45,9 +45,8 @@ Stories](https://avehtari.github.io/ROS-Examples/) by Gelman et al,
 linear regression can be used to:
 
 -   Predict or forecast outcomes without aiming to infer causality.  
--   Generate an additive explanation of the associations between
-    independent variables of interest (also known as features) and an
-    outcome.  
+-   Generate a linear explanation of the associations between
+    independent variables (also known as features) and an outcome.  
 -   Adjust outcomes from a sample to infer something about a population
     of interest.  
 -   Estimate treatment effects by comparing outcomes between a treatment
@@ -56,9 +55,10 @@ linear regression can be used to:
 Linear regression models can be easily misused when purposes deviate
 from the ones described above. For example, people can mistake the
 associations produced by a linear regression model as being causal
-rather than just predictive. This is especially problematic [when some
-of the variables fitted into a model are predictive of each
-other](https://elevanth.org/blog/2021/06/15/regression-fire-and-dangerous-things-1-3/).
+rather than just predictive. This is especially misleading [when some
+independent variables are predictive of each other as well as the
+outcome of
+interest](https://elevanth.org/blog/2021/06/15/regression-fire-and-dangerous-things-1-3/).
 
 # Build a linear regression model
 
@@ -67,8 +67,8 @@ produces. We will then learn about the mathematical properties,
 interpretation and assumptions of our model.
 
 We will provide ourselves with a safety check, by secretly knowing the
-precise relationship between our independent variables and the outcome
-of interest. This will obviously never happen in real life.
+precise relationship between our independent variables and the outcome.
+This will obviously never happen in real life.
 
 Imagine that the amount of money a pet influencer earns per month is
 influenced by the following variables:
@@ -78,8 +78,8 @@ influenced by the following variables:
 -   The number of photos their owner posts every month  
 -   The number of videos their owner posts every month
 
-To simplify things, we state that there are no confounds between these
-variables i.e. the value of one variable does not influence the value of
+We also state that there are no confounds between these variables. This
+means that the value of one variable does not influence the value of
 another variable.
 
 ``` mermaid
@@ -207,10 +207,12 @@ Graphically, this is a line of best fit through the 2D Cartesian plane.
 To construct this model, we only need to estimate the two parameters of
 an unknown straight line:
 
--   The y-intercept, which we refer to as
-    ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0").  
--   The slope, which we refer to as
+-   The y-intercept, which is what
+    ![\beta_0](https://latex.codecogs.com/svg.latex?%5Cbeta_0 "\beta_0")
+    represents  
+-   The slope, which is what
     ![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1")
+    represents
 
 We first assume that there is a **true model** which precisely predicts
 our outcome of interest
@@ -221,8 +223,8 @@ has the form
 ![Y_i = \beta_0 + \beta_1X_1 + \epsilon_i](https://latex.codecogs.com/svg.latex?Y_i%20%3D%20%5Cbeta_0%20%2B%20%5Cbeta_1X_1%20%2B%20%5Cepsilon_i "Y_i = \beta_0 + \beta_1X_1 + \epsilon_i"),
 where
 ![\epsilon_i](https://latex.codecogs.com/svg.latex?%5Cepsilon_i "\epsilon_i")
-represents error due to natural variation, because objects do not behave
-like perfect clones of each other in the real world.
+represents error due to natural variation as objects do not behave like
+identical clones in the real world.
 
 ![](../../figures/st-linear_regression-true_model_structure.gif)
 
@@ -233,7 +235,8 @@ making some assumptions about how
 ![\epsilon_i](https://latex.codecogs.com/svg.latex?%5Cepsilon_i "\epsilon_i")
 behaves, we can claim that the **mean** of the probability distribution
 of ![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") is
-![E(Y_i) = \beta_0 + \beta_1X_1](https://latex.codecogs.com/svg.latex?E%28Y_i%29%20%3D%20%5Cbeta_0%20%2B%20%5Cbeta_1X_1 "E(Y_i) = \beta_0 + \beta_1X_1").
+![E(Y_i) = \beta_0 + \beta_1X_1](https://latex.codecogs.com/svg.latex?E%28Y_i%29%20%3D%20%5Cbeta_0%20%2B%20%5Cbeta_1X_1 "E(Y_i) = \beta_0 + \beta_1X_1")
+where
 ![E(Y_i)](https://latex.codecogs.com/svg.latex?E%28Y_i%29 "E(Y_i)") is
 the unknown straight line that we want to estimate.
 
@@ -260,9 +263,9 @@ point estimates of the unknown
 ![\beta_1](https://latex.codecogs.com/svg.latex?%5Cbeta_1 "\beta_1")
 parameters. The point estimates for
 ![b_0](https://latex.codecogs.com/svg.latex?b_0 "b_0") and
-![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") are slightly
-different depending on which observations are present in our training
-data set.
+![b_1](https://latex.codecogs.com/svg.latex?b_1 "b_1") are usually
+slightly different depending on which observations are present in the
+training data set.
 
 In this tutorial, we hypothesised that our multiple regression model had
 the form `lm(income ~ is_dog + is_cat + photos + videos)`. This means
@@ -287,16 +290,24 @@ that we think that the mean monthly pet influencer income is the sum of:
     value)
 
 Mathematically, our best estimated model has the following structure,
-where
+where the model coefficients
 ![b_0, \cdots, b_4](https://latex.codecogs.com/svg.latex?b_0%2C%20%5Ccdots%2C%20b_4 "b_0, \cdots, b_4")
 are the point estimates for
 ![\beta_0, \cdots, \beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_0%2C%20%5Ccdots%2C%20%5Cbeta_4 "\beta_0, \cdots, \beta_4")
 respectively.
 
-![](../../figures/st-linear_regression-tutorial_model_structure.svg)
+![](../../figures/st-linear_regression-tutorial_model_structure.svg) The
+model coefficients
+![b_0, \cdots, b_4](https://latex.codecogs.com/svg.latex?b_0%2C%20%5Ccdots%2C%20b_4 "b_0, \cdots, b_4")
+directly contribute to the interpretation of how our model predicts mean
+monthly pet influencer income.
 
-Let us examine the coefficients of our model. We can output them into a
-tabular format using the `tidy()` function from the
+![](../../figures/st-linear_regression-coefficients_explained_1.svg)
+
+![](../../figures/st-linear_regression-coefficients_explained_2.svg)
+
+Let us examine our model coefficients. We can output them into a tabular
+format using the `tidy()` function from the
 [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html)
 package.
 
@@ -339,14 +350,15 @@ are reasonable:
 Inspecting the standard errors and p-values are important. The standard
 error helps to estimate the range of values that our true model
 parameter is likely to fall within. The p-value is used as a yardstick
-to conclude if our true model parameter is indeed non-zero.
+to conclude if our true model parameters are indeed non-zero.
 
-We can extract and plot 95% confidence intervals for our model
-coefficients. The 95% confidence interval is actually a random interval
-that is expected to contain the true model parameter
-i.e. ![\beta_0, \cdots, \beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_0%2C%20%5Ccdots%2C%20%5Cbeta_4 "\beta_0, \cdots, \beta_4")
-95% of the time. A narrow and non-zero confidence interval indicates a
-convincing association between an independent variable and the outcome.
+We can also extract and plot 95% confidence intervals for our model
+coefficients. The 95% confidence interval is a random interval that is
+expected to contain a parameter of interest 95% of the time. A narrow
+and non-zero confidence interval for
+![\beta_0, \cdots, \beta_4](https://latex.codecogs.com/svg.latex?%5Cbeta_0%2C%20%5Ccdots%2C%20%5Cbeta_4 "\beta_0, \cdots, \beta_4")
+indicates a convincing association between an independent variable and
+the outcome.
 
 ``` r
 # Output 95% confidence intervals for model coefficients -----------------------
@@ -399,20 +411,21 @@ modelplot(mlr_model,
 Although model coefficients tell us how our model makes a prediction and
 which independent variables are predictive of the outcome, we cannot use
 them to evaluate whether our model is actually a good or poor one. To
-evaluate our model, we need to examine some different metrics.
+evaluate our model, we need to examine different metrics.
 
 # Evaluate a linear regression model
 
 A linear regression model outputs several metrics and plots which are
-useful for model evaluation. A summary of the key metrics are below.
+useful for model evaluation. A summary of the key model evaluation
+metrics are below.
 
-| Metric                                                            | Description |
-|:------------------------------------------------------------------|:------------|
-| Residual mean square (MSE)                                        |             |
-| Residual standard error                                           |             |
-| F statistic                                                       |             |
-| Multiple ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") |             |
-| Adjusted ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") |             |
+| Metric                                                            | Mathematical form                                                                                                                                                                                                                                        |
+|:------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Residual mean square (MSE)                                        | ![\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}](https://latex.codecogs.com/svg.latex?%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-2%7D "\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}")                            |
+| Residual standard error (RSE)                                     | ![\sqrt{\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}}](https://latex.codecogs.com/svg.latex?%5Csqrt%7B%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-2%7D%7D "\sqrt{\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}}") |
+| F statistic                                                       |                                                                                                                                                                                                                                                          |
+| Multiple ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | A metric describing the properties of the trained model.                                                                                                                                                                                                 |
+| Adjusted ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | A metric describing the properties of the trained model.                                                                                                                                                                                                 |
 
 We can examine the model metrics of our model using the `tidy()`
 function

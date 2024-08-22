@@ -35,18 +35,18 @@ Linear regression is usually the first statistical model that people learn about
 As listed in [Regression and Other Stories](https://avehtari.github.io/ROS-Examples/) by Gelman et al, linear regression can be used to:   
 
 + Predict or forecast outcomes without aiming to infer causality.   
-+ Generate an additive explanation of the associations between independent variables of interest (also known as features) and an outcome.    
++ Generate a linear explanation of the associations between independent variables (also known as features) and an outcome.    
 + Adjust outcomes from a sample to infer something about a population of interest.    
 + Estimate treatment effects by comparing outcomes between a treatment and control group in a randomised controlled trial.    
 
-Linear regression models can be easily misused when purposes deviate from the ones described above. For example, people can mistake the associations produced by a linear regression model as being causal rather than just predictive. This is especially problematic [when some of the variables fitted into a model are predictive of each other](https://elevanth.org/blog/2021/06/15/regression-fire-and-dangerous-things-1-3/).   
+Linear regression models can be easily misused when purposes deviate from the ones described above. For example, people can mistake the associations produced by a linear regression model as being causal rather than just predictive. This is especially misleading [when some independent variables are predictive of each other as well as the outcome of interest](https://elevanth.org/blog/2021/06/15/regression-fire-and-dangerous-things-1-3/).   
 
 
 # Build a linear regression model 
 
 Let's first build a linear regression model and see what results it produces. We will then learn about the mathematical properties, interpretation and assumptions of our model.      
 
-We will provide ourselves with a safety check, by secretly knowing the precise relationship between our independent variables and the outcome of interest. This will obviously never happen in real life.   
+We will provide ourselves with a safety check, by secretly knowing the precise relationship between our independent variables and the outcome. This will obviously never happen in real life.   
 
 Imagine that the amount of money a pet influencer earns per month is influenced by the following variables:    
 
@@ -55,7 +55,7 @@ Imagine that the amount of money a pet influencer earns per month is influenced 
 + The number of photos their owner posts every month      
 + The number of videos their owner posts every month      
 
-To simplify things, we state that there are no confounds between these variables i.e. the value of one variable does not influence the value of another variable.   
+We also state that there are no confounds between these variables. This means that the value of one variable does not influence the value of another variable.   
 
 ```{mermaid}
 flowchart LR  
@@ -156,14 +156,14 @@ The simplest linear regression model has the form $\hat {Y_i} = \beta_0 + \beta_
 
 Graphically, this is a line of best fit through the 2D Cartesian plane. To construct this model, we only need to estimate the two parameters of an unknown straight line:  
 
-+ The y-intercept, which we refer to as $\beta_0$.  
-+ The slope, which we refer to as $\beta_1$   
++ The y-intercept, which is what $\beta_0$ represents    
++ The slope, which is what $\beta_1$ represents     
 
-We first assume that there is a **true model** which precisely predicts our outcome of interest $Y_i$ based on our independent variable of interest $X_i$. The true model has the form $Y_i = \beta_0 + \beta_1X_1 + \epsilon_i$, where $\epsilon_i$ represents error due to natural variation, because objects do not behave like perfect clones of each other in the real world.    
+We first assume that there is a **true model** which precisely predicts our outcome of interest $Y_i$ based on our independent variable of interest $X_i$. The true model has the form $Y_i = \beta_0 + \beta_1X_1 + \epsilon_i$, where $\epsilon_i$ represents error due to natural variation as objects do not behave like identical clones in the real world.    
 
 ![](../../figures/st-linear_regression-true_model_structure.gif)     
 
-Because there is always error due to natural variation, we view each observation of $Y_i$ as being drawn from a normal distribution of many possible values. After making some assumptions about how $\epsilon_i$ behaves, we can claim that the **mean** of the probability distribution of $Y_i$ is $E(Y_i) = \beta_0 + \beta_1X_1$. $E(Y_i)$ is the unknown straight line that we want to estimate.      
+Because there is always error due to natural variation, we view each observation of $Y_i$ as being drawn from a normal distribution of many possible values. After making some assumptions about how $\epsilon_i$ behaves, we can claim that the **mean** of the probability distribution of $Y_i$ is $E(Y_i) = \beta_0 + \beta_1X_1$ where $E(Y_i)$ is the unknown straight line that we want to estimate.      
 
 ![](../../figures/st-linear_regression-y_normal_distribution.svg)
 
@@ -171,7 +171,7 @@ We want to use our training data set to find the best point estimates of $\beta_
 
 ![](../../figures/st-linear_regression-estimated_model_structure.gif) 
 
-The model coefficients $b_0$ and $b_1$ are our best point estimates of the unknown $\beta_0$ and $\beta_1$ parameters. The point estimates for $b_0$ and $b_1$ are slightly different depending on which observations are present in our training data set.        
+The model coefficients $b_0$ and $b_1$ are our best point estimates of the unknown $\beta_0$ and $\beta_1$ parameters. The point estimates for $b_0$ and $b_1$ are usually slightly different depending on which observations are present in the training data set.        
 
 In this tutorial, we hypothesised that our multiple regression model had the form `lm(income ~ is_dog + is_cat + photos + videos)`. This means that we think that the mean monthly pet influencer income is the sum of:    
 
@@ -181,11 +181,16 @@ In this tutorial, we hypothesised that our multiple regression model had the for
 + An additional amount of money for each photo posted per month (a non-zero $\beta_3$ value)  
 + An additional amount of money for each video posted per month (a non-zero $\beta_4$ value)  
 
-Mathematically, our best estimated model has the following structure, where $b_0, \cdots, b_4$ are the point estimates for $\beta_0, \cdots, \beta_4$ respectively.    
+Mathematically, our best estimated model has the following structure, where the model coefficients $b_0, \cdots, b_4$ are the point estimates for $\beta_0, \cdots, \beta_4$ respectively.    
 
 ![](../../figures/st-linear_regression-tutorial_model_structure.svg)
+The model coefficients $b_0, \cdots, b_4$ directly contribute to the interpretation of how our model predicts mean monthly pet influencer income.  
 
-Let us examine the coefficients of our model. We can output them into a tabular format using the `tidy()` function from the [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) package.      
+![](../../figures/st-linear_regression-coefficients_explained_1.svg)  
+
+![](../../figures/st-linear_regression-coefficients_explained_2.svg)  
+
+Let us examine our model coefficients. We can output them into a tabular format using the `tidy()` function from the [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) package.      
 
 ```{r}
 #| output: true
@@ -206,9 +211,9 @@ After examining the **point estimates**, **standard errors** and **p-values** of
 + For each additional photo posted, the monthly income increases by ~5.9 dollars.   
 + For each additional video posted, the monthly income increases by ~17.9 dollars.  
 
-Inspecting the standard errors and p-values are important. The standard error helps to estimate the range of values that our true model parameter is likely to fall within. The p-value is used as a yardstick to conclude if our true model parameter is indeed non-zero.    
+Inspecting the standard errors and p-values are important. The standard error helps to estimate the range of values that our true model parameter is likely to fall within. The p-value is used as a yardstick to conclude if our true model parameters are indeed non-zero.    
 
-We can extract and plot 95% confidence intervals for our model coefficients. The 95% confidence interval is actually a random interval that is expected to contain the true model parameter i.e. $\beta_0, \cdots, \beta_4$ 95% of the time. A narrow and non-zero confidence interval indicates a convincing association between an independent variable and the outcome.    
+We can also extract and plot 95% confidence intervals for our model coefficients. The 95% confidence interval is a random interval that is expected to contain a parameter of interest 95% of the time. A narrow and non-zero confidence interval for $\beta_0, \cdots, \beta_4$ indicates a convincing association between an independent variable and the outcome.    
 
 ```{r}
 #| output: true
@@ -251,21 +256,20 @@ modelplot(mlr_model,
                                           linetype = "dotted"))
 ```
   
-Although model coefficients tell us how our model makes a prediction and which independent variables are predictive of the outcome, we cannot use them to evaluate whether our model is actually a good or poor one. To evaluate our model, we need to examine some different metrics.  
+Although model coefficients tell us how our model makes a prediction and which independent variables are predictive of the outcome, we cannot use them to evaluate whether our model is actually a good or poor one. To evaluate our model, we need to examine different metrics.  
 
 
 # Evaluate a linear regression model   
 
-A linear regression model outputs several metrics and plots which are useful for model evaluation. A summary of the key metrics are below.  
+A linear regression model outputs several metrics and plots which are useful for model evaluation. A summary of the key model evaluation metrics are below.  
 
-| Metric | Description |  
+| Metric | Mathematical form | Description | 
 |:-------|:------------|   
-| Residual mean square (MSE) |  |   
-| Residual standard error |  |   
-| F statistic |  |   
-| Multiple $r^2$ |  |   
-| Adjusted $r^2$ |  |   
-
+| Residual mean square (MSE) | $\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}$ | A metric to evaluate the magnitude of the error between the true and estimated outcome. In linear regression, MSE is specifically the point estimator for $Var(\epsilon_i)$ assuming that $\epsilon_i$ is normally distributed. The MSE should be evaluated on the test data set. |       
+| Residual standard error (RSE) | $\sqrt{\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}}$ | Another metric to evaluate the magnitude of the error between the true and estimated outcome. RSE can be preferred over MSE as it has the same units as the outcome $Y_i$. The RSE should be evaluated on the test data set. |      
+| F statistic |   | A statistical test with the null hypothesis that ... A metric describing the properties of the trained model. |  
+| Multiple $r^2$ | A metric describing the properties of the trained model.  |  ... |    
+| Adjusted $r^2$ | A metric describing the properties of the trained model.  |  ... |   
 
 We can examine the model metrics of our model using the `tidy()` function
 

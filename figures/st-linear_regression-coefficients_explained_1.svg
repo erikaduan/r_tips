@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="1280"
+   height="660"
+   overflow="hidden"
+   version="1.1"
+   id="svg377"
+   sodipodi:docname="st-linear_regression-coefficients_explained_1.svg"
+   inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview379"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.92709556"
+     inkscape:cx="663.36204"
+     inkscape:cy="283.68165"
+     inkscape:window-width="2560"
+     inkscape:window-height="1494"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg377" />
+  <defs
+     id="defs5">
+    <clipPath
+       id="clip0">
+      <rect
+         x="0"
+         y="0"
+         width="1280"
+         height="720"
+         id="rect2" />
+    </clipPath>
+  </defs>
+  <g
+     clip-path="url(#clip0)"
+     id="g375"
+     transform="translate(0,-16)">
+    <rect
+       x="0"
+       y="0"
+       width="1280"
+       height="720"
+       fill="#ffffff"
+       id="rect7" />
+    <path
+       d="M 99,278.425 C 99,272.668 103.668,268 109.425,268 H 1153.57 c 5.76,0 10.43,4.668 10.43,10.425 v 341.15 c 0,5.757 -4.67,10.425 -10.43,10.425 H 109.425 C 103.668,630 99,625.332 99,619.575 Z"
+       fill="#dceaf7"
+       fill-rule="evenodd"
+       id="path9" />
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(131.752,411)"
+       id="text11">When</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(195.252,411)"
+       id="text13">𝑖𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(214.578,411)"
+       id="text15" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(219.912,411)"
+       id="text17">𝑑𝑜𝑔</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(261.245,416)"
+       id="text19">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(273.672,411)"
+       id="text21">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(298.338,411)"
+       id="text23">1</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(311.672,411)"
+       id="text25">,</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(184.351,476)"
+       id="text27">𝑖𝑛𝑐𝑜𝑚𝑒</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(261.685,481)"
+       id="text29">𝑖</text>
+    <path
+       d="m 22.3477,-16.1719 20.9296,2.8946 -0.164,0.7382 -21.3164,-2.1211 H 21.457 L 0.199219,-12.5391 0,-13.2773 20.7773,-16.1719 Z"
+       transform="translate(203.878,472)"
+       id="path31" />
+    <text
+       fill="#000000"
+       fill-opacity="0"
+       font-family="Arial, Arial_MSFontService, sans-serif"
+       font-size="3.63281px"
+       y="-12.9932"
+       id="text33">෣</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(274.111,476)"
+       id="text35">=</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(296.945,476)"
+       id="text37">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(309.945,481)"
+       id="text39">0</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(324.111,476)"
+       id="text41">+</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(347.445,476)"
+       id="text43">𝒃</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(361.945,481)"
+       id="text45">𝟏</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(376.778,476)"
+       id="text47">+</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(399.611,476)"
+       id="text49">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(412.611,481)"
+       id="text51">3</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(421.445,486)"
+       id="text53" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(424.945,476)"
+       id="text55">𝑝ℎ𝑜𝑡𝑜𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(498.438,476)"
+       id="text57" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(503.771,476)"
+       id="text59">𝑝𝑒𝑟</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(540.798,476)"
+       id="text61" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(546.131,476)"
+       id="text63">𝑚𝑜𝑛𝑡ℎ</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(615.798,481)"
+       id="text65">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(626.891,476)"
+       id="text67">+</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(650.225,476)"
+       id="text69">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(663.225,481)"
+       id="text71">4</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(672.058,486)"
+       id="text73" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(675.558,476)"
+       id="text75">𝑣𝑖𝑑𝑒𝑜𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(746.385,476)"
+       id="text77" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(751.718,476)"
+       id="text79">𝑝𝑒𝑟</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(788.745,476)"
+       id="text81" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(794.078,476)"
+       id="text83">𝑚𝑜𝑛𝑡ℎ</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(863.745,481)"
+       id="text85">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(204.579,442)"
+       id="text87">𝑖𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(223.906,442)"
+       id="text89" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(229.239,442)"
+       id="text91">𝑐𝑎𝑡</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(263.073,447)"
+       id="text93">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(273.666,442)"
+       id="text95">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(298.333,442)"
+       id="text97">0</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(131.752,307)"
+       id="text99">When</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(195.252,307)"
+       id="text101">𝑖𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(214.578,307)"
+       id="text103" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(219.912,307)"
+       id="text105">𝑑𝑜𝑔</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(261.245,312)"
+       id="text107">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(273.672,307)"
+       id="text109">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(298.338,307)"
+       id="text111">0</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(317.172,307)"
+       id="text113">and</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(359.505,307)"
+       id="text115">𝑖𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(378.832,307)"
+       id="text117" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(384.165,307)"
+       id="text119">𝑐𝑎𝑡</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(417.998,312)"
+       id="text121">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(428.592,307)"
+       id="text123">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(453.258,307)"
+       id="text125">0</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(466.592,307)"
+       id="text127">,</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(184.351,343)"
+       id="text129">𝑖𝑛𝑐𝑜𝑚𝑒</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(261.685,348)"
+       id="text131">𝑖</text>
+    <path
+       d="m 22.3477,-16.1719 20.9296,2.8946 -0.164,0.7382 -21.3164,-2.1211 H 21.457 L 0.199219,-12.5391 0,-13.2773 20.7773,-16.1719 Z"
+       transform="translate(203.878,338)"
+       id="path133" />
+    <text
+       fill="#000000"
+       fill-opacity="0"
+       font-family="Arial, Arial_MSFontService, sans-serif"
+       font-size="3.63281px"
+       y="-12.9932"
+       id="text135">෣</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(274.111,343)"
+       id="text137">=</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(296.945,343)"
+       id="text139">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(309.945,348)"
+       id="text141">0</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(324.111,343)"
+       id="text143">+</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(346.945,343)"
+       id="text145">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(359.945,348)"
+       id="text147">3</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(368.778,353)"
+       id="text149" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(372.278,343)"
+       id="text151">𝑝ℎ𝑜𝑡𝑜𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(445.771,343)"
+       id="text153" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(451.105,343)"
+       id="text155">𝑝𝑒𝑟</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(488.131,343)"
+       id="text157" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(493.465,343)"
+       id="text159">𝑚𝑜𝑛𝑡ℎ</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(563.131,348)"
+       id="text161">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(574.225,343)"
+       id="text163">+</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(597.558,343)"
+       id="text165">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(610.558,348)"
+       id="text167">4</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(619.391,353)"
+       id="text169" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(622.891,343)"
+       id="text171">𝑣𝑖𝑑𝑒𝑜𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(693.718,343)"
+       id="text173" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(699.051,343)"
+       id="text175">𝑝𝑒𝑟</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(736.078,343)"
+       id="text177" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(741.411,343)"
+       id="text179">𝑚𝑜𝑛𝑡ℎ</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(811.078,348)"
+       id="text181">𝑖</text>
+    <path
+       d="m 99,234.667 c 0,-3.682 2.985,-6.667 6.667,-6.667 h 262.666 c 3.682,0 6.667,2.985 6.667,6.667 v 26.666 c 0,3.682 -2.985,6.667 -6.667,6.667 H 105.667 C 101.985,268 99,265.015 99,261.333 Z"
+       fill="#156082"
+       fill-rule="evenodd"
+       id="path183" />
+    <text
+       fill="#ffffff"
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(121.207,256)"
+       id="text185">Meaning of</text>
+    <text
+       fill="#ffffff"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(238.373,256)"
+       id="text187">𝑏</text>
+    <text
+       fill="#ffffff"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(251.373,261)"
+       id="text189">1</text>
+    <text
+       fill="#ffffff"
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(265.707,256)"
+       id="text191">versus</text>
+    <text
+       fill="#ffffff"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(333.06,256)"
+       id="text193">𝑏</text>
+    <text
+       fill="#ffffff"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(346.06,261)"
+       id="text195">2</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(139.696,534)"
+       id="text197">When</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(203.196,534)"
+       id="text199">𝑖𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(222.523,534)"
+       id="text201" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(227.856,534)"
+       id="text203">𝑐𝑎𝑡</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(261.69,539)"
+       id="text205">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(274.116,534)"
+       id="text207">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(298.783,534)"
+       id="text209">1</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(312.116,534)"
+       id="text211">,</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(184.351,601)"
+       id="text213">𝑖𝑛𝑐𝑜𝑚𝑒</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(261.685,606)"
+       id="text215">𝑖</text>
+    <path
+       d="m 22.3477,-16.1719 20.9296,2.8946 -0.164,0.7382 -21.3164,-2.1211 H 21.457 L 0.199219,-12.5391 0,-13.2773 20.7773,-16.1719 Z"
+       transform="translate(203.878,597)"
+       id="path217" />
+    <text
+       fill="#000000"
+       fill-opacity="0"
+       font-family="Arial, Arial_MSFontService, sans-serif"
+       font-size="3.63281px"
+       y="-12.9932"
+       id="text219">෣</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(274.111,601)"
+       id="text221">=</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(296.945,601)"
+       id="text223">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(309.945,606)"
+       id="text225">0</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(324.111,601)"
+       id="text227">+</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(347.445,601)"
+       id="text229">𝒃</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(361.945,606)"
+       id="text231">𝟐</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(376.778,601)"
+       id="text233">+</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(399.611,601)"
+       id="text235">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(412.611,606)"
+       id="text237">3</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(421.445,611)"
+       id="text239" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(424.945,601)"
+       id="text241">𝑝ℎ𝑜𝑡𝑜𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(498.438,601)"
+       id="text243" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(503.771,601)"
+       id="text245">𝑝𝑒𝑟</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(540.798,601)"
+       id="text247" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(546.131,601)"
+       id="text249">𝑚𝑜𝑛𝑡ℎ</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(615.798,606)"
+       id="text251">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(626.891,601)"
+       id="text253">+</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(650.225,601)"
+       id="text255">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(663.225,606)"
+       id="text257">4</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(672.058,611)"
+       id="text259" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(675.558,601)"
+       id="text261">𝑣𝑖𝑑𝑒𝑜𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(746.385,601)"
+       id="text263" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(751.718,601)"
+       id="text265">𝑝𝑒𝑟</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(788.745,601)"
+       id="text267" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(794.078,601)"
+       id="text269">𝑚𝑜𝑛𝑡ℎ</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(863.745,606)"
+       id="text271">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(197.924,565)"
+       id="text273">𝑖𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(217.25,565)"
+       id="text275" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(222.584,565)"
+       id="text277">𝑑𝑜𝑔</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(263.917,570)"
+       id="text279">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(274.51,565)"
+       id="text281">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(299.177,565)"
+       id="text283">0</text>
+    <path
+       d="M 99,95.073 C 99,90.0621 103.062,86 108.073,86 H 1154.93 c 5.01,0 9.07,4.0621 9.07,9.073 v 90.854 c 0,5.011 -4.06,9.073 -9.07,9.073 H 108.073 C 103.062,195 99,190.938 99,185.927 Z"
+       fill="#dceaf7"
+       fill-rule="evenodd"
+       id="path285" />
+    <path
+       d="M 99,51.8333 C 99,48.0594 102.059,45 105.833,45 h 262.334 c 3.774,0 6.833,3.0594 6.833,6.8333 V 79.1667 C 375,82.9406 371.941,86 368.167,86 H 105.833 C 102.059,86 99,82.9406 99,79.1667 Z"
+       fill="#156082"
+       fill-rule="evenodd"
+       id="path287" />
+    <text
+       fill="#ffffff"
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(121.207,74)"
+       id="text289">Meaning of</text>
+    <text
+       fill="#ffffff"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(238.373,74)"
+       id="text291">𝑏</text>
+    <text
+       fill="#ffffff"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(251.373,79)"
+       id="text293">0</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(131.752,126)"
+       id="text295">When</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(195.252,126)"
+       id="text297">𝑖𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(214.578,126)"
+       id="text299" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(219.912,126)"
+       id="text301">𝑑𝑜𝑔</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(261.245,131)"
+       id="text303">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(273.672,126)"
+       id="text305">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(298.338,126)"
+       id="text307">0</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(311.672,126)"
+       id="text309">,</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(323.172,126)"
+       id="text311">𝑖𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(342.498,126)"
+       id="text313" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(347.832,126)"
+       id="text315">𝑐𝑎𝑡</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(381.665,131)"
+       id="text317">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(392.258,126)"
+       id="text319">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(416.925,126)"
+       id="text321">0</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(430.258,126)"
+       id="text323">,</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(441.758,126)"
+       id="text325">𝑝ℎ𝑜𝑡𝑜𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(515.252,126)"
+       id="text327" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(520.585,126)"
+       id="text329">𝑝𝑒𝑟</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(557.612,126)"
+       id="text331" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(562.945,126)"
+       id="text333">𝑚𝑜𝑛𝑡ℎ</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(632.612,131)"
+       id="text335">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(643.872,126)"
+       id="text337">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(668.538,126)"
+       id="text339">0</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(687.372,126)"
+       id="text341">and</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(729.705,126)"
+       id="text343">𝑣𝑖𝑑𝑒𝑜𝑠</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(800.532,126)"
+       id="text345" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(805.865,126)"
+       id="text347">𝑝𝑒𝑟</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(842.892,126)"
+       id="text349" />
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(848.225,126)"
+       id="text351">𝑚𝑜𝑛𝑡ℎ</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(917.892,131)"
+       id="text353">𝑖</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(930.318,126)"
+       id="text355">=</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(954.985,126)"
+       id="text357">0</text>
+    <text
+       font-family="Calibri, Calibri_MSFontService, sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(968.318,126)"
+       id="text359">,</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(184.351,167)"
+       id="text361">𝑖𝑛𝑐𝑜𝑚𝑒</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(261.685,172)"
+       id="text363">𝑖</text>
+    <path
+       d="m 22.3477,-16.1719 20.9296,2.8946 -0.164,0.7382 -21.3164,-2.1211 H 21.457 L 0.199219,-12.5391 0,-13.2773 20.7773,-16.1719 Z"
+       transform="translate(203.878,162)"
+       id="path365" />
+    <text
+       fill="#000000"
+       fill-opacity="0"
+       font-family="Arial, Arial_MSFontService, sans-serif"
+       font-size="3.63281px"
+       y="-12.9932"
+       id="text367">෣</text>
+    <text
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(274.111,167)"
+       id="text369">=</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="24px"
+       transform="translate(296.945,167)"
+       id="text371">𝑏</text>
+    <text
+       fill="#215f9a"
+       font-family="'Cambria Math', 'Cambria Math_MSFontService', sans-serif"
+       font-weight="400"
+       font-size="16px"
+       transform="translate(309.945,172)"
+       id="text373">0</text>
+  </g>
+</svg>
