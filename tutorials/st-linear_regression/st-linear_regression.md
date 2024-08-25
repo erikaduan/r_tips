@@ -1,7 +1,7 @@
 Build a linear regression model
 ================
 Erika Duan
-8/22/24
+8/25/24
 
 -   <a href="#why-linear-regression" id="toc-why-linear-regression">Why
     linear regression?</a>
@@ -13,10 +13,14 @@ Erika Duan
 -   <a href="#evaluate-a-linear-regression-model"
     id="toc-evaluate-a-linear-regression-model">Evaluate a linear regression
     model</a>
-    -   <a href="#mse" id="toc-mse">MSE</a>
-    -   <a href="#r2-and-adjusted-r2" id="toc-r2-and-adjusted-r2">r^2 and
-        adjusted r^2</a>
-    -   <a href="#residual-plots" id="toc-residual-plots">residual plots</a>
+    -   <a href="#interpreting-residual-plots"
+        id="toc-interpreting-residual-plots">Interpreting residual plots</a>
+-   <a href="#advantages-of-using-linear-regression"
+    id="toc-advantages-of-using-linear-regression">Advantages of using
+    linear regression</a>
+-   <a href="#disadvantages-of-using-linear-regression"
+    id="toc-disadvantages-of-using-linear-regression">Disadvantages of using
+    linear regression</a>
 -   <a href="#linear-regression-with-tidymodels"
     id="toc-linear-regression-with-tidymodels">Linear regression with
     <code>tidymodels</code></a>
@@ -299,15 +303,15 @@ respectively.
 ![](../../figures/st-linear_regression-tutorial_model_structure.svg) The
 model coefficients
 ![b_0, \cdots, b_4](https://latex.codecogs.com/svg.latex?b_0%2C%20%5Ccdots%2C%20b_4 "b_0, \cdots, b_4")
-directly contribute to the interpretation of how our model predicts mean
-monthly pet influencer income.
+also explain exactly how our model predicts the mean monthly pet
+influencer income.
 
 ![](../../figures/st-linear_regression-coefficients_explained_1.svg)
 
 ![](../../figures/st-linear_regression-coefficients_explained_2.svg)
 
-Let us examine our model coefficients. We can output them into a tabular
-format using the `tidy()` function from the
+Let us examine our `mlr_model` coefficients. We can output them into a
+tabular format using the `tidy()` function from the
 [`broom`](https://cran.r-project.org/web/packages/broom/vignettes/broom.html)
 package.
 
@@ -336,8 +340,8 @@ following associations exist, provided that our modelling assumptions
 are reasonable:
 
 -   A monthly baseline income of \~21.5 dollars exists. A pet influencer
-    who posts 0 photos and videos and is not a dog earns an average of
-    \~21.5 dollars per month.  
+    who posts 0 photos and videos where the pet is not a dog or a cat
+    earns an average of \~21.5 dollars per month.  
 -   If the pet is a dog, the monthly income additionally increases by
     \~58.9 dollars.  
 -   There is no additional monthly income increase if the pet is a
@@ -419,22 +423,34 @@ A linear regression model outputs several metrics and plots which are
 useful for model evaluation. A summary of the key model evaluation
 metrics are below.
 
-| Metric                                                            | Mathematical form                                                                                                                                                                                                                                        |
-|:------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Residual mean square (MSE)                                        | ![\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}](https://latex.codecogs.com/svg.latex?%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-2%7D "\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}")                            |
-| Residual standard error (RSE)                                     | ![\sqrt{\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}}](https://latex.codecogs.com/svg.latex?%5Csqrt%7B%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-2%7D%7D "\sqrt{\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-2}}") |
-| F statistic                                                       |                                                                                                                                                                                                                                                          |
-| Multiple ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | A metric describing the properties of the trained model.                                                                                                                                                                                                 |
-| Adjusted ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | A metric describing the properties of the trained model.                                                                                                                                                                                                 |
+| Metric                                                            | Mathematical form                                                                                                                                                                                                                                                                                                                                                                                                                         |
+|:------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Residual mean square (MSE)                                        | ![\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}](https://latex.codecogs.com/svg.latex?%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-p%7D "\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}")                                                                                                                                                                                                             |
+| Residual standard error (RSE)                                     | ![\sqrt{\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}}](https://latex.codecogs.com/svg.latex?%5Csqrt%7B%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-p%7D%7D "\sqrt{\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}}")                                                                                                                                                                                  |
+| F statistic                                                       | ![\frac{MSR}{MSE} \sim F(p-1, n-p)](https://latex.codecogs.com/svg.latex?%5Cfrac%7BMSR%7D%7BMSE%7D%20%5Csim%20F%28p-1%2C%20n-p%29 "\frac{MSR}{MSE} \sim F(p-1, n-p)") where ![MSR = \frac{\sum\_{i=1}^n (\hat{Y_i} - \bar Y)^2}{p-1}](https://latex.codecogs.com/svg.latex?MSR%20%3D%20%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28%5Chat%7BY_i%7D%20-%20%5Cbar%20Y%29%5E2%7D%7Bp-1%7D "MSR = \frac{\sum_{i=1}^n (\hat{Y_i} - \bar Y)^2}{p-1}") |
+| Multiple ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | A metric describing the properties of the trained model.                                                                                                                                                                                                                                                                                                                                                                                  |
+| Adjusted ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | A metric describing the properties of the trained model.                                                                                                                                                                                                                                                                                                                                                                                  |
 
 We can examine the model metrics of our model using the `tidy()`
 function
 
-## MSE
+``` r
+# Output trained model evaluation metrics as a tidy table ----------------------
+# Sigma is equivalent to the residual standard error (RSE) printed by summary()
+glance(mlr_model)
+```
 
-## r^2 and adjusted r^2
+    # A tibble: 1 x 12
+      r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
+          <dbl>         <dbl> <dbl>     <dbl>   <dbl> <dbl>  <dbl> <dbl> <dbl>
+    1     0.988         0.987  4.85     7341.       0     4 -1122. 2255. 2279.
+    # i 3 more variables: deviance <dbl>, df.residual <int>, nobs <int>
 
-## residual plots
+## Interpreting residual plots
+
+# Advantages of using linear regression
+
+# Disadvantages of using linear regression
 
 # Linear regression with `tidymodels`
 
