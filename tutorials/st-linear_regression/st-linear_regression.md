@@ -1,7 +1,7 @@
 Build a linear regression model
 ================
 Erika Duan
-8/25/24
+8/26/24
 
 -   <a href="#why-linear-regression" id="toc-why-linear-regression">Why
     linear regression?</a>
@@ -423,16 +423,28 @@ A linear regression model outputs several metrics and plots which are
 useful for model evaluation. A summary of the key model evaluation
 metrics are below.
 
+**Note:** ![p](https://latex.codecogs.com/svg.latex?p "p") represents
+the number of independent variables in the model and
+![n](https://latex.codecogs.com/svg.latex?n "n") represents the number
+of observations in the data set used to train the model.
+
 | Metric                                                            | Mathematical form                                                                                                                                                                                                                                                                                                                                                                                                                         |
 |:------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Residual mean square (MSE)                                        | ![\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}](https://latex.codecogs.com/svg.latex?%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-p%7D "\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}")                                                                                                                                                                                                             |
 | Residual standard error (RSE)                                     | ![\sqrt{\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}}](https://latex.codecogs.com/svg.latex?%5Csqrt%7B%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-p%7D%7D "\sqrt{\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}}")                                                                                                                                                                                  |
 | F statistic                                                       | ![\frac{MSR}{MSE} \sim F(p-1, n-p)](https://latex.codecogs.com/svg.latex?%5Cfrac%7BMSR%7D%7BMSE%7D%20%5Csim%20F%28p-1%2C%20n-p%29 "\frac{MSR}{MSE} \sim F(p-1, n-p)") where ![MSR = \frac{\sum\_{i=1}^n (\hat{Y_i} - \bar Y)^2}{p-1}](https://latex.codecogs.com/svg.latex?MSR%20%3D%20%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28%5Chat%7BY_i%7D%20-%20%5Cbar%20Y%29%5E2%7D%7Bp-1%7D "MSR = \frac{\sum_{i=1}^n (\hat{Y_i} - \bar Y)^2}{p-1}") |
-| Multiple ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | A metric describing the properties of the trained model.                                                                                                                                                                                                                                                                                                                                                                                  |
-| Adjusted ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | A metric describing the properties of the trained model.                                                                                                                                                                                                                                                                                                                                                                                  |
+| Multiple ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | ![1 - \frac{SSE}{SSTO}](https://latex.codecogs.com/svg.latex?1%20-%20%5Cfrac%7BSSE%7D%7BSSTO%7D "1 - \frac{SSE}{SSTO}") where \$ SSE = \_{i=1}^n (Y_i - Y_i)^2\$ and ![SSTO = \sum\_{i=1}^n (Y_i - \bar Y)^2](https://latex.codecogs.com/svg.latex?SSTO%20%3D%20%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Cbar%20Y%29%5E2 "SSTO = \sum_{i=1}^n (Y_i - \bar Y)^2")                                                                           |
+| Adjusted ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | ![1 - \frac{n-1}{n-p}\frac{SSE}{SSTO}](https://latex.codecogs.com/svg.latex?1%20-%20%5Cfrac%7Bn-1%7D%7Bn-p%7D%5Cfrac%7BSSE%7D%7BSSTO%7D "1 - \frac{n-1}{n-p}\frac{SSE}{SSTO}")                                                                                                                                                                                                                                                            |
 
-We can examine the model metrics of our model using the `tidy()`
-function
+To explain how the multiple and adjusted
+![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") are derived, it
+is easiest to visualise the SSE, SSR and SSTO in a simple linear
+regression model.
+
+<Include new diagram>
+
+We can also output the model metrics of our model into a tabular format
+using the `tidy()` function.
 
 ``` r
 # Output trained model evaluation metrics as a tidy table ----------------------
