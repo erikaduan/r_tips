@@ -1,7 +1,7 @@
 Build a linear regression model
 ================
 Erika Duan
-8/26/24
+8/29/24
 
 -   <a href="#why-linear-regression" id="toc-why-linear-regression">Why
     linear regression?</a>
@@ -271,6 +271,8 @@ parameters. The point estimates for
 slightly different depending on which observations are present in the
 training data set.
 
+<Add tiny section on model optimisation in SLR and MLR>
+
 In this tutorial, we hypothesised that our multiple regression model had
 the form `lm(income ~ is_dog + is_cat + photos + videos)`. This means
 that we think that the mean monthly pet influencer income is the sum of:
@@ -421,34 +423,63 @@ evaluate our model, we need to examine different metrics.
 
 A linear regression model outputs several metrics and plots which are
 useful for model evaluation. A summary of the key model evaluation
-metrics are below.
+metrics are below. Note that
+![p](https://latex.codecogs.com/svg.latex?p "p") represents the number
+of independent variables in a model and
+![n](https://latex.codecogs.com/svg.latex?n "n") represents the total
+number of observations in the training data set.
 
-**Note:** ![p](https://latex.codecogs.com/svg.latex?p "p") represents
-the number of independent variables in the model and
-![n](https://latex.codecogs.com/svg.latex?n "n") represents the number
-of observations in the data set used to train the model.
+| Metric                                                            | Mathematical form                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|:------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Residual mean square (MSE)                                        | ![\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}](https://latex.codecogs.com/svg.latex?%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-p%7D "\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}")                                                                                                                                                                                                                                                                                              | A metric to evaluate the magnitude of the error between the true versus estimated outcome. In linear regression, MSE is specifically the point estimator for ![Var(\epsilon_i)](https://latex.codecogs.com/svg.latex?Var%28%5Cepsilon_i%29 "Var(\epsilon_i)") assuming that ![\epsilon_i](https://latex.codecogs.com/svg.latex?%5Cepsilon_i "\epsilon_i") is normally distributed. The MSE should be evaluated on the test data set.                                                                                                                                  |
+| Residual standard error (RSE)                                     | ![\sqrt{\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}}](https://latex.codecogs.com/svg.latex?%5Csqrt%7B%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-p%7D%7D "\sqrt{\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}}")                                                                                                                                                                                                                                                                   | Another metric to evaluate the magnitude of the error between the true versus estimated outcome. The RSE is preferred over MSE as it has the same units as the outcome of interest. The RSE should be evaluated on the test data set.                                                                                                                                                                                                                                                                                                                                 |
+| F statistic                                                       | ![\frac{MSR}{MSE} \sim F(p-1, n-p)](https://latex.codecogs.com/svg.latex?%5Cfrac%7BMSR%7D%7BMSE%7D%20%5Csim%20F%28p-1%2C%20n-p%29 "\frac{MSR}{MSE} \sim F(p-1, n-p)") where ![MSR = \frac{\sum\_{i=1}^n (\hat{Y_i} - \bar Y)^2}{p-1}](https://latex.codecogs.com/svg.latex?MSR%20%3D%20%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28%5Chat%7BY_i%7D%20-%20%5Cbar%20Y%29%5E2%7D%7Bp-1%7D "MSR = \frac{\sum_{i=1}^n (\hat{Y_i} - \bar Y)^2}{p-1}")                                                                                  | A statistical test with a null hypothesis that all model coefficients are zero and an alternate hypothesis that at least one model coefficient is not zero. This metric describes a statistical property of the trained model and is otherwise not very useful for model evaluation or interpretation.                                                                                                                                                                                                                                                                |
+| Multiple ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | ![1 - \frac{SSE}{SSTO}](https://latex.codecogs.com/svg.latex?1%20-%20%5Cfrac%7BSSE%7D%7BSSTO%7D "1 - \frac{SSE}{SSTO}") where ![SSE = \sum\_{i=1}^n (Y_i - \hat Y_i)^2](https://latex.codecogs.com/svg.latex?SSE%20%3D%20%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20Y_i%29%5E2 "SSE = \sum_{i=1}^n (Y_i - \hat Y_i)^2") and ![SSTO = \sum\_{i=1}^n (Y_i - \bar Y)^2](https://latex.codecogs.com/svg.latex?SSTO%20%3D%20%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Cbar%20Y%29%5E2 "SSTO = \sum_{i=1}^n (Y_i - \bar Y)^2") | This metric calculates the proportion of total variation in the outcome that is associated with the independent variables in the training model. When a model perfectly predicts all observations in the training data set, ![r^2 = 1](https://latex.codecogs.com/svg.latex?r%5E2%20%3D%201 "r^2 = 1"). This metric is a property of the trained model.                                                                                                                                                                                                               |
+| Adjusted ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | ![1 - \frac{n-1}{n-p}\frac{SSE}{SSTO}](https://latex.codecogs.com/svg.latex?1%20-%20%5Cfrac%7Bn-1%7D%7Bn-p%7D%5Cfrac%7BSSE%7D%7BSSTO%7D "1 - \frac{n-1}{n-p}\frac{SSE}{SSTO}")                                                                                                                                                                                                                                                                                                                                             | The SSE always decreases with the additional of another independent variable so optimising for the highest multiple ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") in the trained model is misleading. The adjusted ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") penalises having more independent variables as ![\frac{n-1}{n-p}](https://latex.codecogs.com/svg.latex?%5Cfrac%7Bn-1%7D%7Bn-p%7D "\frac{n-1}{n-p}") increases when ![p](https://latex.codecogs.com/svg.latex?p "p") increases. This metric is a property of the trained model. |
+| AIC                                                               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| BIC                                                               |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
-| Metric                                                            | Mathematical form                                                                                                                                                                                                                                                                                                                                                                                                                         |
-|:------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Residual mean square (MSE)                                        | ![\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}](https://latex.codecogs.com/svg.latex?%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-p%7D "\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}")                                                                                                                                                                                                             |
-| Residual standard error (RSE)                                     | ![\sqrt{\frac{\sum\_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}}](https://latex.codecogs.com/svg.latex?%5Csqrt%7B%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Chat%20%7BY_i%7D%29%5E2%7D%7Bn-p%7D%7D "\sqrt{\frac{\sum_{i=1}^n (Y_i - \hat {Y_i})^2}{n-p}}")                                                                                                                                                                                  |
-| F statistic                                                       | ![\frac{MSR}{MSE} \sim F(p-1, n-p)](https://latex.codecogs.com/svg.latex?%5Cfrac%7BMSR%7D%7BMSE%7D%20%5Csim%20F%28p-1%2C%20n-p%29 "\frac{MSR}{MSE} \sim F(p-1, n-p)") where ![MSR = \frac{\sum\_{i=1}^n (\hat{Y_i} - \bar Y)^2}{p-1}](https://latex.codecogs.com/svg.latex?MSR%20%3D%20%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5En%20%28%5Chat%7BY_i%7D%20-%20%5Cbar%20Y%29%5E2%7D%7Bp-1%7D "MSR = \frac{\sum_{i=1}^n (\hat{Y_i} - \bar Y)^2}{p-1}") |
-| Multiple ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | ![1 - \frac{SSE}{SSTO}](https://latex.codecogs.com/svg.latex?1%20-%20%5Cfrac%7BSSE%7D%7BSSTO%7D "1 - \frac{SSE}{SSTO}") where \$ SSE = \_{i=1}^n (Y_i - Y_i)^2\$ and ![SSTO = \sum\_{i=1}^n (Y_i - \bar Y)^2](https://latex.codecogs.com/svg.latex?SSTO%20%3D%20%5Csum_%7Bi%3D1%7D%5En%20%28Y_i%20-%20%5Cbar%20Y%29%5E2 "SSTO = \sum_{i=1}^n (Y_i - \bar Y)^2")                                                                           |
-| Adjusted ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") | ![1 - \frac{n-1}{n-p}\frac{SSE}{SSTO}](https://latex.codecogs.com/svg.latex?1%20-%20%5Cfrac%7Bn-1%7D%7Bn-p%7D%5Cfrac%7BSSE%7D%7BSSTO%7D "1 - \frac{n-1}{n-p}\frac{SSE}{SSTO}")                                                                                                                                                                                                                                                            |
-
-To explain how the multiple and adjusted
-![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") are derived, it
-is easiest to visualise the SSE, SSR and SSTO in a simple linear
+To examine how the multiple and adjusted
+![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") are calculated,
+we can visualise the residual sum of squares (SSE), regression sum of
+squares (SSR) and total sum of squares (SSTO) in a simple linear
 regression model.
 
-<Include new diagram>
+![](../../figures/st-linear_regression-ssr_sse_ssto.gif)
 
-We can also output the model metrics of our model into a tabular format
-using the `tidy()` function.
+When a linear regression model is a good fit, the SSE and
+![\tfrac{SSE}{SSTO}](https://latex.codecogs.com/svg.latex?%5Ctfrac%7BSSE%7D%7BSSTO%7D "\tfrac{SSE}{SSTO}")
+are small values. As
+![SSTO = SSE + SSR](https://latex.codecogs.com/svg.latex?SSTO%20%3D%20SSE%20%2B%20SSR "SSTO = SSE + SSR"),
+![\tfrac{SSE}{SSTO} \leq 1](https://latex.codecogs.com/svg.latex?%5Ctfrac%7BSSE%7D%7BSSTO%7D%20%5Cleq%201 "\tfrac{SSE}{SSTO} \leq 1").
+As
+![r^2 = 1 - \tfrac{SSE}{SSTO}](https://latex.codecogs.com/svg.latex?r%5E2%20%3D%201%20-%20%5Ctfrac%7BSSE%7D%7BSSTO%7D "r^2 = 1 - \tfrac{SSE}{SSTO}"),
+![0 \leq r^2 \leq 1](https://latex.codecogs.com/svg.latex?0%20%5Cleq%20r%5E2%20%5Cleq%201 "0 \leq r^2 \leq 1")
+and ![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") is close to
+1 when
+![\tfrac{SSE}{SSTO}](https://latex.codecogs.com/svg.latex?%5Ctfrac%7BSSE%7D%7BSSTO%7D "\tfrac{SSE}{SSTO}")
+is very small. A model with a high
+![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") therefore
+accounts for a high proportion of total variation in
+![Y_i](https://latex.codecogs.com/svg.latex?Y_i "Y_i") and may be a
+highly predictive model.
+
+Although the multiple
+![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") of a model has
+been used by some to choose the best statistical model, this practice is
+not recommended as it can lead to model overfitting. The multiple
+![r^2](https://latex.codecogs.com/svg.latex?r%5E2 "r^2") describes a
+property of the trained model and not the evaluation of the test data
+set.
+
+To test this, we can output the model metrics of our trained model into
+a tabular format using the `tidy()` function.
 
 ``` r
 # Output trained model evaluation metrics as a tidy table ----------------------
-# Sigma is equivalent to the residual standard error (RSE) printed by summary()
+# sigma is equivalent to the residual standard error (RSE) printed by summary()
+# p-value is equivalent to the p-value of the F-statistic printed by summary()
+
 glance(mlr_model)
 ```
 
