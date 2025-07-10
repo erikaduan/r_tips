@@ -1,14 +1,15 @@
-# Positron IDE setup
+How to set up a Positron IDE
+================
 Erika Duan
-Invalid Date
+2025-07-10
 
 - [Integrated Development
   Environments](#integrated-development-environments)
 - [Choosing Positron as an IDE](#choosing-positron-as-an-ide)
 - [Positron Windows setup](#positron-windows-setup)
-- [Linting using `air`](#linting-using-air)
 - [Positron versus RStudio usage
   differences](#positron-versus-rstudio-usage-differences)
+  - [File organisation](#file-organisation)
 - [Access to GitHub co-pilot and other LLM
   tools](#access-to-github-co-pilot-and-other-llm-tools)
 - [Other resources](#other-resources)
@@ -25,40 +26,44 @@ for different languages:
   proprietary variation of [JupyterLabs](https://jupyter.org/).  
 - Programmers switching between R, Python, Julia or other programming
   languages tend to use [Visual Studio
-  Code](https://code.visualstudio.com/).
+  Code](https://code.visualstudio.com/) (VS Code).
 
-The RStudio IDE is thoughtfully designed to support data exploration and
-R code development. If you mostly program in R, I recommend staying with
-the [RStudio IDE](https://posit.co/download/rstudio-desktop/) and
-skipping this tutorial.
+The RStudio IDE is already thoughtfully designed to support data
+exploration and R code development. If you mostly program in R, I
+recommend staying with the [RStudio
+IDE](https://posit.co/download/rstudio-desktop/) and skipping this
+tutorial.
 
 # Choosing Positron as an IDE
 
 If you are a data scientist who loves R programming (and the RStudio
-experience) but more frequently programs in Python or Julia, then
-[Positron](https://positron.posit.co/start.html) may be an appealing IDE
-compared to [Visual Studio Code](https://code.visualstudio.com/).
+experience) but frequently codes in Python or Julia, then
+[Positron](https://positron.posit.co/start.html) may be an appealing
+IDE.
 
 The core features of Positron are:
 
 - It is built on the [open source
-  version](https://github.com/microsoft/vscode) of Visual Studio Code
-  (so it aesthetically resembles Visual Studio Code).  
+  version](https://github.com/microsoft/vscode) of VS Code (so it
+  aesthetically resembles VS Code).  
 
-- It also supports Visual Studio extensions. As Microsoft does not
-  permit access to Visual Studio Marketplace for non-Microsoft Visual
-  Studio builds, Positron’s Visual Studio extensions are hosted by [Open
+- It also supports most VS Code extensions. As Microsoft does not permit
+  access to Visual Studio Marketplace for non-Microsoft Visual Studio
+  builds, Positron’s Visual Studio extensions are hosted by [Open
   VSX](https://open-vsx.org/).  
 
-- Provides ***variables*** and ***plots*** panes for each R session, and
-  ***connections*** and ***help*** panes similar to RStudio.  
+- It provides a customisable IDE layout that is more suited for data
+  exploration, with ***Variables*** and ***Plots*** panes for each R
+  session, and ***Connections*** and ***Help*** panes similar to
+  RStudio.  
 
-- Provides an R console directly beneath R scripts and notebooks similar
-  to RStudio.  
+- It provides an [R kernel](https://github.com/posit-dev/ark) for
+  Jupyter applications. This allows the IDE to provide a separate R
+  console beneath R scripts and notebooks (something which JupyterLabs
+  and VS Code lack for R programming).  
 
-- Provides IDE layout customisation such as the original 4 panel RStudio
-  layout (with 1. script, 2. console, 3. environment and 4.
-  plots/help/viewer panes).
+- It retains the features of VS Code that support programming in other
+  languages.
 
   ![](../../figures/s-positron_setup-4_panel_layout.png)
 
@@ -76,31 +81,73 @@ These are listed in the Migrating from RStudio to Positron walkthrough.
     keybindings](https://positron.posit.co/rstudio-keybindings.html) by
     navigating to ***File*** \> ***Preferences*** \> ***Settings***,
     searching for `workbench.keybindings.rstudioKeybindings` and
-    clicking the ***enable*** checkbox. Restart Positron for the
+    clicking the ***Enable*** checkbox. Restart Positron for the
     settings to take effect.
 
     Examples of RStudio keybindings that I use are `Ctrl` + `Alt` + `I`
     to insert a new R markdown cell and `Ctrl` + `I` to re-indent
     selected code.
 
-3.  Opt-in to use `air`.
+3.  Opt-in to use the R code formatter
+    [`air`](https://www.tidyverse.org/blog/2025/02/air/), which
+    re-formats code inside `.R`, `.Rmd` and `.Qmd` files. The easiest
+    way to integrate `air` inside Positron is to enable it to format
+    code on save. Navigate to ***File*** \> ***Preferences*** \>
+    ***Settings***, search for `@lang:r editor.formatOnSave` and click
+    the ***Format a file on save*** checkbox.
 
-# Linting using `air`
+    ![](../../figures/s-positron_setup-air_demo.gif)  
+    The formatter `air` is used to:
 
-We recommend that you opt in to using Air to format every time you save
-a file; you’ll benefit from consistent formatting across your code,
-including adding final newlines and more.
-
-https://www.tidyverse.org/blog/2025/02/air/
+    - Automatically indent R code.  
+    - Splits long lines of code over multiple lines (with a default code
+      line width of 80 characters).  
+    - Standardises the white space around code elements.  
+    - Code formatting can be manually disabled by placing `# fmt: skip`
+      in front of an expression.
 
 # Positron versus RStudio usage differences
 
-https://positron.posit.co/rstudio-rproj-file.html
+## File organisation
+
+In RStudio, it is best practice to set up R projects by creating an
+`r_project_name.Rproj` file. This `.Rproj` file marks the project root
+folder and is used by the R package `here` to build relative file paths
+within a self-contained project. Double clicking on an `.Rproj` file
+also launches a new R session with the project directory set as the
+project root.
+
+[Positron does not support
+`.Rproj files`.](https://positron.posit.co/rstudio-rproj-file.html)
+Alternative practices can be used:
+
+- If using `here`, the project root folder is also identifiable from the
+  presence of the `.git/` folder. **Ensure that all your R projects use
+  Git for code version control.**  
+
+- In Positron, navigating to ***Explorer*** \> ***Open Folder*** will
+  open a directory and set it as the project root.
+
+- Use the
+  [`Project Manager`](https://open-vsx.org/extension/alefragnani/project-manager)
+  VS extension. In Project Manager, you can:
+
+  - Set up a list of projects by manually marking individual project
+    directories as favourites. You will need to first open a project by
+    navigating to ***Explorer*** \> ***Open Folder***. Then navigate to
+    the ***Project Manager*** tab and click on the ***Save*** icon to
+    save your currently open file directory as a new project. The
+    project will be added to a `projects.json` file.  
+  - ![](../../figures/s-positron_setup-vs_project_manager.png)
 
 # Access to GitHub co-pilot and other LLM tools
 
+``` r
+1 + 1
+```
+
 # Other resources
 
-- https://www.andrewheiss.com/blog/2025/07/05/positron-ssh-docker/  
-- https://www.andrewheiss.com/blog/2024/07/08/fun-with-positron/  
-- https://www.emilyriederer.com/post/py-rgo-2025/
+- <https://www.andrewheiss.com/blog/2025/07/05/positron-ssh-docker/>  
+- <https://www.andrewheiss.com/blog/2024/07/08/fun-with-positron/>  
+- <https://www.emilyriederer.com/post/py-rgo-2025/>

@@ -1,19 +1,15 @@
-  ---
-title: "Positron IDE setup"
-author: "Erika Duan"
-date: "`r Sys.Date()`"  
-
-execute:
-  echo: true
-  output: true
-  message: false
-  warning: false
-
-format:
-  gfm:
-    toc: true
-    html-math-method: webtex
 ---
+title: "How to set up a Positron IDE"
+author: Erika Duan
+date: "`r Sys.Date()`"
+output:
+  github_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, results="hide", message=FALSE, warning=FALSE)
+```
 
 
 # Integrated Development Environments  
