@@ -327,6 +327,8 @@ glance(mlr_model)
 
 # Other resources     
 
++ A [Arxiv preprint](https://arxiv.org/abs/2309.06668) on the uses and abuses of regression models by John Carlin and Margarita Moreno-Betancur.     
+
 + https://andrewproctor.github.io/rcourse/module5.html#regression_basics    
 + https://andrewproctor.github.io/rcourse/assets/module5.pdf   
 + https://www.andrew.cmu.edu/user/achoulde/94842/lectures/lecture09/lecture09-94842.html    

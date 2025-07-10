@@ -1,27 +1,27 @@
-# R programming tips  
+# R programming tips    
+
+## 💻 Set up  
++ [Positron IDE setup tips](./tutorials/s-positron_setup/s-positron_setup.md)   
  
 ## 🎨 Data visualisation  
-+ [An introduction to `ggplot2` using volcano plots](https://github.com/erikaduan/r_tips/blob/master/tutorials/dv-volcano_plots_with_ggplot/dv-volcano_plots_with_ggplot.md) (Updated)  
-+ [Using `DiagrammeR` to draw flow charts](https://github.com/erikaduan/r_tips/blob/master/tutorials/dv-using_diagrammer/dv-using_diagrammer.md) (Updated)  
++ [An introduction to `ggplot2` using volcano plots](./tutorials/dv-volcano_plots_with_ggplot/dv-volcano_plots_with_ggplot.md) (Updated)  
++ [Using `DiagrammeR` to draw flow charts](./tutorials/dv-using_diagrammer/dv-using_diagrammer.md) (Updated)  
 
 ## 📚 Data cleaning
-+ [Data cleaning using `data.table` or `tidyverse` (or Python `Pandas`)](https://github.com/erikaduan/r_tips/blob/master/tutorials/dc-data_table_vs_dplyr/dc-data_table_vs_dplyr.md) (Updated)    
-+ [Cleaning strings using regular expressions with base R or `stringr`](https://github.com/erikaduan/r_tips/blob/master/tutorials/dc-cleaning_strings/dc-cleaning_strings.md) (Updated)          
++ [Data cleaning using `data.table` or `tidyverse` (or Python `Pandas`)](./tutorials/dc-data_table_vs_dplyr/dc-data_table_vs_dplyr.md) (Updated)    
++ [Cleaning strings using regular expressions with base R or `stringr`](./tutorials/dc-cleaning_strings/dc-cleaning_strings.md) (Updated)          
 
 ## 🔨 Productionisation  
-+ [Creating SQL <> R workflows - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_1.md) (Updated)  
-+ [Creating SQL <> R workflows - Part 2](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_2.md) (Updated)  
-+ [Automating R Markdown report generation - Part 1](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-automating_rmd_reports/p-automating_rmd_reports_part_1.md) (Updated)  
-+ [Automating R Markdown report generation - Part 2](https://github.com/erikaduan/r_tips/blob/master/tutorials/p-automating_rmd_reports/p-automating_rmd_reports_part_2.md) (updated)   
++ [Creating SQL <> R workflows - Part 1](./tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_1.md) (Updated)  
++ [Creating SQL <> R workflows - Part 2](./tutorials/p-sql_to_r_workflows/p-sql_to_r_workflows_part_2.md) (Updated)  
++ [Automating R Markdown report generation - Part 1](./tutorials/p-automating_rmd_reports/p-automating_rmd_reports_part_1.md) (Updated)  
++ [Automating R Markdown report generation - Part 2](./tutorials/p-automating_rmd_reports/p-automating_rmd_reports_part_2.md) (updated)   
 
 ## 🔢 Statistical modelling   
-+ [Introduction to expectation and variance](https://github.com/erikaduan/r_tips/blob/master/tutorials/st-expectations_and_variance/st-expectation_and_variance.md)  
-+ [Beyond expectations: centrality measures in statistics](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-07-26_many-roads-to-the-middle/2020-07-26_many-roads-to-the-middle.md)  
-
++ TBC  
 
 ## 🔮 Machine learning   
-+ [Working with dummy variables and factors](https://github.com/erikaduan/r_tips/blob/master/tutorials/2020-04-23_dummy-variables-and-factors/2020-04-23_dummy-variables-and-factors.md) 
-
++ TBC  
 
 # Other resources 
 The resources below also cover a comprehensive range of practical R tutorials.  
@@ -65,7 +65,7 @@ Citing packages is a good practice when you are publishing research papers. To d
 
 Many kudos to [Dr Chuanxin Liu](https://github.com/codetrainee), my former PhD student and code editor, for teaching me how to code in R in my past life as an immunologist.   
 
-  <p align="center">  
+<p align="center">  
 <img src="https://github.com/erikaduan/r_tips/blob/master/figures/r_milestones.jpg"
 width="600"></center>  
 </p>  
