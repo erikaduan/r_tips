@@ -10,8 +10,6 @@ Erika Duan
 - [Positron versus RStudio usage
   differences](#positron-versus-rstudio-usage-differences)
   - [File organisation](#file-organisation)
-- [Access to GitHub co-pilot and other LLM
-  tools](#access-to-github-co-pilot-and-other-llm-tools)
 - [Other resources](#other-resources)
 
 # Integrated Development Environments
@@ -21,9 +19,11 @@ application that supports code development. Different IDEs are popular
 for different languages:
 
 - R programmers tend to use
-  [RStudio](https://posit.co/download/rstudio-desktop/).  
+  [RStudio](https://posit.co/download/rstudio-desktop/).
+
 - Cloud platform constrained Python programmers tend to use a
-  proprietary variation of [JupyterLabs](https://jupyter.org/).  
+  proprietary variation of [JupyterLabs](https://jupyter.org/).
+
 - Programmers switching between R, Python, Julia or other programming
   languages tend to use [Visual Studio
   Code](https://code.visualstudio.com/) (VS Code).
@@ -36,41 +36,40 @@ tutorial.
 
 # Choosing Positron as an IDE
 
-If you are a data scientist who loves R programming (and the RStudio
-experience) but frequently codes in Python or Julia, then
+If you are a data scientist who loves the RStudio experience but
+frequently codes in Python or Julia, then
 [Positron](https://positron.posit.co/start.html) may be an appealing
 IDE.
 
 The core features of Positron are:
 
-- It is built on the [open source
-  version](https://github.com/microsoft/vscode) of VS Code (so it
-  aesthetically resembles VS Code).  
-
-- It also supports most VS Code extensions. As Microsoft does not permit
-  access to Visual Studio Marketplace for non-Microsoft Visual Studio
-  builds, Positron’s Visual Studio extensions are hosted by [Open
-  VSX](https://open-vsx.org/).  
+- It provides an [R kernel](https://github.com/posit-dev/ark) for
+  Jupyter applications. This enables a separate R console beneath the R
+  scripts/notebooks panel (something which JupyterLabs and VS Code lack
+  for R programming).
 
 - It provides a customisable IDE layout that is more suited for data
   exploration, with ***Variables*** and ***Plots*** panes for each R
   session, and ***Connections*** and ***Help*** panes similar to
-  RStudio.  
-
-- It provides an [R kernel](https://github.com/posit-dev/ark) for
-  Jupyter applications. This allows the IDE to provide a separate R
-  console beneath R scripts and notebooks (something which JupyterLabs
-  and VS Code lack for R programming).  
-
-- It retains the features of VS Code that support programming in other
-  languages.
+  RStudio.
 
   ![](../../figures/s-positron_setup-4_panel_layout.png)
 
+- It is built on the [open source
+  version](https://github.com/microsoft/vscode) of VS Code, so it
+  aesthetically resembles VS Code and retains the appealing features of
+  VS Code for programming in other languages.
+
+- It supports most VS Code extensions. Microsoft does not permit access
+  to Visual Studio Marketplace for non-Microsoft Visual Studio builds,
+  so Positron’s Visual Studio extensions are hosted by [Open
+  VSX](https://open-vsx.org/).
+
 # Positron Windows setup
 
-My simple R-user-friendly Windows setup only involves several steps.
-These are listed in the Migrating from RStudio to Positron walkthrough.
+My simple Windows setup only involves several steps. These are all
+listed in the ***Migrating from RStudio to Positron*** walkthrough on
+the Positron Welcome page.
 
 1.  Download the [Positron IDE](https://positron.posit.co/download.html)
     onto your desktop.
@@ -96,7 +95,8 @@ These are listed in the Migrating from RStudio to Positron walkthrough.
     ***Settings***, search for `@lang:r editor.formatOnSave` and click
     the ***Format a file on save*** checkbox.
 
-    ![](../../figures/s-positron_setup-air_demo.gif)  
+    ![](../../figures/s-positron_setup-air_demo.gif)
+
     The formatter `air` is used to:
 
     - Automatically indent R code.  
@@ -118,8 +118,8 @@ also launches a new R session with the project directory set as the
 project root.
 
 [Positron does not support
-`.Rproj files`.](https://positron.posit.co/rstudio-rproj-file.html)
-Alternative practices can be used:
+`.Rproj files`](https://positron.posit.co/rstudio-rproj-file.html) and
+alternative practices are required.
 
 - If using `here`, the project root folder is also identifiable from the
   presence of the `.git/` folder. **Ensure that all your R projects use
@@ -130,21 +130,27 @@ Alternative practices can be used:
 
 - Use the
   [`Project Manager`](https://open-vsx.org/extension/alefragnani/project-manager)
-  VS extension. In Project Manager, you can:
+  VS extension to navigate between multiple projects. In Project
+  Manager, you can:
 
-  - Set up a list of projects by manually marking individual project
-    directories as favourites. You will need to first open a project by
-    navigating to ***Explorer*** \> ***Open Folder***. Then navigate to
-    the ***Project Manager*** tab and click on the ***Save*** icon to
-    save your currently open file directory as a new project. The
-    project will be added to a `projects.json` file.  
+  - Set up a list of projects by manually saving individual directories
+    as favourites. First open a project by navigating to ***Explorer***
+    \> ***Open Folder***. Then navigate to the ***Project Manager tab***
+    and click on the ***Save*** icon to save your currently open file
+    directory as a new project. Projects are then listed inside a
+    `projects.json` file.
+
   - ![](../../figures/s-positron_setup-vs_project_manager.png)
 
-# Access to GitHub co-pilot and other LLM tools
+  - Automatically detect directories with a `.git/` folder as projects.
+    Click on the ***Project Manager tab*** and navigate down to the
+    ***Git*** panel. Click ***Open Settings*** to add all the base
+    folders where Git projects can be found. For example, my projects
+    are found inside `C:\Users\Erika\OneDrive\Desktop\git_repos` so I
+    add `C:\Users\Erika\OneDrive\Desktop\git_repos` as a file path by
+    clicking ***Add Item***.
 
-``` r
-1 + 1
-```
+  - ![](../../figures/s-positron_setup-vs_project_manager_git_base_folder.png)
 
 # Other resources
 
