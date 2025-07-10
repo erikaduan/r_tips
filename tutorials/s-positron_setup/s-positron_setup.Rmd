@@ -85,7 +85,10 @@ In RStudio, it is best practice to set up R projects by creating an `r_project_n
   
   + Automatically detect directories with a `.git/` folder as projects. Click on the ***Project Manager tab*** and navigate down to the ***Git*** panel. Click ***Open Settings*** to add all the base folders where Git projects can be found. For example, my projects are found inside `C:\Users\Erika\OneDrive\Desktop\git_repos` so I add `C:\Users\Erika\OneDrive\Desktop\git_repos` as a file path by clicking ***Add Item***.    
   
-  + ![](../../figures/s-positron_setup-vs_project_manager_git_base_folder.png)   
+  + ![](../../figures/s-positron_setup-vs_project_manager_git_base_folder.png)    
+  
+## Switching between R and Python   
+
 
 
 # Other resources   

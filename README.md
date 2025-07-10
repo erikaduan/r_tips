@@ -1,7 +1,7 @@
 # R programming tips    
 
 ## 💻 Set up  
-+ [Positron IDE setup tips](./tutorials/s-positron_setup/s-positron_setup.md)   
++ [How to set up a Positron IDE](./tutorials/s-positron_setup/s-positron_setup.md)   
  
 ## 🎨 Data visualisation  
 + [An introduction to `ggplot2` using volcano plots](./tutorials/dv-volcano_plots_with_ggplot/dv-volcano_plots_with_ggplot.md) (Updated)  
@@ -23,6 +23,7 @@
 ## 🔮 Machine learning   
 + TBC  
 
+
 # Other resources 
 The resources below also cover a comprehensive range of practical R tutorials.  
 
@@ -30,36 +31,23 @@ The resources below also cover a comprehensive range of practical R tutorials.
 + [Data Science Toolkit](https://benkeser.github.io/info550/lectures/) by David Benkeser  
 + [What They Forgot to Teach You About R](https://rstats.wtf/index.html) by Jennifer Bryan and Jim Hester
 
+
 # Tutorial style guide  
 
 This repository now contains the following file naming and code style rules.  
 
-+ Folders are no longer ordered with a numerical prefix and names are no longer case sensitive e.g `r_tips\tutorials\...` and `r_tips\figures\...`    
-+ Tutorial subtopics share the same prefix e.g. `r_tips\tutorials\dv-...` and   `r_tips\tutorials\st-...`  
-+ File names contain `-` to separate file name prefixes and `_` instead of other white space e.g. `r_tips\figures\dv-using_diagrammer-simple_flowchart.svg`  
++ Folders are not ordered with a numerical prefix and names are not case sensitive e.g `r_tips\tutorials\...` and `r_tips\figures\...`    
++ Tutorial subtopics share the same prefix e.g. `r_tips\tutorials\dv-...` for data visualisation tutorials and `r_tips\tutorials\sm-...` for statistical modelling tutorials     
++ File names use `-` to separate tutorial topics and `_` instead of other white space e.g. `r_tips\figures\dv-using_diagrammer-simple_flowchart.svg`  
 + Comments are styled according to the [tidyverse style guide](https://style.tidyverse.org/functions.html?q=comments#comments-1):    
   + The first comment explains the purpose of the code chunk and is styled differently for enhanced readability e.g. `# Code as header --------`     
   + Comments are written in sentence case and only end with a full stop if they contain at least two sentences  
   + Short comments explaining a function argument do not have to be written on a new line  
-  + Comments should not be followed by a blank line, unless the comment is a stand-alone paragraph containing in-depth rationale or an alternative solution  
-+ R code chunks are styled as follows:  
-  + Each R chunk should be named with a short unique description written in the active voice e.g. `create basic plot` and `modify plot labels`    
-  + Arguments inside code chunks should not contain white space and boolean argument options should be written in capitals e.g. `{r load libraries, message=FALSE, warning=FALSE}`   
-  + To render the github document, results are generally suppressed using `results='hide'` and manually entered in a new line beneath the code.  
-  + To render the github document, figures are generally outputed using `fig.show='markdown'` and figure outputs can then be suppressed at the local chunk level using `fig.show='hide'`  
-+ Set a margin of 80 characters length in RStudio through `Tools\Global options --> Code --> Display --> Show margin` and use this margin as the cut-off for code and comments length   
+  + Comments should not be followed by a blank line, unless the comment is a stand-alone paragraph containing in-depth rationale or an alternative solution   
++ To render github documents, results are generally suppressed using `results='hide'` and manually entered in a new line beneath the code  
++ To render github documents, figures are generally outputed using `fig.show='markdown'` and individual figure outputs can then be suppressed using `fig.show='hide'` in a code chunk    
++ Set a margin of 80 characters length in RStudio through `Tools\Global options --> Code --> Display --> Show margin` and use this margin as the cut-off for code and comments length     
 
-# Citations  
-
-Citing packages is a good practice when you are publishing research papers. To do this, use `citations("package")` to print the relevant package publication. A non-exhaustive list of R packages used in this repository is found below.  
-
-+ R Core Team (2021). R: A language and environment for statistical computing. R Foundation for
-  Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
-+ Wickham et al., (2019). Welcome to the `tidyverse`. Journal of Open Source Software, 4(43),
-  1686, https://doi.org/10.21105/joss.01686
-+ H. Wickham. `ggplot2`: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
-+ Matt Dowle and Arun Srinivasan (2021). `data.table`: Extension of `data.frame`. R package
-  version 1.14.2. https://CRAN.R-project.org/package=data.table  
 
 # Acknowledgements  
 

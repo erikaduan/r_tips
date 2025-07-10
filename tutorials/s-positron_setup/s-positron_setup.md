@@ -10,6 +10,7 @@ Erika Duan
 - [Positron versus RStudio usage
   differences](#positron-versus-rstudio-usage-differences)
   - [File organisation](#file-organisation)
+  - [Switching between R and Python](#switching-between-r-and-python)
 - [Other resources](#other-resources)
 
 # Integrated Development Environments
@@ -151,6 +152,8 @@ alternative practices are required.
     clicking ***Add Item***.
 
   - ![](../../figures/s-positron_setup-vs_project_manager_git_base_folder.png)
+
+## Switching between R and Python
 
 # Other resources
 
