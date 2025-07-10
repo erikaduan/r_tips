@@ -84,10 +84,8 @@ In RStudio, it is best practice to set up R projects by creating an `r_project_n
    
 # Access to GitHub co-pilot and other LLM tools    
 
-```r
-
-1+1
-
+```{r}
+1 + 1
 ```
 
 
