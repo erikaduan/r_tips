@@ -1,7 +1,7 @@
 How to set up a Positron IDE
 ================
 Erika Duan
-2025-07-10
+2025-07-13
 
 - [Integrated Development
   Environments](#integrated-development-environments)
@@ -122,12 +122,12 @@ project root.
 `.Rproj files`](https://positron.posit.co/rstudio-rproj-file.html) and
 alternative practices are required.
 
-- If using `here`, the project root folder is also identifiable from the
-  presence of the `.git/` folder. **Ensure that all your R projects use
-  Git for code version control.**  
-
 - In Positron, navigating to ***Explorer*** \> ***Open Folder*** will
   open a directory and set it as the project root.
+
+- If using `here`, the project root folder is also identifiable from the
+  presence of the `.git/` folder. **Ensure that all your R projects use
+  Git for code version control.**
 
 - Use the
   [`Project Manager`](https://open-vsx.org/extension/alefragnani/project-manager)
@@ -154,6 +154,56 @@ alternative practices are required.
   - ![](../../figures/s-positron_setup-vs_project_manager_git_base_folder.png)
 
 ## Switching between R and Python
+
+Positron is more versatile than RStudio for switching between R and
+Python programming. There are three different use cases for programmers
+who code in R and Python:
+
+1.  The majority of your code is in R but you want to use a specific
+    Python package for a task like machine learning.  
+2.  You have a single project that runs both R and Python scripts.  
+3.  You frequently switch between projects that only require R or
+    Python.
+
+**RStudio** supports the first use case best. We can use `reticulate` to
+easily switch between Python and R code and objects within a `.Rmd` or
+`.Qmd` notebook through the [`reticulate` Python
+engine](https://rstudio.github.io/reticulate/articles/r_markdown.html).
+
+Instead of relying on existing Python environments, the `reticulate`
+package can embed a temporary Python session with all required packages
+within an R session through
+[`py_require()`](https://rstudio.github.io/reticulate/reference/py_require.html).
+This is the recommended practice for executing Python code within an R
+session.
+
+``` r
+# Simple code to set up a temporary Python session -----------------------------
+library(reticulate)
+
+# py_require() uses the excellent Python version/environment/package manager uv
+# to create temporary Python sessions.    
+py_require(c(numpy,
+             pandas,
+             sklearn))
+```
+
+**Positron** also supports the third use case, which makes it more
+appealing to users who frequently program in languages other than R. (I
+recommend avoiding the second use case for projects unless you are
+really desperate.)
+
+In Positron, I can work on standalone Python (or Julia) projects by:
+
+- 
+- 
+- 
+- 
+
+**Note:** Python version and environment management is notoriously
+finicky. For first-time Python users, I recommend first installing and
+using [`uv`](https://github.com/astral-sh/uv) to install a moderately
+new version Python.
 
 # Other resources
 

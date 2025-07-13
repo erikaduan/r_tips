@@ -44,8 +44,9 @@ This repository now contains the following file naming and code style rules.
   + Comments are written in sentence case and only end with a full stop if they contain at least two sentences  
   + Short comments explaining a function argument do not have to be written on a new line  
   + Comments should not be followed by a blank line, unless the comment is a stand-alone paragraph containing in-depth rationale or an alternative solution   
-+ To render github documents, results are generally suppressed using `results='hide'` and manually entered in a new line beneath the code  
-+ To render github documents, figures are generally outputed using `fig.show='markdown'` and individual figure outputs can then be suppressed using `fig.show='hide'` in a code chunk    
++ To render github documents:    
+  + Results are generally suppressed using `results='hide'` and manually entered in a new line beneath the code  
+  + Figures are generally outputed using `fig.show='markdown'` and individual figure outputs can then be suppressed using `fig.show='hide'` in a code chunk    
 + Set a margin of 80 characters length in RStudio through `Tools\Global options --> Code --> Display --> Show margin` and use this margin as the cut-off for code and comments length     
 
 
