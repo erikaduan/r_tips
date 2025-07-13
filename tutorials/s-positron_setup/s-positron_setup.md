@@ -161,7 +161,8 @@ who code in R and Python:
 
 1.  The majority of your code is in R but you want to use a specific
     Python package for a task like machine learning.  
-2.  You have a single project that runs both R and Python scripts.  
+2.  You have a single project that runs both R and Python scripts. I
+    recommend avoiding this use case unless you are desperate.  
 3.  You frequently switch between projects that only require R or
     Python.
 
@@ -178,7 +179,7 @@ This is the recommended practice for executing Python code within an R
 session.
 
 ``` r
-# Simple code to set up a temporary Python session -----------------------------
+# Set up a temporary Python session in your current R session ------------------
 library(reticulate)
 
 # py_require() uses the excellent Python version/environment/package manager uv
@@ -189,16 +190,29 @@ py_require(c(numpy,
 ```
 
 **Positron** also supports the third use case, which makes it more
-appealing to users who frequently program in languages other than R. (I
-recommend avoiding the second use case for projects unless you are
-really desperate.)
+appealing to R users who frequently program in other languages.
 
-In Positron, I can work on standalone Python (or Julia) projects by:
+In Positron, I can easily work on standalone Python projects by:
 
-- 
-- 
-- 
-- 
+- Creating a new Python project by navigating to ***File*** \> ***New
+  Folder From Template***. This option lets me create a new
+  project-specific Python environment using Python environment managers
+  like `uv`, `venv` or `conda`.
+
+  ![](../../figures/s-positron_setup-new_python_project.png)
+
+- Simply switching to a Python interpreter inside Positron. You can
+  switch interpreters by clicking on your current interpreter in the top
+  right corner of the Positron IDE and then selecting a new one.
+
+  ![](../../figures/s-positron_setup-select_python_interpreter.png)
+
+- Code and render Python code in Quarto notebooks. This requires
+  installing the Python package `Jupyter` and enabling ***Render on
+  Save***. You can also choose to view the rendered markdown document in
+  the Viewer pane inside Positron.
+
+  ![](../../figures/s-positron_setup-quarto_notebooks_for_python.png)
 
 **Note:** Python version and environment management is notoriously
 finicky. For first-time Python users, I recommend first installing and
@@ -207,6 +221,12 @@ new version Python.
 
 # Other resources
 
-- <https://www.andrewheiss.com/blog/2025/07/05/positron-ssh-docker/>  
-- <https://www.andrewheiss.com/blog/2024/07/08/fun-with-positron/>  
-- <https://www.emilyriederer.com/post/py-rgo-2025/>
+- A guide on how to [use Docker-based R from
+  Positron](https://www.andrewheiss.com/blog/2024/07/08/fun-with-positron/)
+  by Andrew Wheiss  
+- A review of using [Positron versus
+  RStudio](https://www.andrewheiss.com/blog/2024/07/08/fun-with-positron/)
+  by Andrew Wheiss  
+- The excellent [overview of Python data science
+  tools](https://www.emilyriederer.com/post/py-rgo-2025/) by Emily
+  Riederer
