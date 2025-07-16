@@ -1,7 +1,7 @@
 How to set up a Positron IDE
 ================
 Erika Duan
-2025-07-13
+2025-07-16
 
 - [Integrated Development
   Environments](#integrated-development-environments)
@@ -23,7 +23,7 @@ for different languages:
   [RStudio](https://posit.co/download/rstudio-desktop/).
 
 - Cloud platform constrained Python programmers tend to use a
-  proprietary variation of [JupyterLabs](https://jupyter.org/).
+  proprietary variation of [JupyterLab](https://jupyter.org/).
 
 - Programmers switching between R, Python, Julia or other programming
   languages tend to use [Visual Studio
@@ -44,22 +44,37 @@ IDE.
 
 The core features of Positron are:
 
-- It provides an [R kernel](https://github.com/posit-dev/ark) for
-  Jupyter applications. This enables a separate R console beneath the R
-  scripts/notebooks panel (something which JupyterLabs and VS Code lack
-  for R programming).
+- It has an [R kernel](https://github.com/posit-dev/ark) for
+  [Jupyter](https://docs.jupyter.org/en/latest/what_is_jupyter.html)
+  applications. The `ark` R kernel enables R code to be run
+  interactively in `.R` scripts and `.Rmd` and `.qmd` notebooks inside
+  Positron. It also provides an R console beneath the scripts/notebooks
+  panel. This is a key feature that JupyterLab and VS Code previously
+  lacked for R programming.
 
-- It provides a customisable IDE layout that is more suited for data
+- It uses the [IPython Python
+  kernel](https://docs.jupyter.org/en/latest/reference/ipython.html) for
+  interactive Python programming and supports interactive Julia
+  programming through the [Julia VS Code
+  extension](https://github.com/julia-vscode/julia-vscode?tab=readme-ov-file)
+  similar to VS Code.
+
+- It has a customisable IDE layout that is better suited for data
   exploration, with ***Variables*** and ***Plots*** panes for each R
-  session, and ***Connections*** and ***Help*** panes similar to
-  RStudio.
+  session, and ***Connections***, ***Help*** and ***Viewer*** panes
+  similar to RStudio.
 
   ![](../../figures/s-positron_setup-4_panel_layout.png)
 
+- It supports rendering of `.Rmd` and `.qmd` notebooks into HTML and PDF
+  documents similar to RStudio. You can choose to view rendered
+  documents through the ***Viewer*** pane inside Positron. **Note:**
+  Rendering of `.qmd` notebooks into PDFs currently does not work inside
+  Positron for me.
+
 - It is built on the [open source
   version](https://github.com/microsoft/vscode) of VS Code, so it
-  aesthetically resembles VS Code and retains the appealing features of
-  VS Code for programming in other languages.
+  aesthetically resembles VS Code.
 
 - It supports most VS Code extensions. Microsoft does not permit access
   to Visual Studio Marketplace for non-Microsoft Visual Studio builds,
@@ -67,6 +82,9 @@ The core features of Positron are:
   VSX](https://open-vsx.org/).
 
 # Positron Windows setup
+
+Positron can be [installed](https://positron.posit.co/download.html) in
+Windows, Mac or Linux operating systems.
 
 My simple Windows setup only involves several steps. These are all
 listed in the ***Migrating from RStudio to Positron*** walkthrough on
@@ -90,7 +108,7 @@ the Positron Welcome page.
 
 3.  Opt-in to use the R code formatter
     [`air`](https://www.tidyverse.org/blog/2025/02/air/), which
-    re-formats code inside `.R`, `.Rmd` and `.Qmd` files. The easiest
+    re-formats code inside `.R`, `.Rmd` and `.qmd` files. The easiest
     way to integrate `air` inside Positron is to enable it to format
     code on save. Navigate to ***File*** \> ***Preferences*** \>
     ***Settings***, search for `@lang:r editor.formatOnSave` and click
@@ -101,9 +119,9 @@ the Positron Welcome page.
     The formatter `air` is used to:
 
     - Automatically indent R code.  
-    - Splits long lines of code over multiple lines (with a default code
+    - Split long lines of code over multiple lines (with a default code
       line width of 80 characters).  
-    - Standardises the white space around code elements.  
+    - Standardise the white space around code elements.  
     - Code formatting can be manually disabled by placing `# fmt: skip`
       in front of an expression.
 
@@ -118,16 +136,16 @@ within a self-contained project. Double clicking on an `.Rproj` file
 also launches a new R session with the project directory set as the
 project root.
 
-[Positron does not support
-`.Rproj files`](https://positron.posit.co/rstudio-rproj-file.html) and
-alternative practices are required.
+Positron does not support `.Rproj files` and [alternative practices are
+required](https://positron.posit.co/rstudio-rproj-file.html).
 
 - In Positron, navigating to ***Explorer*** \> ***Open Folder*** will
   open a directory and set it as the project root.
 
-- If using `here`, the project root folder is also identifiable from the
-  presence of the `.git/` folder. **Ensure that all your R projects use
-  Git for code version control.**
+- If using `here`, the project root folder is still identifiable from
+  the presence of the `.git/` folder or by creating an empty `.here`
+  file in the project root folder. It is best practice to ensure that
+  all your projects use Git for code version control anyway.
 
 - Use the
   [`Project Manager`](https://open-vsx.org/extension/alefragnani/project-manager)
@@ -168,7 +186,7 @@ who code in R and Python:
 
 **RStudio** supports the first use case best. We can use `reticulate` to
 easily switch between Python and R code and objects within a `.Rmd` or
-`.Qmd` notebook through the [`reticulate` Python
+`.qmd` notebook through the [`reticulate` Python
 engine](https://rstudio.github.io/reticulate/articles/r_markdown.html).
 
 Instead of relying on existing Python environments, the `reticulate`
@@ -207,10 +225,10 @@ In Positron, I can easily work on standalone Python projects by:
 
   ![](../../figures/s-positron_setup-select_python_interpreter.png)
 
-- Code and render Python code in Quarto notebooks. This requires
+- Coding and rendering Python code in Quarto notebooks. This requires
   installing the Python package `Jupyter` and enabling ***Render on
-  Save***. You can also choose to view the rendered markdown document in
-  the Viewer pane inside Positron.
+  Save***. You can choose to view the rendered markdown document in the
+  ***Viewer*** pane inside Positron.
 
   ![](../../figures/s-positron_setup-quarto_notebooks_for_python.png)
 
